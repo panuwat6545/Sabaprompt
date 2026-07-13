@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SABA Prompt — Premium AI Prompt Architect</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Outfit & IBM Plex Sans Thai -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=IBM+Plex+Sans+Thai:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['IBM Plex Sans Thai', 'Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Courier New', 'monospace']
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#09090B',       /* Ultra-deep zinc background */
+                            surface: '#18181B',  /* Pure zinc surface */
+                            border: '#27272A',   /* Muted zinc border */
+                            active: '#FFFFFF',   /* Sharp white highlight */
+                            muted: '#71717A',    /* Soft gray for descriptions */
+                            orange: '#F97316'    /* Premium Orange Tabby Accent */
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #09090B;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Outfit', 'IBM Plex Sans Thai', sans-serif;
+        }
+        /* Custom scrollbar for minimalist look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090B;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272A;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3F3F46;
+        }
+    </style>
+</head>
+<body class="text-[#F4F4F5] min-h-screen flex flex-col justify-between selection:bg-white selection:text-black">
+
+    <!-- Global Floating Background Light Aura (Premium Subtle orange & white mesh) -->
+    <div class="fixed top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-white/[0.015] rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed top-[20%] right-[-10%] w-[35vw] h-[35vw] bg-brand-orange/[0.015] rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-white/[0.01] rounded-full blur-[100px] pointer-events-none z-0"></div>
+
+    <!-- MAIN WRAPPER -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-grow flex flex-col justify-between">
+        
+        <!-- HEADER SYSTEM (The Diplomat Navigation) -->
+        <header class="py-6 sm:py-8 border-b border-brand-border flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+                <!-- Premium Minimalist Saba Cat Logo -->
+                <div class="relative w-12 h-12 bg-white text-black flex items-center justify-center rounded-xl shadow-2xl transition-all duration-500 hover:scale-105 group/logo overflow-hidden border border-white/20">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-orange/20 to-transparent opacity-0 group-hover/logo:opacity-100 transition-opacity duration-500"></div>
+                    <svg class="relative w-8 h-8 text-zinc-900 group-hover/logo:text-brand-orange transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Elegant Cat Ears and Head Silhouette -->
+                        <path d="M3 14c0-3.3 2.2-6 5.5-7.5L6 2l5 3.5c.33-.06.66-.1 1-.1s.67.04 1 .1L18 2l-2.5 4.5c3.3 1.5 5.5 4.2 5.5 7.5 0 4.4-3.6 8-8 8s-8-3.6-8-8z" />
+                        <!-- Tabby "M" Forehead Marking -->
+                        <path d="M10 9l1 1.5h2l1-1.5" stroke-width="1.3" />
+                        <!-- Cute Minimalist Eyes -->
+                        <circle cx="9" cy="14" r="0.8" fill="currentColor" stroke="none" />
+                        <circle cx="15" cy="14" r="0.8" fill="currentColor" stroke="none" />
+                        <!-- Nose and Mouth Area -->
+                        <path d="M12 15.5l-.8 1h1.6l-.8-1" fill="currentColor" stroke-width="1" />
+                        <path d="M10.5 18a1.5 1.5 0 0 0 1.5-1.5M13.5 18a1.5 1.5 0 0 1-1.5-1.5" stroke-width="1.5" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-heading font-bold text-lg tracking-tight leading-none text-white">SABA Prompt</h1>
+                        <span class="text-[9px] font-mono tracking-wider bg-white/10 text-white px-1.5 py-0.5 rounded uppercase leading-none">v2.2</span>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-brand-muted font-mono tracking-widest uppercase mt-1">Workplace Prompt Architect</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="https://gemini.google.com" target="_blank" class="hidden sm:inline-flex items-center gap-2 text-xs font-mono text-brand-muted hover:text-white transition-colors duration-300">
+                    <span class="relative flex w-1.5 h-1.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full w-1.5 h-1.5 bg-green-500"></span>
+                    </span>
+                    Launch Gemini
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+                <button onclick="resetWholeForm()" class="text-xs font-mono py-2 px-3 hover:bg-white/5 border border-white/10 rounded-lg transition-all duration-300">
+                    Reset App
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN ENGINE SPACE (Hero & Sandbox Hybrid Grid) -->
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 my-8 sm:my-12 flex-grow items-start">
+            
+            <!-- LEFT AREA (Controls & Variable Inputs): 5 Columns -->
+            <section class="lg:col-span-5 space-y-6">
+                
+                <!-- Headline & Intro -->
+                <div class="space-y-3">
+                    <div class="inline-flex items-center gap-2 px-2.5 py-1 bg-white/5 border border-white/10 rounded-full text-[11px] font-mono tracking-wider uppercase text-zinc-400">
+                        ⚡ Professional System Prompt Engineering
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-heading font-extrabold tracking-tight text-white leading-tight">
+                        เปลี่ยนโจทย์งานจริง <br class="hidden sm:inline">เป็น <span class="underline decoration-white/20 underline-offset-4">Mega-Prompt</span>
+                    </h2>
+                    <p class="text-sm text-brand-muted leading-relaxed">
+                        กรอกสถานการณ์ด้านล่างเพื่อแปลงเป็นชุดคำสั่งระดับพรีเมียม (Master Prompt) นำไปวางใน Google Gemini เพื่อประมวลผลข้อความจริงอย่างไร้รอยต่อ
+                    </p>
+                </div>
+
+                <!-- FORM AND CONTROLS -->
+                <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 space-y-6 shadow-2xl relative overflow-hidden">
+                    
+                    <!-- 1. Category Selector Component (3-Tier Showcase Card) -->
+                    <div class="space-y-3">
+                        <label class="block text-xs font-mono uppercase tracking-wider text-zinc-400">
+                            1. เลือกสถานการณ์ทำงานที่ต้องการสื่อสาร
+                        </label>
+                        <div class="grid grid-cols-1 gap-2.5" id="categoryContainer">
+                            <!-- Card 1: Customer -->
+                            <button type="button" onclick="selectCategory('customer')" id="btn-cat-customer" class="group text-left p-4 rounded-xl border border-brand-border bg-black/40 hover:border-white/20 hover:bg-white/[0.02] transition-all duration-300 select-btn active">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-white/5 group-[.active]:bg-white group-[.active]:text-black flex items-center justify-center transition-colors">
+                                            <i data-lucide="user-check" class="w-4 h-4"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-white group-[.active]:text-white">คุยงานลูกค้า (Customer)</h4>
+                                            <p class="text-xs text-brand-muted mt-0.5">เสนอขาย, เจรจาขยายสัญญา, ชี้แจงเดดไลน์, เคลียร์ข้อกังวล</p>
+                                        </div>
+                                    </div>
+                                    <div class="opacity-0 group-[.active]:opacity-100 transition-opacity">
+                                        <span class="w-2 h-2 rounded-full bg-white block"></span>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- Card 2: Leave Request -->
+                            <button type="button" onclick="selectCategory('leave')" id="btn-cat-leave" class="group text-left p-4 rounded-xl border border-brand-border bg-black/40 hover:border-white/20 hover:bg-white/[0.02] transition-all duration-300 select-btn">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-white/5 group-[.active]:bg-white group-[.active]:text-black flex items-center justify-center transition-colors">
+                                            <i data-lucide="calendar-off" class="w-4 h-4"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-white group-[.active]:text-white">ลากับหัวหน้า (Leave Request)</h4>
+                                            <p class="text-xs text-brand-muted mt-0.5">ลาป่วยฉุกเฉิน, ลากิจกระทันหัน, ลาพักร้อนล่วงหน้าแบบเกรงใจ</p>
+                                        </div>
+                                    </div>
+                                    <div class="opacity-0 group-[.active]:opacity-100 transition-opacity">
+                                        <span class="w-2 h-2 rounded-full bg-white block"></span>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- Card 3: Cross Department -->
+                            <button type="button" onclick="selectCategory('cowork')" id="btn-cat-cowork" class="group text-left p-4 rounded-xl border border-brand-border bg-black/40 hover:border-white/20 hover:bg-white/[0.02] transition-all duration-300 select-btn">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-white/5 group-[.active]:bg-white group-[.active]:text-black flex items-center justify-center transition-colors">
+                                            <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-white group-[.active]:text-white">ประสานงานแผนกอื่น (Co-Work)</h4>
+                                            <p class="text-xs text-brand-muted mt-0.5">ติดตามงานล่าช้า, ขอความช่วยเหลือ, กำหนดสัญญาส่งมอบ SLA</p>
+                                        </div>
+                                    </div>
+                                    <div class="opacity-0 group-[.active]:opacity-100 transition-opacity">
+                                        <span class="w-2 h-2 rounded-full bg-white block"></span>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Dynamic Input Fields -->
+                    <div class="space-y-4">
+                        <label class="block text-xs font-mono uppercase tracking-wider text-zinc-400">
+                            2. ข้อมูลตัวแปรหลัก (Prompt Variables)
+                        </label>
+
+                        <!-- Input: Who -->
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between items-center">
+                                <label for="inputWho" class="text-xs text-zinc-300 font-semibold" id="labelWho">ส่งถึงใคร (ชื่อ/ตำแหน่ง)</label>
+                                <span class="text-[10px] font-mono text-brand-muted" id="placeholderWhoHint">e.g. คุณกานดา Project Manager</span>
+                            </div>
+                            <input type="text" id="inputWho" oninput="liveUpdate()" class="w-full bg-black border border-brand-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-white/40 transition-all placeholder:text-zinc-600" placeholder="ระบุตัวตนของผู้รับปลายทาง">
+                        </div>
+
+                        <!-- Input: Tone -->
+                        <div class="space-y-1.5">
+                            <label class="block text-xs text-zinc-300 font-semibold">อารมณ์ / น้ำเสียงที่ต้องการส่งออก (Tone)</label>
+                            <div class="grid grid-cols-4 gap-1.5" id="toneGroup">
+                                <button type="button" onclick="selectTone(event, 'สุภาพ อ่อนน้อม')" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all active" id="btn-tone-1">สุภาพ</button>
+                                <button type="button" onclick="selectTone(event, 'เป็นทางการ มั่นใจ')" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all" id="btn-tone-2">ทางการ</button>
+                                <button type="button" onclick="selectTone(event, 'เป็นกันเอง ยืดหยุ่น')" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all" id="btn-tone-3">กันเอง</button>
+                                <button type="button" onclick="selectTone(event, 'เร่งด่วน ตรงประเด็น')" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all" id="btn-tone-4">เร่งด่วน</button>
+                            </div>
+                        </div>
+
+                        <!-- Input: Details -->
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between items-center">
+                                <label for="inputDetail" class="text-xs text-zinc-300 font-semibold" id="labelDetail">รายละเอียดของข้อความสื่อสาร</label>
+                                <button type="button" onclick="loadSuggestedScenario()" class="text-[10px] font-mono text-zinc-400 hover:text-white underline transition-all">💡 แนะนำสถานการณ์ตัวอย่าง</button>
+                            </div>
+                            <textarea id="inputDetail" rows="4" oninput="liveUpdate()" class="w-full bg-black border border-brand-border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-white/40 transition-all placeholder:text-zinc-600" placeholder="พิมพ์สิ่งที่คุณต้องการจะแจ้ง เช่น อาการป่วย, เรื่องที่ลูกค้าตามงานล่าช้า, หรือเป้าหมายในการร่วมงานข้ามแผนก..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button type="button" onclick="executePromptGeneration()" class="w-full bg-white hover:bg-[#E4E4E7] text-black font-semibold text-sm py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-lg hover:scale-[1.01] cursor-pointer">
+                        <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
+                        สร้าง Mega Prompt โครงสร้างระบบ
+                    </button>
+                </div>
+            </section>
+
+            <!-- RIGHT AREA (Output & Sandbox Workspace): 7 Columns -->
+            <section class="lg:col-span-7 space-y-6 lg:sticky lg:top-8">
+                
+                <!-- Output Box Container -->
+                <div class="bg-brand-surface border border-brand-border rounded-2xl overflow-hidden shadow-2xl relative">
+                    
+                    <!-- Sandbox Tab Header -->
+                    <div class="bg-black/60 border-b border-brand-border px-6 py-4 flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <div class="flex gap-1.5">
+                                <span class="w-3 h-3 rounded-full bg-zinc-800 border border-zinc-700"></span>
+                                <span class="w-3 h-3 rounded-full bg-zinc-800 border border-zinc-700"></span>
+                                <span class="w-3 h-3 rounded-full bg-zinc-800 border border-zinc-700"></span>
+                            </div>
+                            <span class="text-xs font-mono tracking-tight text-zinc-400">saba_prompt_architecture_sandbox.sys</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono uppercase bg-white/5 border border-white/10 px-2 py-0.5 rounded text-zinc-400">READY</span>
+                        </div>
+                    </div>
+
+                    <!-- Preview Body -->
+                    <div class="p-6 space-y-5">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xs font-mono uppercase tracking-wider text-zinc-400 flex items-center gap-2">
+                                <i data-lucide="terminal" class="w-4 h-4 text-white"></i>
+                                คำสั่งพรอพท์เชิงสถาปัตยกรรม (Mega System Prompt)
+                            </h3>
+                            <span class="text-[10px] font-mono text-brand-muted" id="charCounter">0 characters</span>
+                        </div>
+
+                        <!-- Real-time code execution display inside block -->
+                        <div class="relative bg-black border border-brand-border rounded-xl p-4 max-h-[460px] overflow-y-auto">
+                            <pre class="whitespace-pre-wrap break-words text-xs sm:text-sm font-mono text-zinc-300 leading-relaxed font-sans" id="outputPrompt">/* กรอกข้อมูลด้านซ้าย และกดปุ่ม Generate หรือกดปุ่ม "แนะนำสถานการณ์ตัวอย่าง" เพื่อเริ่มต้น */</pre>
+                        </div>
+
+                        <!-- Process Control Action Buttons -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button type="button" onclick="copyPromptToClipboard()" class="w-full bg-[#27272A] hover:bg-white hover:text-black font-semibold text-xs py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 border border-white/5">
+                                <i data-lucide="copy" class="w-4 h-4" id="copyIcon"></i>
+                                <span id="copyBtnText">คัดลอกพรอพท์ (Copy)</span>
+                            </button>
+                            <a href="https://gemini.google.com" target="_blank" class="w-full bg-white text-black hover:bg-zinc-200 font-semibold text-xs py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                เปิดไปวางใน Gemini
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC DONATION TIP BOX (Saba Cat Treat Support) -->
+                <div id="donationTipBox" class="hidden opacity-0 max-h-0 overflow-hidden transition-all duration-500 ease-out bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative">
+                    <!-- Close button -->
+                    <button onclick="dismissDonationBox()" class="absolute top-4 right-4 text-zinc-500 hover:text-white hover:rotate-90 transition-all duration-300" aria-label="Dismiss">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <div class="flex flex-col sm:flex-row items-center gap-6">
+                        <!-- QR Code Section -->
+                        <div class="flex-shrink-0 bg-white p-2 rounded-xl border border-zinc-800 shadow-inner">
+                            <img src="promptpay-qr.png" alt="PromptPay QR Code" onerror="this.onerror=null; this.src='https://placehold.co/220x220/ffffff/000000?text=PromptPay+QR';" class="w-[200px] h-[200px] sm:w-[210px] sm:h-[210px] object-contain rounded-lg border border-zinc-200">
+                        </div>
+                        
+                        <!-- Content details -->
+                        <div class="space-y-4 text-center sm:text-left flex-grow">
+                            <div class="space-y-2">
+                                <div class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-brand-orange/10 border border-brand-orange/20 rounded text-[10px] font-mono tracking-wider uppercase text-brand-orange">
+                                    🐈 SABA Wet Food Support
+                                </div>
+                                <h4 class="text-lg font-bold text-white tracking-tight flex items-center justify-center sm:justify-start gap-2">
+                                    เลี้ยงเปียกซาบะ 🐈
+                                </h4>
+                                <p class="text-xs text-brand-muted leading-relaxed">
+                                    ถูกใจแอป SABA Prompt ไหม? คุณสามารถสนับสนุนนักพัฒนาผ่านสแกนจ่าย QR Code เพื่อเป็นค่าอาหารเปียกสูตรเกรนฟรีรสโปรดให้เจ้าแมวส้มตัวตึงได้โดยตรงเลยนะน้าว!
+                                </p>
+                            </div>
+                            
+                            <div class="pt-2 border-t border-brand-border flex items-center justify-center sm:justify-start gap-4 text-[10px] font-mono text-zinc-400">
+                                <span class="flex items-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-500"></i> Secure Scan</span>
+                                <span>•</span>
+                                <span>No Commission Fees</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategic Context Box (Why SABA works) -->
+                <div class="bg-brand-surface/40 border border-brand-border/60 rounded-xl p-5 space-y-3">
+                    <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i>
+                        เหตุใด Mega-Prompt นี้จึงมีประสิทธิภาพเหนือชั้น?
+                    </h4>
+                    <ul class="space-y-2 text-xs text-brand-muted leading-relaxed">
+                        <li class="flex items-start gap-2">
+                            <span class="text-white font-mono mt-0.5">•</span>
+                            <span><strong>สถาปัตยกรรมข้อมูล 5-Layer:</strong> กำหนดบทบาทชัดเจน (Persona), กำหนดบริบทเฉพาะเจาะจง (Context), แจ้งภารกิจเด็ดขาด (Task), จำกัดขอบเขต (Constraints), และควบคุมความเสี่ยง (Risk management) ป้องกันการตอบปัดและคำแก้ตัวจาก AI (AI Slop)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-white font-mono mt-0.5">•</span>
+                            <span><strong>ลดการทำงานซ้ำซ้อน:</strong> มีการจัดรูปแบบแบบเกรงใจแต่รับผิดชอบสูง (Empathy-Driven Workplace Logic) เพื่อเพิ่มความน่าเชื่อถือและความเอ็นดูจากหัวหน้า/พนักงานแผนกอื่น</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER SYSTEM -->
+        <footer class="py-8 border-t border-brand-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-brand-muted mt-12">
+            <div>
+                © 2026 SABA Prompt. Built with Premium Editorial Integrity.
+            </div>
+            <div class="flex gap-6">
+                <span class="hover:text-white transition-colors">INFJ-A Driven Strategy</span>
+                <span class="hover:text-white transition-colors">Zero-Data Tracking</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- TOAST NOTIFICATION POPUP -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 bg-white text-black px-4 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-500 z-50 pointer-events-none border border-black/10">
+        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+            <i data-lucide="check" class="w-4 h-4"></i>
+        </div>
+        <div>
+            <p class="text-xs font-bold leading-none">คัดลอกสำเร็จ!</p>
+            <p class="text-[10px] text-zinc-500 font-mono mt-1">นำพรอพท์ไปวางใน Gemini ได้ทันที</p>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIC (Interactive Integration Engine) -->
+    <script>
+        // MOCK DATABASE & TEMPLATE DEFINITIONS
+        const configData = {
+            activeCategory: 'customer',
+            activeTone: 'สุภาพ อ่อนน้อม',
+            defaultSuggestIndex: 0
+        };
+
+        const suggestedScenarios = {
+            customer: [
+                {
+                    who: "คุณกมลวรรณ (Director ฝ่ายการตลาด บริษัท APEX)",
+                    detail: "แจ้งลูกค้าเพื่อขอปรับขยายกรอบเวลางานส่งมอบเฟสแรก (SLA Delivery Delay) เนื่องจากมีการปรับแก้ฟังก์ชันจากทางลูกค้าเพิ่มเติม โดยจะรับประกันความปลอดภัยของข้อมูล และไม่เพิ่มต้นทุนทางเงื่อนไขราคาใดๆ"
+                },
+                {
+                    who: "ทีมผู้จัดการฝ่ายจัดซื้อ (กลุ่มเซ็นทรัล)",
+                    detail: "เสนอนัดวันนัดหมาย Pitch งานบริการระบบออโตเมชันหลังบ้านของโรงงานครั้งแรก (Cold Pitch) เน้นจุดขายลดของเสีย และป้องกันความผิดพลาดของพนักงาน (Poka-Yoke)"
+                }
+            ],
+            leave: [
+                {
+                    who: "หัวหน้างานฝ่ายวิศวกรรมการผลิต",
+                    detail: "ขอลาป่วยกะทันหันในเช้าวันนี้เนื่องจากมีอาการอาหารเป็นพิษรวนเรปวดท้องรุนแรง จะขอเข้าพบแพทย์ช่วงเช้า และมอบหมายงานตรวจสอบคุณภาพสายการผลิตให้คุณนที (James) ดูแลแทนชั่วคราว"
+                },
+                {
+                    who: "พี่สมภพ (VP Operations)",
+                    detail: "ขอส่งใบลาพักร้อนล่วงหน้า 2 สัปดาห์ เพื่อเดินทางไปทัศนศึกษาต่างประเทศกับครอบครัวเป็นเวลา 5 วันทำการ โดยงานสำคัญในมือเคลียร์หมดแล้ว และมอบหมายให้คุณอรวรรณสแตนด์บายฉุกเฉินกรณีด่วนที่สุด"
+                }
+            ],
+            cowork: [
+                {
+                    who: "ฝ่ายไอทีและพัฒนาซอฟต์แวร์",
+                    detail: "ขอความอนุเคราะห์แชร์สเปกเซิร์ฟเวอร์สำรอง และระบบ Security Gateway ย้อนหลัง เพื่อนำไปวิเคราะห์ปรับแผนงบประมาณความปลอดภัยข้อมูลร่วมกัน ขอให้ส่งมอบข้อมูลภายในวันศุกร์นี้เพื่อส่งให้ผู้บริหารต่อ"
+                },
+                {
+                    who: "ฝ่ายบัญชีและการเงิน",
+                    detail: "ตามส่งเอกสารสรุปยอดปิดงบประจำเดือนที่ยังขาดหัวข้อรายงานค่าซ่อมแซมเครื่องจักร (Machine Repair) ส่งผลให้โครงการส่งมอบส่วนกลางล่าช้าไปแล้ว 2 วัน"
+                }
+            ]
+        };
+
+        // System templates for premium prompt construction (Combining raw inputs inside rigorous structures)
+        const promptTemplates = {
+            customer: (who, tone, detail) => {
+                return `คุณเป็น Executive Solutions Architect, ที่ปรึกษาภาพลักษณ์องค์กร และนักวางแผนกลยุทธ์ธุรกิจระดับสูงที่มีความเข้าอกเข้าใจลูกค้าอย่างลึกซึ้ง (Empathy-Driven Strategy) 
+
+เป้าหมายสูงสุด:
+ช่วยเขียนอีเมลสื่อสารเพื่อประสานงานและคุยงานกับลูกค้า โดยอ้างอิงสถานการณ์จริงด้านล่างนี้ โดยให้จดหมายมีมิติความน่าเชื่อถือ สูงส่ง เป็นทางการ และสามารถรักษาความสัมพันธ์อันดีในระยะยาวไว้ได้อย่างดีเยี่ยม
+
+ข้อมูลสถานการณ์ (Raw Variables):
+- ลูกค้าผู้รับสาร: ${who || '[ระบุชื่อลูกค้า/ตำแหน่ง]'}
+- เรื่องราว/รายละเอียดสำคัญ: ${detail || '[ระบุรายละเอียดความคืบหน้า หรือปัญหาที่เกิดขึ้น]'}
+- น้ำเสียงในการเขียน (Tone): ${tone}
+
+ระเบียบโครงสร้างเนื้อหาที่ต้องส่งออก (Strict Structural Output Constraints):
+1. **หัวข้ออีเมล (Subject Line)**: เขียนอย่างชัดเจน สั้นกระชับ โดดเด่น และบอกชัดเจนว่าต้องการอัปเดตเรื่องใด เพื่อไม่ให้ไปจมในกล่องอีเมลของลูกค้า
+2. **บทนำ (Opening & Empathy)**: ทักทายสุภาพ สร้างความรู้สึกเชิงบวกในมิตรภาพทางธุรกิจ
+3. **เนื้อหาหลัก (Value Proposition / Resolution)**: อธิบายเรื่องราวอย่างละเอียดแต่โปร่งใส หากเป็นเรื่องล่าช้าหรือขอส่งข้อมูลเพิ่มเติม ต้องแสดงให้เห็นถึงความพร้อมและความใส่ใจของเราในการรักษาผลประโยชน์สูงสุดของลูกค้า
+4. **ความรับผิดชอบและการันตีความปลอดภัย (SLA & Quality Check)**: ระบุขั้นตอนการรักษามาตรฐานความพึงพอใจ ป้องกันความเสียหายในอนาคต (เช่น การรับประกันเวลา หรือระบบตรวจสอบข้อผิดพลาด)
+5. **Call to Action (CTA)**: ระบุหัวข้อการตัดสินใจที่เรียบง่าย มีตัวเลือกเดดไลน์ชัดเจน หรือขอรับนัดโทรปรึกษา 10 นาทีเพื่อให้ลูกค้าขยับตัวได้ง่าย
+
+ข้อห้าม (Constraints):
+- ห้ามใช้คำพูดเชิงลบหรือมีน้ำเสียงสั่นคลอนความมั่นใจ
+- หลีกเลี่ยง AI Slop เช่น คำขึ้นต้นซ้ำซาก ฟุ่มเฟือย ให้เขียนแบบมนุษย์ผู้บริหารเขียนจริง
+- ภาษาต้องเป็นภาษาไทยที่งดงาม และสละสลวย`;
+            },
+            leave: (who, tone, detail) => {
+                return `คุณเป็น Executive Workplace Expert, HR Compliance Engineer และผู้เชี่ยวชาญด้านจิตวิทยาความสัมพันธ์ในองค์กร (Organizational Psychology Partner)
+
+เป้าหมายสูงสุด:
+ช่วยร่างจดหมายหรือข้อความขออนุมัติลางาน ส่งถึงหัวหน้าอย่างมืออาชีพ ทรงรับผิดชอบ มีความเกรงใจแต่หนักแน่น และที่สำคัญคือป้องกันไม่ให้หัวหน้ากังวลเรื่องผลกระทบของระบบงาน (Risk Management Focus)
+
+ข้อมูลสถานการณ์ (Raw Variables):
+- ส่งถึงหัวหน้า/ผู้จัดการ: ${who || '[ระบุชื่อหัวหน้า/ตำแหน่ง]'}
+- เหตุผลและรายละเอียดการลา: ${detail || '[ระบุรายละเอียดการลาป่วย หรือลากิจกระทันหัน]'}
+- โทนเสียงความรู้สึก (Tone): ${tone}
+
+ระเบียบโครงสร้างเนื้อหาที่ต้องร่าง (Workplace Structural Execution):
+1. **Subject Line**: หัวข้อข้อความแจ้งการลาที่ชัดเจน ระบุประเภทการลา และชื่อของคุณเพื่อให้หัวหน้าอนุมัติผ่านระบบได้ทันที
+2. **แจ้งสถานการณ์และความจำเป็น (The Truth & Urgency)**: เกริ่นนำแจ้งสาเหตุตรงประเด็น เกรงใจแต่ไม่ดูสั่นคลอน
+3. **แผนจัดการความต่อเนื่องของงาน (Work Continuity & Backup Plan)**: ระบุชัดเจนว่างานที่ติดพันอยู่ ได้มีการส่งมอบ สแตนด์บาย หรือฝากให้เพื่อนร่วมงานคนใดช่วยดูแลแทนเป็นเจ้าภาพหลัก (James/นที หรืออื่นๆ) ในช่วงเวลาที่หายไป
+4. **ข้อตกลงการติดต่อ (Contact Protocol & Async Rule)**: ชี้แจงว่าจะสามารถติดต่อได้ทางช่องทางใด และกรอบการตอบกลับกรณีมีเรื่องด่วนที่สุด เพื่อให้งานไม่สะดุดและแสดงถึงความโปร่งใสของคุณ
+
+ข้อห้าม (Constraints):
+- ห้ามแสดงน้ำเสียงที่รู้สึกผิดจนบั่นทอนความเป็นมืออาชีพ (Emotional Balance)
+- อย่าสร่างคำแก้ตัวฟุ่มเฟือย ให้พูดตามสัจจะประเด็นสุขภาพหรือธุระส่วนตัวอย่างพอดีคำ`;
+            },
+            cowork: (who, tone, detail) => {
+                return `คุณเป็น Senior Technical Program Manager และ Systems Operations Engineer ผู้เชี่ยวชาญการบริหารความขัดแย้งประสานงานข้ามทีม (Cross-Functional Broking Expert)
+
+เป้าหมายสูงสุด:
+ช่วยเขียนอีเมลประสานงานกับเพื่อนร่วมงานต่างแผนกอย่างตรงไปตรงมา ไม่กระทบกระทั่งกัน เพื่อสลายพฤติกรรมการทำงานแบบ Silo และผลักดันเป้าหมายร่วมกันของบริษัท (Win-Win Coordination)
+
+ข้อมูลสถานการณ์ (Raw Variables):
+- ผู้ประสานงานปลายทาง: ${who || '[ระบุชื่อพนักงาน/แผนก]'}
+- รายละเอียดข้อความที่ต้องการขอร่วมมือ: ${detail || '[ระบุสิ่งที่เราขอความช่วยเหลือ หรือการตามงานล่าช้า]'}
+- โทนในการเขียนประสานงาน (Tone): ${tone}
+
+ระเบียบโครงสร้างเนื้อหาที่ต้องส่งออก (Strict Operational Logic):
+1. **Subject Line**: หัวข้อเมลที่เข้าใจง่าย มีชื่อแผนกร่วมด้วยและจุดมุ่งหมายหลักของความร่วมมือ
+2. **Alignment & Common Goal**: ทักทายด้วยการระบุเป้าหมายสุดท้ายร่วมกันของบริษัท หรือผลกระทบดีที่จะเกิดขึ้นหากงานนี้ผ่านไปได้ด้วยดี
+3. **รายละเอียดคำขอและเงื่อนเวลาส่งมอบ (Clear Ask & SLA Definition)**: ชี้แจงสิ่งที่เราต้องการให้ช่วยเหลือนั้นคืออะไร มีความจำเป็นเร่งด่วนแค่ไหน พร้อมกำหนดเดดไลน์ที่ชัดเจนแต่มีความเกรงใจ
+4. **RACI Outline คร่าวๆ**: เสนอแนะการจับมือกันแก้ปัญหาเพื่อให้อีกฝ่ายเห็นว่าเราเข้าไปช่วยรับน้ำหนักงาน ไม่ได้ผลักภาระไปให้เฉยๆ
+
+ข้อห้าม (Constraints):
+- ห้ามเขียนเชิงตำหนิหรือตำหนิติเตียนแบบสร้างความขัดแย้ง (Non-Blaming Language)
+- ปัดคำฟุ่มเฟือยของ AI Slop ออกไปให้หมด ให้เขียนแบบคนเป็นผู้นำองค์กรสื่อสารจริง`;
+            }
+        };
+
+        // Initialize dynamic effects and triggers on ready
+        window.onload = function() {
+            lucide.createIcons();
+            selectCategory('customer'); // Default start
+            
+            // Set initial dynamic fields
+            document.getElementById('inputWho').value = "";
+            document.getElementById('inputDetail').value = "";
+            
+            // Check if Tip box has been permanently closed during this session
+            if (sessionStorage.getItem('saba_tip_closed') === 'true') {
+                const box = document.getElementById('donationTipBox');
+                box.classList.add('hidden');
+            }
+        };
+
+        function selectCategory(category) {
+            configData.activeCategory = category;
+            
+            // Toggle active classes in selection buttons
+            const buttons = document.querySelectorAll('.select-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active', 'border-white', 'bg-white/5');
+                btn.classList.add('border-brand-border', 'bg-black/40');
+            });
+
+            const activeBtn = document.getElementById(`btn-cat-${category}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'border-white', 'bg-white/5');
+            }
+
+            // Adjust labels & UI guidance dynamically to reflect selected category style
+            const labelWho = document.getElementById('labelWho');
+            const placeholderWhoHint = document.getElementById('placeholderWhoHint');
+            const labelDetail = document.getElementById('labelDetail');
+            const inputWho = document.getElementById('inputWho');
+            const inputDetail = document.getElementById('inputDetail');
+
+            if (category === 'customer') {
+                labelWho.innerText = "ลูกค้าปลายทาง (ชื่อ/ตำแหน่ง/บริษัท)";
+                placeholderWhoHint.innerText = "e.g. คุณทวีศักดิ์ ฝ่ายประสานงาน ABC Group";
+                labelDetail.innerText = "รายละเอียดและข้อความคุยงานกับลูกค้า";
+                inputWho.placeholder = "ระบุชื่อลูกค้าและทีมประสานงาน";
+                inputDetail.placeholder = "เช่น แจ้งเลื่อนกำหนดส่งงานอัปเดตระบบ หรือเสนอขายโปรเจกต์ใหม่...";
+            } else if (category === 'leave') {
+                labelWho.innerText = "ส่งถึงหัวหน้า (ชื่อ/ตำแหน่ง)";
+                placeholderWhoHint.innerText = "e.g. พี่สมศักดิ์ Managing Director";
+                labelDetail.innerText = "เหตุผลของการลาและกำหนดวันหยุด";
+                inputWho.placeholder = "ระบุชื่อหัวหน้าปลายทาง";
+                inputDetail.placeholder = "เช่น ลาพักร้อนประจำปี 3 วันเพื่อพาลูกไปเที่ยวญี่ปุ่น หรือ ลาป่วยอาหารเป็นพิษด่วน...";
+            } else if (category === 'cowork') {
+                labelWho.innerText = "ฝ่ายที่ประสานงานด้วย (ชื่อ/แผนก)";
+                placeholderWhoHint.innerText = "e.g. คุณธนพล ฝ่ายบัญชีและการเงิน";
+                labelDetail.innerText = "งานที่ประสานงานหรือต้องการขอความช่วยเหลือ";
+                inputWho.placeholder = "ระบุผู้รับและแผนกปลายทาง";
+                inputDetail.placeholder = "เช่น ข้อมูลสรุปงบประมาณย้อนหลัง 3 เดือน เพื่อประกอบการทำสรุปกลยุทธ์ทีม...";
+            }
+
+            liveUpdate();
+        }
+
+        function selectTone(evt, toneValue) {
+            configData.activeTone = toneValue;
+
+            // Toggle active classes on tone buttons
+            const buttons = document.querySelectorAll('.tone-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-white', 'text-black', 'border-white');
+                btn.classList.add('bg-black', 'text-zinc-400', 'border-brand-border');
+            });
+
+            // Highlight chosen button (fall back to the button's own id if no event is passed)
+            const targetBtn = (evt && evt.target) ? evt.target : document.getElementById('btn-tone-1');
+            targetBtn.classList.add('bg-white', 'text-black', 'border-white');
+            targetBtn.classList.remove('bg-black', 'text-zinc-400', 'border-brand-border');
+
+            liveUpdate();
+        }
+
+        // Live real-time update engine to preview the generated prompt values
+        function liveUpdate() {
+            const who = document.getElementById('inputWho').value;
+            const detail = document.getElementById('inputDetail').value;
+            const cat = configData.activeCategory;
+            const tone = configData.activeTone;
+
+            const finalPrompt = promptTemplates[cat](who, tone, detail);
+            
+            // Print dynamically
+            document.getElementById('outputPrompt').innerText = finalPrompt;
+            document.getElementById('charCounter').innerText = `${finalPrompt.length} characters`;
+        }
+
+        // Prompt Execution Trigger (with visual feedback animation)
+        function executePromptGeneration() {
+            liveUpdate();
+            
+            // Visual pulse feedback on code sandbox
+            const outputBox = document.getElementById('outputPrompt').parentElement;
+            outputBox.classList.add('border-white', 'ring-1', 'ring-white/20');
+            setTimeout(() => {
+                outputBox.classList.remove('border-white', 'ring-1', 'ring-white/20');
+            }, 800);
+        }
+
+        // Preload rich human-written scenario variables to help start the user's mind
+        function loadSuggestedScenario() {
+            const cat = configData.activeCategory;
+            const items = suggestedScenarios[cat];
+            
+            // Pick a scenario with circular progression
+            const index = configData.defaultSuggestIndex % items.length;
+            const item = items[index];
+            
+            document.getElementById('inputWho').value = item.who;
+            document.getElementById('inputDetail').value = item.detail;
+            
+            configData.defaultSuggestIndex++;
+            
+            // Trigger dynamic updates and icons feedback
+            liveUpdate();
+        }
+
+        // Clipboard Copy Action
+        async function copyPromptToClipboard() {
+            const textToCopy = document.getElementById('outputPrompt').innerText;
+            let copySucceeded = false;
+
+            // Prefer the modern Clipboard API (requires secure context / https)
+            if (navigator.clipboard && window.isSecureContext) {
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    copySucceeded = true;
+                } catch (err) {
+                    console.warn('Clipboard API failed, falling back', err);
+                }
+            }
+
+            // Fallback strategy for older browsers / non-secure contexts
+            if (!copySucceeded) {
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                // Keep it off-screen so it never visibly flashes on the page
+                textArea.style.position = "fixed";
+                textArea.style.top = "-9999px";
+                textArea.style.opacity = "0";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    copySucceeded = document.execCommand('copy');
+                } catch (err) {
+                    console.error('Fallback copy failed', err);
+                }
+
+                document.body.removeChild(textArea);
+            }
+
+            if (!copySucceeded) {
+                console.error('Unable to copy prompt to clipboard.');
+                return;
+            }
+
+            // Trigger Toast Animation
+            const toast = document.getElementById('toastNotification');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            // Adjust button state temporarily
+            const copyBtnText = document.getElementById('copyBtnText');
+            const copyIcon = document.getElementById('copyIcon');
+
+            copyBtnText.innerText = "คัดลอกลงคลิปบอร์ดสำเร็จ!";
+            copyIcon.setAttribute('data-lucide', 'check-check');
+            lucide.createIcons();
+
+            // Trigger Subtle Tip Box (Donation Slide-In) under the Output Box
+            triggerDonationBox();
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+
+                copyBtnText.innerText = "คัดลอกพรอพท์ (Copy)";
+                copyIcon.setAttribute('data-lucide', 'copy');
+                lucide.createIcons();
+            }, 3000);
+        }
+
+        // Reset App Form Controls
+        function resetWholeForm() {
+            document.getElementById('inputWho').value = "";
+            document.getElementById('inputDetail').value = "";
+            selectCategory('customer');
+            
+            // Reset Tone Button highlights
+            const toneBtn = document.getElementById('btn-tone-1');
+            if (toneBtn) toneBtn.click();
+            
+            document.getElementById('outputPrompt').innerText = "/* กรอกข้อมูลด้านซ้าย และกดปุ่ม Generate หรือกดปุ่ม \"แนะนำสถานการณ์ตัวอย่าง\" เพื่อเริ่มต้น */";
+            document.getElementById('charCounter').innerText = "0 characters";
+        }
+
+        // Smoothly Trigger the Donation Tip Box
+        function triggerDonationBox() {
+            // Check if the user has permanently dismissed the block in this session
+            if (sessionStorage.getItem('saba_tip_closed') === 'true') {
+                return;
+            }
+
+            const box = document.getElementById('donationTipBox');
+            
+            // Remove hidden first, let DOM calculate max height
+            box.classList.remove('hidden');
+            
+            // Subtle requestAnimationFrame delay to allow CSS transitions to trigger
+            requestAnimationFrame(() => {
+                box.classList.remove('opacity-0', 'max-h-0');
+                box.classList.add('opacity-100', 'max-h-[500px]');
+            });
+        }
+
+        // Dismiss Tip Box permanently for this session
+        function dismissDonationBox() {
+            const box = document.getElementById('donationTipBox');
+            
+            // Set session storage state
+            sessionStorage.setItem('saba_tip_closed', 'true');
+            
+            // Apply scale down and collapse height smoothly
+            box.classList.remove('opacity-100', 'max-h-[500px]');
+            box.classList.add('opacity-0', 'max-h-0');
+            
+            // Wait for transition duration before applying display hidden
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 500);
+        }
+    </script>
+</body>
+</html>
