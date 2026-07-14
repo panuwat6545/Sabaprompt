@@ -9,7 +9,7 @@
     <!-- Google Fonts: Outfit & IBM Plex Sans Thai -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=IBM+Plex+Sans+Thai:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2 family=Outfit:wght@300;400;600;800&family=IBM+Plex+Sans+Thai:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -68,8 +68,124 @@
     <div class="fixed top-[20%] right-[-10%] w-[35vw] h-[35vw] bg-brand-orange/[0.015] rounded-full blur-[120px] pointer-events-none z-0"></div>
     <div class="fixed bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-white/[0.01] rounded-full blur-[100px] pointer-events-none z-0"></div>
 
-    <!-- MAIN WRAPPER -->
-    <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-grow flex flex-col justify-between">
+    <!-- ==================== LAYER 1: AUTHENTICATION SCREEN ==================== -->
+    <div id="loginScreen" class="relative z-50 min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-8 shadow-2xl relative overflow-hidden space-y-6">
+            <!-- Subtle glow background inside the card -->
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl"></div>
+
+            <div class="flex flex-col items-center text-center space-y-3">
+                <!-- SABA Logo -->
+                <div class="relative w-16 h-16 bg-white text-black flex items-center justify-center rounded-2xl shadow-xl border border-white/20">
+                    <svg class="w-10 h-10 text-zinc-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <path d="M3 14c0-3.3 2.2-6 5.5-7.5L6 2l5 3.5c.33-.06.66-.1 1-.1s.67.04 1 .1L18 2l-2.5 4.5c3.3 1.5 5.5 4.2 5.5 7.5 0 4.4-3.6 8-8 8s-8-3.6-8-8z" />
+                        <path d="M10 9l1 1.5h2l1-1.5" stroke-width="1.3" />
+                        <circle cx="9" cy="14" r="0.8" fill="currentColor" stroke="none" />
+                        <circle cx="15" cy="14" r="0.8" fill="currentColor" stroke="none" />
+                        <path d="M12 15.5l-.8 1h1.6l-.8-1" fill="currentColor" stroke-width="1" />
+                        <path d="M10.5 18a1.5 1.5 0 0 0 1.5-1.5M13.5 18a1.5 1.5 0 0 1-1.5-1.5" stroke-width="1.5" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-heading font-bold text-2xl text-white tracking-tight">เข้าสู่ระบบ SABA Prompt</h2>
+                    <p class="text-xs text-brand-muted mt-1">กรุณาเลือกช่องทางพิสูจน์ตัวตนเพื่อเข้าใช้งานคลังพรอพท์</p>
+                </div>
+            </div>
+
+            <!-- TAB SELECTOR (Google/Mobile/AI Federated) -->
+            <div class="grid grid-cols-3 gap-1 bg-black p-1 rounded-lg border border-brand-border">
+                <button type="button" onclick="switchLoginTab('phone')" id="tab-phone" class="py-1.5 text-xs font-semibold rounded bg-brand-border text-white">เบอร์มือถือ</button>
+                <button type="button" onclick="switchLoginTab('google')" id="tab-google" class="py-1.5 text-xs font-semibold rounded text-zinc-400">Google</button>
+                <button type="button" onclick="switchLoginTab('federated')" id="tab-federated" class="py-1.5 text-xs font-semibold rounded text-zinc-400">AI Accounts</button>
+            </div>
+
+            <!-- Option 1: Mobile Sign In -->
+            <div id="login-phone" class="space-y-4">
+                <div class="space-y-1.5">
+                    <label class="block text-xs font-mono uppercase tracking-wider text-zinc-400">เบอร์โทรศัพท์ (ระบุเพื่อขอ OTP)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-sm font-mono text-zinc-500">+66</span>
+                        <input type="tel" id="mobileNumber" class="w-full bg-black border border-brand-border rounded-lg pl-12 pr-3.5 py-2.5 text-sm focus:outline-none focus:border-white/40 transition-all placeholder:text-zinc-700" placeholder="812345678" maxlength="9">
+                    </div>
+                </div>
+                <button type="button" onclick="sendMockOTP()" class="w-full bg-white hover:bg-zinc-200 text-black font-semibold text-xs py-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i> ขอรับรหัส OTP จำลอง
+                </button>
+            </div>
+
+            <!-- Option 2: Google Sign In -->
+            <div id="login-google" class="hidden space-y-4">
+                <button type="button" onclick="triggerGoogleMockOAuth()" class="w-full bg-black hover:bg-zinc-900 border border-brand-border text-white font-semibold text-xs py-3 rounded-lg flex items-center justify-center gap-2.5 transition-all">
+                    <!-- Google Color Icon -->
+                    <svg class="w-4 h-4" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.18 1-.78 1.85-1.63 2.4l2.55 1.97c1.49-1.37 2.36-3.39 2.36-5.38z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-2.55-1.97c-.71.48-1.62.76-2.55.76-2.81 0-5.18-1.9-6.03-4.46l-2.6 2.01C7.39 19.88 10 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.97 14.67c-.22-.66-.35-1.37-.35-2.09s.13-2.09.35-2.09l-2.6-2.01C2.58 9.38 2 10.97 2 12s.58 2.62 1.37 3.59l2.6-2.01V14.67z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 10 1 7.39 4.12 5.97 7.12l2.6 2.01C9.42 6.64 12 5.38 12 5.38z"/>
+                    </svg>
+                    ลงชื่อเข้าใช้ด้วยบัญชี Google
+                </button>
+            </div>
+
+            <!-- Option 3: Federated AI Accounts -->
+            <div id="login-federated" class="hidden space-y-2">
+                <label class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">เข้าใช้งานผ่านคลังเครื่องมือ AI ของคุณ</label>
+                <div class="grid grid-cols-1 gap-2">
+                    <button type="button" onclick="triggerFederatedAI('ChatGPT')" class="w-full bg-[#10a37f]/10 hover:bg-[#10a37f]/20 border border-[#10a37f]/30 text-white font-semibold text-xs py-2.5 px-3 rounded-lg flex items-center justify-between transition-all">
+                        <span class="flex items-center gap-2"><i data-lucide="message-square" class="w-4 h-4 text-[#10a37f]"></i> ChatGPT Account</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button type="button" onclick="triggerFederatedAI('Claude')" class="w-full bg-brand-orange/10 hover:bg-brand-orange/20 border border-brand-orange/30 text-white font-semibold text-xs py-2.5 px-3 rounded-lg flex items-center justify-between transition-all">
+                        <span class="flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4 text-brand-orange"></i> Claude (Anthropic)</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button type="button" onclick="triggerFederatedAI('Gemini')" class="w-full bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-white font-semibold text-xs py-2.5 px-3 rounded-lg flex items-center justify-between transition-all">
+                        <span class="flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4 text-blue-400"></i> Google Gemini Account</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-brand-border text-center">
+                <button type="button" onclick="loginSuccess('SABA Guest (Guest)')" class="text-xs text-brand-muted hover:text-white underline font-mono">ใช้งานทันทีแบบไม่ต้องสมัคร (Guest Mode)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOCK SYSTEM OAUTH / OTP MODALS -->
+    <div id="otpVerificationModal" class="fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-sm bg-brand-surface border border-brand-border rounded-xl p-6 text-center space-y-4 shadow-2xl relative">
+            <h3 class="font-heading font-bold text-lg text-white">ป้อนรหัส OTP 4 หลัก</h3>
+            <p class="text-xs text-brand-muted leading-relaxed">รหัส OTP จำลองถอดรหัสรันไปที่เบอร์ของคุณแล้ว <br> กรุณากรอกรหัส <span class="font-mono text-white underline font-bold">"1608"</span> เพื่ออนุมัติเข้าใช้</p>
+            
+            <div class="flex justify-center gap-2.5" id="otpInputs">
+                <input type="text" maxlength="1" class="w-12 h-12 text-center text-lg bg-black border border-brand-border rounded focus:border-white focus:outline-none font-mono text-white" onkeyup="moveOtpFocus(this, 'otp2')">
+                <input id="otp2" type="text" maxlength="1" class="w-12 h-12 text-center text-lg bg-black border border-brand-border rounded focus:border-white focus:outline-none font-mono text-white" onkeyup="moveOtpFocus(this, 'otp3')">
+                <input id="otp3" type="text" maxlength="1" class="w-12 h-12 text-center text-lg bg-black border border-brand-border rounded focus:border-white focus:outline-none font-mono text-white" onkeyup="moveOtpFocus(this, 'otp4')">
+                <input id="otp4" type="text" maxlength="1" class="w-12 h-12 text-center text-lg bg-black border border-brand-border rounded focus:border-white focus:outline-none font-mono text-white" onkeyup="verifyMockOTP()">
+            </div>
+
+            <div class="flex items-center justify-between text-xs font-mono text-zinc-500 pt-2">
+                <span id="otpCountdown">เหลือเวลา: 59 วินาที</span>
+                <button type="button" onclick="sendMockOTP()" class="hover:text-white underline">ขอรหัสอีกครั้ง</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="oauthLoadingModal" class="fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-sm bg-brand-surface border border-brand-border rounded-xl p-8 text-center space-y-6 shadow-2xl">
+            <div class="flex justify-center">
+                <div class="w-12 h-12 border-2 border-brand-orange border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            <div class="space-y-2">
+                <h3 class="font-heading font-bold text-lg text-white" id="oauthTitle">กำลังเชื่อมต่อบัญชีบุคคลที่สาม...</h3>
+                <p class="text-xs text-brand-muted">โปรดสแตนด์บาย ห้ามรีเฟรชหน้าจอนี้ระบบกำลังทำ Token Exchange</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN WORKSPACE ==================== -->
+    <div id="workspaceScreen" class="hidden relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-grow flex flex-col justify-between">
         
         <!-- HEADER SYSTEM (The Diplomat Navigation) -->
         <header class="py-6 sm:py-8 border-b border-brand-border flex items-center justify-between">
@@ -98,17 +214,15 @@
                     <p class="text-[10px] sm:text-xs text-brand-muted font-mono tracking-widest uppercase mt-1">Workplace Prompt Architect</p>
                 </div>
             </div>
+            
+            <!-- User Status & Sign Out -->
             <div class="flex items-center gap-4">
-                <a href="https://gemini.google.com" target="_blank" class="hidden sm:inline-flex items-center gap-2 text-xs font-mono text-brand-muted hover:text-white transition-colors duration-300">
-                    <span class="relative flex w-1.5 h-1.5">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full w-1.5 h-1.5 bg-green-500"></span>
-                    </span>
-                    Launch Gemini
-                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                </a>
-                <button onclick="resetWholeForm()" class="text-xs font-mono py-2 px-3 hover:bg-white/5 border border-white/10 rounded-lg transition-all duration-300">
-                    Reset App
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-xs font-semibold text-white leading-none" id="userDisplayName">SABA User</span>
+                    <span class="text-[10px] font-mono text-zinc-500 uppercase mt-0.5" id="userSessionID">UID: MOCK_USER</span>
+                </div>
+                <button onclick="signOutUser()" class="text-xs font-mono py-2 px-3 hover:bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg transition-all duration-300">
+                    Sign Out
                 </button>
             </div>
         </header>
@@ -146,7 +260,7 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center gap-3">
                                         <div class="w-8 h-8 rounded-lg bg-white/5 group-[.active]:bg-white group-[.active]:text-black flex items-center justify-center transition-colors">
-                                            <i data-lucide="user-check" class="w-4 h-4"></i>
+                                            <i data-lucide="user-check" class="w-4.5 h-4.5"></i>
                                         </div>
                                         <div>
                                             <h4 class="text-sm font-semibold text-white group-[.active]:text-white">คุยงานลูกค้า (Customer)</h4>
@@ -164,7 +278,7 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center gap-3">
                                         <div class="w-8 h-8 rounded-lg bg-white/5 group-[.active]:bg-white group-[.active]:text-black flex items-center justify-center transition-colors">
-                                            <i data-lucide="calendar-off" class="w-4 h-4"></i>
+                                            <i data-lucide="calendar-off" class="w-4.5 h-4.5"></i>
                                         </div>
                                         <div>
                                             <h4 class="text-sm font-semibold text-white group-[.active]:text-white">ลากับหัวหน้า (Leave Request)</h4>
@@ -182,7 +296,7 @@
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center gap-3">
                                         <div class="w-8 h-8 rounded-lg bg-white/5 group-[.active]:bg-white group-[.active]:text-black flex items-center justify-center transition-colors">
-                                            <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+                                            <i data-lucide="git-pull-request" class="w-4.5 h-4.5"></i>
                                         </div>
                                         <div>
                                             <h4 class="text-sm font-semibold text-white group-[.active]:text-white">ประสานงานแผนกอื่น (Co-Work)</h4>
@@ -216,10 +330,10 @@
                         <div class="space-y-1.5">
                             <label class="block text-xs text-zinc-300 font-semibold">อารมณ์ / น้ำเสียงที่ต้องการส่งออก (Tone)</label>
                             <div class="grid grid-cols-4 gap-1.5" id="toneGroup">
-                                <button type="button" onclick="selectTone(event, 'สุภาพ อ่อนน้อม')" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all active" id="btn-tone-1">สุภาพ</button>
-                                <button type="button" onclick="selectTone(event, 'เป็นทางการ มั่นใจ')" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all" id="btn-tone-2">ทางการ</button>
-                                <button type="button" onclick="selectTone(event, 'เป็นกันเอง ยืดหยุ่น')" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all" id="btn-tone-3">กันเอง</button>
-                                <button type="button" onclick="selectTone(event, 'เร่งด่วน ตรงประเด็น')" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all" id="btn-tone-4">เร่งด่วน</button>
+                                <button type="button" onclick="selectTone('สุภาพ อ่อนน้อม', this)" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-white text-black border border-white transition-all active" id="btn-tone-1">สุภาพ</button>
+                                <button type="button" onclick="selectTone('เป็นทางการ มั่นใจ', this)" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all" id="btn-tone-2">ทางการ</button>
+                                <button type="button" onclick="selectTone('เป็นกันเอง ยืดหยุ่น', this)" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all" id="btn-tone-3">กันเอง</button>
+                                <button type="button" onclick="selectTone('เร่งด่วน ตรงประเด็น', this)" class="tone-btn py-2 text-xs font-semibold rounded-lg bg-black border border-brand-border text-zinc-400 hover:text-white transition-all" id="btn-tone-4">เร่งด่วน</button>
                             </div>
                         </div>
 
@@ -273,7 +387,7 @@
                         </div>
 
                         <!-- Real-time code execution display inside block -->
-                        <div class="relative bg-black border border-brand-border rounded-xl p-4 max-h-[460px] overflow-y-auto">
+                        <div class="relative bg-black border border-brand-border rounded-xl p-4.5 max-h-[460px] overflow-y-auto">
                             <pre class="whitespace-pre-wrap break-words text-xs sm:text-sm font-mono text-zinc-300 leading-relaxed font-sans" id="outputPrompt">/* กรอกข้อมูลด้านซ้าย และกดปุ่ม Generate หรือกดปุ่ม "แนะนำสถานการณ์ตัวอย่าง" เพื่อเริ่มต้น */</pre>
                         </div>
 
@@ -327,6 +441,50 @@
                     </div>
                 </div>
 
+                <!-- ==================== LAYER 4: FEEDBACK FORM COMPONENT ==================== -->
+                <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                            <i data-lucide="message-square" class="w-4 h-4 text-brand-orange"></i>
+                            ส่งข้อคิดเห็นและข้อเสนอแนะ (Feedback Form)
+                        </h4>
+                        <span class="text-[10px] font-mono text-zinc-500">MOCK API / LOCAL STORAGE READY</span>
+                    </div>
+                    
+                    <div id="feedbackFormContent" class="space-y-4">
+                        <!-- Rating emojis -->
+                        <div class="space-y-2">
+                            <label class="block text-xs text-zinc-400">ความพึงพอใจการใช้พรอพท์ของคุณ:</label>
+                            <div class="flex justify-between max-w-xs mx-auto sm:mx-0 gap-2">
+                                <button type="button" onclick="selectRating(1, this)" class="rating-emoji-btn w-10 h-10 rounded-lg bg-black border border-brand-border text-base flex items-center justify-center hover:scale-110 hover:border-brand-orange transition-all">😿</button>
+                                <button type="button" onclick="selectRating(2, this)" class="rating-emoji-btn w-10 h-10 rounded-lg bg-black border border-brand-border text-base flex items-center justify-center hover:scale-110 hover:border-brand-orange transition-all">😐</button>
+                                <button type="button" onclick="selectRating(3, this)" class="rating-emoji-btn w-10 h-10 rounded-lg bg-black border border-brand-border text-base flex items-center justify-center hover:scale-110 hover:border-brand-orange transition-all">🙂</button>
+                                <button type="button" onclick="selectRating(4, this)" class="rating-emoji-btn w-10 h-10 rounded-lg bg-black border border-brand-border text-base flex items-center justify-center hover:scale-110 hover:border-brand-orange transition-all">😸</button>
+                                <button type="button" onclick="selectRating(5, this)" class="rating-emoji-btn w-10 h-10 rounded-lg bg-black border border-zinc-700 active-rating ring-1 ring-brand-orange w-10 h-10 rounded-lg bg-black border border-brand-border text-base flex items-center justify-center hover:scale-110 hover:border-brand-orange transition-all" id="default-rating">😻</button>
+                            </div>
+                        </div>
+
+                        <!-- Feedback comment text -->
+                        <div class="space-y-1.5">
+                            <textarea id="feedbackText" rows="2" class="w-full bg-black border border-brand-border rounded-lg px-3.5 py-2 text-xs focus:outline-none focus:border-white/40 transition-all placeholder:text-zinc-700" placeholder="ระบุสิ่งที่ต้องการให้ทีมพัฒนาปรับปรุงเพิ่มเติม (เช่น เพิ่มฟังก์ชัน API, เพิ่มสถานการณ์ใหม่ ๆ)"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="button" id="submitFeedbackBtn" onclick="submitUserFeedback()" class="w-full sm:w-auto bg-[#27272A] hover:bg-white hover:text-black border border-white/10 text-white font-semibold text-xs py-2.5 px-6 rounded-lg flex items-center justify-center gap-2 transition-all">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i> ส่งข้อคิดเห็นทีมผู้พัฒนา
+                        </button>
+                    </div>
+
+                    <!-- Feedback Success State Container -->
+                    <div id="feedbackSuccessState" class="hidden py-4 text-center space-y-2">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-500 mx-auto flex items-center justify-center">
+                            <i data-lucide="check" class="w-5 h-5"></i>
+                        </div>
+                        <h5 class="text-sm font-bold text-white">ขอบคุณสำหรับข้อเสนอแนะ!</h5>
+                        <p class="text-xs text-brand-muted">ข้อมูลถูกจำลองส่งไปยัง API หลังบ้าน Supabase/Firebase เรียบร้อยแล้วเพื่อใช้ปรับปรุงแอปซาบะตัวต่อไป</p>
+                    </div>
+                </div>
+
                 <!-- Strategic Context Box (Why SABA works) -->
                 <div class="bg-brand-surface/40 border border-brand-border/60 rounded-xl p-5 space-y-3">
                     <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-300 flex items-center gap-2">
@@ -360,7 +518,7 @@
     </div>
 
     <!-- TOAST NOTIFICATION POPUP -->
-    <div id="toastNotification" class="fixed bottom-6 right-6 bg-white text-black px-4 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-500 z-50 pointer-events-none border border-black/10">
+    <div id="toastNotification" class="fixed bottom-6 right-6 bg-white text-black px-4.5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-500 z-50 pointer-events-none border border-black/10">
         <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
             <i data-lucide="check" class="w-4 h-4"></i>
         </div>
@@ -372,11 +530,16 @@
 
     <!-- SCRIPT LOGIC (Interactive Integration Engine) -->
     <script>
-        // MOCK DATABASE & TEMPLATE DEFINITIONS
+        // SYSTEM CONTEXT DATA DEFINITION
         const configData = {
             activeCategory: 'customer',
             activeTone: 'สุภาพ อ่อนน้อม',
-            defaultSuggestIndex: 0
+            defaultSuggestIndex: 0,
+            feedbackRating: 5,
+            currentLoginTab: 'phone',
+            otpTimer: null,
+            otpTimeLeft: 59,
+            loggedInUser: null
         };
 
         const suggestedScenarios = {
@@ -481,22 +644,150 @@
             }
         };
 
-        // Initialize dynamic effects and triggers on ready
+        // Initialize App & Auth Listener on Page Load
         window.onload = function() {
             lucide.createIcons();
-            selectCategory('customer'); // Default start
             
-            // Set initial dynamic fields
-            document.getElementById('inputWho').value = "";
-            document.getElementById('inputDetail').value = "";
-            
-            // Check if Tip box has been permanently closed during this session
-            if (sessionStorage.getItem('saba_tip_closed') === 'true') {
-                const box = document.getElementById('donationTipBox');
-                box.classList.add('hidden');
+            // Check if user session already exists in sessionStorage
+            const cachedUser = sessionStorage.getItem('saba_user');
+            if (cachedUser) {
+                loginSuccess(cachedUser);
+            } else {
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('workspaceScreen').classList.add('hidden');
             }
         };
 
+        // ==================== LAYER 1: AUTHENTICATION BUSINESS LOGIC ====================
+        function switchLoginTab(tabId) {
+            configData.currentLoginTab = tabId;
+            const tabs = ['phone', 'google', 'federated'];
+            
+            tabs.forEach(t => {
+                const element = document.getElementById(`tab-${t}`);
+                const panel = document.getElementById(`login-${t}`);
+                if (t === tabId) {
+                    element.className = "py-1.5 text-xs font-semibold rounded bg-brand-border text-white";
+                    panel.classList.remove('hidden');
+                } else {
+                    element.className = "py-1.5 text-xs font-semibold rounded text-zinc-400 hover:text-white transition-all";
+                    panel.classList.add('hidden');
+                }
+            });
+        }
+
+        // OTP Simulated Delivery & Countdown Timer
+        function sendMockOTP() {
+            const phone = document.getElementById('mobileNumber').value;
+            if (!phone || phone.length < 9) {
+                alert("กรุณากรอกเบอร์โทรศัพท์มือถือที่ถูกต้อง (9 หลัก เช่น 812345678)");
+                return;
+            }
+
+            // Open OTP verification modal
+            document.getElementById('otpVerificationModal').classList.remove('hidden');
+            
+            // Reset OTP timer & countdown logic
+            configData.otpTimeLeft = 59;
+            document.getElementById('otpCountdown').innerText = `เหลือเวลา: 59 วินาที`;
+            
+            clearInterval(configData.otpTimer);
+            configData.otpTimer = setInterval(() => {
+                configData.otpTimeLeft--;
+                if (configData.otpTimeLeft <= 0) {
+                    clearInterval(configData.otpTimer);
+                    document.getElementById('otpCountdown').innerText = `หมดเวลาขอรหัส`;
+                } else {
+                    document.getElementById('otpCountdown').innerText = `เหลือเวลา: ${configData.otpTimeLeft} วินาที`;
+                }
+            }, 1000);
+        }
+
+        // Auto move cursor on typing OTP
+        function moveOtpFocus(current, nextId) {
+            if (current.value.length >= 1) {
+                const next = document.getElementById(nextId);
+                if (next) next.focus();
+            }
+        }
+
+        // Verify OTP (Code correct logic is 1608 - the birthdate in developer's assets)
+        function verifyMockOTP() {
+            const val1 = document.querySelector('#otpInputs input:nth-child(1)').value;
+            const val2 = document.querySelector('#otpInputs input:nth-child(2)').value;
+            const val3 = document.querySelector('#otpInputs input:nth-child(3)').value;
+            const val4 = document.querySelector('#otpInputs input:nth-child(4)').value;
+            const finalOtp = val1 + val2 + val3 + val4;
+
+            if (finalOtp === "1608") {
+                clearInterval(configData.otpTimer);
+                document.getElementById('otpVerificationModal').classList.add('hidden');
+                
+                // Clear input values
+                document.querySelectorAll('#otpInputs input').forEach(input => input.value = "");
+                
+                const mockPhone = document.getElementById('mobileNumber').value;
+                loginSuccess(`+66 ${mockPhone} (Mobile)`);
+            } else if (finalOtp.length === 4) {
+                alert("รหัส OTP ไม่ถูกต้อง กรุณากรอกรหัส '1608' เพื่อเข้าใช้งานในโหมดจำลองระบบ");
+            }
+        }
+
+        // Simulated Google Account Authentication Flow
+        function triggerGoogleMockOAuth() {
+            const loading = document.getElementById('oauthLoadingModal');
+            document.getElementById('oauthTitle').innerText = "กำลังเข้าสู่ระบบผ่านบัญชี Google...";
+            loading.classList.remove('hidden');
+
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                loginSuccess('SABA_Developer@gmail.com (Google)');
+            }, 1500);
+        }
+
+        // Simulated Federated AI Account Integration Flow
+        function triggerFederatedAI(providerName) {
+            const loading = document.getElementById('oauthLoadingModal');
+            document.getElementById('oauthTitle').innerText = `กำลังเชื่อมต่อกับ ${providerName} Secure API...`;
+            loading.classList.remove('hidden');
+
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                loginSuccess(`SABA_Developer@${providerName}.com`);
+            }, 1800);
+        }
+
+        // Handle successful sign-in transitions
+        function loginSuccess(userName) {
+            configData.loggedInUser = userName;
+            sessionStorage.setItem('saba_user', userName);
+
+            // Display in dashboard header
+            document.getElementById('userDisplayName').innerText = userName;
+            
+            // Render random mock session UID
+            const randomUID = 'SABA_' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById('userSessionID').innerText = `UID: ${randomUID}`;
+
+            // Transition page layout
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('workspaceScreen').classList.remove('hidden');
+
+            // Set default category configuration
+            selectCategory('customer');
+        }
+
+        // Logout logic
+        function signOutUser() {
+            sessionStorage.removeItem('saba_user');
+            configData.loggedInUser = null;
+            
+            // Hide workspace, show login screen
+            document.getElementById('workspaceScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        // ==================== LAYER 2: VARIABLE CONTROLS & SELECTORS ====================
         function selectCategory(category) {
             configData.activeCategory = category;
             
@@ -542,7 +833,7 @@
             liveUpdate();
         }
 
-        function selectTone(evt, toneValue) {
+        function selectTone(toneValue, btnElement) {
             configData.activeTone = toneValue;
 
             // Toggle active classes on tone buttons
@@ -550,12 +841,15 @@
             buttons.forEach(btn => {
                 btn.classList.remove('bg-white', 'text-black', 'border-white');
                 btn.classList.add('bg-black', 'text-zinc-400', 'border-brand-border');
+                btn.classList.remove('active');
             });
 
-            // Highlight chosen button (fall back to the button's own id if no event is passed)
-            const targetBtn = (evt && evt.target) ? evt.target : document.getElementById('btn-tone-1');
-            targetBtn.classList.add('bg-white', 'text-black', 'border-white');
-            targetBtn.classList.remove('bg-black', 'text-zinc-400', 'border-brand-border');
+            // Highlight chosen button directly using passed reference (avoid global event crash)
+            if (btnElement) {
+                btnElement.classList.add('bg-white', 'text-black', 'border-white');
+                btnElement.classList.remove('bg-black', 'text-zinc-400', 'border-brand-border');
+                btnElement.classList.add('active');
+            }
 
             liveUpdate();
         }
@@ -605,84 +899,127 @@
         }
 
         // Clipboard Copy Action
-        async function copyPromptToClipboard() {
+        function copyPromptToClipboard() {
             const textToCopy = document.getElementById('outputPrompt').innerText;
-            let copySucceeded = false;
-
-            // Prefer the modern Clipboard API (requires secure context / https)
-            if (navigator.clipboard && window.isSecureContext) {
-                try {
-                    await navigator.clipboard.writeText(textToCopy);
-                    copySucceeded = true;
-                } catch (err) {
-                    console.warn('Clipboard API failed, falling back', err);
-                }
-            }
-
-            // Fallback strategy for older browsers / non-secure contexts
-            if (!copySucceeded) {
-                const textArea = document.createElement("textarea");
-                textArea.value = textToCopy;
-                // Keep it off-screen so it never visibly flashes on the page
-                textArea.style.position = "fixed";
-                textArea.style.top = "-9999px";
-                textArea.style.opacity = "0";
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-
-                try {
-                    copySucceeded = document.execCommand('copy');
-                } catch (err) {
-                    console.error('Fallback copy failed', err);
-                }
-
-                document.body.removeChild(textArea);
-            }
-
-            if (!copySucceeded) {
-                console.error('Unable to copy prompt to clipboard.');
-                return;
-            }
-
-            // Trigger Toast Animation
-            const toast = document.getElementById('toastNotification');
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-
-            // Adjust button state temporarily
-            const copyBtnText = document.getElementById('copyBtnText');
-            const copyIcon = document.getElementById('copyIcon');
-
-            copyBtnText.innerText = "คัดลอกลงคลิปบอร์ดสำเร็จ!";
-            copyIcon.setAttribute('data-lucide', 'check-check');
-            lucide.createIcons();
-
-            // Trigger Subtle Tip Box (Donation Slide-In) under the Output Box
-            triggerDonationBox();
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-
-                copyBtnText.innerText = "คัดลอกพรอพท์ (Copy)";
-                copyIcon.setAttribute('data-lucide', 'copy');
+            
+            // Fallback strategy check for execution in limited iframe scopes
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                
+                // Trigger Toast Animation
+                const toast = document.getElementById('toastNotification');
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+                
+                // Adjust button state temporarily
+                const copyBtnText = document.getElementById('copyBtnText');
+                const copyIcon = document.getElementById('copyIcon');
+                
+                copyBtnText.innerText = "คัดลอกลงคลิปบอร์ดสำเร็จ!";
+                copyIcon.setAttribute('data-lucide', 'check-check');
                 lucide.createIcons();
-            }, 3000);
+
+                // Trigger Subtle Tip Box (Donation Slide-In) under the Output Box
+                triggerDonationBox();
+
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-0', 'opacity-100');
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                    
+                    copyBtnText.innerText = "คัดลอกพรอพท์ (Copy)";
+                    copyIcon.setAttribute('data-lucide', 'copy');
+                    lucide.createIcons();
+                }, 3000);
+
+            } catch (err) {
+                console.error('Fallback copy fail', err);
+            }
+            
+            document.body.removeChild(textArea);
         }
 
-        // Reset App Form Controls
-        function resetWholeForm() {
-            document.getElementById('inputWho').value = "";
-            document.getElementById('inputDetail').value = "";
-            selectCategory('customer');
+        // ==================== LAYER 4: FEEDBACK BUSINESS LOGIC ====================
+        function selectRating(ratingValue, element) {
+            configData.feedbackRating = ratingValue;
             
-            // Reset Tone Button highlights
-            const toneBtn = document.getElementById('btn-tone-1');
-            if (toneBtn) toneBtn.click();
+            // Remove active classes
+            const ratingBtns = document.querySelectorAll('.rating-emoji-btn');
+            ratingBtns.forEach(btn => {
+                btn.className = "rating-emoji-btn w-10 h-10 rounded-lg bg-black border border-brand-border text-base flex items-center justify-center hover:scale-110 hover:border-brand-orange transition-all";
+            });
+
+            // Highlight selected
+            if (element) {
+                element.className = "rating-emoji-btn w-10 h-10 rounded-lg bg-black border-zinc-700 active-rating ring-1 ring-brand-orange text-base flex items-center justify-center hover:scale-110 transition-all";
+            }
+        }
+
+        // Mock database feedback post (Indicated for Firestore or Supabase connections)
+        function submitUserFeedback() {
+            const feedbackComment = document.getElementById('feedbackText').value;
+            const rating = configData.feedbackRating;
+            const user = configData.loggedInUser || 'Anonymous_Guest';
             
-            document.getElementById('outputPrompt').innerText = "/* กรอกข้อมูลด้านซ้าย และกดปุ่ม Generate หรือกดปุ่ม \"แนะนำสถานการณ์ตัวอย่าง\" เพื่อเริ่มต้น */";
-            document.getElementById('charCounter').innerText = "0 characters";
+            const submitBtn = document.getElementById('submitFeedbackBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> ส่งข้อมูล...`;
+
+            // MOCK DATABASE LOGIC - FOR PRODUCTION CONNECTIVITY REFER TO THISE COMMENTS:
+            /*
+            ========================= DATABASE SETUP DIRECTIONS =========================
+            1. เพื่อใช้เก็บข้อมูลความคิดเห็นถาวร น้าสามารถนำ Supabase/Firebase มาต่อเติมได้ดังนี้:
+            
+            // (A) Firebase / Google Firestore Integration Pattern:
+            import { initializeApp } from 'firebase/app';
+            import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
+            const app = initializeApp({ ...config });
+            const db = getFirestore(app);
+
+            await addDoc(collection(db, 'saba_feedbacks'), {
+                user: user,
+                rating: rating,
+                comment: feedbackComment,
+                timestamp: new Date()
+            });
+
+            // (B) Supabase Database REST Post Pattern:
+            await fetch('https://[PROJECT_ID].supabase.co/rest/v1/feedbacks', {
+                method: 'POST',
+                headers: {
+                    'apikey': 'YOUR_SUPABASE_ANON_KEY',
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify({ user, rating, comment: feedbackComment })
+            });
+            =============================================================================
+            */
+
+            // Save inside local mock ledger (localStorage log to show state logic)
+            const feedbackLog = JSON.parse(localStorage.getItem('saba_feedback_log') || '[]');
+            feedbackLog.push({
+                user: user,
+                rating: rating,
+                comment: feedbackComment,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('saba_feedback_log', JSON.stringify(feedbackLog));
+
+            // Run sleek mock post simulation
+            setTimeout(() => {
+                // Change UI content container state
+                document.getElementById('feedbackFormContent').classList.add('hidden');
+                document.getElementById('feedbackSuccessState').classList.remove('hidden');
+                
+                // Clear text area
+                document.getElementById('feedbackText').value = "";
+            }, 1500);
         }
 
         // Smoothly Trigger the Donation Tip Box
@@ -719,6 +1056,31 @@
             setTimeout(() => {
                 box.classList.add('hidden');
             }, 500);
+        }
+
+        // Reset App Form Controls
+        function resetWholeForm() {
+            document.getElementById('inputWho').value = "";
+            document.getElementById('inputDetail').value = "";
+            selectCategory('customer');
+            
+            // Reset Tone Button highlights securely by referencing elements
+            const firstToneBtn = document.getElementById('btn-tone-1');
+            if (firstToneBtn) {
+                selectTone('สุภาพ อ่อนน้อม', firstToneBtn);
+            }
+            
+            document.getElementById('outputPrompt').innerText = "/* กรอกข้อมูลด้านซ้าย และกดปุ่ม Generate หรือกดปุ่ม \"แนะนำสถานการณ์ตัวอย่าง\" เพื่อเริ่มต้น */";
+            document.getElementById('charCounter').innerText = "0 characters";
+
+            // Restore Feedback Component UI State
+            document.getElementById('feedbackFormContent').classList.remove('hidden');
+            document.getElementById('feedbackSuccessState').classList.add('hidden');
+            
+            const submitBtn = document.getElementById('submitFeedbackBtn');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i data-lucide="send" class="w-3.5 h-3.5"></i> ส่งข้อคิดเห็นทีมผู้พัฒนา`;
+            lucide.createIcons();
         }
     </script>
 </body>
