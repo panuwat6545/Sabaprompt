@@ -12,6 +12,9 @@
     <meta name="keywords" content="Email, เขียนเมล, เขียนเมลล์, วิธีเขียนเมล, วิธีเขียนเมลล์, ตัวช่วยเขียนเมล, ตัวช่วยเขียนเมล์, ตัวช่วยเขียนอีเมล, sabapromt, sabaprompt, AI, เอไอ, พรอพท์เขียนเมล"/>
     <meta name="author" content="SABA PROMPT Team"/>
     <link rel="canonical" href="https://skills.mussocial.com"/>
+    <link rel="alternate" hreflang="th" href="https://skills.mussocial.com/" />
+    <link rel="alternate" hreflang="en" href="https://skills.mussocial.com/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://skills.mussocial.com/" />
     
     <!-- Open Graph (Facebook / LinkedIn) -->
     <meta property="og:type" content="website"/>
@@ -19,11 +22,16 @@
     <meta property="og:description" content="เปลี่ยนโจทย์เขียนเมลยาก ๆ ให้เป็นเรื่องง่ายด้วย AI ตัวช่วยเขียนเมลอัจฉริยะ sabapromt จัดการสยบทุกความขัดแย้งในที่ทำงาน"/>
     <meta property="og:url" content="https://skills.mussocial.com"/>
     <meta property="og:site_name" content="SABA PROMPT"/>
+    <meta property="og:image" content="saba-og-image.jpg"/>
     
     <!-- Twitter Metadata -->
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="SABA PROMPT — ตัวช่วยเขียนอีเมลด้วยเทคโนโลยี AI"/>
     <meta name="twitter:description" content="วิเคราะห์และปรับแต่งพรอพท์เพื่อสร้างสรรค์วิธีเขียนอีเมล (Email) สื่อสารในออฟฟิศอย่างราบรื่น"/>
+    <meta name="twitter:image" content="saba-og-image.jpg"/>
+
+    <!-- Dynamic Favicon using inline SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23F97316'/><path d='M32 68 L46 36 L54 36 L68 68 L58 68 L48 44 L38 68 Z' fill='black'/></svg>" />
 
     <!-- JSON-LD Schema Markup for Search Engines (Google SEO Rich Snippets) -->
     <script type="application/ld+json">
@@ -69,7 +77,7 @@
                             orange: '#F97316',   /* สีส้มแมวซาบะ */
                             orangeGlow: 'rgba(249, 115, 22, 0.15)',
                             border: '#27272A',   /* สีขอบบางประณีต */
-                            muted: '#A1A1AA'     /* สีตัวหนังสือสีเทาหม่น */
+                            muted: '#A1A1AA'     /* สีตัวหนังสือสีเทาหม่น - คอนทราสต์ผ่านเกณฑ์ */
                         }
                     }
                 }
@@ -143,6 +151,13 @@
     <div id="auth-screen" class="min-h-screen flex flex-col justify-center items-center p-4 relative z-10">
         <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-8 shadow-2xl relative">
             
+            <!-- Language Switcher on Auth Screen -->
+            <div class="absolute top-4 right-4">
+                <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-bold transition-all">
+                    <span class="auth-lang-btn-text">EN</span>
+                </button>
+            </div>
+
             <!-- ส่วนหัวโลโก้แบรนด์ SABA -->
             <div class="flex flex-col items-center text-center mb-8">
                 <div class="w-16 h-16 bg-gradient-to-tr from-brand-orange to-amber-500 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-orange/20 mb-4">
@@ -151,19 +166,19 @@
                         <path d="M8 8s1-1.5 2-1.5c1.5 0 2 2 2 2s.5-2 2-2c1 0 2 1.5 2 1.5"/>
                     </svg>
                 </div>
-                <h1 class="text-3xl font-heading font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-500 bg-clip-text text-transparent">
+                <h1 class="text-3xl font-heading font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-500 bg-clip-text text-transparent" data-i18n="auth_title">
                     SABA PROMPT
                 </h1>
-                <p class="text-sm text-brand-muted mt-1">The Strategist: Story-to-Prompt Platform</p>
+                <p class="text-sm text-brand-muted mt-1" data-i18n="auth_sub">The Strategist: Story-to-Prompt Platform</p>
             </div>
 
             <!-- เมนูล็อกอินแบ่งประเภท -->
             <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-1 p-1 bg-brand-bg rounded-lg border border-brand-border">
-                    <button onclick="switchLoginTab('otp')" id="tab-otp" class="py-2 text-xs font-semibold rounded-md bg-brand-surface text-brand-orange transition-all duration-300">
+                <div class="grid grid-cols-2 gap-1 p-1 bg-brand-bg rounded-lg border border-brand-border" role="tablist">
+                    <button onclick="switchLoginTab('otp')" id="tab-otp" class="py-2 text-xs font-semibold rounded-md bg-brand-surface text-brand-orange transition-all duration-300" role="tab" aria-selected="true" data-i18n="tab_otp">
                         OTP Sign-in
                     </button>
-                    <button onclick="switchLoginTab('federated')" id="tab-fed" class="py-2 text-xs font-semibold rounded-md text-brand-muted hover:text-white transition-all duration-300">
+                    <button onclick="switchLoginTab('federated')" id="tab-fed" class="py-2 text-xs font-semibold rounded-md text-brand-muted hover:text-white transition-all duration-300" role="tab" aria-selected="false" data-i18n="tab_fed">
                         OAuth & AI Accounts
                     </button>
                 </div>
@@ -171,7 +186,7 @@
                 <!-- เข้าสู่ระบบผ่านเบอร์โทรศัพท์ (จำลอง OTP) -->
                 <div id="login-otp-panel" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2">เบอร์โทรศัพท์มือถือ</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2" data-i18n="phone_label">เบอร์โทรศัพท์มือถือ</label>
                         <div class="relative">
                             <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-brand-muted font-mono">+66</span>
                             <input id="login-phone" type="tel" placeholder="0812345678" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 pl-14 pr-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all font-mono"/>
@@ -179,13 +194,13 @@
                     </div>
                     
                     <div id="otp-confirm-container" class="space-y-2 hidden transition-all duration-300">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted">กรอกรหัส OTP (รหัสจำลองคือ: 1234)</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="otp_label">กรอกรหัส OTP (รหัสจำลองคือ: 1234)</label>
                         <input id="login-otp-code" type="text" placeholder="XXXX" maxlength="4" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-center tracking-[0.5em] text-lg font-mono focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all"/>
                     </div>
 
                     <button onclick="handleOTPRequest()" id="btn-otp-action" class="w-full bg-brand-orange hover:bg-orange-600 active:scale-[0.98] text-black font-semibold rounded-xl py-3.5 text-sm transition-all shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2">
                         <i data-lucide="smartphone" class="w-4 h-4"></i>
-                        <span>รับรหัส OTP</span>
+                        <span data-i18n="btn_otp_init">รับรหัส OTP</span>
                     </button>
                 </div>
 
@@ -206,7 +221,7 @@
 
                     <div class="relative my-4 flex items-center justify-center">
                         <div class="border-t border-brand-border w-full"></div>
-                        <span class="absolute bg-brand-surface px-3 text-[10px] text-brand-muted uppercase font-bold tracking-widest">Connect AI Identity</span>
+                        <span class="absolute bg-brand-surface px-3 text-[10px] text-brand-muted uppercase font-bold tracking-widest" data-i18n="connect_ai_id">Connect AI Identity</span>
                     </div>
 
                     <button onclick="simulateThirdPartyLogin('ChatGPT Account')" class="w-full bg-brand-bg hover:bg-emerald-950/20 border border-emerald-900/30 text-emerald-400 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group">
@@ -237,16 +252,16 @@
                 <!-- เข้าใช้งานทันทีแบบ Guest Mode -->
                 <div class="relative my-4 flex items-center justify-center">
                     <div class="border-t border-brand-border w-full"></div>
-                    <span class="absolute bg-brand-surface px-3 text-[10px] text-brand-muted uppercase font-bold tracking-widest">หรือ</span>
+                    <span class="absolute bg-brand-surface px-3 text-[10px] text-brand-muted uppercase font-bold tracking-widest" data-i18n="or_text">หรือ</span>
                 </div>
 
                 <button onclick="handleGuestLogin()" class="w-full bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-brand-border text-gray-200 text-sm font-semibold rounded-xl py-3 px-4 transition-all flex items-center justify-center gap-2 group">
                     <i data-lucide="user" class="w-4 h-4 text-brand-orange group-hover:scale-110 transition-transform"></i>
-                    <span>เข้าใช้งานแบบ Guest Mode</span>
+                    <span data-i18n="btn_guest">เข้าใช้งานแบบ Guest Mode</span>
                 </button>
             </div>
 
-            <p class="text-[11px] text-brand-muted text-center mt-8 leading-relaxed">
+            <p class="text-[11px] text-brand-muted text-center mt-8 leading-relaxed" data-i18n="auth_disclaimer">
                 การเข้าใช้ระบบจะทำการเก็บเซสชันจำลองในอุปกรณ์เพื่อความเป็นส่วนตัวสูงสุด (Layer 1 Privacy Framework)
             </p>
         </div>
@@ -278,27 +293,38 @@
                     </div>
 
                     <!-- เมนูการสลับหน้าบอร์ด (รองรับ SEO Tab ด้วย) -->
-                    <nav class="hidden md:flex space-x-1">
-                        <button onclick="navigateTab('workspace')" id="nav-workspace" class="px-3.5 py-2 rounded-lg text-sm font-medium bg-brand-border text-white transition-all">
+                    <nav class="hidden md:flex space-x-1" role="tablist">
+                        <button onclick="navigateTab('workspace')" id="nav-workspace" class="px-3.5 py-2 rounded-lg text-sm font-medium bg-brand-border text-white transition-all" role="tab" aria-selected="true" data-i18n="nav_workspace">
                             Workspace
                         </button>
-                        <button onclick="navigateTab('seo')" id="nav-seo" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all">
+                        <button onclick="navigateTab('seo')" id="nav-seo" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_seo">
                             วิธีเขียนอีเมล (SEO Guide)
                         </button>
-                        <button onclick="navigateTab('framework')" id="nav-framework" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all">
+                        <button onclick="navigateTab('framework')" id="nav-framework" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_framework">
                             Our Psychology & Framework
                         </button>
-                        <button onclick="navigateTab('architect')" id="nav-architect" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all">
+                        <button onclick="navigateTab('architect')" id="nav-architect" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_architect">
                             About the Architect
                         </button>
                     </nav>
 
-                    <!-- แสดงสถานะและชื่อบัญชีของผู้เข้าใช้ -->
-                    <div class="flex items-center gap-4">
+                    <!-- แสดงสถานะและชื่อบัญชีของผู้เข้าใช้ + ปุ่มภาษา & ปุ่มเฟือง -->
+                    <div class="flex items-center gap-3">
+                        
+                        <!-- Language Switcher -->
+                        <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-extrabold transition-all" title="Switch Language">
+                            <span class="nav-lang-btn-text">EN</span>
+                        </button>
+                        
+                        <!-- API settings configurations -->
+                        <button onclick="openApiSettingsModal()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border p-2 rounded-lg text-brand-muted hover:text-brand-orange transition-all" title="API Settings">
+                            <i data-lucide="settings" class="w-4 h-4"></i>
+                        </button>
+
                         <div class="flex items-center gap-2 bg-brand-bg px-3 py-1.5 rounded-full border border-brand-border">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                             <span id="session-user-badge" class="text-xs font-mono text-gray-300 font-medium">Guest Mode</span>
-                            <span class="text-[10px] uppercase tracking-wider font-extrabold text-brand-orange px-1.5 py-0.2 bg-brand-orange/10 rounded-full border border-brand-orange/20">VIP ACTIVE</span>
+                            <span class="text-[10px] uppercase tracking-wider font-extrabold text-brand-orange px-1.5 py-0.2 bg-brand-orange/10 rounded-full border border-brand-orange/20" data-i18n="vip_badge">VIP ACTIVE</span>
                         </div>
                         
                         <button onclick="handleSignOut()" class="text-brand-muted hover:text-brand-orange p-1.5 rounded-lg border border-transparent hover:border-brand-border transition-all" title="Sign Out">
@@ -317,61 +343,61 @@
             <div class="mb-8 text-center md:text-left relative">
                 <div class="inline-flex items-center gap-2 bg-brand-orange/10 border border-brand-orange/25 px-3.5 py-1 rounded-full text-brand-orange text-xs font-semibold mb-3">
                     <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-                    <span>SABA PROMPT • ตัวช่วยเขียนเมลลาหยุด & คุยงานระดับเซียน</span>
+                    <span data-i18n="welcome_badge">SABA PROMPT • ตัวช่วยเขียนเมลลาหยุด & คุยงานระดับเซียน</span>
                 </div>
                 <h1 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-white leading-tight">
-                    <span class="bg-gradient-to-r from-brand-orange to-amber-500 bg-clip-text text-transparent">zero to pro</span>
+                    <span>zero to pro</span>
                 </h1>
-                <p class="text-xs md:text-sm text-brand-muted mt-2 max-w-lg leading-relaxed">
+                <p class="text-xs md:text-sm text-brand-muted mt-2 max-w-lg leading-relaxed" data-i18n="welcome_subtitle">
                     แพลตฟอร์มตัวช่วยเขียนอีเมลและขจัดดราม่าการสื่อสารในที่ทำงานด้วยพลังจิตวิทยาสากลและ AI อัจฉริยะ
                 </p>
             </div>
 
-            <!-- กล่องการ์ดเลือก 3 แนวทางยุทธศาสตร์เจรจา -->
+            <!-- กล่องการ์ดเลือก 3 แนวทางยุทธศาสตร์เจรจา (ปรับปรุง Accessibility WCAG 2.1) -->
             <div class="mb-8">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-muted mb-4 flex items-center gap-2">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-muted mb-4 flex items-center gap-2" data-i18n="cat_title">
                     <i data-lucide="layers" class="w-3.5 h-3.5 text-brand-orange"></i> เลือกสไตล์และรูปแบบการสื่อสารเชิงยุทธศาสตร์
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" role="tablist">
                     
                     <!-- การ์ดที่ 1: The Closer -->
-                    <div onclick="selectCategory('customer')" id="card-customer" class="cursor-pointer bg-brand-surface border-2 border-brand-orange rounded-xl p-5 hover:translate-y-[-2px] transition-all duration-300 relative overflow-hidden group shadow-lg">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform"></div>
-                        <div class="flex items-start justify-between">
-                            <div class="p-2.5 bg-brand-orange/15 rounded-lg border border-brand-orange/20 text-brand-orange">
+                    <button onclick="selectCategory('customer')" id="card-customer" class="text-left w-full cursor-pointer bg-brand-surface border-2 border-brand-orange rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="true" aria-label="Client Negotiation Strategy">
+                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform"></span>
+                        <span class="flex items-start justify-between">
+                            <span class="p-2.5 bg-brand-orange/15 rounded-lg border border-brand-orange/20 text-brand-orange">
                                 <i data-lucide="sparkles" class="w-5 h-5"></i>
-                            </div>
+                            </span>
                             <span class="text-[9px] font-extrabold uppercase bg-brand-orange/20 text-brand-orange border border-brand-orange/30 px-2 py-0.5 rounded-full">The Closer</span>
-                        </div>
-                        <h3 class="text-base font-bold text-white mt-4">คุยงานลูกค้า / เสนอไอเดีย / ปิดการขาย</h3>
-                        <p class="text-xs text-brand-muted mt-1.5 leading-relaxed">มุ่งเน้นการชูคุณค่าหลักของงานและผลประโยชน์ร่วมกัน (Value-First Selling) เพื่อให้เขียนเมลปิดการขายได้อย่างน่าเชื่อถือ</p>
-                    </div>
+                        </span>
+                        <h3 class="text-base font-bold text-white mt-4" data-i18n="cat_closer_title">คุยงานลูกค้า / เสนอไอเดีย / ปิดการขาย</h3>
+                        <p class="text-xs text-brand-muted mt-1.5 leading-relaxed" data-i18n="cat_closer_desc">มุ่งเน้นการชูคุณค่าหลักของงานและผลประโยชน์ร่วมกัน (Value-First Selling) เพื่อให้เขียนเมลปิดการขายได้อย่างน่าเชื่อถือ</p>
+                    </button>
 
                     <!-- การ์ดที่ 2: The Tactical Vacation -->
-                    <div onclick="selectCategory('leave')" id="card-leave" class="cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] transition-all duration-300 relative overflow-hidden group shadow-lg">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform"></div>
-                        <div class="flex items-start justify-between">
-                            <div class="p-2.5 bg-zinc-800 rounded-lg text-zinc-400 group-hover:text-brand-orange group-hover:bg-brand-orange/10 transition-colors">
+                    <button onclick="selectCategory('leave')" id="card-leave" class="text-left w-full cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="false" aria-label="Leave Request Strategy">
+                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform"></span>
+                        <span class="flex items-start justify-between">
+                            <span class="p-2.5 bg-zinc-800 rounded-lg text-zinc-400 group-hover:text-brand-orange group-hover:bg-brand-orange/10 transition-colors">
                                 <i data-lucide="calendar" class="w-5 h-5"></i>
-                            </div>
+                            </span>
                             <span class="text-[9px] font-extrabold uppercase bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full">Tactical Vacation</span>
-                        </div>
-                        <h3 class="text-base font-bold text-white mt-4">วิธีเขียนเมลลาหยุดกับหัวหน้า (อนุมัติทันที)</h3>
-                        <p class="text-xs text-brand-muted mt-1.5 leading-relaxed">วิธีเขียนอีเมลขอลากับผู้บริหารโดยไม่มีสะดุด ด้วยการเตรียมแผนจัดการความเสี่ยงและส่งมอบงานล่วงหน้า</p>
-                    </div>
+                        </span>
+                        <h3 class="text-base font-bold text-white mt-4" data-i18n="cat_leave_title">วิธีเขียนเมลลาหยุดกับหัวหน้า (อนุมัติทันที)</h3>
+                        <p class="text-xs text-brand-muted mt-1.5 leading-relaxed" data-i18n="cat_leave_desc">วิธีเขียนอีเมลขอลากับผู้บริหารโดยไม่มีสะดุด ด้วยการเตรียมแผนจัดการความเสี่ยงและส่งมอบงานล่วงหน้า</p>
+                    </button>
 
                     <!-- การ์ดที่ 3: The Diplomat -->
-                    <div onclick="selectCategory('cowork')" id="card-cowork" class="cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] transition-all duration-300 relative overflow-hidden group shadow-lg">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform"></div>
-                        <div class="flex items-start justify-between">
-                            <div class="p-2.5 bg-zinc-800 rounded-lg text-zinc-400 group-hover:text-brand-orange group-hover:bg-brand-orange/10 transition-colors">
+                    <button onclick="selectCategory('cowork')" id="card-cowork" class="text-left w-full cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="false" aria-label="Cross-Departmental Collaboration Strategy">
+                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform"></span>
+                        <span class="flex items-start justify-between">
+                            <span class="p-2.5 bg-zinc-800 rounded-lg text-zinc-400 group-hover:text-brand-orange group-hover:bg-brand-orange/10 transition-colors">
                                 <i data-lucide="users-round" class="w-5 h-5"></i>
-                            </div>
+                            </span>
                             <span class="text-[9px] font-extrabold uppercase bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full">The Diplomat</span>
-                        </div>
-                        <h3 class="text-base font-bold text-white mt-4">Co-Work ประสานงานข้ามแผนก</h3>
-                        <p class="text-xs text-brand-muted mt-1.5 leading-relaxed">วิธีเขียนอีเมลประสานงานอย่างมีชั้นเชิง สลายกำแพง Silo ระหว่างฝ่ายด้วยหลัก Win-Win Strategy</p>
-                    </div>
+                        </span>
+                        <h3 class="text-base font-bold text-white mt-4" data-i18n="cat_cowork_title">Co-Work ประสานงานข้ามแผนก</h3>
+                        <p class="text-xs text-brand-muted mt-1.5 leading-relaxed" data-i18n="cat_cowork_desc">วิธีเขียนอีเมลประสานงานอย่างมีชั้นเชิง สลายกำแพง Silo ระหว่างฝ่ายด้วยหลัก Win-Win Strategy</p>
+                    </button>
 
                 </div>
             </div>
@@ -384,45 +410,45 @@
                     <div class="flex items-center justify-between border-b border-brand-border pb-4">
                         <div class="flex items-center gap-2">
                             <div class="w-2.5 h-2.5 rounded-full bg-brand-orange animate-pulse"></div>
-                            <span class="text-sm font-bold uppercase tracking-wider text-white">Dynamic Form Controls</span>
+                            <span class="text-sm font-bold uppercase tracking-wider text-white" data-i18n="form_title">Dynamic Form Controls</span>
                         </div>
                         <button onclick="loadSuggestedScenario()" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2.5 rounded-md hover:bg-brand-orange/10 transition-all">
                             <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
-                            <span>แนะนำสถานการณ์</span>
+                            <span data-i18n="btn_suggest">แนะนำสถานการณ์</span>
                         </button>
                     </div>
 
                     <!-- ฟิลด์ระบุชื่อ/ตำแหน่งผู้รับการสื่อสาร -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">ชื่อผู้รับ / ตำแหน่ง</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5" data-i18n="label_recipient">ชื่อผู้รับ / ตำแหน่ง</label>
                         <div class="relative">
                             <input id="inputWho" type="text" placeholder="ตัวอย่าง: คุณรวิภา VP of Sales, พี่สมพงษ์ PM" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 pl-11 pr-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white"/>
                             <i data-lucide="user" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted"></i>
                         </div>
                     </div>
 
-                    <!-- ฟิลด์ใหม่เพิ่มเติม: ชื่อผู้ส่ง (ชื่อของคุณ) -->
+                    <!-- ฟิลด์ระบุชื่อผู้ส่ง (ชื่อของคุณ) -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">ชื่อผู้ส่ง (ชื่อของคุณ)</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5" data-i18n="label_sender">ชื่อผู้ส่ง (ชื่อของคุณ)</label>
                         <div class="relative">
                             <input id="inputSender" type="text" placeholder="ตัวอย่าง: สมชาย, นรินทร์" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 pl-11 pr-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white"/>
                             <i data-lucide="user-check" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted"></i>
                         </div>
                     </div>
 
-                    <!-- ส่วนใหม่: อัปโหลดเอกสารเชิงยุทธศาสตร์ (PC / Google Drive) -->
+                    <!-- อัปโหลดเอกสารเชิงยุทธศาสตร์ (PC / Google Drive) -->
                     <div class="space-y-2">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted">เอกสารประกอบการเจรจา (PC / Google Drive)</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="label_doc">เอกสารประกอบการเจรจา (PC / Google Drive)</label>
                         
                         <!-- Drag & Drop Zone -->
-                        <div id="drag-drop-zone" class="border-2 border-dashed border-brand-border hover:border-brand-orange/50 bg-brand-bg/30 rounded-xl p-4 text-center cursor-pointer transition-all relative group overflow-hidden">
+                        <div id="drag-drop-zone" class="border-2 border-dashed border-brand-border hover:border-brand-orange/50 bg-brand-bg/30 rounded-xl p-4 text-center cursor-pointer transition-all relative group overflow-hidden" tabindex="0" role="button" aria-label="Upload document file">
                             <input type="file" id="doc-file-input" class="hidden" accept=".txt,.pdf,.docx,.doc,.csv,.xlsx,.xls" />
                             <div class="flex flex-col items-center justify-center space-y-2 py-1">
                                 <div class="p-2 bg-brand-orange/15 rounded-full text-brand-orange group-hover:scale-110 transition-transform">
                                     <i data-lucide="upload-cloud" class="w-5 h-5"></i>
                                 </div>
-                                <p class="text-xs font-semibold text-gray-200">ลากและวางไฟล์ที่นี่ หรือ <span class="text-brand-orange hover:underline">คลิกเพื่ออัปโหลด</span></p>
-                                <p class="text-[10px] text-brand-muted">รองรับ PDF, DOCX, TXT, CSV (สูงสุด 15MB)</p>
+                                <p class="text-xs font-semibold text-gray-200" data-i18n="doc_upload_main">ลากและวางไฟล์ที่นี่ หรือ คลิกเพื่ออัปโหลด</p>
+                                <p class="text-[10px] text-brand-muted" data-i18n="doc_upload_sub">รองรับ PDF, DOCX, TXT, CSV (สูงสุด 15MB)</p>
                             </div>
                         </div>
 
@@ -434,7 +460,7 @@
                                     <path d="M15.35 13.02L8.65 13.02L10.85 9.25H13.15L15.35 13.02Z" fill="#1A73E8"/>
                                     <path d="M10.82 11.02L13.1 2H10.9L4.58 11.02H10.82Z" fill="#FFBA00"/>
                                 </svg>
-                                <span>นำเข้าจาก Google Drive</span>
+                                <span data-i18n="btn_gdrive">นำเข้าจาก Google Drive</span>
                             </button>
                         </div>
 
@@ -442,7 +468,7 @@
                         <div id="file-status-container" class="hidden bg-brand-orange/5 border border-brand-orange/20 rounded-xl p-3 flex items-center justify-between transition-all">
                             <div class="flex items-center gap-3">
                                 <div class="p-2 bg-brand-orange/10 text-brand-orange rounded-lg" id="file-icon-wrapper">
-                                    <i data-lucide="file-text" class="w-4.5 h-4.5"></i>
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
                                 </div>
                                 <div class="flex flex-col">
                                     <span id="file-name-display" class="text-xs font-semibold text-white max-w-[170px] truncate">Document_Sample.pdf</span>
@@ -458,7 +484,7 @@
                     <!-- รายละเอียดข้อมูลโจทย์ความประสงค์แบบดิบๆ -->
                     <div>
                         <div class="flex items-center justify-between mb-1.5">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted">เนื้อความ / รายละเอียดสิ่งที่เกิดขึ้น</label>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="label_detail">เนื้อความ / รายละเอียดสิ่งที่เกิดขึ้น</label>
                             <span id="charCounter" class="text-[10px] font-mono text-brand-muted">0 อักษร</span>
                         </div>
                         <div class="relative">
@@ -468,18 +494,18 @@
 
                     <!-- ตัวเลือกการปรับโทนและน้ำเสียงการเจรจา -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2">ระดับและโทนการเจรจาเชิง EQ</label>
-                        <div class="grid grid-cols-2 gap-1.5">
-                            <button onclick="selectTone('สุภาพ อ่อนน้อม', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border-2 border-brand-orange text-brand-orange transition-all">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2" data-i18n="label_tone">ระดับและโทนการเจรจาเชิง EQ</label>
+                        <div class="grid grid-cols-2 gap-1.5" role="group" aria-label="Tone selection">
+                            <button onclick="selectTone('สุภาพ อ่อนน้อม', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border-2 border-brand-orange text-brand-orange transition-all" data-i18n="tone_polite">
                                 😊 สุภาพ อ่อนโยน
                             </button>
-                            <button onclick="selectTone('ทางการ มั่นใจ', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all">
+                            <button onclick="selectTone('ทางการ มั่นใจ', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_formal">
                                 💼 ทางการ มั่นใจ
                             </button>
-                            <button onclick="selectTone('เป็นกันเอง ยืดหยุ่น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all">
+                            <button onclick="selectTone('เป็นกันเอง ยืดหยุ่น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_casual">
                                 ☕ เป็นกันเอง ยืดหยุ่น
                             </button>
-                            <button onclick="selectTone('เร่งด่วน ตรงประเด็น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all">
+                            <button onclick="selectTone('เร่งด่วน ตรงประเด็น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_urgent">
                                 🚨 เร่งด่วน ตรงประเด็น
                             </button>
                         </div>
@@ -490,7 +516,7 @@
                         <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-amber-400 to-brand-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                         <div class="relative z-10 flex items-center justify-center gap-2 text-black">
                             <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
-                            <span>COMPILE MEGA PROMPT</span>
+                            <span data-i18n="btn_compile">COMPILE MEGA PROMPT</span>
                         </div>
                     </button>
                 </div>
@@ -502,20 +528,20 @@
                     <div id="prompt-compiler-matrix" class="bg-brand-surface border border-brand-border rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[520px] transition-all">
                         
                         <!-- เมนูด้านหัวเทอร์มินอลสไตล์ระบบปฏิบัติการพรีเมียม -->
-                        <div class="bg-brand-bg px-4 py-3 border-b border-brand-border flex items-center justify-between">
+                        <div class="bg-brand-bg px-4 py-3 border-b border-brand-border flex items-center justify-between flex-shrink-0">
                             <div class="flex items-center gap-1.5">
-                                <span class="w-3 h-3 rounded-full bg-[#FF5F56]"></span>
-                                <span class="w-3 h-3 rounded-full bg-[#FFBD2E]"></span>
-                                <span class="w-3 h-3 rounded-full bg-[#27C93F]"></span>
-                                <span class="text-xs font-mono text-brand-muted ml-3 tracking-widest uppercase">PROMPT COMPILER MATRIX</span>
+                                <span class="w-3 h-3 rounded-full bg-[#FF5F56]" aria-hidden="true"></span>
+                                <span class="w-3 h-3 rounded-full bg-[#FFBD2E]" aria-hidden="true"></span>
+                                <span class="w-3 h-3 rounded-full bg-[#27C93F]" aria-hidden="true"></span>
+                                <span class="text-xs font-mono text-brand-muted ml-3 tracking-widest uppercase" data-i18n="term_title">PROMPT COMPILER MATRIX</span>
                             </div>
 
                             <!-- แท็บตัวเลือกการแสดงผลลัพธ์ภายในกล่องเทอร์มินอล -->
-                            <div class="flex gap-1 p-0.5 bg-brand-surface rounded-lg border border-brand-border">
-                                <button onclick="switchTerminalTab('prompt')" id="tab-term-prompt" class="px-3 py-1.5 text-xs font-bold rounded-md bg-brand-bg text-brand-orange border border-brand-border/30 transition-all">
+                            <div class="flex gap-1 p-0.5 bg-brand-surface rounded-lg border border-brand-border" role="tablist">
+                                <button onclick="switchTerminalTab('prompt')" id="tab-term-prompt" class="px-3 py-1.5 text-xs font-bold rounded-md bg-brand-bg text-brand-orange border border-brand-border/30 transition-all" role="tab" aria-selected="true" data-i18n="tab_term_prompt">
                                     Prompt Output
                                 </button>
-                                <button onclick="switchTerminalTab('simulate')" id="tab-term-sim" class="px-3 py-1.5 text-xs font-bold rounded-md text-brand-muted hover:text-white transition-all">
+                                <button onclick="switchTerminalTab('simulate')" id="tab-term-sim" class="px-3 py-1.5 text-xs font-bold rounded-md text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="tab_term_sim">
                                     Simulated Chat
                                 </button>
                             </div>
@@ -528,18 +554,18 @@
                                 <div class="w-12 h-12 rounded-full bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center text-brand-orange mb-3">
                                     <i data-lucide="code-2" class="w-6 h-6"></i>
                                 </div>
-                                <h4 class="text-sm font-bold text-white uppercase tracking-wider">พร้อมประกอบร่างคำสั่งพรอพท์</h4>
-                                <p class="text-xs text-brand-muted mt-2 max-w-sm leading-relaxed">
+                                <h4 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="placeholder_prompt_title">พร้อมประกอบร่างคำสั่งพรอพท์</h4>
+                                <p class="text-xs text-brand-muted mt-2 max-w-sm leading-relaxed" data-i18n="placeholder_prompt_desc">
                                     กรอกข้อมูลตัวแปรทางฝั่งซ้ายมือ แล้วกดปุ่ม <span class="text-brand-orange font-bold">Compile Mega Prompt</span> เพื่อเริ่มวิเคราะห์ยุทธศาสตร์และรับโค้ดพรอพท์
                                 </p>
                             </div>
 
                             <!-- ส่วนหัวและปุ่มคัดลอกพรอพท์คลีนแบบไร้แท็กสีตกแต่ง -->
                             <div class="flex items-center justify-between">
-                                <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded">Generated System Prompt</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded" data-i18n="label_gen_prompt">Generated System Prompt</span>
                                 <button onclick="copyToClipboard('prompt')" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2 hover:bg-brand-orange/10 rounded transition-all">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                    <span>Copy Clean Prompt</span>
+                                    <span data-i18n="btn_copy_prompt">Copy Clean Prompt</span>
                                 </button>
                             </div>
 
@@ -558,18 +584,18 @@
                                 <div class="w-12 h-12 rounded-full bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center text-brand-orange mb-3">
                                     <i data-lucide="message-square" class="w-6 h-6"></i>
                                 </div>
-                                <h4 class="text-sm font-bold text-white uppercase tracking-wider">รอยืนยันพรอพท์เชิงยุทธศาสตร์</h4>
-                                <p class="text-xs text-brand-muted mt-2 max-w-sm leading-relaxed">
+                                <h4 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="placeholder_sim_title">รอยืนยันพรอพท์เชิงยุทธศาสตร์</h4>
+                                <p class="text-xs text-brand-muted mt-2 max-w-sm leading-relaxed" data-i18n="placeholder_sim_desc">
                                     เมื่อทำการคัดเลือกและกดประกอบคำสั่งเสร็จสิ้น ระบบ AI อัจฉริยะจะสวมรอยเจรจาแทนคุณด้วยการร่างอีเมลฉบับพรีเมียมให้ทันทีที่แผงนี้!
                                 </p>
                             </div>
 
                             <!-- รายละเอียดแสดงผลพร้อมปุ่มก๊อบปี้ดราฟต์อีเมล -->
                             <div class="flex items-center justify-between border-b border-brand-border/50 pb-3">
-                                <span class="text-[10px] uppercase font-bold tracking-widest text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded">Simulated Workspace Email</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded" data-i18n="label_sim_email">Simulated Workspace Email</span>
                                 <button onclick="copyToClipboard('simulate')" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2 hover:bg-brand-orange/10 rounded transition-all">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                    <span>Copy Draft Message</span>
+                                    <span data-i18n="btn_copy_email">Copy Draft Message</span>
                                 </button>
                             </div>
 
@@ -581,13 +607,13 @@
                                     </div>
                                     <div class="bg-brand-surface border border-brand-border/60 p-4 rounded-xl rounded-tl-none max-w-[85%]">
                                         <p class="text-xs text-brand-muted font-mono mb-1">SABA AI Framework Ingested ✅</p>
-                                        <p class="text-xs text-gray-300 leading-relaxed">นี่คือร่างการเจรจาระดับสูงที่ผ่านการคิดวิเคราะห์ยุทธศาสตร์ความสัมพันธ์เชิงลึกเพื่อส่งมอบผลประโยชน์ที่ดีที่สุด:</p>
+                                        <p class="text-xs text-gray-300 leading-relaxed" data-i18n="placeholder_sim_desc">นี่คือร่างการเจรจาระดับสูงที่ผ่านการคิดวิเคราะห์ยุทธศาสตร์ความสัมพันธ์เชิงลึกเพื่อส่งมอบผลประโยชน์ที่ดีที่สุด:</p>
                                     </div>
                                 </div>
 
                                 <div class="flex gap-3 justify-end">
                                     <div class="bg-brand-orangeGlow border border-brand-orange/30 p-4 rounded-xl rounded-tr-none max-w-[85%]">
-                                        <p class="text-xs text-brand-orange font-mono mb-2">💡 แนะนำ: ส่งข้อความนี้ในช่องทาง Chat หลัก หรือ Email ส่วนตัว</p>
+                                        <p class="text-xs text-brand-orange font-mono mb-2" data-i18n="sim_tip">💡 แนะนำ: ส่งข้อความนี้ในช่องทาง Chat หลัก หรือ Email ส่วนตัว</p>
                                         <div id="simulated-draft-output" class="text-sm text-gray-200 leading-relaxed font-sans whitespace-pre-wrap select-text">
                                             <!-- ข้อความอีเมลผลลัพธ์จะปรากฏที่นี่อย่างแนบเนียน -->
                                         </div>
@@ -609,7 +635,7 @@
                             
                             <!-- พื้นที่แสดง QR Code ของเจ้าซาบะตัวจริง -->
                             <div class="w-40 h-40 bg-white p-2 rounded-xl border-2 border-brand-orange/40 flex items-center justify-center flex-shrink-0 relative group">
-                                <img src="promptpay-qr_3.png" alt="SABA Support QR" class="w-full h-full object-contain rounded" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 150 150\'><rect width=\'150\' height=\'150\' fill=\'white\'/><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'10\' fill=\'black\' text-anchor=\'middle\'>[PROMPTPAY QR CODES]</text></svg>';"/>
+                                <img src="promptpay-qr.png" alt="SABA Support QR" class="w-full h-full object-contain rounded" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 150 150\'><rect width=\'150\' height=\'150\' fill=\'white\'/><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'10\' fill=\'black\' text-anchor=\'middle\'>[PROMPTPAY QR CODES]</text></svg>';"/>
                                 <div class="absolute inset-0 bg-black/60 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer" onclick="notifySupport()">
                                     <span class="text-[10px] text-brand-orange font-bold text-center px-2">คลิกเพื่อขยายภาพ<br/>เลี้ยงเปียกซาบะ 🐈</span>
                                 </div>
@@ -618,18 +644,18 @@
                             <!-- รายละเอียดเชิญชวนสนับสนุนค่าอาหารเปียก -->
                             <div class="flex-grow space-y-3 text-center md:text-left">
                                 <div class="flex items-center justify-center md:justify-between gap-2">
-                                    <span class="text-xs font-extrabold uppercase bg-brand-orange/20 text-brand-orange border border-brand-orange/30 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 animate-bounce">
+                                    <span class="text-xs font-extrabold uppercase bg-brand-orange/20 text-brand-orange border border-brand-orange/30 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 animate-bounce" data-i18n="tripbox_tag">
                                         🐈 เลี้ยงอาหารเปียกซาบะ
                                     </span>
                                     <button onclick="dismissTripbox()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" title="ซ่อนกล่องสนับสนุน">
                                         <i data-lucide="x" class="w-4 h-4"></i>
                                     </button>
                                 </div>
-                                <h3 class="text-base font-bold text-white">ถูกใจยุทธศาสตร์คำสั่งพรอพท์นี้ไหม?</h3>
-                                <p class="text-xs text-brand-muted leading-relaxed">
+                                <h3 class="text-base font-bold text-white" data-i18n="tripbox_title">ถูกใจยุทธศาสตร์คำสั่งพรอพท์นี้ไหม?</h3>
+                                <p class="text-xs text-brand-muted leading-relaxed" data-i18n="tripbox_desc">
                                     หากแอปพลิเคชันนี้ช่วยให้ประหยัดเวลาการเจรจางานและเจาะจิตวิทยาประสานงานไปได้หลายชั่วโมง คุณสามารถสนับสนุนค่าอาหารเปียกให้น้องแมวส้มตัวตึงซาบะของทีมพัฒนาโดยตรงโดยการสแกน PromptPay ด้านข้างได้เลยครับ! ขอบคุณสำหรับมิตรภาพและการสนับสนุน
                                 </p>
-                                <div class="flex flex-wrap justify-center md:justify-start gap-4 text-[11px] text-zinc-500 font-mono">
+                                <div class="flex flex-wrap justify-center md:justify-start gap-4 text-[11px] text-zinc-400 font-mono">
                                     <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange"></i> Instant Secure Scan</span>
                                     <span class="flex items-center gap-1"><i data-lucide="heart" class="w-3.5 h-3.5 text-brand-orange"></i> Developer Friendly support</span>
                                 </div>
@@ -642,18 +668,15 @@
 
             </div>
 
-            <!-- ========================================================= -->
-            <!-- LAYER 4: ควิซเก่าสลับมาเป็นแผนผังยุทธศาสตร์ -->
-            <!-- ========================================================= -->
+            <!-- Feedback & Suggestions Panel -->
             <div class="mt-12 max-w-2xl mx-auto">
-                <!-- กล่องรับความพึงพอใจและข้อเสนอแนะพัฒนาต่อยอด -->
                 <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-xl space-y-6 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center gap-2 border-b border-brand-border pb-4 mb-4">
                             <i data-lucide="message-square-plus" class="w-5 h-5 text-brand-orange"></i>
-                            <h3 class="text-sm font-bold uppercase tracking-wider text-white font-heading">Feedback & Suggestions</h3>
+                            <h3 class="text-sm font-bold uppercase tracking-wider text-white font-heading" data-i18n="fb_title">Feedback & Suggestions</h3>
                         </div>
-                        <p class="text-xs text-brand-muted leading-relaxed mb-4">
+                        <p class="text-xs text-brand-muted leading-relaxed mb-4" data-i18n="fb_desc">
                             เรามุ่งหวังที่จะปรับแต่งพรอพท์และโครงสร้างแอปพลิเคชันให้พนักงานทุกคนมีชีวิตในสเปซออฟฟิศที่ดีขึ้น ส่งข้อคิดเห็นของคุณโดยระบุรายละเอียดด้านล่างนี้
                         </p>
                         
@@ -663,7 +686,7 @@
                             
                             <button onclick="submitFeedback()" class="w-full bg-zinc-800 hover:bg-zinc-700 hover:text-white text-zinc-300 text-xs font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2">
                                 <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                                <span>ส่งความคิดเห็นเชิงสถาปัตยกรรม</span>
+                                <span data-i18n="btn_fb_submit">ส่งความคิดเห็นเชิงสถาปัตยกรรม</span>
                             </button>
                         </div>
 
@@ -672,16 +695,15 @@
                             <div class="w-10 h-10 bg-emerald-500/10 border border-emerald-500/35 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
                                 <i data-lucide="check-circle" class="w-5 h-5"></i>
                             </div>
-                            <h4 class="text-sm font-bold text-white">บันทึกข้อมูลเรียบร้อย</h4>
-                            <p class="text-xs text-brand-muted">ความคิดเห็นได้รับการบันทึกแล้ว ข้อมูลจะถูกเชื่อมต่อในคลังฐานระบบ SABA Prompt เพื่ออัปเกรดความเจ๋งในเวอร์ชันถัดไป</p>
+                            <h4 class="text-sm font-bold text-white" data-i18n="fb_success_title">บันทึกข้อมูลเรียบร้อย</h4>
+                            <p class="text-xs text-brand-muted" data-i18n="fb_success_desc">ความคิดเห็นได้รับการบันทึกแล้ว ข้อมูลจะถูกเชื่อมต่อในคลังฐานระบบ SABA Prompt เพื่ออัปเกรดความเจ๋งในเวอร์ชันถัดไป</p>
                         </div>
                     </div>
 
-                    <div class="text-[10px] text-zinc-600 font-mono text-center pt-4 border-t border-brand-border/40">
+                    <div class="text-[10px] text-zinc-400 font-mono text-center pt-4 border-t border-brand-border/40">
                         SABA Local Mock Post API Gateway • Session Connected
                     </div>
                 </div>
-
             </div>
 
         </main>
@@ -690,9 +712,9 @@
         <!-- หน้าแสดงผลพิเศษ (SEO TAB): วิธีเขียนอีเมล (SEO GUIDE) -->
         <!-- ========================================================= -->
         <main id="view-seo" class="hidden flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-            <article class="space-y-10">
-                
-                <!-- ส่วนหัวบทความ SEO -->
+            
+            <!-- Thai Version -->
+            <article id="view-seo-th" class="space-y-10">
                 <div class="text-center space-y-4 max-w-3xl mx-auto">
                     <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3.5 py-1.5 rounded-full border border-brand-orange/20 inline-block">
                         🔍 สารานุกรมและบทความแนะนำการเจรจาเชิงรุก
@@ -704,16 +726,9 @@
                         รวมทุกวิธีเขียนเมลลาหยุด คุยงานลูกค้า ติดตามปิดการขาย และสลายกำแพงความอึดอัดในที่ทำงานโดยใช้หลักจิตวิทยาประสานงานยุคใหม่
                     </p>
                 </div>
-
                 <div class="border-t border-brand-border/60 my-6"></div>
-
-                <!-- โครงสร้างสองฝั่ง: เนื้อหาหลัก + สารบัญ SEO Content -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    
-                    <!-- ส่วนเนื้อความหลักของบทความ -->
                     <div class="lg:col-span-8 space-y-8 text-gray-300 text-sm leading-relaxed">
-                        
-                        <!-- Section 1 -->
                         <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
                             <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
                                 <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
@@ -726,8 +741,6 @@
                                 สำหรับพนักงานออฟฟิศหลายท่าน มักประสบปัญหาเรื่องความกดดันและประหม่าเวลาต้องการ <strong>เขียนเมลลาหยุด</strong> หรือ <strong>ส่งดราฟต์เมลติดตามงานลูกค้า</strong> SABA PROMPT จึงพัฒนาแพลตฟอร์มนี้มาเพื่อสวมรอยเป็น <em>ตัวช่วยเขียนอีเมล</em> (Email Writer AI Assistant) ที่มีความนุ่มนวล เข้าใจธรรมชาติอารมณ์และพฤติกรรมมนุษย์ลึกซึ้ง
                             </p>
                         </section>
-
-                        <!-- Section 2 -->
                         <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
                             <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
                                 <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
@@ -742,8 +755,6 @@
                                 <li><strong class="text-white">Polite Persuasion:</strong> วางประโยคต้อนมุมแบบสุภาพ ให้เกียรติ แต่มีความเฉียบขาดเชิงรุก</li>
                             </ul>
                         </section>
-
-                        <!-- Section 3 -->
                         <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
                             <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
                                 <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
@@ -755,57 +766,81 @@
                             <div class="bg-brand-bg p-4 rounded-xl border border-brand-border font-mono text-xs text-brand-orange leading-relaxed">
                                 แผนการลาพักร้อน 5 วัน = แจ้งวันลาที่ชัดเจน + แผนงานที่เคลียร์เสร็จแล้วก่อนลา + มอบหมายเพื่อนร่วมทีม (เจมส์) สแตนด์บายประสานเรื่องเร่งด่วนแทน
                             </div>
-                            <p class="text-xs text-brand-muted">
-                                เมื่อทำตามโครงสร้างนี้ ทุกท่านจะพบว่าผู้บริหารและหัวหน้างานจะเซ็นรับรองอนุมัติความสุขในการลาหยุดของคุณทันทีแบบไร้ความหงุดหงิด
-                            </p>
                         </section>
-
                     </div>
-
-                    <!-- ส่วนสารบัญด้านข้าง / FAQ ดักคำค้นหา SEO -->
                     <aside class="lg:col-span-4 space-y-6">
                         <div class="bg-brand-surface p-5 rounded-2xl border border-brand-border space-y-4">
                             <h3 class="text-xs font-bold uppercase tracking-widest text-brand-orange">SABA SEO FAQ Index</h3>
                             <div class="space-y-3">
                                 <div class="border-b border-brand-border/60 pb-2">
                                     <h4 class="text-xs font-bold text-white mb-1">Q: เขียนเมล กับ เขียนเมลล์ เขียนแบบไหนถูก?</h4>
-                                    <p class="text-[11px] text-brand-muted">A: อ้างอิงตามพจนานุกรมคำศัพท์คอมพิวเตอร์ 'เขียนเมล' (สะกดด้วย ล.ลิง) คือคำที่ถูกต้องตามมาตรฐาน ส่วน 'เขียนเมลล์' หรือ 'เขียนเมล์' เป็นคำที่ผู้ใช้นิยมพิมพ์ค้นหาเป็นจำนวนมาก</p>
+                                    <p class="text-[11px] text-brand-muted">A: อ้างอิงตามพจนานุกรมคำศัพท์ 'เขียนเมล' (ล.ลิง) ถูกต้องที่สุด</p>
                                 </div>
                                 <div class="border-b border-brand-border/60 pb-2">
-                                    <h4 class="text-xs font-bold text-white mb-1">Q: sabapromt หรือ sabaprompt ทำงานอย่างไร?</h4>
-                                    <p class="text-[11px] text-brand-muted">A: เราคือระบบช่วยจัดทำ Dynamic Meta-Prompt อัจฉริยะที่ช่วยจัดระเบียบโครงสร้างคำสั่งก่อนป้อนให้ AI ประสิทธิภาพสูง</p>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-bold text-white mb-1">Q: แนะนำตัวช่วยเขียนอีเมลที่ดีที่สุด?</h4>
-                                    <p class="text-[11px] text-brand-muted">A: การใช้งานตัวสร้างพรอพท์ร่วมกับ AI โมเดลระดับสูง เช่น Gemini หรือ Claude จะมอบความละเอียดอ่อนสูงสุดในการทำงาน</p>
+                                    <h4 class="text-xs font-bold text-white mb-1">Q: sabapromt ทำงานอย่างไร?</h4>
+                                    <p class="text-[11px] text-brand-muted">A: เราคือระบบช่วยจัดทำ Dynamic Meta-Prompt อัจฉริยะก่อนส่งต่อให้ AI</p>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="bg-brand-orangeGlow border border-brand-orange/30 p-5 rounded-2xl text-center space-y-3">
-                            <i data-lucide="sparkles" class="w-8 h-8 text-brand-orange mx-auto"></i>
-                            <h4 class="text-sm font-bold text-white">พร้อมทดลองเขียนอีเมลจริงแล้วหรือยัง?</h4>
-                            <p class="text-xs text-brand-muted">เริ่มต้นใช้งานพรอพท์จำลองของเราเพื่อสยบความตึงเครียดด้านสายงานในที่ทำงานได้ฟรีวันนี้!</p>
-                            <button onclick="navigateTab('workspace')" class="w-full bg-brand-orange hover:bg-orange-600 text-black font-extrabold text-xs py-2.5 rounded-xl transition-all">
-                                เข้าสู่ SABA Workspace
-                            </button>
-                        </div>
                     </aside>
-
                 </div>
-
             </article>
+
+            <!-- English Version -->
+            <article id="view-seo-en" class="space-y-10 hidden">
+                <div class="text-center space-y-4 max-w-3xl mx-auto">
+                    <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3.5 py-1.5 rounded-full border border-brand-orange/20 inline-block">
+                        🔍 Encyclopedia & Professional Communication Guide
+                    </span>
+                    <h1 class="text-3xl md:text-5xl font-heading font-black text-white leading-tight">
+                        How to Write Emails Professionally using AI Writing Assistant Tools
+                    </h1>
+                    <p class="text-sm md:text-base text-brand-muted">
+                        Mastering client negotiations, leave requests, and resolving workplace communication conflicts with empathy frameworks.
+                    </p>
+                </div>
+                <div class="border-t border-brand-border/60 my-6"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-8 space-y-8 text-gray-300 text-sm leading-relaxed">
+                        <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
+                            <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
+                                1. Why Email Communication Still Shapes Your Career Future
+                            </h2>
+                            <p>
+                                Despite instant messaging, **Email** remains the gold standard in enterprise communication. Writing clear, structured messages ensures recognition from peers and upper management. SABA PROMPT was developed to act as an empathetic *AI Email Assistant* to reduce stress when requesting leaves or following up with sponsorships.
+                            </p>
+                        </section>
+                        <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
+                            <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
+                                2. Empathetic Persuasion Framework (SABA Empathy Model)
+                            </h2>
+                            <p>
+                                Generic prompts often generate rigid, standard text that feels mechanical. SABA PROMPT uses a three-pillar methodology for emotional intelligence:
+                            </p>
+                            <ul class="list-disc pl-5 space-y-2 text-brand-muted">
+                                <li><strong class="text-white">Radical Empathy:</strong> Realizing stakeholder anxieties (e.g. manager worried about milestones).</li>
+                                <li><strong class="text-white">Risk-Mitigation Ready:</strong> Offering backup plans upfront to clear objections.</li>
+                                <li><strong class="text-white">Polite Persuasion:</strong> Gentle yet assertive closing tactics.</li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </article>
+
         </main>
 
         <!-- หน้าแสดงผลที่ 3: OUR PSYCHOLOGY & FRAMEWORK -->
         <main id="view-framework" class="hidden flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-            <div class="space-y-8">
+            
+            <!-- Thai Version -->
+            <div id="view-framework-th" class="space-y-8">
                 <div class="text-center">
                     <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Mindset Framework</span>
                     <h2 class="text-3xl font-heading font-black text-white mt-4">ทฤษฎีการสื่อสารแบบ SABA Empathy Model</h2>
                     <p class="text-sm text-brand-muted mt-2">ถอดสูตรคิดวิเคราะห์ด้วยยุทธศาสตร์ความร่วมมือระดับมืออาชีพ</p>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                     <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
                         <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
@@ -813,67 +848,100 @@
                             <span>1. Radical Empathy</span>
                         </h3>
                         <p class="text-xs text-brand-muted leading-relaxed">
-                            การสื่อสารที่ดีไม่ได้มาจากการป้องตัวเองหรือทำตามกฎหน้าเดียว แต่เป็นการสัมผัสถึงความกลัว ความกดดัน และความต้องการจริงของผู้มีส่วนได้ส่วนเสียในที่ทำงาน (เช่น เจ้านายกลัวหน้าแตกต่อผู้บริหาร, ลูกค้ากลัวโดนเทตั๋ว)
+                            การสื่อสารที่ดีเป็นการสัมผัสถึงความกลัว ความกดดัน และความต้องการจริงของผู้มีส่วนได้ส่วนเสียในที่ทำงาน (เช่น เจ้านายกลัวงานหลุดต่อผู้บริหาร, ลูกค้ากลัวงานไม่ตรงเวลา)
                         </p>
                     </div>
-
                     <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
                         <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
                             <i data-lucide="shield" class="w-4 h-4"></i>
                             <span>2. Risk-Mitigation Ready</span>
                         </h3>
                         <p class="text-xs text-brand-muted leading-relaxed">
-                            ผู้เจรจาเชิงรุกจะนำเสนอวิธีการลดปัญหาความเสี่ยงควบคู่ไปกับคำร้องขอเสมอ (Proactive Risk Solutions) เพื่อให้อีกฝ่ายตัดสินใจอนุมัติอย่างสบายใจและง่ายที่สุดเท่าที่จะเป็นไปได้
+                            ผู้เจรจาเชิงรุกจะนำเสนอวิธีการลดปัญหาความเสี่ยงควบคู่ไปกับคำร้องขอเสมอ (Proactive Risk Solutions) เพื่อให้อีกฝ่ายตัดสินใจอนุมัติง่ายที่สุด
                         </p>
                     </div>
                 </div>
+            </div>
 
-                <div class="bg-brand-surface border border-brand-border rounded-2xl p-8 text-center space-y-4">
-                    <h3 class="text-lg font-bold text-white">"จงเป็นนักประสานผลประโยชน์ที่เข้าใจหัวอกผู้อื่นอย่างแท้จริง"</h3>
-                    <p class="text-xs text-brand-muted leading-relaxed max-w-lg mx-auto">
-                        สถาปรรกรรมคำสั่งที่เราบรรจุลงใน SABA Prompt จะช่วยล้อมกรอบตัวแปรแบบอเนกประสงค์เพื่อให้ AI ประมวลและให้ผลลัพธ์การร่างบทสนทนาที่มีมิติอย่างแท้จริง
-                    </p>
-                    <button onclick="navigateTab('workspace')" class="bg-brand-orange hover:bg-orange-600 text-black font-bold text-xs py-2.5 px-6 rounded-xl transition-all">
-                        กลับสู่หน้าทดลองใช้พรอพท์
-                    </button>
+            <!-- English Version -->
+            <div id="view-framework-en" class="space-y-8 hidden">
+                <div class="text-center">
+                    <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Mindset Framework</span>
+                    <h2 class="text-3xl font-heading font-black text-white mt-4">SABA Empathy Model Theory</h2>
+                    <p class="text-sm text-brand-muted mt-2">Deconstruct relationship strategy in professional workflows</p>
                 </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                    <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
+                        <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                            <i data-lucide="heart" class="w-4 h-4"></i>
+                            <span>1. Radical Empathy</span>
+                        </h3>
+                        <p class="text-xs text-brand-muted leading-relaxed">
+                            Acknowledge the core fears, pressures, and goals of colleagues and managers (e.g. managers fearing blame, clients fearing delay).
+                        </p>
+                    </div>
+                    <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
+                        <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                            <i data-lucide="shield" class="w-4 h-4"></i>
+                            <span>2. Risk-Mitigation Ready</span>
+                        </h3>
+                        <p class="text-xs text-brand-muted leading-relaxed">
+                            Always pair requests with risk-mitigating solutions, making it effortless for the other party to approve immediately.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-brand-surface border border-brand-border rounded-2xl p-8 text-center space-y-4 mt-8">
+                <h3 class="text-lg font-bold text-white">"จงเป็นนักประสานผลประโยชน์ที่เข้าใจหัวอกผู้อื่นอย่างแท้จริง"</h3>
+                <p class="text-xs text-brand-muted leading-relaxed max-w-lg mx-auto">
+                    สถาปัตยกรรมคำสั่งที่เราบรรจุลงใน SABA Prompt จะช่วยล้อมกรอบตัวแปรแบบอเนกประสงค์เพื่อให้ AI ประมวลและให้ผลลัพธ์การร่างบทสนทนาที่มีมิติอย่างแท้จริง
+                </p>
+                <button onclick="navigateTab('workspace')" class="bg-brand-orange hover:bg-orange-600 text-black font-bold text-xs py-2.5 px-6 rounded-xl transition-all">
+                    กลับสู่หน้าทดลองใช้พรอพท์
+                </button>
             </div>
         </main>
 
         <!-- หน้าแสดงผลที่ 4: ABOUT THE ARCHITECT -->
         <main id="view-architect" class="hidden flex-grow max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-            <div class="bg-brand-surface border border-brand-border rounded-3xl p-8 relative overflow-hidden shadow-2xl">
+            
+            <!-- Thai Version -->
+            <div id="view-architect-th" class="bg-brand-surface border border-brand-border rounded-3xl p-8 relative overflow-hidden shadow-2xl">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl"></div>
-
                 <div class="flex flex-col items-center text-center space-y-6">
                     <div class="w-24 h-24 rounded-full bg-brand-orange/10 border-2 border-brand-orange/30 flex items-center justify-center text-brand-orange overflow-hidden">
-                        <svg class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2a5 5 0 0 0-5 5v3a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"/>
-                            <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
-                            <line x1="12" y1="19" x2="12" y2="22"/>
-                        </svg>
+                        <i data-lucide="shield" class="w-12 h-12"></i>
                     </div>
-
                     <div class="space-y-2">
                         <span class="text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Visionary Engineer</span>
                         <h2 class="text-2xl font-heading font-black text-white">สถาปนิกและผู้สร้างสรรค์ระบบ</h2>
                         <p class="text-xs text-brand-muted">ขับเคลื่อนนวัตกรรมการทำงานผ่านมุมมองมนุษยวิทยาและวิศวกรรมจิตวิทยา</p>
                     </div>
-
                     <p class="text-xs text-gray-300 leading-relaxed max-w-md">
                         แอปพลิเคชันและฐานระบบคำสั่ง "The Strategist: Story-to-Prompt" ได้รับการสร้างสรรค์ขึ้นโดยมีพื้นฐานจิตวิทยาแบบ INFJ-A ที่ผสานวิศวกรรมทางตรรกะ เพื่อส่งต่อเครื่องมือที่จะช่วยเหลือพนักงานออฟฟิศทุกคนให้ก้าวข้ามขีดจำกัดการสื่อสารอย่างสง่างาม
                     </p>
-
-                    <div class="flex gap-4">
-                        <span class="text-xs text-brand-muted font-mono"><i data-lucide="code-2" class="w-3.5 h-3.5 text-brand-orange inline mr-1"></i> HTML5/JS Native</span>
-                        <span class="text-xs text-brand-muted font-mono"><i data-lucide="palette" class="w-3.5 h-3.5 text-brand-orange inline mr-1"></i> Tailwind CSS</span>
-                    </div>
-
-                    <button onclick="navigateTab('workspace')" class="bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs py-2.5 px-6 rounded-xl transition-all">
-                        ลองรันแบบจำลอง
-                    </button>
                 </div>
             </div>
+
+            <!-- English Version -->
+            <div id="view-architect-en" class="bg-brand-surface border border-brand-border rounded-3xl p-8 relative overflow-hidden shadow-2xl hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl"></div>
+                <div class="flex flex-col items-center text-center space-y-6">
+                    <div class="w-24 h-24 rounded-full bg-brand-orange/10 border-2 border-brand-orange/30 flex items-center justify-center text-brand-orange overflow-hidden">
+                        <i data-lucide="shield" class="w-12 h-12"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Visionary Engineer</span>
+                        <h2 class="text-2xl font-heading font-black text-white">The System Architect</h2>
+                        <p class="text-xs text-brand-muted">Empowering workers through anthropological insights and design engineering</p>
+                    </div>
+                    <p class="text-xs text-gray-300 leading-relaxed max-w-md">
+                        "The Strategist: Story-to-Prompt" platform was constructed with an INFJ-A mindset, blending rigorous logic with deep human empathy. It provides structural tools for workers to traverse tough office communications.
+                    </p>
+                </div>
+            </div>
+
         </main>
 
         <!-- ส่วนท้ายหน้าเว็บ (FOOTER) -->
@@ -882,10 +950,12 @@
                 <p class="text-xs text-brand-muted font-mono">
                     © 2026 SABA PROMPT. Built with passion for modern workers. Optimized for Email, เขียนเมลล์, ตัวช่วยเขียนเมล, sabapromt.
                 </p>
-                <div class="flex items-center justify-center gap-4 text-zinc-500 text-[10px] font-mono">
-                    <span>Clean Copying Guaranteed</span>
+                <div class="flex items-center justify-center gap-4 text-zinc-400 text-[10px] font-mono">
+                    <button class="hover:underline" onclick="openPrivacyModal()">Privacy Policy</button>
                     <span>•</span>
-                    <span>Visual Depth Enhanced v3.0 & SEO Verified</span>
+                    <button class="hover:underline" onclick="openTermsModal()">Terms of Service</button>
+                    <span>•</span>
+                    <span>Clean Copying Guaranteed</span>
                 </div>
             </div>
         </footer>
@@ -902,7 +972,7 @@
                         <path d="M15.35 13.02L8.65 13.02L10.85 9.25H13.15L15.35 13.02Z" fill="#1A73E8"/>
                         <path d="M10.82 11.02L13.1 2H10.9L4.58 11.02H10.82Z" fill="#FFBA00"/>
                     </svg>
-                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">Google Drive — เอกสารล่าสุด</h3>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="gdrive_title">Google Drive — เอกสารล่าสุด</h3>
                 </div>
                 <button onclick="closeGoogleDriveModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors">
                     <i data-lucide="x" class="w-4 h-4"></i>
@@ -932,7 +1002,146 @@
                 </div>
             </div>
             <div class="mt-4 pt-3 border-t border-brand-border flex justify-end">
-                <button onclick="closeGoogleDriveModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all">ยกเลิก</button>
+                <button onclick="closeGoogleDriveModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" data-i18n="gdrive_cancel">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- NEW MODALS & OVERLAYS (Cookie Consent, API Settings, Privacy Policies) -->
+    <!-- ========================================================= -->
+    
+    <!-- API Settings Keys Modal -->
+    <div id="api-settings-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="settings" class="w-5 h-5 text-brand-orange"></i>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">API Keys Configuration</h3>
+                </div>
+                <button onclick="closeApiSettingsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Provider</label>
+                    <select id="api-provider" onchange="toggleApiFields()" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-orange transition-all text-white">
+                        <option value="gemini">Google Gemini API</option>
+                        <option value="openai">OpenAI API</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Key</label>
+                    <div class="relative">
+                        <input id="api-key" type="password" placeholder="AIzaSy..." class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-orange transition-all text-white font-mono" />
+                        <button onclick="toggleApiKeyVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white">
+                            <i data-lucide="eye" id="api-key-eye" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">Model Name</label>
+                    <select id="api-model" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-orange transition-all text-white">
+                    </select>
+                </div>
+                <div class="bg-brand-orangeGlow border border-brand-orange/20 rounded-xl p-3 text-[11px] text-brand-muted leading-relaxed">
+                    <span class="text-brand-orange font-bold">🔒 Client-Side Storage:</span>
+                    <span>Your keys are saved directly in your browser's LocalStorage and are never sent to our servers. Direct client calls are perfect for private use and testing.</span>
+                </div>
+                <div class="bg-zinc-900 border border-brand-border rounded-xl p-3 text-[10px] text-zinc-400 font-mono leading-relaxed">
+                    <span class="text-white font-bold">📢 Backend Scaling Warning:</span>
+                    For production scaling, keys must be stored on a secure backend proxy or serverless function to prevent unauthorized clients from inspecting your source code and key details.
+                </div>
+            </div>
+            <div class="mt-6 pt-3 border-t border-brand-border flex justify-end gap-2">
+                <button onclick="closeApiSettingsModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all">Cancel</button>
+                <button onclick="saveApiSettings()" class="px-4 py-2 bg-brand-orange hover:bg-orange-600 text-xs font-bold text-black rounded-xl transition-all">Save Keys</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner" class="fixed bottom-0 left-0 right-0 z-40 bg-brand-surface border-t border-brand-border p-4 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4 hidden">
+        <div class="flex items-center gap-3">
+            <div class="p-2 bg-brand-orange/15 rounded-lg text-brand-orange flex-shrink-0">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <p class="text-xs text-brand-muted leading-relaxed max-w-3xl" data-i18n="cookie_text">
+                เราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานและเก็บข้อมูลเซสชันของคุณตามกฎหมาย PDPA <button class="underline text-brand-orange" onclick="openPrivacyModal()">นโยบายความเป็นส่วนตัว</button> และ <button class="underline text-brand-orange" onclick="openTermsModal()">ข้อตกลงการใช้งาน</button>
+            </p>
+        </div>
+        <button onclick="acceptAllCookies()" class="bg-brand-orange hover:bg-orange-600 text-black font-bold text-xs py-2 px-6 rounded-xl transition-all whitespace-nowrap" data-i18n="cookie_accept">
+            ยอมรับทั้งหมด
+        </button>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-2xl bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4 flex-shrink-0">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Privacy Policy (นโยบายความเป็นส่วนตัว)</h3>
+                <button onclick="closePrivacyModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto pr-2 space-y-4 text-xs text-brand-muted leading-relaxed flex-grow">
+                <div id="privacy-content-th">
+                    <h4 class="text-sm font-bold text-white mb-2">นโยบายความเป็นส่วนตัว (PDPA Compliant)</h4>
+                    <p>ยินดีต้อนรับสู่ SABA PROMPT แพลตฟอร์มช่วยเขียนอีเมลและควิซวิเคราะห์จิตวิทยา เราให้ความสำคัญอย่างยิ่งต่อความปลอดภัยของข้อมูลส่วนบุคคลของคุณ:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>ข้อมูลที่เราจัดเก็บ:</strong> เราจัดเก็บเบอร์โทรศัพท์จำลอง (ผ่านกระบวนการ OTP Mock) และข้อมูลตัวแปรที่คุณกรอกในระบบ (ชื่อผู้ส่ง ชื่อผู้รับ รายละเอียดอีเมล และเนื้อหาเอกสารประกอบการเจรจา)</li>
+                        <li><strong>การจัดเก็บและการรักษาความปลอดภัย:</strong> ข้อมูลทั้งหมดที่ถูกกรอกจะถูกบันทึกและประมวลผลภายในเบราว์เซอร์ของท่านเองผ่านทาง <code>LocalStorage</code> และ <code>SessionStorage</code> โดยไม่มีการส่งขึ้นบันทึกบนคลังฐานข้อมูลเซิร์ฟเวอร์กลางของเรา เว้นแต่จะระบุเป็นอย่างอื่น</li>
+                        <li><strong>การเชื่อมต่อ AI API:</strong> หากท่านป้อน API Keys ระบบจะจัดเก็บไว้เฉพาะในเบราว์เซอร์ของท่าน (Client-side localStorage) และยิงเรียก API ของ OpenAI/Gemini โดยตรง ไม่ผ่านเซิร์ฟเวอร์ของเรา</li>
+                        <li><strong>สิทธิของเจ้าของข้อมูลส่วนบุคคล:</strong> ท่านสามารถเคลียร์ข้อมูลและคุกกี้ทั้งหมดจากหน้าเว็บได้ตลอดเวลาโดยการล้างแคชหรือคุกกี้เบราว์เซอร์</li>
+                    </ul>
+                </div>
+                <div id="privacy-content-en" class="hidden">
+                    <h4 class="text-sm font-bold text-white mb-2">Privacy Policy (PDPA & GDPR Compliant)</h4>
+                    <p>Welcome to SABA PROMPT. We prioritize your privacy and data security. Below is how we handle your personal data:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>Data Collected:</strong> We process mock phone numbers (via simulated OTP) and structural data you insert into forms (sender, recipient, raw story text, and uploaded mock files).</li>
+                        <li><strong>Data Storage:</strong> All inputs are stored and processed locally within your browser using <code>LocalStorage</code> and <code>SessionStorage</code>. No server-side storage is utilized for these inputs.</li>
+                        <li><strong>AI API Keys:</strong> If you input API Keys, they are saved locally on your client machine and sent directly to Google Gemini or OpenAI endpoints. They are never transmitted to our servers.</li>
+                        <li><strong>Your Rights:</strong> You have absolute control to delete your data at any time by clearing browser cookies and local storage.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 pt-3 border-t border-brand-border flex justify-end flex-shrink-0">
+                <button onclick="closePrivacyModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="terms-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-2xl bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4 flex-shrink-0">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Terms of Service (ข้อตกลงการใช้งาน)</h3>
+                <button onclick="closeTermsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto pr-2 space-y-4 text-xs text-brand-muted leading-relaxed flex-grow">
+                <div id="terms-content-th">
+                    <h4 class="text-sm font-bold text-white mb-2">ข้อตกลงการใช้งาน</h4>
+                    <p>โปรดอ่านข้อตกลงการใช้งานก่อนเริ่มรันสเปซแอปพลิเคชัน SABA PROMPT:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>ขอบเขตสิทธิ์การใช้งาน:</strong> ซอร์สโค้ดและดีไซน์นี้พัฒนาขึ้นสำหรับการเจรจาสื่อสารอัจฉริยะเชิงพาณิชย์ ไม่อนุญาตให้คัดลอก คัดลอกซ้ำ หรือดัดแปลงเพื่อนำไปขายแข่งโดยตรงในรูปแบบแพลตฟอร์มพรอพท์ใกล้เคียงกันโดยไม่ได้รับอนุญาต</li>
+                        <li><strong>การปฏิเสธความรับผิดชอบ (Disclaimer):</strong> อีเมลและข้อความที่สร้างผ่านพรอพท์เป็นตัวร่างเชิงจำลองจิตวิทยา ผู้ใช้มีหน้าที่ตรวจสอบความถูกต้อง เหมาะสม และความเสี่ยงของคำพูดก่อนนำไปส่งจริง บริษัทจะไม่รับผิดชอบต่อความเสียหายใดๆ ในการเจรจางานของคุณ</li>
+                    </ul>
+                </div>
+                <div id="terms-content-en" class="hidden">
+                    <h4 class="text-sm font-bold text-white mb-2">Terms of Service</h4>
+                    <p>Please read these Terms of Service before using SABA PROMPT:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>Permitted Use:</strong> This source code is created for professional communication aid. Directly cloning or reselling this platform design to build a competing prompt product is strictly prohibited.</li>
+                        <li><strong>Disclaimer of Warranty:</strong> Generated outputs are draft templates. You hold sole responsibility to review their accuracy and appropriateness before communication. SABA PROMPT is not liable for negotiation failures.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 pt-3 border-t border-brand-border flex justify-end flex-shrink-0">
+                <button onclick="closeTermsModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all">Close</button>
             </div>
         </div>
     </div>
@@ -942,14 +1151,164 @@
     <!-- JAVASCRIPT MASTER SYSTEM LOGIC -->
     <!-- ========================================================= -->
     <script>
+        // --- 0. MOCK ANALYTICS SYSTEM ---
+        const SabaAnalytics = {
+            trackEvent: function(eventName, eventParams) {
+                console.log(`[SabaAnalytics Track] Event: "${eventName}"`, eventParams);
+                // Vercel Analytics Mock integration
+                if (typeof window !== 'undefined' && window.va) {
+                    window.va('event', { name: eventName, data: eventParams });
+                }
+                // Custom Google Analytics Hook ready for GA gtag
+                if (typeof gtag === 'function') {
+                    gtag('event', eventName, eventParams);
+                }
+                // Custom Meta Pixel Hook ready for fbq
+                if (typeof fbq === 'function') {
+                    fbq('trackCustom', eventName, eventParams);
+                }
+            }
+        };
+
+        // --- 1. LOCALIZATION DICTIONARY & HANDLERS ---
+        const i18nDict = {
+            "auth_title": { th: "SABA PROMPT", en: "SABA PROMPT" },
+            "auth_sub": { th: "ตัวช่วยเขียนอีเมล สื่อสารระดับยุทธศาสตร์ด้วย AI", en: "Empathetic Email Writing Assistant Powered by AI" },
+            "tab_otp": { th: "OTP Sign-in", en: "OTP Sign-in" },
+            "tab_fed": { th: "OAuth & AI Accounts", en: "OAuth & AI Accounts" },
+            "phone_label": { th: "เบอร์โทรศัพท์มือถือ", en: "Mobile Phone Number" },
+            "otp_label": { th: "กรอกรหัส OTP (รหัสจำลองคือ: 1234)", en: "Enter OTP Code (Mock: 1234)" },
+            "btn_otp_init": { th: "รับรหัส OTP", en: "Get OTP Code" },
+            "btn_otp_verify": { th: "ยืนยันเข้าสู่ระบบ", en: "Verify & Sign In" },
+            "connect_ai_id": { th: "เชื่อมโยง AI Identity", en: "Connect AI Identity" },
+            "or_text": { th: "หรือ", en: "OR" },
+            "btn_guest": { th: "เข้าใช้งานแบบ Guest Mode", en: "Enter as Guest Mode" },
+            "auth_disclaimer": { th: "การเข้าใช้ระบบจะทำการเก็บเซสชันในอุปกรณ์เพื่อความเป็นส่วนตัวสูงสุด (Layer 1 Privacy Framework)", en: "Data is saved locally on your browser for maximum data privacy (Layer 1 Privacy Framework)" },
+            "nav_workspace": { th: "Workspace", en: "Workspace" },
+            "nav_seo": { th: "วิธีเขียนอีเมล (SEO Guide)", en: "Email Guide (SEO)" },
+            "nav_framework": { th: "Our Psychology & Framework", en: "Psychology & Framework" },
+            "nav_architect": { th: "About the Architect", en: "About the Architect" },
+            "vip_badge": { th: "VIP ACTIVE", en: "VIP ACTIVE" },
+            "welcome_badge": { th: "SABA PROMPT • ตัวช่วยเขียนเมลลาหยุด & คุยงานระดับเซียน", en: "SABA PROMPT • Pro Email & Leave Assistant" },
+            "welcome_subtitle": { th: "แพลตฟอร์มตัวช่วยเขียนอีเมลและขจัดดราม่าการสื่อสารในที่ทำงานด้วยพลังจิตวิทยาสากลและ AI อัจฉริยะ", en: "Resolve workplace communication drama with dynamic psychology and advanced AI." },
+            "cat_title": { th: "เลือกสไตล์และรูปแบบการสื่อสารเชิงยุทธศาสตร์", en: "Select Strategic Communication Style" },
+            "cat_closer_title": { th: "คุยงานลูกค้า / เสนอไอเดีย / ปิดการขาย", en: "Client Chat / Pitch Ideas / Close Sales" },
+            "cat_closer_desc": { th: "มุ่งเน้นการชูคุณค่าหลักของงานและผลประโยชน์ร่วมกัน (Value-First Selling) เพื่อให้เขียนเมลปิดการขายได้อย่างน่าเชื่อถือ", en: "Focus on core value delivery and shared benefits (Value-First Selling) to close deals confidently." },
+            "cat_leave_title": { th: "วิธีเขียนเมลลาหยุดกับหัวหน้า (อนุมัติทันที)", en: "Leave Request / Vacation (Instant Approval)" },
+            "cat_leave_desc": { th: "วิธีเขียนอีเมลขอลากับผู้บริหารโดยไม่มีสะดุด ด้วยการเตรียมแผนจัดการความเสี่ยงและส่งมอบงานล่วงหน้า", en: "Secure time off seamlessly by presenting clear risk-mitigation plans and task handovers." },
+            "cat_cowork_title": { th: "Co-Work ประสานงานข้ามแผนก", en: "Cross-Department Collaboration (Co-Work)" },
+            "cat_cowork_desc": { th: "วิธีเขียนอีเมลประสานงานอย่างมีชั้นเชิง สลายกำแพง Silo ระหว่างฝ่ายด้วยหลัก Win-Win Strategy", en: "Collaborate strategically to break departmental silos using Win-Win tactics." },
+            "form_title": { th: "Dynamic Form Controls", en: "Dynamic Form Controls" },
+            "btn_suggest": { th: "แนะนำสถานการณ์", en: "Load Scenario" },
+            "label_recipient": { th: "ชื่อผู้รับ / ตำแหน่ง", en: "Recipient / Position" },
+            "label_sender": { th: "ชื่อผู้ส่ง (ชื่อของคุณ)", en: "Sender Name (Your Name)" },
+            "label_doc": { th: "เอกสารประกอบการเจรจา (PC / Google Drive)", en: "Negotiation Document (PC / Google Drive)" },
+            "doc_upload_main": { th: "ลากและวางไฟล์ที่นี่ หรือ <span class='text-brand-orange hover:underline'>คลิกเพื่ออัปโหลด</span>", en: "Drag and drop file here or <span class='text-brand-orange hover:underline'>click to upload</span>" },
+            "doc_upload_sub": { th: "รองรับ PDF, DOCX, TXT, CSV (สูงสุด 15MB)", en: "Supports PDF, DOCX, TXT, CSV (Max 15MB)" },
+            "btn_gdrive": { th: "นำเข้าจาก Google Drive", en: "Import from Google Drive" },
+            "label_detail": { th: "เนื้อความ / รายละเอียดสิ่งที่เกิดขึ้น", en: "Original Context / Email Details" },
+            "label_tone": { th: "ระดับและโทนการเจรจาเชิง EQ", en: "EQ Communication Tone" },
+            "tone_polite": { th: "😊 สุภาพ อ่อนโยน", en: "😊 Polite & Warm" },
+            "tone_formal": { th: "💼 ทางการ มั่นใจ", en: "💼 Formal & Confident" },
+            "tone_casual": { th: "☕ เป็นกันเอง ยืดหยุ่น", en: "☕ Casual & Flexible" },
+            "tone_urgent": { th: "🚨 เร่งด่วน ตรงประเด็น", en: "🚨 Urgent & Direct" },
+            "btn_compile": { th: "COMPILE MEGA PROMPT", en: "COMPILE MEGA PROMPT" },
+            "term_title": { th: "PROMPT COMPILER MATRIX", en: "PROMPT COMPILER MATRIX" },
+            "tab_term_prompt": { th: "Prompt Output", en: "Prompt Output" },
+            "tab_term_sim": { th: "Simulated Chat", en: "Simulated Chat" },
+            "placeholder_prompt_title": { th: "พร้อมประกอบร่างคำสั่งพรอพท์", en: "Ready to Compile Prompt" },
+            "placeholder_prompt_desc": { th: "กรอกข้อมูลตัวแปรทางฝั่งซ้ายมือ แล้วกดปุ่ม <span class='text-brand-orange font-bold'>Compile Mega Prompt</span> เพื่อเริ่มวิเคราะห์ยุทธศาสตร์และรับโค้ดพรอพท์", en: "Fill in the variables on the left, then click <span class='text-brand-orange font-bold'>Compile Mega Prompt</span> to generate." },
+            "label_gen_prompt": { th: "Generated System Prompt", en: "Generated System Prompt" },
+            "btn_copy_prompt": { th: "Copy Clean Prompt", en: "Copy Clean Prompt" },
+            "placeholder_sim_title": { th: "รอยืนยันพรอพท์เชิงยุทธศาสตร์", en: "Awaiting Strategic Prompt" },
+            "placeholder_sim_desc": { th: "เมื่อทำการคัดเลือกและกดประกอบคำสั่งเสร็จสิ้น ระบบ AI อัจฉริยะจะสวมรอยเจรจาแทนคุณด้วยการร่างอีเมลฉบับพรีเมียมให้ทันทีที่แผงนี้!", en: "Once compiled, the AI will draft your premium message here!" },
+            "label_sim_email": { th: "Simulated Workspace Email", en: "Simulated Workspace Email" },
+            "btn_copy_email": { th: "Copy Draft Message", en: "Copy Draft Message" },
+            "sim_tip": { th: "💡 แนะนำ: ส่งข้อความนี้ในช่องทาง Chat หลัก หรือ Email ส่วนตัว", en: "💡 Tip: Send this message in main Chat channels or personal Email." },
+            "tripbox_tag": { th: "🐈 เลี้ยงอาหารเปียกซาบะ", en: "🐈 Buy Wet Food for Saba" },
+            "tripbox_title": { th: "ถูกใจยุทธศาสตร์คำสั่งพรอพท์นี้ไหม?", en: "Enjoy SABA PROMPT?" },
+            "tripbox_desc": { th: "หากแอปพลิเคชันนี้ช่วยให้ประหยัดเวลาการเจรจางานและเจาะจิตวิทยาประสานงานไปได้หลายชั่วโมง คุณสามารถสนับสนุนค่าอาหารเปียกให้น้องแมวส้มตัวตึงซาบะของทีมพัฒนาโดยตรงโดยการสแกน PromptPay ด้านข้างได้เลยครับ! ขอบคุณสำหรับมิตรภาพและการสนับสนุน", en: "If this app saved you hours of writing, consider buying some wet food for our cat Saba by scanning the PromptPay code! Thanks for your support." },
+            "fb_title": { th: "Feedback & Suggestions", en: "Feedback & Suggestions" },
+            "fb_desc": { th: "เรามุ่งหวังที่จะปรับแต่งพรอพท์และโครงสร้างแอปพลิเคชันให้พนักงานทุกคนมีชีวิตในสเปซออฟฟิศที่ดีขึ้น ส่งข้อคิดเห็นของคุณโดยระบุรายละเอียดด้านล่างนี้", en: "Help us improve SABA PROMPT. Send your comments and feature ideas below." },
+            "btn_fb_submit": { th: "ส่งความคิดเห็นเชิงสถาปัตยกรรม", en: "Submit Architect Feedback" },
+            "fb_success_title": { th: "บันทึกข้อมูลเรียบร้อย", en: "Feedback Saved Successfully" },
+            "fb_success_desc": { th: "ความคิดเห็นได้รับการบันทึกแล้ว ข้อมูลจะถูกเชื่อมต่อในคลังฐานระบบ SABA Prompt เพื่ออัปเกรดความเจ๋งในเวอร์ชันถัดไป", en: "Thank you! Your feedback has been saved and will help us grow." },
+            "gdrive_title": { th: "Google Drive — เอกสารล่าสุด", en: "Google Drive — Recent Files" },
+            "gdrive_cancel": { th: "ยกเลิก", en: "Cancel" },
+            "cookie_text": { th: "เราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานและเก็บข้อมูลเซสชันของคุณตามกฎหมาย PDPA <button class='underline text-brand-orange' onclick='openPrivacyModal()'>นโยบายความเป็นส่วนตัว</button> และ <button class='underline text-brand-orange' onclick='openTermsModal()'>ข้อตกลงการใช้งาน</button>", en: "We use cookies to improve your experience and store session data. Read our <button class='underline text-brand-orange' onclick='openPrivacyModal()'>Privacy Policy</button> and <button class='underline text-brand-orange' onclick='openTermsModal()'>Terms of Service</button>" },
+            "cookie_accept": { th: "ยอมรับทั้งหมด", en: "Accept All" }
+        };
+
+        let currentLang = 'th';
+
+        function toggleLanguage() {
+            const newLang = currentLang === 'th' ? 'en' : 'th';
+            setLanguage(newLang);
+            showToast(
+                newLang === 'en' ? "Language Changed" : "เปลี่ยนภาษาเสร็จสิ้น",
+                newLang === 'en' ? "System localized to English" : "ระบบเปลี่ยนข้อความเป็นภาษาไทยแล้วครับ",
+                "success"
+            );
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('saba_lang', lang);
+            document.documentElement.lang = lang;
+            
+            // Update Switch buttons labels
+            const btnTexts = document.querySelectorAll('.nav-lang-btn-text, .auth-lang-btn-text');
+            btnTexts.forEach(el => el.innerText = lang === 'th' ? 'EN' : 'TH');
+
+            // Apply data-i18n replacements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18nDict[key] && i18nDict[key][lang]) {
+                    el.innerHTML = i18nDict[key][lang];
+                }
+            });
+
+            // Update placeholders
+            document.getElementById('inputWho').placeholder = lang === 'th' ? "ตัวอย่าง: คุณรวิภา VP of Sales, พี่สมพงษ์ PM" : "e.g. VP of Sales, PM Lead, Project Lead";
+            document.getElementById('inputSender').placeholder = lang === 'th' ? "ตัวอย่าง: สมชาย, นรินทร์" : "e.g. John, Sarah";
+            document.getElementById('inputDetail').placeholder = lang === 'th' 
+                ? "ระบุเรื่องราวหรือโจทย์งานแบบดิบๆ เช่น: จะขอลาหยุดไปพักผ่อนต่างประเทศ 5 วันช่วงสงกรานต์ งานตอนนี้เสร็จแล้ว และฝากเจมส์ช่วยดูเรื่องเร่งด่วนไว้ให้หมดแล้ว" 
+                : "Enter raw context, e.g. Requesting 5-day vacation. Projects are handled. James will cover urgent tasks...";
+            document.getElementById('feedback-text').placeholder = lang === 'th' 
+                ? "ระบุสิ่งที่อยากให้ปรับปรุง ฟีเจอร์ที่อยากได้เพิ่ม หรือผลลัพธ์การใช้งานจริง..." 
+                : "Describe improvements, request features or report feedback...";
+
+            // Toggle static language pages views
+            const blocks = ['view-seo', 'view-framework', 'view-architect', 'privacy-content', 'terms-content'];
+            blocks.forEach(b => {
+                const thEl = document.getElementById(`${b}-th`);
+                const enEl = document.getElementById(`${b}-en`);
+                if (thEl && enEl) {
+                    if (lang === 'th') {
+                        thEl.classList.remove('hidden');
+                        enEl.classList.add('hidden');
+                    } else {
+                        thEl.classList.add('hidden');
+                        enEl.classList.remove('hidden');
+                    }
+                }
+            });
+
+            // If prompt was already compiled, regenerate prompt with the new language text
+            const inputWho = document.getElementById('inputWho').value.trim();
+            const inputSender = document.getElementById('inputSender').value.trim() || "[ชื่อของคุณ]";
+            const inputDetail = document.getElementById('inputDetail').value.trim();
+            if (inputWho && inputDetail && document.getElementById('compiler-placeholder').classList.contains('hidden')) {
+                generateTargetPrompt(inputWho, inputDetail, inputSender);
+            }
+        }
+
+        // --- 2. CORE MASTER VARIABLES ---
         let currentUser = null;
         let currentSelectedCategory = 'customer'; 
         let selectedTone = 'สุภาพ อ่อนน้อม';
-        
-        // สถานะเก็บไฟล์อัปโหลด
         let uploadedFile = null; 
 
-        // ป้องกันสคริปต์หลุด
         function escapeHtmlForDisplay(str) {
             return String(str)
                 .replace(/&/g, '&amp;')
@@ -959,39 +1318,59 @@
                 .replace(/'/g, '&#39;');
         }
         
-        // ตรวจสอบการโหลด DOM เพื่อรัน Lucide Icons และประวัติล็อกอินเก่า
+        // DOM Initialization
         window.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             
-            // ดึงข้อมูลเซสชันจาก sessionStorage หากเคยเข้าใช้งานแล้ว
-            const savedSession = sessionStorage.getItem('saba_session_user');
+            // Persistent authentication session check
+            const savedSession = localStorage.getItem('saba_session_user');
             if (savedSession) {
                 currentUser = savedSession;
                 showDashboard();
             }
+
+            // Cookie consent check
+            const consent = localStorage.getItem('saba_cookie_consent');
+            if (!consent) {
+                document.getElementById('cookie-consent-banner').classList.remove('hidden');
+            }
+
+            // Setup language
+            const savedLang = localStorage.getItem('saba_lang') || 'th';
+            setLanguage(savedLang);
+
+            // Load API settings
+            loadApiSettings();
             
-            // ระบบนับจำนวนตัวอักษรในส่วนของรายละเอียดโจทย์งานแบบเรียลไทม์
+            // Characters counter
             const detailTextarea = document.getElementById('inputDetail');
             detailTextarea.addEventListener('input', (e) => {
                 document.getElementById('charCounter').innerText = `${e.target.value.length} อักษร`;
             });
             
-            // ตรวจสอบสถานะการซ่อนกล่องสนับสนุนเลี้ยงน้องแมว
+            // Tripbox support card dismiss check
             const tripboxDismissed = sessionStorage.getItem('saba_tripbox_dismissed');
             if (tripboxDismissed === 'true') {
                 document.getElementById('tripbox-support-card').classList.add('hidden');
             }
 
-            // ลงทะเบียนเหตุการณ์ Drag and Drop สำหรับพื้นที่ลากวางไฟล์
             setupDragAndDrop();
         });
 
-        // ตั้งค่ากลไกลากและวางไฟล์จากคอมพิวเตอร์
+        // Setup Drag & Drop File Upload
         function setupDragAndDrop() {
             const dropZone = document.getElementById('drag-drop-zone');
             const fileInput = document.getElementById('doc-file-input');
 
             dropZone.addEventListener('click', () => fileInput.click());
+            
+            // Accessibility keyboard triggering
+            dropZone.addEventListener('keydown', (e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    fileInput.click();
+                }
+            });
 
             fileInput.addEventListener('change', (e) => {
                 if (e.target.files.length > 0) {
@@ -1017,7 +1396,7 @@
             });
         }
 
-        // ประมวลผลและจำลองการอ่านไฟล์ในเครื่อง PC
+        // Upload local PC files
         function processLocalFile(file) {
             const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
             let mockText = `เอกสารสำคัญจากการอัปโหลดในเครื่องเพื่อใช้เสนอยุทธศาสตร์: ${file.name} ข้อมูลประกอบการอ้างอิงและประสานประสิทธิภาพตามนโยบายบริษัท`;
@@ -1031,19 +1410,17 @@
 
             updateFileStatusUI();
             showToast("อัปโหลดไฟล์สำเร็จ", `นำเข้าเอกสาร ${file.name} จาก PC เรียบร้อยแล้วครับ`, "success");
+            SabaAnalytics.trackEvent("file_uploaded_pc", { fileName: file.name, fileSize: sizeInMB });
         }
 
-        // เปิดแสดงหน้าต่าง Google Drive Modal
         function openGoogleDriveModal() {
             document.getElementById('gdrive-modal').classList.remove('hidden');
         }
 
-        // ปิดหน้าต่าง Google Drive Modal
         function closeGoogleDriveModal() {
             document.getElementById('gdrive-modal').classList.add('hidden');
         }
 
-        // เลือกเอกสารจาก Google Drive ลิสต์จำลอง
         function selectGoogleDriveFile(fileName, fileSize, fileType, fileInsight) {
             uploadedFile = {
                 name: fileName,
@@ -1055,9 +1432,9 @@
             updateFileStatusUI();
             closeGoogleDriveModal();
             showToast("นำเข้าสำเร็จ", `ดึงเอกสาร ${fileName} จาก Google Drive เรียบร้อยแล้วครับ`, "success");
+            SabaAnalytics.trackEvent("file_uploaded_gdrive", { fileName: fileName });
         }
 
-        // เคลียร์ไฟล์ที่แนบออก
         function clearUploadedFile() {
             uploadedFile = null;
             document.getElementById('doc-file-input').value = "";
@@ -1065,7 +1442,6 @@
             showToast("ลบไฟล์สำเร็จ", "เคลียร์เอกสารแนบออกจาก Workspace แล้วครับ", "info");
         }
 
-        // อัปเดตโครงสร้างแสดงผลของไฟล์ที่ถูกแนบเข้ามา
         function updateFileStatusUI() {
             if (!uploadedFile) return;
             const container = document.getElementById('file-status-container');
@@ -1076,17 +1452,16 @@
             nameDisp.innerText = uploadedFile.name;
             sizeDisp.innerText = `${uploadedFile.size} • วิเคราะห์เนื้อหาพร้อมใช้`;
 
-            // ปรับสีไอคอนให้สอดคล้องกับประเภทไฟล์
-            let iconMarkup = '<i data-lucide="file-text" class="w-4.5 h-4.5"></i>';
+            let iconMarkup = '<i data-lucide="file-text" class="w-4 h-4"></i>';
             if (uploadedFile.type === 'pdf') {
                 iconWrapper.className = "p-2 bg-rose-500/15 text-rose-500 rounded-lg";
-                iconMarkup = '<i data-lucide="file-text" class="w-4.5 h-4.5"></i>';
+                iconMarkup = '<i data-lucide="file-text" class="w-4 h-4"></i>';
             } else if (uploadedFile.type === 'xlsx' || uploadedFile.type === 'csv' || uploadedFile.type === 'spreadsheet') {
                 iconWrapper.className = "p-2 bg-emerald-500/15 text-emerald-500 rounded-lg";
-                iconMarkup = '<i data-lucide="file-spreadsheet" class="w-4.5 h-4.5"></i>';
+                iconMarkup = '<i data-lucide="file-spreadsheet" class="w-4 h-4"></i>';
             } else {
                 iconWrapper.className = "p-2 bg-blue-500/15 text-blue-500 rounded-lg";
-                iconMarkup = '<i data-lucide="file-text" class="w-4.5 h-4.5"></i>';
+                iconMarkup = '<i data-lucide="file-text" class="w-4 h-4"></i>';
             }
 
             iconWrapper.innerHTML = iconMarkup;
@@ -1094,15 +1469,15 @@
             lucide.createIcons();
         }
 
-        // เข้าระบบจำลองแบบด่วน Guest Mode
+        // --- 3. MOCK AUTH SYSTEM (WITH PERSISTENCE & VALIDATION) ---
         function handleGuestLogin() {
             const guestId = Math.floor(1000 + Math.random() * 9000);
             currentUser = `Guest_User_${guestId}`;
-            sessionStorage.setItem('saba_session_user', currentUser);
+            localStorage.setItem('saba_session_user', currentUser);
             showDashboard();
+            SabaAnalytics.trackEvent("login_guest", { userId: currentUser });
         }
 
-        // สลับประเภทความสะดวกในการล็อกอิน
         function switchLoginTab(type) {
             const btnOtp = document.getElementById('tab-otp');
             const btnFed = document.getElementById('tab-fed');
@@ -1111,26 +1486,31 @@
             
             if (type === 'otp') {
                 btnOtp.className = "py-2 text-xs font-semibold rounded-md bg-brand-surface text-brand-orange transition-all duration-300";
+                btnOtp.setAttribute('aria-selected', 'true');
                 btnFed.className = "py-2 text-xs font-semibold rounded-md text-brand-muted hover:text-white transition-all duration-300";
+                btnFed.setAttribute('aria-selected', 'false');
                 panelOtp.classList.remove('hidden');
                 panelFed.classList.add('hidden');
             } else {
                 btnFed.className = "py-2 text-xs font-semibold rounded-md bg-brand-surface text-brand-orange transition-all duration-300";
+                btnFed.setAttribute('aria-selected', 'true');
                 btnOtp.className = "py-2 text-xs font-semibold rounded-md text-brand-muted hover:text-white transition-all duration-300";
+                btnOtp.setAttribute('aria-selected', 'false');
                 panelFed.classList.remove('hidden');
                 panelOtp.classList.add('hidden');
             }
+            SabaAnalytics.trackEvent("auth_tab_switched", { tab: type });
         }
 
-        // จัดการส่งคำร้องขอรหัส OTP หรือกดยืนยันเข้าสู่ระบบ
         function handleOTPRequest() {
             const phoneVal = document.getElementById('login-phone').value.trim();
             const actionBtn = document.getElementById('btn-otp-action');
             const confirmContainer = document.getElementById('otp-confirm-container');
             const otpCodeField = document.getElementById('login-otp-code');
             
-            if (!phoneVal) {
-                showToast("แจ้งเตือน", "โปรดกรอกเบอร์โทรศัพท์เพื่อรับรหัส OTP ล่วงหน้าครับ", "warning");
+            // Standard validation
+            if (!phoneVal || phoneVal.length < 9) {
+                showToast("แจ้งเตือน", "โปรดกรอกเบอร์โทรศัพท์มือถือให้ถูกต้องครับ", "warning");
                 return;
             }
 
@@ -1141,68 +1521,90 @@
 
                 setTimeout(() => {
                     actionBtn.disabled = false;
-                    actionBtn.innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i><span>ยืนยันเข้าสู่ระบบ</span>`;
+                    actionBtn.innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i><span data-i18n="btn_otp_verify">ยืนยันเข้าสู่ระบบ</span>`;
                     confirmContainer.classList.remove('hidden');
                     confirmContainer.classList.add('animate-fade-in');
                     showToast("OTP ส่งสำเร็จ", "รหัสผ่านจำลองส่งไปยังเบอร์โทรแล้ว (รหัสทดสอบเพื่อรันระบบคือ: 1234)", "success");
                     lucide.createIcons();
+                    
+                    // Apply translation updates
+                    const lang = localStorage.getItem('saba_lang') || 'th';
+                    if (lang === 'en') {
+                        actionBtn.innerText = "Verify & Sign In";
+                    }
                 }, 1200);
             } else {
                 const codeVal = otpCodeField.value.trim();
                 if (codeVal === '1234') {
                     currentUser = `+66 ${phoneVal.substring(1, 4)}***${phoneVal.substring(7)}`;
-                    sessionStorage.setItem('saba_session_user', currentUser);
+                    localStorage.setItem('saba_session_user', currentUser);
                     showDashboard();
+                    SabaAnalytics.trackEvent("login_otp_success", { phone: phoneVal });
                 } else {
                     showToast("รหัสไม่ถูกต้อง", "โปรดระบุรหัส OTP จำลองให้ถูกต้อง (พิมพ์ 1234 เพื่อรันตัวทดสอบระบบ)", "error");
                 }
             }
         }
 
-        // ตัวช่วยจำลองการล็อกอินบัญชีโซเชียลภายนอก
         function simulateThirdPartyLogin(provider) {
             showToast("กำลังประมวลผล", `กำลังเชื่อมโยงบัญชีและยืนยันตัวตนกับระบบ ${provider}...`, "info");
             setTimeout(() => {
                 currentUser = `${provider} User`;
-                sessionStorage.setItem('saba_session_user', currentUser);
+                localStorage.setItem('saba_session_user', currentUser);
                 showDashboard();
+                SabaAnalytics.trackEvent("login_oauth_success", { provider: provider });
             }, 1000);
         }
 
-        // เปิดแสดงหน้าหลักหลังจากล็อกอินผ่านเกณฑ์
         function showDashboard() {
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('main-workspace').classList.remove('hidden');
             document.getElementById('session-user-badge').innerText = currentUser;
-            showToast("ต้อนรับกลับเข้าสู่ระบบ", `สวัสดีผู้ใช้ ${currentUser}! ระบบพร้อมรังสรรค์คำสั่งเชิงพรีเมียมแล้วครับ`, "success");
+            showToast(
+                localStorage.getItem('saba_lang') === 'en' ? "Welcome Back" : "ต้อนรับกลับเข้าสู่ระบบ",
+                localStorage.getItem('saba_lang') === 'en' ? `Hello ${currentUser}! Saba Workspace is ready.` : `สวัสดีผู้ใช้ ${currentUser}! ระบบพร้อมรังสรรค์คำสั่งแล้วครับ`,
+                "success"
+            );
         }
 
-        // ระบบออกจากระบบและเคลียร์ค่าเซสชันความปลอดภัย
         function handleSignOut() {
             currentUser = null;
-            sessionStorage.removeItem('saba_session_user');
+            localStorage.removeItem('saba_session_user');
             document.getElementById('main-workspace').classList.add('hidden');
             document.getElementById('auth-screen').classList.remove('hidden');
             
             document.getElementById('otp-confirm-container').classList.add('hidden');
             document.getElementById('login-phone').value = "";
             document.getElementById('login-otp-code').value = "";
-            document.getElementById('btn-otp-action').innerHTML = `<i data-lucide="smartphone" class="w-4 h-4"></i><span>รับรหัส OTP</span>`;
+            document.getElementById('btn-otp-action').innerHTML = `<i data-lucide="smartphone" class="w-4 h-4"></i><span data-i18n="btn_otp_init">รับรหัส OTP</span>`;
+            
+            const lang = localStorage.getItem('saba_lang') || 'th';
+            setLanguage(lang);
             lucide.createIcons();
-            showToast("ออกจากระบบ", "บัญชีจำลองของคุณออกจากการใช้งานแล้ว ปลอดภัยตาม Layer 1 Framework", "info");
+            
+            showToast(
+                lang === 'en' ? "Signed Out" : "ออกจากระบบ",
+                lang === 'en' ? "Your session was securely cleared from local storage." : "บัญชีจำลองของคุณออกจากการใช้งานแล้ว ปลอดภัยตาม Layer 1 Framework",
+                "info"
+            );
+            SabaAnalytics.trackEvent("logout", {});
         }
 
-        // --- 2. WORKSPACE NAVIGATOR ---
+        // --- 4. NAVIGATION TABS ---
         function navigateTab(tabName) {
             const tabs = ['workspace', 'seo', 'framework', 'architect'];
             tabs.forEach(t => {
                 document.getElementById(`view-${t}`).classList.add('hidden');
                 document.getElementById(`nav-${t}`).className = "px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all";
+                document.getElementById(`nav-${t}`).setAttribute('aria-selected', 'false');
             });
 
             document.getElementById(`view-${tabName}`).classList.remove('hidden');
             document.getElementById(`nav-${tabName}`).className = "px-3.5 py-2 rounded-lg text-sm font-medium bg-brand-border text-white transition-all";
+            document.getElementById(`nav-${tabName}`).setAttribute('aria-selected', 'true');
             lucide.createIcons();
+            
+            SabaAnalytics.trackEvent("tab_navigation", { target: tabName });
         }
 
         function selectCategory(cat) {
@@ -1216,24 +1618,27 @@
                 if (c === cat) {
                     card.classList.remove('border-brand-border', 'border');
                     card.classList.add('border-brand-orange', 'border-2', 'shadow-brand-orange/10');
+                    card.setAttribute('aria-selected', 'true');
                 } else {
                     card.classList.remove('border-brand-orange', 'border-2', 'shadow-brand-orange/10');
                     card.classList.add('border-brand-border', 'border');
+                    card.setAttribute('aria-selected', 'false');
                 }
             });
+            SabaAnalytics.trackEvent("category_selected", { category: cat });
         }
-        window.selectCategory = selectCategory;
 
         function selectTone(tone, element) {
             selectedTone = tone;
             const buttons = document.querySelectorAll('.tone-btn');
             buttons.forEach(btn => {
-                btn.className = "tone-btn text-xs font-semibold py-3 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all";
+                btn.className = "tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all";
             });
-            element.className = "tone-btn text-xs font-semibold py-3 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border-2 border-brand-orange text-brand-orange transition-all";
+            element.className = "tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border-2 border-brand-orange text-brand-orange transition-all";
+            SabaAnalytics.trackEvent("tone_selected", { tone: tone });
         }
 
-        // สถานการณ์จำลองเคสตัวอย่างสำหรับแนะนำผู้ใช้
+        // Preset Scenarios
         const presetScenarios = {
             customer: {
                 who: "คุณรวิศาล Head of Operations ของแบรนด์สปอนเซอร์รายใหญ่",
@@ -1252,40 +1657,67 @@
             }
         };
 
-        // ฟังก์ชันโหลดข้อมูลตัวอย่างเข้าฟิลด์
+        const presetScenariosEn = {
+            customer: {
+                who: "Mr. Rawisarn, Head of Operations of Sponsor Brand",
+                sender: "Somsak Namchai",
+                detail: "Would like to request postponing AI campaign rendering outputs by 3 days for premium rendering. Will compensate sponsor by upgrading them to 1 free analytics slice."
+            },
+            leave: {
+                who: "Mr. Anukul, Managing Director (strict leader)",
+                sender: "Nattapol",
+                detail: "Need to request a 5-day vacation leave in mid-May. Flights booked. Handover plans are set and James (Senior PM) is covering for urgent projects."
+            },
+            cowork: {
+                who: "Finance Department Campaign Team",
+                sender: "Wilaiwan",
+                detail: "Require the final campaign invoice to secure next fiscal year's joint software upgrade funding which benefits both departments."
+            }
+        };
+
         function loadSuggestedScenario() {
-            const preset = presetScenarios[currentSelectedCategory];
+            const presets = currentLang === 'th' ? presetScenarios : presetScenariosEn;
+            const preset = presets[currentSelectedCategory];
             if (preset) {
                 document.getElementById('inputWho').value = preset.who;
                 document.getElementById('inputSender').value = preset.sender || "";
                 document.getElementById('inputDetail').value = preset.detail;
                 document.getElementById('charCounter').innerText = `${preset.detail.length} อักษร`;
-                showToast("โหลดเคสตัวอย่าง", `จำลองการกรอกข้อมูลของเคส ${currentSelectedCategory} สำเร็จแล้วครับ`, "success");
+                showToast(
+                    currentLang === 'en' ? "Scenario Loaded" : "โหลดเคสตัวอย่าง", 
+                    currentLang === 'en' ? `Loaded mock variables for ${currentSelectedCategory} category.` : `จำลองการกรอกข้อมูลของเคส ${currentSelectedCategory} สำเร็จแล้วครับ`, 
+                    "success"
+                );
+                SabaAnalytics.trackEvent("preset_scenario_loaded", { category: currentSelectedCategory });
             }
         }
 
-        // --- MEGA PROMPT COMPILER ---
+        // --- 5. MEGA PROMPT COMPILER ---
         function compileMegaPrompt() {
             const inputWho = document.getElementById('inputWho').value.trim();
             const inputSender = document.getElementById('inputSender').value.trim() || "[ชื่อของคุณ]";
             const inputDetail = document.getElementById('inputDetail').value.trim();
 
             if (!inputWho || !inputDetail) {
-                showToast("กรอกข้อมูลไม่ครบถ้วน", "โปรดระบุชื่อผู้รับ / ตำแหน่ง และรายละเอียดโจทย์งานที่พนักงานต้องการจัดการ", "warning");
+                showToast(
+                    currentLang === 'en' ? "Form Incomplete" : "กรอกข้อมูลไม่ครบถ้วน", 
+                    currentLang === 'en' ? "Please input recipient name and raw details context." : "โปรดระบุชื่อผู้รับ / ตำแหน่ง และรายละเอียดโจทย์งานที่พนักงานต้องการจัดการ", 
+                    "warning"
+                );
                 return;
             }
 
             const compileBtn = document.getElementById('btn-compile');
             compileBtn.disabled = true;
-            compileBtn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin text-black"></i><span class="text-black">COMPILING SYSTEM PROMPT...</span>`;
+            compileBtn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin text-black"></i><span class="text-black">COMPILING MEGA PROMPT...</span>`;
             lucide.createIcons();
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 compileBtn.disabled = false;
                 compileBtn.innerHTML = `
                     <div class="relative z-10 flex items-center justify-center gap-2 text-black">
                         <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
-                        <span>COMPILE MEGA PROMPT</span>
+                        <span data-i18n="btn_compile">COMPILE MEGA PROMPT</span>
                     </div>`;
                 lucide.createIcons();
 
@@ -1294,15 +1726,122 @@
                 document.getElementById('compiler-placeholder').classList.add('hidden');
                 document.getElementById('simulate-placeholder').classList.add('hidden');
 
-                showToast("สำเร็จ!", "วิเคราะห์จิตวิทยาและประกอบร่างคำสั่ง Mega Prompt เรียบร้อยแล้ว!", "success");
+                showToast(
+                    currentLang === 'en' ? "Success!" : "สำเร็จ!", 
+                    currentLang === 'en' ? "System prompt compiled and psychology ingestion complete!" : "วิเคราะห์จิตวิทยาและประกอบร่างคำสั่ง Mega Prompt เรียบร้อยแล้ว!", 
+                    "success"
+                );
 
                 const matrixElement = document.getElementById('prompt-compiler-matrix');
                 if (matrixElement) {
                     matrixElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
+                
+                SabaAnalytics.trackEvent("compile_prompt", { category: currentSelectedCategory, tone: selectedTone });
+
+                // Call Real API if API Key is configured
+                const apiKey = localStorage.getItem('saba_api_key');
+                if (apiKey) {
+                    await queryRealAI(apiKey, inputWho, inputDetail, inputSender);
+                }
             }, 1000);
         }
 
+        // Real API call logic
+        async function queryRealAI(apiKey, who, detail, sender) {
+            const provider = localStorage.getItem('saba_api_provider');
+            const model = localStorage.getItem('saba_api_model');
+            const outputContainer = document.getElementById('simulated-draft-output');
+            
+            outputContainer.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-8 space-y-3 font-mono text-xs text-brand-orange">
+                    <i data-lucide="loader" class="w-6 h-6 animate-spin"></i>
+                    <div class="animate-pulse font-bold">CONNECTING TO ${provider.toUpperCase()} API...</div>
+                    <div class="text-zinc-500 font-normal">Analyzing EQ parameters using ${model}...</div>
+                </div>
+            `;
+            lucide.createIcons();
+            
+            switchTerminalTab('simulate');
+
+            try {
+                let prompt = document.getElementById('compiled-prompt-output').innerText;
+                // Strip highlighting HTML tags
+                prompt = prompt.replace(/<span class="var-highlight">/g, "").replace(/<\/span>/g, "");
+                
+                let resultText = "";
+                if (provider === 'gemini') {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: prompt + "\n\nDraft the email based on this system prompt. Send only the final draft response. No extra markdown packaging (like ```html or ```md tags)."
+                                }]
+                            }]
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (response.ok && data.candidates && data.candidates[0].content.parts[0].text) {
+                        resultText = data.candidates[0].content.parts[0].text;
+                    } else {
+                        throw new Error(data.error ? data.error.message : "Invalid response Candidate from Google Gemini API.");
+                    }
+                } else {
+                    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: model,
+                            messages: [
+                                { role: 'system', content: 'You are an elite empathetic business email architect assistant.' },
+                                { role: 'user', content: prompt }
+                            ]
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (response.ok && data.choices && data.choices[0].message.content) {
+                        resultText = data.choices[0].message.content;
+                    } else {
+                        throw new Error(data.error ? data.error.message : "Invalid response Choices from OpenAI API.");
+                    }
+                }
+                
+                outputContainer.innerText = resultText;
+                showToast(
+                    currentLang === 'en' ? "Email Generated!" : "ประมวลผลสำเร็จ!", 
+                    currentLang === 'en' ? `Live draft completed via ${model}.` : `ดึงคำตอบจากโมเดล ${model} ของแท้เสร็จสิ้น!`, 
+                    "success"
+                );
+                SabaAnalytics.trackEvent("api_call_success", { provider, model });
+            } catch (err) {
+                console.error("AI API Call failed: ", err);
+                outputContainer.innerHTML = `
+                    <div class="border border-rose-500/20 bg-rose-500/5 text-rose-500 rounded-xl p-4 text-xs font-mono space-y-2">
+                        <div class="font-bold flex items-center gap-1.5"><i data-lucide="alert-circle" class="w-4 h-4"></i> API CALL ERROR</div>
+                        <p>${err.message}</p>
+                        <p class="text-zinc-500 text-[10px] mt-2 leading-relaxed">โปรดตรวจสอบว่า API Key ของคุณเปิดใช้งานอยู่ มีโควต้าเหลือ หรือเชื่อมต่อเน็ตอยู่ครับ หากต้องการเปลี่ยนโหมดสามารถกดล้างคีย์ในเมนู Settings ฟันเฟืองด้านบน</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                showToast(
+                    currentLang === 'en' ? "API Error" : "เกิดข้อผิดพลาด API", 
+                    err.message, 
+                    "error"
+                );
+                SabaAnalytics.trackEvent("api_call_error", { error: err.message });
+            }
+        }
+
+        // Mega Prompt Generation logic
         function generateTargetPrompt(who, detail, sender) {
             let catHeader = "";
             let psychologyLayer = "";
@@ -1310,44 +1849,43 @@
 
             let fileSystemPrompt = "";
             let docReferenceText = "";
-            if (uploadedFile) {
-                fileSystemPrompt = `\n[ข้อมูลวิเคราะห์เอกสารแนบ - ${uploadedFile.name}]:\n• สาระสำคัญในเอกสาร: ${uploadedFile.mockContent}\n• ข้อกำหนด: ร่างอีเมลให้เชื่อมโยงและสอดคล้องกับสาระสำคัญของเอกสารนี้อย่างแนบเนียนและเป็นมืออาชีพ`;
-                docReferenceText = ` ตามเอกสารที่ผมได้แนบมาพร้อมกันนี้ (${uploadedFile.name}) ซึ่งได้ระบุประเด็นและรายละเอียดหลักไว้อย่างครบถ้วนแล้วครับ`;
-            }
+            
+            if (currentLang === 'th') {
+                if (uploadedFile) {
+                    fileSystemPrompt = `\n[ข้อมูลวิเคราะห์เอกสารแนบ - ${uploadedFile.name}]:\n• สาระสำคัญในเอกสาร: ${uploadedFile.mockContent}\n• ข้อกำหนด: ร่างอีเมลให้เชื่อมโยงและสอดคล้องกับสาระสำคัญของเอกสารนี้อย่างแนบเนียนและเป็นมืออาชีพ`;
+                    docReferenceText = ` ตามเอกสารที่ผมได้แนบมาพร้อมกันนี้ (${uploadedFile.name}) ซึ่งได้ระบุประเด็นและรายละเอียดหลักไว้อย่างครบถ้วนแล้วครับ`;
+                }
 
-            if (currentSelectedCategory === 'customer') {
-                catHeader = "THE CLOSER: VALUE-FIRST INFLUENCE FRAMEWORK";
-                psychologyLayer = "• ใช้จิตวิทยาแบบ Win-Win Selling ค้นหาคุณค่าที่ส่งมอบให้ผู้รับ\n• สร้างอารมณ์ความเชื่อมั่นแต่คงไว้ซึ่งความเคารพในอำนาจหน้าที่อย่างเหมาะสม";
-                
-                generatedEmailMock = `เรียน ${who},\n\nผมใคร่ขออนุญาตนำเรียนอัปเดตความคืบหน้าของโครงการแคมเปญการตลาดยุค AI ครับ${docReferenceText}\n\nจากการพิจารณาของทีมวิศวกรรมการผลิตร่วมกับนักออกแบบระดับสูง เพื่อส่งมอบผลลัพธ์คุณภาพสูงสุดระดับ Premium-Aesthetic ในโครงการนี้ ทางเราประสงค์ขอขยับเวลาจัดส่งต้นแบบรอบสุดท้ายเพิ่ม 3 วันทำการ ซึ่งเวลาที่เพิ่มนี้จะทำให้เราสามารถดำเนินการเรนเดอร์โมเดลอัจฉริยะได้อย่างละเอียดประณีต\n\nทางทีมตระหนักถึงความสำคัญและเพื่อเป็นการตอบแทนความร่วมมืออันดียิ่งนี้ เราขอมอบสิทธิ์การอัปเกรดระบบโมเดลวิเคราะห์ตัวอย่างชุดฟรีเป็นของขวัญเพิ่มเติมทันทีครับ\n\nขอแสดงความนับถืออย่างสูง,\n${sender}`;
-            } else if (currentSelectedCategory === 'leave') {
-                catHeader = "THE TACTICAL VACATION: RISK-MITIGATION VACATION PARADIGM";
-                psychologyLayer = "• ถอดจิตวิทยาลดความหวาดระแวงของผู้บริหารด้วย Handover Plan\n• เสนอแผนแก้ไขความเสี่ยงรอบรับงานฉุกเฉิน เพื่อขจัดปัญหาการปฏิเสธ";
-                
-                generatedEmailMock = `เรียน ${who},\n\nผมเขียนจดหมายฉบับนี้ขึ้นเพื่อขอรายงานและอนุมัติวันหยุดพักผ่อนล่วงหน้าในช่วงกลางเดือนพฤษภาคม เป็นเวลา 5 วันทำการครับ\n\nเพื่อยืนยันว่าการทำงานขององค์กรและแผนกจะดำเนินไปอย่างราบรื่นร้อยเปอร์เซ็นต์ ผมได้จัดทำและวางแผนการรักษาความปลอดภัยจัดการงานทั้งหมด ซึ่งสรุปข้อมูลรายละเอียดและแผนส่งต่องานไว้เรียบร้อยแล้ว${docReferenceText || ' (ตามแผนงานรายละเอียดที่เตรียมไว้นี้)'} ดังนี้:\n1. งานหลักทั้งหมดได้รับการส่งมอบล่วงหน้าเป็นที่เรียบร้อยในสัปดาห์นี้\n2. ผมประสานงานมอบหมายงานเร่งด่วนฉุกเฉินให้คุณเจมส์ (อาวุโส) คอยดูแลประสานเรื่องด่วนแทนอย่างเป็นระบบเรียบร้อยแล้ว\n\nผมจะคอยตอบกลับอีเมลเฉพาะเรื่องด่วนฉุกเฉินสำคัญสูงเป็นระยะๆ และเชื่อมั่นว่างานจะรันต่อไปได้โดยไม่มีติดขัดครับ\n\nด้วยความเคารพอย่างสูง,\n${sender}`;
-            } else {
-                catHeader = "THE DIPLOMAT: SILO-BREAKING COLLABORATIVE DIALOGUE";
-                psychologyLayer = "• สลายกำแพงการขัดแย้งข้ามสายงาน (Inter-departmental Silos)\n• เจรจาด้วยการอ้างอิงเป้าหมายที่แชร์ร่วมกันและผลสัมฤทธิ์ปลายทาง";
-                
-                generatedEmailMock = `สวัสดีครับคุณผู้ช่วย ${who},\n\nทางเราได้รับการติดต่อและประทับใจความคืบหน้าโครงการล่าสุดอย่างยิ่งครับ\n\nในการนี้ ผมอยากจะประสานเพื่อขอส่งมอบและตรวจรับใบกำกับงวดงานชุดสุดท้ายสำหรับแคมเปญ${docReferenceText} เพื่อที่ฝ่ายการเงินของทางแบรนด์จะได้รับข้อมูลตัวนี้ไปดำเนินขั้นตอนอนุมัติงบกองกลางปีหน้าของทั้งสองฝ่ายร่วมกัน ซึ่งการตั้งงบประมาณนี้เป็นคีย์หลักที่จะทำให้เราได้รับการจัดสรรและอัปเกรดระบบจัดซื้อซอฟต์แวร์ระดับโลกเพื่อเพิ่มขีดความสามารถร่วมกันทั้งสองแผนกครับ\n\nหากท่านมีข้อสงสัยหรือต้องการให้ข้อมูลเพิ่มเติมด้านใดเพื่อความสะดวกรวดเร็วแจ้งกลับผมได้ทันทีครับ\n\nขอแสดงความนับถือ,\n${sender}`;
-            }
+                if (currentSelectedCategory === 'customer') {
+                    catHeader = "THE CLOSER: VALUE-FIRST INFLUENCE FRAMEWORK";
+                    psychologyLayer = "• ใช้จิตวิทยาแบบ Win-Win Selling ค้นหาคุณค่าที่ส่งมอบให้ผู้รับ\n• สร้างอารมณ์ความเชื่อมั่นแต่คงไว้ซึ่งความเคารพในอำนาจหน้าที่อย่างเหมาะสม";
+                    generatedEmailMock = `เรียน ${who},\n\nผมใคร่ขออนุญาตนำเรียนอัปเดตความคืบหน้าของโครงการแคมเปญการตลาดยุค AI ครับ${docReferenceText}\n\nจากการพิจารณาของทีมวิศวกรรมการผลิตร่วมกับนักออกแบบระดับสูง เพื่อส่งมอบผลลัพธ์คุณภาพสูงสุดระดับ Premium-Aesthetic ในโครงการนี้ ทางเราประสงค์ขอขยับเวลาจัดส่งต้นแบบรอบสุดท้ายเพิ่ม 3 วันทำการ ซึ่งเวลาที่เพิ่มนี้จะทำให้เราสามารถดำเนินการเรนเดอร์โมเดลอัจฉริยะได้อย่างละเอียดประณีต\n\nทางทีมตระหนักถึงความสำคัญและเพื่อเป็นการตอบแทนความร่วมมืออันดียิ่งนี้ เราขอมอบสิทธิ์การอัปเกรดระบบโมเดลวิเคราะห์ตัวอย่างชุดฟรีเป็นของขวัญเพิ่มเติมทันทีครับ\n\nขอแสดงความนับถืออย่างสูง,\n${sender}`;
+                } else if (currentSelectedCategory === 'leave') {
+                    catHeader = "THE TACTICAL VACATION: RISK-MITIGATION VACATION PARADIGM";
+                    psychologyLayer = "• ถอดจิตวิทยาลดความหวาดระแวงของผู้บริหารด้วย Handover Plan\n• เสนอแผนแก้ไขความเสี่ยงรอบรับงานฉุกเฉิน เพื่อขจัดปัญหาการปฏิเสธ";
+                    generatedEmailMock = `เรียน ${who},\n\nผมเขียนจดหมายฉบับนี้ขึ้นเพื่อขอรายงานและอนุมัติวันหยุดพักผ่อนล่วงหน้าในช่วงกลางเดือนพฤษภาคม เป็นเวลา 5 วันทำการครับ\n\nเพื่อยืนยันว่าการทำงานขององค์กรและแผนกจะดำเนินไปอย่างราบรื่นร้อยเปอร์เซ็นต์ ผมได้จัดทำและวางแผนการรักษาความปลอดภัยจัดการงานทั้งหมด ซึ่งสรุปข้อมูลรายละเอียดและแผนส่งต่องานไว้เรียบร้อยแล้ว${docReferenceText || ' (ตามแผนงานรายละเอียดที่เตรียมไว้นี้)'} ดังนี้:\n1. งานหลักทั้งหมดได้รับการส่งมอบล่วงหน้าเป็นที่เรียบร้อยในสัปดาห์นี้\n2. ผมประสานงานมอบหมายงานเร่งด่วนฉุกเฉินให้คุณเจมส์ (อาวุโส) คอยดูแลประสานเรื่องด่วนแทนอย่างเป็นระบบเรียบร้อยแล้ว\n\nผมจะคอยตอบกลับอีเมลเฉพาะเรื่องด่วนฉุกเฉินสำคัญสูงเป็นระยะๆ และเชื่อมั่นว่างานจะรันต่อไปได้โดยไม่มีติดขัดครับ\n\nด้วยความเคารพอย่างสูง,\n${sender}`;
+                } else {
+                    catHeader = "THE DIPLOMAT: SILO-BREAKING COLLABORATIVE DIALOGUE";
+                    psychologyLayer = "• สลายกำแพงการขัดแย้งข้ามสายงาน (Inter-departmental Silos)\n• เจรจาด้วยการอ้างอิงเป้าหมายที่แชร์ร่วมกันและผลสัมฤทธิ์ปลายทาง";
+                    generatedEmailMock = `สวัสดีครับคุณผู้ช่วย ${who},\n\nทางเราได้รับการติดต่อและประทับใจความคืบหน้าโครงการล่าสุดอย่างยิ่งครับ\n\nในการนี้ ผมอยากจะประสานเพื่อขอส่งมอบและตรวจรับใบกำกับงวดงานชุดสุดท้ายสำหรับแคมเปญ${docReferenceText} เพื่อที่ฝ่ายการเงินของทางแบรนด์จะได้รับข้อมูลตัวนี้ไปดำเนินขั้นตอนอนุมัติงบกองกลางปีหน้าของทั้งสองฝ่ายร่วมกัน ซึ่งการตั้งงบประมาณนี้เป็นคีย์หลักที่จะทำให้เราได้รับการจัดสรรและอัปเกรดระบบจัดซื้อซอฟต์แวร์ระดับโลกเพื่อเพิ่มขีดความสามารถร่วมกันทั้งสองแผนกครับ\n\nหากท่านมีข้อสงสัยหรือต้องการให้ข้อมูลเพิ่มเติมด้านใดเพื่อความสะดวกรวดเร็วแจ้งกลับผมได้ทันทีครับ\n\nขอแสดงความนับถือ,\n${sender}`;
+                }
 
-            const safeWho = escapeHtmlForDisplay(who);
-            const safeSender = escapeHtmlForDisplay(sender);
-            const safeDetail = escapeHtmlForDisplay(detail);
-            const safeTone = escapeHtmlForDisplay(selectedTone);
+                const safeWho = escapeHtmlForDisplay(who);
+                const safeSender = escapeHtmlForDisplay(sender);
+                const safeDetail = escapeHtmlForDisplay(detail);
+                const safeTone = escapeHtmlForDisplay(selectedTone);
 
-            const highlightWho = `<span class="var-highlight">${safeWho}</span>`;
-            const highlightSender = `<span class="var-highlight">${safeSender}</span>`;
-            const highlightDetail = `<span class="var-highlight">${safeDetail}</span>`;
-            const highlightTone = `<span class="var-highlight">${safeTone}</span>`;
+                const highlightWho = `<span class="var-highlight">${safeWho}</span>`;
+                const highlightSender = `<span class="var-highlight">${safeSender}</span>`;
+                const highlightDetail = `<span class="var-highlight">${safeDetail}</span>`;
+                const highlightTone = `<span class="var-highlight">${safeTone}</span>`;
 
-            let highlightFileBlock = "";
-            if (uploadedFile) {
-                highlightFileBlock = `\n• <span class="text-brand-orange font-bold">เอกสารแนบเชิงลึก:</span> <span class="var-highlight">${escapeHtmlForDisplay(uploadedFile.name)} (${escapeHtmlForDisplay(uploadedFile.size)})</span>`;
-            }
+                let highlightFileBlock = "";
+                if (uploadedFile) {
+                    highlightFileBlock = `\n• <span class="text-brand-orange font-bold">เอกสารแนบเชิงลึก:</span> <span class="var-highlight">${escapeHtmlForDisplay(uploadedFile.name)} (${escapeHtmlForDisplay(uploadedFile.size)})</span>`;
+                }
 
-            const terminalFormattedText = `/*
+                const terminalFormattedText = `/*
  * ==========================================
  * SYSTEM PROMPT: ${catHeader}
  * CORE TARGET AI: Gemini / ChatGPT / Claude
@@ -1373,11 +1911,76 @@ ${psychologyLayer}
 3. ปิดท้ายด้วยประโยคแสดงความเคารพที่เหมาะสม ตามด้วยชื่อผู้ส่ง: ${highlightSender}
 4. ร่างเนื้อหาให้อ่านเข้าใจง่าย มีความกระชับ มั่นใจ และน่ารักสมดั่งพนักงานยุคใหม่`;
 
-            document.getElementById('compiled-prompt-output').innerHTML = terminalFormattedText;
-            document.getElementById('simulated-draft-output').innerText = generatedEmailMock;
+                document.getElementById('compiled-prompt-output').innerHTML = terminalFormattedText;
+                document.getElementById('simulated-draft-output').innerText = generatedEmailMock;
+            } else {
+                // English Mode Mega Prompt Compiling
+                if (uploadedFile) {
+                    fileSystemPrompt = `\n[Reference Document Analysis - ${uploadedFile.name}]:\n• Key contents: ${uploadedFile.mockContent}\n• Rule: Incorporate these key details naturally and professionally into the draft email.`;
+                    docReferenceText = ` as detailed in the attached document (${uploadedFile.name}) which outlines the main scope and guidelines.`;
+                }
+
+                if (currentSelectedCategory === 'customer') {
+                    catHeader = "THE CLOSER: VALUE-FIRST INFLUENCE FRAMEWORK";
+                    psychologyLayer = "• Use Win-Win Selling psychology to highlight value delivered to the recipient.\n• Instill confidence while remaining highly respectful of authority and guidelines.";
+                    generatedEmailMock = `Dear ${who},\n\nI would like to update you on the progress of our AI marketing campaign project.${docReferenceText}\n\nTo deliver the highest aesthetic quality for this launch, our design team requires an additional 3 business days for final rendering. This extension ensures the results meet premium-tier standards.\n\nTo show our appreciation for your partnership, we are pleased to upgrade your account to include 1 free additional analytics model slice.\n\nSincerely,\n${sender}`;
+                } else if (currentSelectedCategory === 'leave') {
+                    catHeader = "THE TACTICAL VACATION: RISK-MITIGATION VACATION PARADIGM";
+                    psychologyLayer = "• Alleviate stakeholder anxiety through a clear Handover Plan.\n• Proactively address project risks during absence to ensure zero rejection.";
+                    generatedEmailMock = `Dear ${who},\n\nI am writing to formally request a 5-day vacation leave starting mid-May.\n\nTo ensure all workflows remain uninterrupted, I have put a full risk-mitigation handover plan in place${docReferenceText || ''}:\n1. All core project deliverables for this week have been completed ahead of schedule.\n2. James (Senior PM) has been briefed and will act as my backup to handle any urgent queries.\n\nI will monitor high-priority emails occasionally and remain confident that the team is fully supported.\n\nBest regards,\n${sender}`;
+                } else {
+                    catHeader = "THE DIPLOMAT: SILO-BREAKING COLLABORATIVE DIALOGUE";
+                    psychologyLayer = "• Break cross-departmental silos.\n• Align negotiation points with shared corporate goals and bottom-line growth.";
+                    generatedEmailMock = `Hi ${who},\n\nHope you are doing well.\n\nI am writing to request the final signed invoice for the digital campaign budget.${docReferenceText} This document is required by our finance department to lock in our joint digital tool upgrade budget for next fiscal year, which directly benefits both of our teams.\n\nPlease let me know if you need any additional files or clarifications.\n\nBest regards,\n${sender}`;
+                }
+
+                const safeWho = escapeHtmlForDisplay(who);
+                const safeSender = escapeHtmlForDisplay(sender);
+                const safeDetail = escapeHtmlForDisplay(detail);
+                const safeTone = escapeHtmlForDisplay(selectedTone);
+
+                const highlightWho = `<span class="var-highlight">${safeWho}</span>`;
+                const highlightSender = `<span class="var-highlight">${safeSender}</span>`;
+                const highlightDetail = `<span class="var-highlight">${safeDetail}</span>`;
+                const highlightTone = `<span class="var-highlight">${safeTone}</span>`;
+
+                let highlightFileBlock = "";
+                if (uploadedFile) {
+                    highlightFileBlock = `\n• <span class="text-brand-orange font-bold">Attached Doc:</span> <span class="var-highlight">${escapeHtmlForDisplay(uploadedFile.name)} (${escapeHtmlForDisplay(uploadedFile.size)})</span>`;
+                }
+
+                const terminalFormattedText = `/*
+ * ==========================================
+ * SYSTEM PROMPT: ${catHeader}
+ * CORE TARGET AI: Gemini / ChatGPT / Claude
+ * ==========================================
+ */
+
+You are an expert negotiator with high emotional intelligence (INFJ-A style) and professional tone.
+Your task is to draft a clean email based on the context and parameters provided below.
+
+[COMMUNICATION CONTEXT]:
+• Recipient / Position: ${highlightWho}
+• Sender Name (Your Name): ${highlightSender}
+• Raw Context Notes: ${highlightDetail}
+• Target EQ Tone: ${highlightTone}${highlightFileBlock}
+
+[PSYCHOLOGY & FRAMEWORK APPLIED]:
+${psychologyLayer}
+• Apply Radical Empathy to address the fears/goals of the recipient while maintaining business objectives.${uploadedFile ? '\n• Incorporate the attached reference document insights while keeping the email professional.' : ''}
+
+[OUTPUT FORMAT INSTRUCTIONS]:
+1. Draft 1 formal business email in English.
+2. Avoid passive-aggressive phrases or alarmist words (Anti-Aggressive Strategy).
+3. Conclude with a warm, professional closing followed by the Sender Name: ${highlightSender}
+4. Ensure the draft is concise, easy to read, and polite.`;
+
+                document.getElementById('compiled-prompt-output').innerHTML = terminalFormattedText;
+                document.getElementById('simulated-draft-output').innerText = generatedEmailMock;
+            }
         }
 
-        // --- 4. SWITCH TERMINAL PREVIEW TABS ---
+        // --- 6. SWITCH TERMINAL PREVIEW TABS ---
         function switchTerminalTab(tab) {
             const btnPrompt = document.getElementById('tab-term-prompt');
             const btnSim = document.getElementById('tab-term-sim');
@@ -1386,18 +1989,23 @@ ${psychologyLayer}
 
             if (tab === 'prompt') {
                 btnPrompt.className = "px-3 py-1.5 text-xs font-bold rounded-md bg-brand-bg text-brand-orange border border-brand-border/30 transition-all";
+                btnPrompt.setAttribute('aria-selected', 'true');
                 btnSim.className = "px-3 py-1.5 text-xs font-bold rounded-md text-brand-muted hover:text-white transition-all";
+                btnSim.setAttribute('aria-selected', 'false');
                 panelPrompt.classList.remove('hidden');
                 panelSim.classList.add('hidden');
             } else {
                 btnSim.className = "px-3 py-1.5 text-xs font-bold rounded-md bg-brand-bg text-brand-orange border border-brand-border/30 transition-all";
+                btnSim.setAttribute('aria-selected', 'true');
                 btnPrompt.className = "px-3 py-1.5 text-xs font-bold rounded-md text-brand-muted hover:text-white transition-all";
+                btnPrompt.setAttribute('aria-selected', 'false');
                 panelSim.classList.remove('hidden');
                 panelPrompt.classList.add('hidden');
             }
+            SabaAnalytics.trackEvent("terminal_tab_switched", { tab: tab });
         }
 
-        // --- 5. CLEAN COPY TO CLIPBOARD SCRIPT ---
+        // --- 7. CLEAN COPY TO CLIPBOARD SCRIPT ---
         function copyToClipboard(source) {
             let textToCopy = "";
             if (source === 'prompt') {
@@ -1407,7 +2015,7 @@ ${psychologyLayer}
                 textToCopy = document.getElementById('simulated-draft-output').innerText;
             }
 
-            if (!textToCopy || textToCopy.includes("พร้อมประกอบร่าง") || textToCopy.includes("รอยืนยันพรอพท์")) {
+            if (!textToCopy || textToCopy.includes("พร้อมประกอบร่าง") || textToCopy.includes("รอยืนยันพรอพท์") || textToCopy.includes("Awaiting") || textToCopy.includes("Ready to")) {
                 showToast("พบข้อผิดพลาด", "ไม่พบเนื้อความในการคัดลอก โปรดป้อนข้อมูลและรัน Mega Prompt ก่อนครับ", "warning");
                 return;
             }
@@ -1419,21 +2027,28 @@ ${psychologyLayer}
             document.execCommand('copy');
             document.body.removeChild(tempTextArea);
 
-            showToast("คัดลอกสำเร็จ!", "คัดลอกข้อความคลีนแบบไร้แท็กโค้ดปะปนลงในคลิปบอร์ดแล้วครับ พร้อมวางใน AI ทันที!", "success");
+            showToast(
+                currentLang === 'en' ? "Copied!" : "คัดลอกสำเร็จ!", 
+                currentLang === 'en' ? "Copied clean text to your clipboard." : "คัดลอกข้อความคลีนแบบไร้แท็กโค้ดปะปนลงในคลิปบอร์ดแล้วครับ พร้อมวางใน AI ทันที!", 
+                "success"
+            );
+            SabaAnalytics.trackEvent("copy_to_clipboard", { source: source });
         }
 
-        // --- 6. TRIPBOX CONTROLS & MONETIZATION ---
+        // --- 8. TRIPBOX CONTROLS ---
         function dismissTripbox() {
             document.getElementById('tripbox-support-card').classList.add('hidden');
             sessionStorage.setItem('saba_tripbox_dismissed', 'true');
             showToast("ซ่อนการสนับสนุนแล้ว", "ซ่อนกล่องสนับสนุนค่าอาหารเปียกเรียบร้อย และระบบได้จำเซสชันไว้ไม่ให้กวนใจคุณอีก", "info");
+            SabaAnalytics.trackEvent("tripbox_dismissed", {});
         }
 
         function notifySupport() {
             showToast("สแกนสนับสนุนน้องซาบะ", "ขอบพระคุณเป็นอย่างยิ่งสำหรับการร่วมสนับสนุนค่าอาหารเปียกของเจ้าส้มซาบะและทีมพัฒนาครับ!", "success");
+            SabaAnalytics.trackEvent("tripbox_qr_clicked", {});
         }
 
-        // --- 8. FEEDBACK FORM SIMULATOR ---
+        // --- 9. FEEDBACK FORM SIMULATOR ---
         function submitFeedback() {
             const fbText = document.getElementById('feedback-text').value.trim();
             if (!fbText) {
@@ -1450,10 +2065,11 @@ ${psychologyLayer}
                 fbFormPanel.classList.add('hidden');
                 fbSuccessPanel.classList.remove('hidden');
                 showToast("ส่งความคิดเห็นสำเร็จ", "บันทึกข้อแนะนำของคุณเรียบร้อยแล้ว!", "success");
+                SabaAnalytics.trackEvent("feedback_submitted", { content: fbText });
             }, 1200);
         }
 
-        // --- 9. TOAST NOTIFICATION UTILITY ---
+        // --- 10. TOAST NOTIFICATION UTILITY ---
         function showToast(title, message, type = "info") {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -1471,7 +2087,7 @@ ${psychologyLayer}
                 typeIcon = "x-circle";
             }
 
-            toast.className = `w-80 bg-brand-surface border border-brand-border border-l-4 ${typeColor} rounded-xl p-4 shadow-2xl flex gap-3 pointer-events-auto transition-all duration-300 translate-x-10 opacity-0`;
+            toast.className = `w-80 bg-brand-surface border border-brand-border border-l-4 ${typeColor} rounded-xl p-4 shadow-2xl flex gap-3 pointer-events-auto transition-all duration-300 translate-x-10 opacity-0 z-50`;
 
             const safeTitle = escapeHtmlForDisplay(title);
             const safeMessage = escapeHtmlForDisplay(message);
@@ -1484,7 +2100,7 @@ ${psychologyLayer}
                     <h5 class="text-xs font-extrabold text-white uppercase tracking-wider">${safeTitle}</h5>
                     <p class="text-[11px] text-brand-muted leading-relaxed">${safeMessage}</p>
                 </div>
-                <button onclick="this.parentElement.remove()" class="text-zinc-600 hover:text-white flex-shrink-0">
+                <button onclick="this.parentElement.remove()" class="text-zinc-500 hover:text-white flex-shrink-0">
                     <i data-lucide="x" class="w-3.5 h-3.5"></i>
                 </button>
             `;
@@ -1504,6 +2120,130 @@ ${psychologyLayer}
             }, 5000);
         }
 
+        // --- 11. COOKIE CONSENT & POLICY MODAL FUNCTIONS ---
+        function acceptAllCookies() {
+            localStorage.setItem('saba_cookie_consent', 'true');
+            document.getElementById('cookie-consent-banner').classList.add('hidden');
+            showToast(
+                currentLang === 'en' ? "Consent Saved" : "ยอมรับคุกกี้แล้ว",
+                currentLang === 'en' ? "Privacy preferences updated successfully." : "ระบบบันทึกความยินยอมของท่านเรียบร้อยแล้ว",
+                "success"
+            );
+            SabaAnalytics.trackEvent("cookie_consent_accepted", {});
+        }
+
+        function openPrivacyModal() {
+            document.getElementById('privacy-modal').classList.remove('hidden');
+            SabaAnalytics.trackEvent("modal_opened", { name: "privacy" });
+        }
+        function closePrivacyModal() {
+            document.getElementById('privacy-modal').classList.add('hidden');
+        }
+
+        function openTermsModal() {
+            document.getElementById('terms-modal').classList.remove('hidden');
+            SabaAnalytics.trackEvent("modal_opened", { name: "terms" });
+        }
+        function closeTermsModal() {
+            document.getElementById('terms-modal').classList.add('hidden');
+        }
+
+        function openApiSettingsModal() {
+            document.getElementById('api-settings-modal').classList.remove('hidden');
+            SabaAnalytics.trackEvent("modal_opened", { name: "api_settings" });
+        }
+        function closeApiSettingsModal() {
+            document.getElementById('api-settings-modal').classList.add('hidden');
+        }
+
+        // --- 12. API SETTINGS DYNAMIC LOGIC ---
+        function toggleApiFields() {
+            const provider = document.getElementById('api-provider').value;
+            const modelSelect = document.getElementById('api-model');
+            const keyInput = document.getElementById('api-key');
+            
+            modelSelect.innerHTML = "";
+            if (provider === 'gemini') {
+                keyInput.placeholder = "AIzaSy...";
+                const models = [
+                    { value: 'gemini-2.5-flash', text: 'Gemini 2.5 Flash (Recommended)' },
+                    { value: 'gemini-2.5-pro', text: 'Gemini 2.5 Pro (Powerful)' }
+                ];
+                models.forEach(m => {
+                    const opt = document.createElement('option');
+                    opt.value = m.value;
+                    opt.innerText = m.text;
+                    modelSelect.appendChild(opt);
+                });
+            } else {
+                keyInput.placeholder = "sk-proj-...";
+                const models = [
+                    { value: 'gpt-4o-mini', text: 'GPT-4o Mini (Recommended)' },
+                    { value: 'gpt-4o', text: 'GPT-4o (Powerful)' }
+                ];
+                models.forEach(m => {
+                    const opt = document.createElement('option');
+                    opt.value = m.value;
+                    opt.innerText = m.text;
+                    modelSelect.appendChild(opt);
+                });
+            }
+        }
+
+        let isKeyVisible = false;
+        function toggleApiKeyVisibility() {
+            const keyInput = document.getElementById('api-key');
+            const eyeIcon = document.getElementById('api-key-eye');
+            isKeyVisible = !isKeyVisible;
+            if (isKeyVisible) {
+                keyInput.type = "text";
+                eyeIcon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                keyInput.type = "password";
+                eyeIcon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+
+        function loadApiSettings() {
+            const savedProvider = localStorage.getItem('saba_api_provider') || 'gemini';
+            const savedKey = localStorage.getItem('saba_api_key') || '';
+            const savedModel = localStorage.getItem('saba_api_model') || '';
+            
+            document.getElementById('api-provider').value = savedProvider;
+            toggleApiFields();
+            
+            document.getElementById('api-key').value = savedKey;
+            if (savedModel) {
+                document.getElementById('api-model').value = savedModel;
+            }
+        }
+
+        function saveApiSettings() {
+            const provider = document.getElementById('api-provider').value;
+            const key = document.getElementById('api-key').value.trim();
+            const model = document.getElementById('api-model').value;
+            
+            localStorage.setItem('saba_api_provider', provider);
+            localStorage.setItem('saba_api_key', key);
+            localStorage.setItem('saba_api_model', model);
+            
+            closeApiSettingsModal();
+            if (key) {
+                showToast(
+                    currentLang === 'en' ? "API Keys Connected" : "เชื่อมต่อ API Keys สำเร็จ",
+                    currentLang === 'en' ? `Ready to make requests to ${model} model!` : `พร้อมใช้งานระบบส่ง Request หาโมเดล ${model} แล้วครับ!`,
+                    "success"
+                );
+            } else {
+                showToast(
+                    currentLang === 'en' ? "Settings Saved" : "บันทึกการตั้งค่าแล้ว",
+                    currentLang === 'en' ? "Mock mode active (no API Key provided)" : "สลับเข้าใช้งานระบบจำลองแบบ Mock (ไม่มี API Key)",
+                    "info"
+                );
+            }
+            SabaAnalytics.trackEvent("api_keys_configured", { provider, model, hasKey: !!key });
+        }
     </script>
 </body>
 </html>
