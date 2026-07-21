@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="th" class="dark">
+<html lang="th" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="robots" content="index, follow">
     
-    <!-- ========================================================= -->
-    <!-- LAYER 0: SEARCH ENGINE OPTIMIZATION (SEO METADATA) -->
-    <!-- ========================================================= -->
     <title>SABA PROMPT — ตัวช่วยเขียนอีเมล วิธีเขียนเมลด้วย AI สื่อสารระดับมืออาชีพ</title>
     <meta name="description" content="แนะนำวิธีเขียนอีเมล (Email) ด้วยตัวช่วยเขียนเมลระดับพรีเมียม SABA PROMPT (หรือ sabapromt) แพลตฟอร์มปรับแต่งพรอพท์และจัดทำดราฟต์อีเมลด้วยจิตวิทยา AI เพื่อปิดการขาย คุยงานลูกค้า และลาหยุดอย่างมืออาชีพ"/>
     <meta name="keywords" content="Email, เขียนเมล, เขียนเมลล์, วิธีเขียนเมล, วิธีเขียนเมลล์, ตัวช่วยเขียนเมล, ตัวช่วยเขียนเมล์, ตัวช่วยเขียนอีเมล, sabapromt, sabaprompt, AI, เอไอ, พรอพท์เขียนเมล"/>
@@ -22,13 +20,13 @@
     <meta property="og:description" content="เปลี่ยนโจทย์เขียนเมลยาก ๆ ให้เป็นเรื่องง่ายด้วย AI ตัวช่วยเขียนเมลอัจฉริยะ sabapromt จัดการสยบทุกความขัดแย้งในที่ทำงาน"/>
     <meta property="og:url" content="https://skills.mussocial.com"/>
     <meta property="og:site_name" content="SABA PROMPT"/>
-    <meta property="og:image" content="saba-og-image.jpg"/>
+    <meta property="og:image" content="saba-og-image.jpeg"/>
     
     <!-- Twitter Metadata -->
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="SABA PROMPT — ตัวช่วยเขียนอีเมลด้วยเทคโนโลยี AI"/>
     <meta name="twitter:description" content="วิเคราะห์และปรับแต่งพรอพท์เพื่อสร้างสรรค์วิธีเขียนอีเมล (Email) สื่อสารในออฟฟิศอย่างราบรื่น"/>
-    <meta name="twitter:image" content="saba-og-image.jpg"/>
+    <meta name="twitter:image" content="saba-og-image.jpeg"/>
 
     <!-- Dynamic Favicon using inline SVG -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23F97316'/><path d='M32 68 L46 36 L54 36 L68 68 L58 68 L48 44 L38 68 Z' fill='black'/></svg>" />
@@ -51,7 +49,7 @@
 
     <!-- โหลด Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- โหลดฟอนต์สไตล์พรีเมียม Outfit และ IBM Plex Sans Thai -->
+    <!-- โหลดฟอนต์สไตล์พรีเมียม Outfit, IBM Plex Sans Thai และ Fira Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -59,7 +57,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <script>
-        // กำหนดค่าโทนสีของแบรนด์ SABA (เน้นสีส้ม Amber-Orange และโมโนโครมเข้ม)
+        // กำหนดค่าโทนสีของแบรนด์ SABA (เน้นสีส้ม Amber-Orange และดาร์กโครมหรูหรา)
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -71,13 +69,13 @@
                     },
                     colors: {
                         brand: {
-                            bg: '#09090B',       /* พื้นหลังดีลสีดาร์กหรูหรา */
+                            bg: '#09090B',       /* พื้นหลังดีลดาร์กหรูหรา */
                             surface: '#121214',  /* สีพื้นผิวของกล่องทำงาน */
                             card: '#18181B',     /* สีพื้นผิวการ์ด */
                             orange: '#F97316',   /* สีส้มแมวซาบะ */
                             orangeGlow: 'rgba(249, 115, 22, 0.15)',
                             border: '#27272A',   /* สีขอบบางประณีต */
-                            muted: '#A1A1AA'     /* สีตัวหนังสือสีเทาหม่น - คอนทราสต์ผ่านเกณฑ์ */
+                            muted: '#A1A1AA'     /* สีตัวหนังสือสีเทาหม่น - คอนทราสต์ผ่านมาตรฐาน AA */
                         }
                     }
                 }
@@ -132,6 +130,17 @@
             background-color: rgba(249, 115, 22, 0.08) !important;
             box-shadow: 0 0 15px rgba(249, 115, 22, 0.15);
         }
+
+        /* รองรับการแสดงผลรูปภาพที่ Copy มาวางใน ContentEditable */
+        #inputDetail img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #27272A;
+            display: inline-block;
+        }
     </style>
 </head>
 <body class="bg-brand-bg text-gray-100 min-h-screen font-sans overflow-x-hidden relative selection:bg-brand-orange selection:text-black">
@@ -140,7 +149,7 @@
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- แสงออร่าสีส้มอ่อนจางเพื่อมิติความพรีเมียม -->
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0" aria-hidden="true">
         <div class="aura-glow-1 absolute -top-40 -left-40 w-96 h-96 rounded-full bg-brand-orange opacity-[0.06] blur-[120px]"></div>
         <div class="aura-glow-2 absolute top-[40%] -right-40 w-80 h-80 rounded-full bg-brand-orange opacity-[0.04] blur-[100px]"></div>
     </div>
@@ -153,7 +162,7 @@
             
             <!-- Language Switcher on Auth Screen -->
             <div class="absolute top-4 right-4">
-                <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-bold transition-all">
+                <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-bold transition-all" aria-label="Switch Language Button">
                     <span class="auth-lang-btn-text">EN</span>
                 </button>
             </div>
@@ -161,7 +170,7 @@
             <!-- ส่วนหัวโลโก้แบรนด์ SABA -->
             <div class="flex flex-col items-center text-center mb-8">
                 <div class="w-16 h-16 bg-gradient-to-tr from-brand-orange to-amber-500 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-orange/20 mb-4">
-                    <svg class="w-10 h-10 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <svg class="w-10 h-10 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                         <path d="M8 8s1-1.5 2-1.5c1.5 0 2 2 2 2s.5-2 2-2c1 0 2 1.5 2 1.5"/>
                     </svg>
@@ -175,10 +184,10 @@
             <!-- เมนูล็อกอินแบ่งประเภท -->
             <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-1 p-1 bg-brand-bg rounded-lg border border-brand-border" role="tablist">
-                    <button onclick="switchLoginTab('otp')" id="tab-otp" class="py-2 text-xs font-semibold rounded-md bg-brand-surface text-brand-orange transition-all duration-300" role="tab" aria-selected="true" data-i18n="tab_otp">
+                    <button onclick="switchLoginTab('otp')" id="tab-otp" class="py-2 text-xs font-semibold rounded-md bg-brand-surface text-brand-orange transition-all duration-300" role="tab" aria-selected="true" data-i18n="tab_otp" aria-label="Simulated SMS OTP Login Tab">
                         OTP Sign-in
                     </button>
-                    <button onclick="switchLoginTab('federated')" id="tab-fed" class="py-2 text-xs font-semibold rounded-md text-brand-muted hover:text-white transition-all duration-300" role="tab" aria-selected="false" data-i18n="tab_fed">
+                    <button onclick="switchLoginTab('federated')" id="tab-fed" class="py-2 text-xs font-semibold rounded-md text-brand-muted hover:text-white transition-all duration-300" role="tab" aria-selected="false" data-i18n="tab_fed" aria-label="OAuth Federated Account Login Tab">
                         OAuth & AI Accounts
                     </button>
                 </div>
@@ -186,7 +195,7 @@
                 <!-- เข้าสู่ระบบผ่านเบอร์โทรศัพท์ (จำลอง OTP) -->
                 <div id="login-otp-panel" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2" data-i18n="phone_label">เบอร์โทรศัพท์มือถือ</label>
+                        <label for="login-phone" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2" data-i18n="phone_label">เบอร์โทรศัพท์มือถือ</label>
                         <div class="relative">
                             <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-brand-muted font-mono">+66</span>
                             <input id="login-phone" type="tel" placeholder="0812345678" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 pl-14 pr-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all font-mono"/>
@@ -194,11 +203,11 @@
                     </div>
                     
                     <div id="otp-confirm-container" class="space-y-2 hidden transition-all duration-300">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="otp_label">กรอกรหัส OTP (รหัสจำลองคือ: 1234)</label>
+                        <label for="login-otp-code" class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="otp_label">กรอกรหัส OTP (รหัสจำลองคือ: 1234)</label>
                         <input id="login-otp-code" type="text" placeholder="XXXX" maxlength="4" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-center tracking-[0.5em] text-lg font-mono focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all"/>
                     </div>
 
-                    <button onclick="handleOTPRequest()" id="btn-otp-action" class="w-full bg-brand-orange hover:bg-orange-600 active:scale-[0.98] text-black font-semibold rounded-xl py-3.5 text-sm transition-all shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2">
+                    <button onclick="handleOTPRequest()" id="btn-otp-action" class="w-full bg-brand-orange hover:bg-orange-600 active:scale-[0.98] text-black font-semibold rounded-xl py-3.5 text-sm transition-all shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2" aria-label="Request SMS Verification Action">
                         <i data-lucide="smartphone" class="w-4 h-4"></i>
                         <span data-i18n="btn_otp_init">รับรหัส OTP</span>
                     </button>
@@ -206,9 +215,9 @@
 
                 <!-- เชื่อมโยงบัญชีโซเชียลภายนอก -->
                 <div id="login-federated-panel" class="space-y-3 hidden">
-                    <button onclick="simulateThirdPartyLogin('Google')" class="w-full bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-white text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group">
+                    <button onclick="simulateThirdPartyLogin('Google')" class="w-full bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-white text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group" aria-label="Connect with Google OAuth Account">
                         <span class="flex items-center gap-3">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
                                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z"/>
@@ -219,12 +228,12 @@
                         <i data-lucide="chevron-right" class="w-4 h-4 text-brand-muted opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </button>
 
-                    <div class="relative my-4 flex items-center justify-center">
+                    <div class="relative my-4 flex items-center justify-center" aria-hidden="true">
                         <div class="border-t border-brand-border w-full"></div>
                         <span class="absolute bg-brand-surface px-3 text-[10px] text-brand-muted uppercase font-bold tracking-widest" data-i18n="connect_ai_id">Connect AI Identity</span>
                     </div>
 
-                    <button onclick="simulateThirdPartyLogin('ChatGPT Account')" class="w-full bg-brand-bg hover:bg-emerald-950/20 border border-emerald-900/30 text-emerald-400 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group">
+                    <button onclick="simulateThirdPartyLogin('ChatGPT Account')" class="w-full bg-brand-bg hover:bg-emerald-950/20 border border-emerald-900/30 text-emerald-400 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group" aria-label="Sign in with ChatGPT Account">
                         <span class="flex items-center gap-3">
                             <i data-lucide="bot" class="w-4 h-4 text-emerald-500"></i>
                             <span>Connect ChatGPT Account</span>
@@ -232,7 +241,7 @@
                         <span class="text-xs bg-emerald-500/10 text-emerald-500 px-2.5 py-0.5 rounded-full font-semibold">Ready</span>
                     </button>
 
-                    <button onclick="simulateThirdPartyLogin('Gemini Account')" class="w-full bg-brand-bg hover:bg-indigo-950/20 border border-indigo-900/30 text-indigo-400 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group">
+                    <button onclick="simulateThirdPartyLogin('Gemini Account')" class="w-full bg-brand-bg hover:bg-indigo-950/20 border border-indigo-900/30 text-indigo-400 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group" aria-label="Sign in with Google Gemini Account">
                         <span class="flex items-center gap-3">
                             <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i>
                             <span>Connect Gemini Account</span>
@@ -240,7 +249,7 @@
                         <span class="text-xs bg-indigo-500/10 text-indigo-400 px-2.5 py-0.5 rounded-full font-semibold">Active</span>
                     </button>
 
-                    <button onclick="simulateThirdPartyLogin('Claude Account')" class="w-full bg-brand-bg hover:bg-amber-950/20 border border-amber-900/30 text-amber-500 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group">
+                    <button onclick="simulateThirdPartyLogin('Claude Account')" class="w-full bg-brand-bg hover:bg-amber-950/20 border border-amber-900/30 text-amber-500 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group" aria-label="Sign in with Anthropic Claude Account">
                         <span class="flex items-center gap-3">
                             <i data-lucide="brain" class="w-4 h-4 text-amber-500"></i>
                             <span>Connect Claude Account</span>
@@ -250,12 +259,12 @@
                 </div>
 
                 <!-- เข้าใช้งานทันทีแบบ Guest Mode -->
-                <div class="relative my-4 flex items-center justify-center">
+                <div class="relative my-4 flex items-center justify-center" aria-hidden="true">
                     <div class="border-t border-brand-border w-full"></div>
                     <span class="absolute bg-brand-surface px-3 text-[10px] text-brand-muted uppercase font-bold tracking-widest" data-i18n="or_text">หรือ</span>
                 </div>
 
-                <button onclick="handleGuestLogin()" class="w-full bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-brand-border text-gray-200 text-sm font-semibold rounded-xl py-3 px-4 transition-all flex items-center justify-center gap-2 group">
+                <button onclick="handleGuestLogin()" class="w-full bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-brand-border text-gray-200 text-sm font-semibold rounded-xl py-3 px-4 transition-all flex items-center justify-center gap-2 group" aria-label="Bypass login using Guest Session">
                     <i data-lucide="user" class="w-4 h-4 text-brand-orange group-hover:scale-110 transition-transform"></i>
                     <span data-i18n="btn_guest">เข้าใช้งานแบบ Guest Mode</span>
                 </button>
@@ -281,7 +290,7 @@
                     <!-- โลโก้แอปพลิเคชัน -->
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 bg-brand-orange rounded-xl flex items-center justify-center shadow-lg shadow-brand-orange/20">
-                            <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                                 <path d="M8 8s1-1.5 2-1.5c1.5 0 2 2 2 2s.5-2 2-2c1 0 2 1.5 2 1.5"/>
                             </svg>
@@ -292,18 +301,18 @@
                         </div>
                     </div>
 
-                    <!-- เมนูการสลับหน้าบอร์ด (รองรับ SEO Tab ด้วย) -->
+                    <!-- เมนูการสลับหน้าบอร์ด (ปรับปรุง Accessibility เปลียน div เป็น button ทั้งหมด) -->
                     <nav class="hidden md:flex space-x-1" role="tablist">
-                        <button onclick="navigateTab('workspace')" id="nav-workspace" class="px-3.5 py-2 rounded-lg text-sm font-medium bg-brand-border text-white transition-all" role="tab" aria-selected="true" data-i18n="nav_workspace">
+                        <button onclick="navigateTab('workspace')" id="nav-workspace" class="px-3.5 py-2 rounded-lg text-sm font-medium bg-brand-border text-white transition-all" role="tab" aria-selected="true" data-i18n="nav_workspace" aria-label="Strategic Workspace Panel tab">
                             Workspace
                         </button>
-                        <button onclick="navigateTab('seo')" id="nav-seo" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_seo">
+                        <button onclick="navigateTab('seo')" id="nav-seo" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_seo" aria-label="SEO Writing Guide tab">
                             วิธีเขียนอีเมล (SEO Guide)
                         </button>
-                        <button onclick="navigateTab('framework')" id="nav-framework" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_framework">
+                        <button onclick="navigateTab('framework')" id="nav-framework" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_framework" aria-label="SABA Psychology Framework tab">
                             Our Psychology & Framework
                         </button>
-                        <button onclick="navigateTab('architect')" id="nav-architect" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_architect">
+                        <button onclick="navigateTab('architect')" id="nav-architect" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_architect" aria-label="About the System Architect tab">
                             About the Architect
                         </button>
                     </nav>
@@ -312,22 +321,22 @@
                     <div class="flex items-center gap-3">
                         
                         <!-- Language Switcher -->
-                        <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-extrabold transition-all" title="Switch Language">
+                        <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-extrabold transition-all" aria-label="Switch Language Button">
                             <span class="nav-lang-btn-text">EN</span>
                         </button>
                         
                         <!-- API settings configurations -->
-                        <button onclick="openApiSettingsModal()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border p-2 rounded-lg text-brand-muted hover:text-brand-orange transition-all" title="API Settings">
+                        <button onclick="openApiSettingsModal()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border p-2 rounded-lg text-brand-muted hover:text-brand-orange transition-all" aria-label="API System Keys Configuration Settings">
                             <i data-lucide="settings" class="w-4 h-4"></i>
                         </button>
 
                         <div class="flex items-center gap-2 bg-brand-bg px-3 py-1.5 rounded-full border border-brand-border">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
                             <span id="session-user-badge" class="text-xs font-mono text-gray-300 font-medium">Guest Mode</span>
                             <span class="text-[10px] uppercase tracking-wider font-extrabold text-brand-orange px-1.5 py-0.2 bg-brand-orange/10 rounded-full border border-brand-orange/20" data-i18n="vip_badge">VIP ACTIVE</span>
                         </div>
                         
-                        <button onclick="handleSignOut()" class="text-brand-muted hover:text-brand-orange p-1.5 rounded-lg border border-transparent hover:border-brand-border transition-all" title="Sign Out">
+                        <button onclick="handleSignOut()" class="text-brand-muted hover:text-brand-orange p-1.5 rounded-lg border border-transparent hover:border-brand-border transition-all" aria-label="Sign out from SABA PROMPT session">
                             <i data-lucide="log-out" class="w-4 h-4"></i>
                         </button>
                     </div>
@@ -342,7 +351,7 @@
             <!-- ส่วนแบนเนอร์ทักทายฮีโร่ (zero to pro Edition - Minimalist Style) -->
             <div class="mb-8 text-center md:text-left relative">
                 <div class="inline-flex items-center gap-2 bg-brand-orange/10 border border-brand-orange/25 px-3.5 py-1 rounded-full text-brand-orange text-xs font-semibold mb-3">
-                    <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                    <i data-lucide="zap" class="w-3.5 h-3.5" aria-hidden="true"></i>
                     <span data-i18n="welcome_badge">SABA PROMPT • ตัวช่วยเขียนเมลลาหยุด & คุยงานระดับเซียน</span>
                 </div>
                 <h1 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-white leading-tight">
@@ -355,14 +364,15 @@
 
             <!-- กล่องการ์ดเลือก 3 แนวทางยุทธศาสตร์เจรจา (ปรับปรุง Accessibility WCAG 2.1) -->
             <div class="mb-8">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-muted mb-4 flex items-center gap-2" data-i18n="cat_title">
-                    <i data-lucide="layers" class="w-3.5 h-3.5 text-brand-orange"></i> เลือกสไตล์และรูปแบบการสื่อสารเชิงยุทธศาสตร์
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-muted mb-4 flex items-center gap-2">
+                    <i data-lucide="layers" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                    <span data-i18n="cat_title">เลือกสไตล์และรูปแบบการสื่อสารเชิงยุทธศาสตร์</span>
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4" role="tablist">
                     
                     <!-- การ์ดที่ 1: The Closer -->
-                    <button onclick="selectCategory('customer')" id="card-customer" class="text-left w-full cursor-pointer bg-brand-surface border-2 border-brand-orange rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="true" aria-label="Client Negotiation Strategy">
-                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform"></span>
+                    <button onclick="selectCategory('customer')" id="card-customer" class="text-left w-full cursor-pointer bg-brand-surface border-2 border-brand-orange rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="true" aria-label="Client Negotiation Strategy - The Closer">
+                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform" aria-hidden="true"></span>
                         <span class="flex items-start justify-between">
                             <span class="p-2.5 bg-brand-orange/15 rounded-lg border border-brand-orange/20 text-brand-orange">
                                 <i data-lucide="sparkles" class="w-5 h-5"></i>
@@ -374,8 +384,8 @@
                     </button>
 
                     <!-- การ์ดที่ 2: The Tactical Vacation -->
-                    <button onclick="selectCategory('leave')" id="card-leave" class="text-left w-full cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="false" aria-label="Leave Request Strategy">
-                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform"></span>
+                    <button onclick="selectCategory('leave')" id="card-leave" class="text-left w-full cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="false" aria-label="Leave Request Strategy - Tactical Vacation">
+                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform" aria-hidden="true"></span>
                         <span class="flex items-start justify-between">
                             <span class="p-2.5 bg-zinc-800 rounded-lg text-zinc-400 group-hover:text-brand-orange group-hover:bg-brand-orange/10 transition-colors">
                                 <i data-lucide="calendar" class="w-5 h-5"></i>
@@ -387,8 +397,8 @@
                     </button>
 
                     <!-- การ์ดที่ 3: The Diplomat -->
-                    <button onclick="selectCategory('cowork')" id="card-cowork" class="text-left w-full cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="false" aria-label="Cross-Departmental Collaboration Strategy">
-                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform"></span>
+                    <button onclick="selectCategory('cowork')" id="card-cowork" class="text-left w-full cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="false" aria-label="Cross-Departmental Collaboration Strategy - The Diplomat">
+                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform" aria-hidden="true"></span>
                         <span class="flex items-start justify-between">
                             <span class="p-2.5 bg-zinc-800 rounded-lg text-zinc-400 group-hover:text-brand-orange group-hover:bg-brand-orange/10 transition-colors">
                                 <i data-lucide="users-round" class="w-5 h-5"></i>
@@ -409,10 +419,10 @@
                 <div class="lg:col-span-5 bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-xl space-y-5">
                     <div class="flex items-center justify-between border-b border-brand-border pb-4">
                         <div class="flex items-center gap-2">
-                            <div class="w-2.5 h-2.5 rounded-full bg-brand-orange animate-pulse"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-brand-orange animate-pulse" aria-hidden="true"></div>
                             <span class="text-sm font-bold uppercase tracking-wider text-white" data-i18n="form_title">Dynamic Form Controls</span>
                         </div>
-                        <button onclick="loadSuggestedScenario()" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2.5 rounded-md hover:bg-brand-orange/10 transition-all">
+                        <button onclick="loadSuggestedScenario()" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2.5 rounded-md hover:bg-brand-orange/10 transition-all" aria-label="Load strategic scenario mock values">
                             <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
                             <span data-i18n="btn_suggest">แนะนำสถานการณ์</span>
                         </button>
@@ -420,19 +430,19 @@
 
                     <!-- ฟิลด์ระบุชื่อ/ตำแหน่งผู้รับการสื่อสาร -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5" data-i18n="label_recipient">ชื่อผู้รับ / ตำแหน่ง</label>
+                        <label for="inputWho" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5" data-i18n="label_recipient">ชื่อผู้รับ / ตำแหน่ง</label>
                         <div class="relative">
                             <input id="inputWho" type="text" placeholder="ตัวอย่าง: คุณรวิภา VP of Sales, พี่สมพงษ์ PM" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 pl-11 pr-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white"/>
-                            <i data-lucide="user" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted"></i>
+                            <i data-lucide="user" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" aria-hidden="true"></i>
                         </div>
                     </div>
 
                     <!-- ฟิลด์ระบุชื่อผู้ส่ง (ชื่อของคุณ) -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5" data-i18n="label_sender">ชื่อผู้ส่ง (ชื่อของคุณ)</label>
+                        <label for="inputSender" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5" data-i18n="label_sender">ชื่อผู้ส่ง (ชื่อของคุณ)</label>
                         <div class="relative">
                             <input id="inputSender" type="text" placeholder="ตัวอย่าง: สมชาย, นรินทร์" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 pl-11 pr-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white"/>
-                            <i data-lucide="user-check" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted"></i>
+                            <i data-lucide="user-check" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" aria-hidden="true"></i>
                         </div>
                     </div>
 
@@ -444,19 +454,19 @@
                         <div id="drag-drop-zone" class="border-2 border-dashed border-brand-border hover:border-brand-orange/50 bg-brand-bg/30 rounded-xl p-4 text-center cursor-pointer transition-all relative group overflow-hidden" tabindex="0" role="button" aria-label="Upload document file">
                             <input type="file" id="doc-file-input" class="hidden" accept=".txt,.pdf,.docx,.doc,.csv,.xlsx,.xls" />
                             <div class="flex flex-col items-center justify-center space-y-2 py-1">
-                                <div class="p-2 bg-brand-orange/15 rounded-full text-brand-orange group-hover:scale-110 transition-transform">
+                                <div class="p-2 bg-brand-orange/15 rounded-full text-brand-orange group-hover:scale-110 transition-transform" aria-hidden="true">
                                     <i data-lucide="upload-cloud" class="w-5 h-5"></i>
                                 </div>
-                                <p class="text-xs font-semibold text-gray-200" data-i18n="doc_upload_main">ลากและวางไฟล์ที่นี่ หรือ คลิกเพื่ออัปโหลด</p>
+                                <p class="text-xs font-semibold text-gray-200" id="doc_upload_main_box" data-i18n="doc_upload_main">ลากและวางไฟล์ที่นี่ หรือ คลิกเพื่ออัปโหลด</p>
                                 <p class="text-[10px] text-brand-muted" data-i18n="doc_upload_sub">รองรับ PDF, DOCX, TXT, CSV (สูงสุด 15MB)</p>
                             </div>
                         </div>
 
                         <!-- Import from Google Drive -->
                         <div class="flex gap-2">
-                            <button type="button" onclick="openGoogleDriveModal()" class="w-full py-2.5 px-3 bg-zinc-900 hover:bg-zinc-800 border border-brand-border rounded-xl text-[11px] font-semibold text-gray-300 transition-all flex items-center justify-center gap-2">
-                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
-                                    <path d="M19.43 12.98L13.1 2H10.9L17.23 12.98H19.43ZM15.35 13.02L18.43 18.25C18.67 18.66 18.67 19.16 18.43 19.57C18.19 19.98 17.75 20.25 17.27 20.25H6.73C6.25 20.25 5.81 19.98 5.57 19.57C5.33 19.16 5.33 18.66 5.57 18.25L8.65 13.02H15.35ZM8.62 11.02L2.3 20.25L4.5 20.25L10.82 11.02H8.62Z" fill="#34A853"/>
+                            <button type="button" onclick="openGoogleDriveModal()" class="w-full py-2.5 px-3 bg-zinc-900 hover:bg-zinc-800 border border-brand-border rounded-xl text-[11px] font-semibold text-gray-300 transition-all flex items-center justify-center gap-2" aria-label="Import files directly from Google Drive">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M19.43 12.98L13.1 2H10.9L17.23 12.98H19.43ZM15.35 13.02L18.43 18.25C18.67 18.66 18.67 19.16 18.43 19.57C18.19 19.98 17.75 20.25 17.27 20.25H6.73C6.25 20.25 5.81 19.98 5.57 19.57C5.33 19.16 5.33 18.66 5.57 18.25L8.65 13.02H15.35ZM8.65 11.02L2.3 20.25L4.5 20.25L10.82 11.02H8.62Z" fill="#34A853"/>
                                     <path d="M15.35 13.02L8.65 13.02L10.85 9.25H13.15L15.35 13.02Z" fill="#1A73E8"/>
                                     <path d="M10.82 11.02L13.1 2H10.9L4.58 11.02H10.82Z" fill="#FFBA00"/>
                                 </svg>
@@ -467,7 +477,7 @@
                         <!-- Status File Uploaded -->
                         <div id="file-status-container" class="hidden bg-brand-orange/5 border border-brand-orange/20 rounded-xl p-3 flex items-center justify-between transition-all">
                             <div class="flex items-center gap-3">
-                                <div class="p-2 bg-brand-orange/10 text-brand-orange rounded-lg" id="file-icon-wrapper">
+                                <div class="p-2 bg-brand-orange/10 text-brand-orange rounded-lg" id="file-icon-wrapper" aria-hidden="true">
                                     <i data-lucide="file-text" class="w-4 h-4"></i>
                                 </div>
                                 <div class="flex flex-col">
@@ -475,7 +485,7 @@
                                     <span id="file-size-display" class="text-[9px] text-brand-muted font-mono">1.2 MB • วิเคราะห์เนื้อหาพร้อมใช้</span>
                                 </div>
                             </div>
-                            <button type="button" onclick="clearUploadedFile()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" title="ลบไฟล์">
+                            <button type="button" onclick="clearUploadedFile()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" title="ลบไฟล์" aria-label="Remove uploaded document attachment">
                                 <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
                             </button>
                         </div>
@@ -484,11 +494,16 @@
                     <!-- รายละเอียดข้อมูลโจทย์ความประสงค์แบบดิบๆ -->
                     <div>
                         <div class="flex items-center justify-between mb-1.5">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="label_detail">เนื้อความ / รายละเอียดสิ่งที่เกิดขึ้น</label>
+                            <div class="flex items-center gap-2">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="label_detail">เนื้อความ / รายละเอียดสิ่งที่เกิดขึ้น</label>
+                                <span class="text-[9px] font-bold bg-brand-orange/10 text-brand-orange px-1.5 py-0.5 rounded border border-brand-orange/20" data-i18n="label_detail_badge">รองรับรูปภาพ</span>
+                            </div>
                             <span id="charCounter" class="text-[10px] font-mono text-brand-muted">0 อักษร</span>
                         </div>
                         <div class="relative">
-                            <textarea id="inputDetail" rows="3" placeholder="ระบุเรื่องราวหรือโจทย์งานแบบดิบๆ เช่น: จะขอลาหยุดไปพักผ่อนต่างประเทศ 5 วันช่วงสงกรานต์ งานตอนนี้เสร็จแล้ว และฝากเจมส์ช่วยดูเรื่องเร่งด่วนไว้ให้หมดแล้ว" class="w-full bg-brand-bg border border-brand-border rounded-xl p-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white leading-relaxed resize-none"></textarea>
+                            <div id="inputDetail" contenteditable="true" role="textbox" aria-multiline="true"
+                                data-placeholder="ระบุเรื่องราวหรือโจทย์งานแบบดิบๆ (Copy ข้อความและรูปภาพมาวางได้เลย) เช่น: จะขอลาหยุด..." 
+                                class="w-full min-h-[120px] max-h-[300px] overflow-y-auto bg-brand-bg border border-brand-border rounded-xl p-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white leading-relaxed cursor-text empty:before:content-[attr(data-placeholder)] empty:before:text-brand-muted/50 break-words"></div>
                         </div>
                     </div>
 
@@ -496,24 +511,24 @@
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2" data-i18n="label_tone">ระดับและโทนการเจรจาเชิง EQ</label>
                         <div class="grid grid-cols-2 gap-1.5" role="group" aria-label="Tone selection">
-                            <button onclick="selectTone('สุภาพ อ่อนน้อม', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border-2 border-brand-orange text-brand-orange transition-all" data-i18n="tone_polite">
+                            <button onclick="selectTone('สุภาพ อ่อนน้อม', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border-2 border-brand-orange text-brand-orange transition-all" data-i18n="tone_polite" aria-label="Tone: Polite and warm">
                                 😊 สุภาพ อ่อนโยน
                             </button>
-                            <button onclick="selectTone('ทางการ มั่นใจ', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_formal">
+                            <button onclick="selectTone('ทางการ มั่นใจ', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_formal" aria-label="Tone: Formal and confident">
                                 💼 ทางการ มั่นใจ
                             </button>
-                            <button onclick="selectTone('เป็นกันเอง ยืดหยุ่น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_casual">
+                            <button onclick="selectTone('เป็นกันเอง ยืดหยุ่น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_casual" aria-label="Tone: Casual and flexible">
                                 ☕ เป็นกันเอง ยืดหยุ่น
                             </button>
-                            <button onclick="selectTone('เร่งด่วน ตรงประเด็น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_urgent">
+                            <button onclick="selectTone('เร่งด่วน ตรงประเด็น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_urgent" aria-label="Tone: Urgent and direct">
                                 🚨 เร่งด่วน ตรงประเด็น
                             </button>
                         </div>
                     </div>
 
                     <!-- ปุ่มหลักในการสั่งประกอบพรอพท์เชิงยุทธศาสตร์ -->
-                    <button onclick="compileMegaPrompt()" id="btn-compile" class="w-full bg-brand-orange hover:bg-orange-600 active:scale-[0.98] text-black font-extrabold rounded-xl py-4 text-sm transition-all shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2 relative overflow-hidden group">
-                        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-amber-400 to-brand-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <button onclick="compileMegaPrompt()" id="btn-compile" class="w-full bg-brand-orange hover:bg-orange-600 active:scale-[0.98] text-black font-extrabold rounded-xl py-4 text-sm transition-all shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2 relative overflow-hidden group" aria-label="Compile Mega Prompt Action">
+                        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-amber-400 to-brand-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true"></span>
                         <div class="relative z-10 flex items-center justify-center gap-2 text-black">
                             <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
                             <span data-i18n="btn_compile">COMPILE MEGA PROMPT</span>
@@ -538,10 +553,10 @@
 
                             <!-- แท็บตัวเลือกการแสดงผลลัพธ์ภายในกล่องเทอร์มินอล -->
                             <div class="flex gap-1 p-0.5 bg-brand-surface rounded-lg border border-brand-border" role="tablist">
-                                <button onclick="switchTerminalTab('prompt')" id="tab-term-prompt" class="px-3 py-1.5 text-xs font-bold rounded-md bg-brand-bg text-brand-orange border border-brand-border/30 transition-all" role="tab" aria-selected="true" data-i18n="tab_term_prompt">
+                                <button onclick="switchTerminalTab('prompt')" id="tab-term-prompt" class="px-3 py-1.5 text-xs font-bold rounded-md bg-brand-bg text-brand-orange border border-brand-border/30 transition-all" role="tab" aria-selected="true" data-i18n="tab_term_prompt" aria-label="Show Generated Prompt Output Tab">
                                     Prompt Output
                                 </button>
-                                <button onclick="switchTerminalTab('simulate')" id="tab-term-sim" class="px-3 py-1.5 text-xs font-bold rounded-md text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="tab_term_sim">
+                                <button onclick="switchTerminalTab('simulate')" id="tab-term-sim" class="px-3 py-1.5 text-xs font-bold rounded-md text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="tab_term_sim" aria-label="Show Simulated Email/Chat Draft Output Tab">
                                     Simulated Chat
                                 </button>
                             </div>
@@ -551,11 +566,11 @@
                         <div id="terminal-prompt-panel" class="p-6 flex-grow overflow-y-auto space-y-4 font-mono text-xs text-gray-300 relative">
                             <!-- ข้อความแจ้งเตือนขณะรอประมวลผลเริ่มต้น -->
                             <div id="compiler-placeholder" class="absolute inset-0 bg-brand-surface/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center text-center p-6 transition-all duration-300">
-                                <div class="w-12 h-12 rounded-full bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center text-brand-orange mb-3">
+                                <div class="w-12 h-12 rounded-full bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center text-brand-orange mb-3" aria-hidden="true">
                                     <i data-lucide="code-2" class="w-6 h-6"></i>
                                 </div>
                                 <h4 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="placeholder_prompt_title">พร้อมประกอบร่างคำสั่งพรอพท์</h4>
-                                <p class="text-xs text-brand-muted mt-2 max-w-sm leading-relaxed" data-i18n="placeholder_prompt_desc">
+                                <p class="text-xs text-brand-muted mt-2 max-w-sm leading-relaxed" id="placeholder_prompt_desc_box" data-i18n="placeholder_prompt_desc">
                                     กรอกข้อมูลตัวแปรทางฝั่งซ้ายมือ แล้วกดปุ่ม <span class="text-brand-orange font-bold">Compile Mega Prompt</span> เพื่อเริ่มวิเคราะห์ยุทธศาสตร์และรับโค้ดพรอพท์
                                 </p>
                             </div>
@@ -563,25 +578,23 @@
                             <!-- ส่วนหัวและปุ่มคัดลอกพรอพท์คลีนแบบไร้แท็กสีตกแต่ง -->
                             <div class="flex items-center justify-between">
                                 <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded" data-i18n="label_gen_prompt">Generated System Prompt</span>
-                                <button onclick="copyToClipboard('prompt')" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2 hover:bg-brand-orange/10 rounded transition-all">
+                                <button onclick="copyToClipboard('prompt')" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2 hover:bg-brand-orange/10 rounded transition-all" aria-label="Copy compiled prompt payload">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                                     <span data-i18n="btn_copy_prompt">Copy Clean Prompt</span>
                                 </button>
                             </div>
 
-                            <div class="border-t border-brand-border/40 my-3"></div>
+                            <div class="border-t border-brand-border/40 my-3" aria-hidden="true"></div>
 
                             <!-- พื้นที่พิมพ์แสดงผลโค้ดพรอพท์พร้อมรันไฮไลต์สีส้มตัวแปร -->
-                            <pre id="compiled-prompt-output" class="whitespace-pre-wrap leading-relaxed select-text font-mono text-gray-300">
-<!-- ข้อความพรอพท์จะเจนนิทที่นี่ -->
-                            </pre>
+                            <pre id="compiled-prompt-output" class="whitespace-pre-wrap leading-relaxed select-text font-mono text-gray-300"></pre>
                         </div>
 
                         <!-- แผงแสดงผลลัพธ์แท็บที่ 2: SIMULATED CHAT -->
                         <div id="terminal-simulate-panel" class="hidden p-6 flex-grow overflow-y-auto space-y-4 relative bg-[#0d0d0f]">
                             <!-- ข้อความแจ้งเตือนขณะรอประกอบร่างคำสั่ง -->
                             <div id="simulate-placeholder" class="absolute inset-0 bg-[#0d0d0f]/95 backdrop-blur-sm z-20 flex flex-col items-center justify-center text-center p-6">
-                                <div class="w-12 h-12 rounded-full bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center text-brand-orange mb-3">
+                                <div class="w-12 h-12 rounded-full bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center text-brand-orange mb-3" aria-hidden="true">
                                     <i data-lucide="message-square" class="w-6 h-6"></i>
                                 </div>
                                 <h4 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="placeholder_sim_title">รอยืนยันพรอพท์เชิงยุทธศาสตร์</h4>
@@ -593,7 +606,7 @@
                             <!-- รายละเอียดแสดงผลพร้อมปุ่มก๊อบปี้ดราฟต์อีเมล -->
                             <div class="flex items-center justify-between border-b border-brand-border/50 pb-3">
                                 <span class="text-[10px] uppercase font-bold tracking-widest text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded" data-i18n="label_sim_email">Simulated Workspace Email</span>
-                                <button onclick="copyToClipboard('simulate')" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2 hover:bg-brand-orange/10 rounded transition-all">
+                                <button onclick="copyToClipboard('simulate')" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2 hover:bg-brand-orange/10 rounded transition-all" aria-label="Copy compiled draft email message">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                                     <span data-i18n="btn_copy_email">Copy Draft Message</span>
                                 </button>
@@ -602,7 +615,7 @@
                             <!-- โครงแสดงผลจำลองบทสนทนาโชว์ผลประโยชน์ดราฟต์อีเมล -->
                             <div class="space-y-4">
                                 <div class="flex gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center text-black font-extrabold text-sm flex-shrink-0">
+                                    <div class="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center text-black font-extrabold text-sm flex-shrink-0" aria-hidden="true">
                                         SB
                                     </div>
                                     <div class="bg-brand-surface border border-brand-border/60 p-4 rounded-xl rounded-tl-none max-w-[85%]">
@@ -614,9 +627,7 @@
                                 <div class="flex gap-3 justify-end">
                                     <div class="bg-brand-orangeGlow border border-brand-orange/30 p-4 rounded-xl rounded-tr-none max-w-[85%]">
                                         <p class="text-xs text-brand-orange font-mono mb-2" data-i18n="sim_tip">💡 แนะนำ: ส่งข้อความนี้ในช่องทาง Chat หลัก หรือ Email ส่วนตัว</p>
-                                        <div id="simulated-draft-output" class="text-sm text-gray-200 leading-relaxed font-sans whitespace-pre-wrap select-text">
-                                            <!-- ข้อความอีเมลผลลัพธ์จะปรากฏที่นี่อย่างแนบเนียน -->
-                                        </div>
+                                        <div id="simulated-draft-output" class="text-sm text-gray-200 leading-relaxed font-sans whitespace-pre-wrap select-text"></div>
                                     </div>
                                 </div>
                             </div>
@@ -629,14 +640,14 @@
                     <!-- LAYER 5: กล่องสนับสนุนแมวส้มค่าอาหารเปียกซาบะ (TRIPBOX) -->
                     <!-- ========================================================= -->
                     <div id="tripbox-support-card" class="bg-gradient-to-br from-brand-surface to-brand-bg border border-brand-orange/30 rounded-2xl p-6 shadow-2xl relative overflow-hidden transition-all duration-500">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl"></div>
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" aria-hidden="true"></div>
                         
                         <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
                             
-                            <!-- พื้นที่แสดง QR Code ของเจ้าซาบะตัวจริง -->
+                            <!-- พื้นที่แสดง QR Code ของเจ้าซาบะตัวจริง (ระบุไฟล์ promptpay-qr_6.png ตามข้อกำหนด) -->
                             <div class="w-40 h-40 bg-white p-2 rounded-xl border-2 border-brand-orange/40 flex items-center justify-center flex-shrink-0 relative group">
-                                <img src="promptpay-qr.png" alt="SABA Support QR" class="w-full h-full object-contain rounded" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 150 150\'><rect width=\'150\' height=\'150\' fill=\'white\'/><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'10\' fill=\'black\' text-anchor=\'middle\'>[PROMPTPAY QR CODES]</text></svg>';"/>
-                                <div class="absolute inset-0 bg-black/60 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer" onclick="notifySupport()">
+                                <img src="promptpay-qr_6.png" alt="SABA Support PromptPay QR Code" class="w-full h-full object-contain rounded" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 150 150\'><rect width=\'150\' height=\'150\' fill=\'white\'/><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'10\' fill=\'black\' text-anchor=\'middle\'>[PROMPTPAY QR CODES]</text></svg>';"/>
+                                <div class="absolute inset-0 bg-black/60 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer" onclick="notifySupport()" role="button" aria-label="Expand Support QR Code View">
                                     <span class="text-[10px] text-brand-orange font-bold text-center px-2">คลิกเพื่อขยายภาพ<br/>เลี้ยงเปียกซาบะ 🐈</span>
                                 </div>
                             </div>
@@ -647,7 +658,7 @@
                                     <span class="text-xs font-extrabold uppercase bg-brand-orange/20 text-brand-orange border border-brand-orange/30 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 animate-bounce" data-i18n="tripbox_tag">
                                         🐈 เลี้ยงอาหารเปียกซาบะ
                                     </span>
-                                    <button onclick="dismissTripbox()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" title="ซ่อนกล่องสนับสนุน">
+                                    <button onclick="dismissTripbox()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" title="ซ่อนกล่องสนับสนุน" aria-label="Close Saba support box banner">
                                         <i data-lucide="x" class="w-4 h-4"></i>
                                     </button>
                                 </div>
@@ -656,8 +667,8 @@
                                     หากแอปพลิเคชันนี้ช่วยให้ประหยัดเวลาการเจรจางานและเจาะจิตวิทยาประสานงานไปได้หลายชั่วโมง คุณสามารถสนับสนุนค่าอาหารเปียกให้น้องแมวส้มตัวตึงซาบะของทีมพัฒนาโดยตรงโดยการสแกน PromptPay ด้านข้างได้เลยครับ! ขอบคุณสำหรับมิตรภาพและการสนับสนุน
                                 </p>
                                 <div class="flex flex-wrap justify-center md:justify-start gap-4 text-[11px] text-zinc-400 font-mono">
-                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange"></i> Instant Secure Scan</span>
-                                    <span class="flex items-center gap-1"><i data-lucide="heart" class="w-3.5 h-3.5 text-brand-orange"></i> Developer Friendly support</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i> Instant Secure Scan</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="heart" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i> Developer Friendly support</span>
                                 </div>
                             </div>
 
@@ -673,7 +684,7 @@
                 <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-xl space-y-6 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center gap-2 border-b border-brand-border pb-4 mb-4">
-                            <i data-lucide="message-square-plus" class="w-5 h-5 text-brand-orange"></i>
+                            <i data-lucide="message-square-plus" class="w-5 h-5 text-brand-orange" aria-hidden="true"></i>
                             <h3 class="text-sm font-bold uppercase tracking-wider text-white font-heading" data-i18n="fb_title">Feedback & Suggestions</h3>
                         </div>
                         <p class="text-xs text-brand-muted leading-relaxed mb-4" data-i18n="fb_desc">
@@ -684,7 +695,7 @@
                         <div id="feedback-form-panel" class="space-y-4">
                             <textarea id="feedback-text" rows="3" placeholder="ระบุสิ่งที่อยากให้ปรับปรุง ฟีเจอร์ที่อยากได้เพิ่ม หรือผลลัพธ์การใช้งานจริง..." class="w-full bg-brand-bg border border-brand-border rounded-xl p-4 text-xs focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white leading-relaxed resize-none"></textarea>
                             
-                            <button onclick="submitFeedback()" class="w-full bg-zinc-800 hover:bg-zinc-700 hover:text-white text-zinc-300 text-xs font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                            <button onclick="submitFeedback()" class="w-full bg-zinc-800 hover:bg-zinc-700 hover:text-white text-zinc-300 text-xs font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2" aria-label="Submit system suggestions feedback button">
                                 <i data-lucide="send" class="w-3.5 h-3.5"></i>
                                 <span data-i18n="btn_fb_submit">ส่งความคิดเห็นเชิงสถาปัตยกรรม</span>
                             </button>
@@ -692,7 +703,7 @@
 
                         <!-- แจ้งสถานะส่งข้อมูล Mock API สำเร็จ -->
                         <div id="feedback-success-panel" class="hidden text-center py-6 space-y-3">
-                            <div class="w-10 h-10 bg-emerald-500/10 border border-emerald-500/35 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
+                            <div class="w-10 h-10 bg-emerald-500/10 border border-emerald-500/35 text-emerald-400 rounded-full flex items-center justify-center mx-auto" aria-hidden="true">
                                 <i data-lucide="check-circle" class="w-5 h-5"></i>
                             </div>
                             <h4 class="text-sm font-bold text-white" data-i18n="fb_success_title">บันทึกข้อมูลเรียบร้อย</h4>
@@ -726,12 +737,12 @@
                         รวมทุกวิธีเขียนเมลลาหยุด คุยงานลูกค้า ติดตามปิดการขาย และสลายกำแพงความอึดอัดในที่ทำงานโดยใช้หลักจิตวิทยาประสานงานยุคใหม่
                     </p>
                 </div>
-                <div class="border-t border-brand-border/60 my-6"></div>
+                <div class="border-t border-brand-border/60 my-6" aria-hidden="true"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     <div class="lg:col-span-8 space-y-8 text-gray-300 text-sm leading-relaxed">
                         <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
                             <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
                                 1. ทำไม “วิธีเขียนอีเมล” ถึงยังคงกำหนดอนาคตการทำงานของคุณ?
                             </h2>
                             <p>
@@ -743,7 +754,7 @@
                         </section>
                         <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
                             <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
                                 2. ตัวช่วยเขียนเมล AI กับหลักการแก้ไขสากล (sabapromt Framework)
                             </h2>
                             <p>
@@ -757,7 +768,7 @@
                         </section>
                         <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
                             <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
                                 3. เคล็ดลับและวิธีเขียนเมลขอลากับหัวหน้าให้ราบรื่นผ่านฉลุย
                             </h2>
                             <p>
@@ -799,12 +810,12 @@
                         Mastering client negotiations, leave requests, and resolving workplace communication conflicts with empathy frameworks.
                     </p>
                 </div>
-                <div class="border-t border-brand-border/60 my-6"></div>
+                <div class="border-t border-brand-border/60 my-6" aria-hidden="true"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     <div class="lg:col-span-8 space-y-8 text-gray-300 text-sm leading-relaxed">
                         <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
                             <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
                                 1. Why Email Communication Still Shapes Your Career Future
                             </h2>
                             <p>
@@ -813,7 +824,7 @@
                         </section>
                         <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
                             <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block"></span>
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
                                 2. Empathetic Persuasion Framework (SABA Empathy Model)
                             </h2>
                             <p>
@@ -844,7 +855,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                     <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
                         <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
+                            <i data-lucide="heart" class="w-4 h-4" aria-hidden="true"></i>
                             <span>1. Radical Empathy</span>
                         </h3>
                         <p class="text-xs text-brand-muted leading-relaxed">
@@ -853,7 +864,7 @@
                     </div>
                     <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
                         <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
-                            <i data-lucide="shield" class="w-4 h-4"></i>
+                            <i data-lucide="shield" class="w-4 h-4" aria-hidden="true"></i>
                             <span>2. Risk-Mitigation Ready</span>
                         </h3>
                         <p class="text-xs text-brand-muted leading-relaxed">
@@ -873,7 +884,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                     <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
                         <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
+                            <i data-lucide="heart" class="w-4 h-4" aria-hidden="true"></i>
                             <span>1. Radical Empathy</span>
                         </h3>
                         <p class="text-xs text-brand-muted leading-relaxed">
@@ -882,7 +893,7 @@
                     </div>
                     <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
                         <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
-                            <i data-lucide="shield" class="w-4 h-4"></i>
+                            <i data-lucide="shield" class="w-4 h-4" aria-hidden="true"></i>
                             <span>2. Risk-Mitigation Ready</span>
                         </h3>
                         <p class="text-xs text-brand-muted leading-relaxed">
@@ -897,7 +908,7 @@
                 <p class="text-xs text-brand-muted leading-relaxed max-w-lg mx-auto">
                     สถาปัตยกรรมคำสั่งที่เราบรรจุลงใน SABA Prompt จะช่วยล้อมกรอบตัวแปรแบบอเนกประสงค์เพื่อให้ AI ประมวลและให้ผลลัพธ์การร่างบทสนทนาที่มีมิติอย่างแท้จริง
                 </p>
-                <button onclick="navigateTab('workspace')" class="bg-brand-orange hover:bg-orange-600 text-black font-bold text-xs py-2.5 px-6 rounded-xl transition-all">
+                <button onclick="navigateTab('workspace')" class="bg-brand-orange hover:bg-orange-600 text-black font-bold text-xs py-2.5 px-6 rounded-xl transition-all" aria-label="Return back to primary prompt builder tab">
                     กลับสู่หน้าทดลองใช้พรอพท์
                 </button>
             </div>
@@ -908,10 +919,10 @@
             
             <!-- Thai Version -->
             <div id="view-architect-th" class="bg-brand-surface border border-brand-border rounded-3xl p-8 relative overflow-hidden shadow-2xl">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl"></div>
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" aria-hidden="true"></div>
                 <div class="flex flex-col items-center text-center space-y-6">
                     <div class="w-24 h-24 rounded-full bg-brand-orange/10 border-2 border-brand-orange/30 flex items-center justify-center text-brand-orange overflow-hidden">
-                        <i data-lucide="shield" class="w-12 h-12"></i>
+                        <i data-lucide="shield" class="w-12 h-12" aria-hidden="true"></i>
                     </div>
                     <div class="space-y-2">
                         <span class="text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Visionary Engineer</span>
@@ -926,10 +937,10 @@
 
             <!-- English Version -->
             <div id="view-architect-en" class="bg-brand-surface border border-brand-border rounded-3xl p-8 relative overflow-hidden shadow-2xl hidden">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl"></div>
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" aria-hidden="true"></div>
                 <div class="flex flex-col items-center text-center space-y-6">
                     <div class="w-24 h-24 rounded-full bg-brand-orange/10 border-2 border-brand-orange/30 flex items-center justify-center text-brand-orange overflow-hidden">
-                        <i data-lucide="shield" class="w-12 h-12"></i>
+                        <i data-lucide="shield" class="w-12 h-12" aria-hidden="true"></i>
                     </div>
                     <div class="space-y-2">
                         <span class="text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Visionary Engineer</span>
@@ -951,9 +962,9 @@
                     © 2026 SABA PROMPT. Built with passion for modern workers. Optimized for Email, เขียนเมลล์, ตัวช่วยเขียนเมล, sabapromt.
                 </p>
                 <div class="flex items-center justify-center gap-4 text-zinc-400 text-[10px] font-mono">
-                    <button class="hover:underline" onclick="openPrivacyModal()">Privacy Policy</button>
+                    <button class="hover:underline bg-transparent border-none cursor-pointer" onclick="openPrivacyModal()">Privacy Policy</button>
                     <span>•</span>
-                    <button class="hover:underline" onclick="openTermsModal()">Terms of Service</button>
+                    <button class="hover:underline bg-transparent border-none cursor-pointer" onclick="openTermsModal()">Terms of Service</button>
                     <span>•</span>
                     <span>Clean Copying Guaranteed</span>
                 </div>
@@ -967,42 +978,42 @@
         <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in">
             <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4">
                 <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M19.43 12.98L13.1 2H10.9L17.23 12.98H19.43ZM15.35 13.02L18.43 18.25C18.67 18.66 18.67 19.16 18.43 19.57C18.19 19.98 17.75 20.25 17.27 20.25H6.73C6.25 20.25 5.81 19.98 5.57 19.57C5.33 19.16 5.33 18.66 5.57 18.25L8.65 13.02H15.35ZM8.62 11.02L2.3 20.25L4.5 20.25L10.82 11.02H8.62Z" fill="#34A853"/>
                         <path d="M15.35 13.02L8.65 13.02L10.85 9.25H13.15L15.35 13.02Z" fill="#1A73E8"/>
                         <path d="M10.82 11.02L13.1 2H10.9L4.58 11.02H10.82Z" fill="#FFBA00"/>
                     </svg>
                     <h3 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="gdrive_title">Google Drive — เอกสารล่าสุด</h3>
                 </div>
-                <button onclick="closeGoogleDriveModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors">
+                <button onclick="closeGoogleDriveModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" aria-label="Close Google Drive asset selection modal">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
             <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
-                <div onclick="selectGoogleDriveFile('Q3_Performance_Review.pdf', '2.4 MB', 'pdf', 'สรุปผลประกอบการไตรมาส 3: ยอดขายทะลุเป้า 120% มีการเติบโตอย่างก้าวกระโดดในตลาด AI Marketing และต้องการปรับแผนตารางส่งมอบงานแคมเปญการตลาดยุค AI เพิ่มขึ้น')" class="flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-border/40 border border-brand-border rounded-xl cursor-pointer transition-all group">
-                    <div class="flex items-center gap-3">
+                <button onclick="selectGoogleDriveFile('Q3_Performance_Review.pdf', '2.4 MB', 'pdf', 'สรุปผลประกอบการไตรมาส 3: ยอดขายทะลุเป้า 120% มีการเติบโตอย่างก้าวกระโดดในตลาด AI Marketing และต้องการปรับแผนตารางส่งมอบงานแคมเปญการตลาดยุค AI เพิ่มขึ้น')" class="w-full flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-border/40 border border-brand-border rounded-xl cursor-pointer transition-all group text-left">
+                    <span class="flex items-center gap-3">
                         <i data-lucide="file-text" class="w-4 h-4 text-rose-500"></i>
                         <span class="text-xs text-gray-200 group-hover:text-brand-orange transition-colors">Q3_Performance_Review.pdf</span>
-                    </div>
+                    </span>
                     <span class="text-[10px] font-mono text-brand-muted">2.4 MB</span>
-                </div>
-                <div onclick="selectGoogleDriveFile('Leave_and_Handover_Specification.docx', '1.1 MB', 'word', 'สเปคการส่งต่องานสำคัญล่วงหน้า: งานหลักทั้งหมดได้รับการส่งมอบล่วงหน้าอย่างสมบูรณ์ และมีคุณเจมส์คอยรับเรื่องและดูแลเรื่องเร่งด่วนแทน')" class="flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-border/40 border border-brand-border rounded-xl cursor-pointer transition-all group">
-                    <div class="flex items-center gap-3">
+                </button>
+                <button onclick="selectGoogleDriveFile('Leave_and_Handover_Specification.docx', '1.1 MB', 'word', 'สเปคการส่งต่องานสำคัญล่วงหน้า: งานหลักทั้งหมดได้รับการส่งมอบล่วงหน้าอย่างสมบูรณ์ และมีคุณเจมส์คอยรับเรื่องและดูแลเรื่องเร่งด่วนแทน')" class="w-full flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-border/40 border border-brand-border rounded-xl cursor-pointer transition-all group text-left">
+                    <span class="flex items-center gap-3">
                         <i data-lucide="file-text" class="w-4 h-4 text-blue-500"></i>
                         <span class="text-xs text-gray-200 group-hover:text-brand-orange transition-colors">Leave_and_Handover_Plan.docx</span>
-                    </div>
+                    </span>
                     <span class="text-[10px] font-mono text-brand-muted">1.1 MB</span>
-                </div>
-                <div onclick="selectGoogleDriveFile('Silo_Breaking_Financial_Budget.csv', '450 KB', 'spreadsheet', 'งบโครงการดิจิทัลปีหน้า: ใบกำกับงวดงานชุดสุดท้ายสำหรับแคมเปญของโครงการดิจิทัลซึ่งมีผลร่วมกันของทั้งสองแผนก เพื่ออัปเกรดจัดซื้อซอฟต์แวร์แสนล้ำร่วมกัน')" class="flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-border/40 border border-brand-border rounded-xl cursor-pointer transition-all group">
-                    <div class="flex items-center gap-3">
+                </button>
+                <button onclick="selectGoogleDriveFile('Silo_Breaking_Financial_Budget.csv', '450 KB', 'spreadsheet', 'งบโครงการดิจิทัลปีหน้า: ใบกำกับงวดงานชุดสุดท้ายสำหรับแคมเปญของโครงการดิจิทัลซึ่งมีผลร่วมกันของทั้งสองแผนก เพื่ออัปเกรดจัดซื้อซอฟต์แวร์แสนล้ำร่วมกัน')" class="w-full flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-border/40 border border-brand-border rounded-xl cursor-pointer transition-all group text-left">
+                    <span class="flex items-center gap-3">
                         <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-500"></i>
                         <span class="text-xs text-gray-200 group-hover:text-brand-orange transition-colors">Campaign_Budget_Draft.csv</span>
-                    </div>
+                    </span>
                     <span class="text-[10px] font-mono text-brand-muted">450 KB</span>
-                </div>
+                </button>
             </div>
             <div class="mt-4 pt-3 border-t border-brand-border flex justify-end">
-                <button onclick="closeGoogleDriveModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" data-i18n="gdrive_cancel">ยกเลิก</button>
+                <button onclick="closeGoogleDriveModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" data-i18n="gdrive_cancel" aria-label="Cancel Selection">ยกเลิก</button>
             </div>
         </div>
     </div>
@@ -1016,32 +1027,32 @@
         <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in">
             <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4">
                 <div class="flex items-center gap-2">
-                    <i data-lucide="settings" class="w-5 h-5 text-brand-orange"></i>
+                    <i data-lucide="settings" class="w-5 h-5 text-brand-orange" aria-hidden="true"></i>
                     <h3 class="text-sm font-bold text-white uppercase tracking-wider">API Keys Configuration</h3>
                 </div>
-                <button onclick="closeApiSettingsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors">
+                <button onclick="closeApiSettingsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" aria-label="Close API configuration properties screen">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Provider</label>
+                    <label for="api-provider" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Provider</label>
                     <select id="api-provider" onchange="toggleApiFields()" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-orange transition-all text-white">
                         <option value="gemini">Google Gemini API</option>
                         <option value="openai">OpenAI API</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Key</label>
+                    <label for="api-key" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Key</label>
                     <div class="relative">
                         <input id="api-key" type="password" placeholder="AIzaSy..." class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-orange transition-all text-white font-mono" />
-                        <button onclick="toggleApiKeyVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white">
+                        <button onclick="toggleApiKeyVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white" aria-label="Toggle password text obscure filter">
                             <i data-lucide="eye" id="api-key-eye" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">Model Name</label>
+                    <label for="api-model" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">Model Name</label>
                     <select id="api-model" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-orange transition-all text-white">
                     </select>
                 </div>
@@ -1055,8 +1066,8 @@
                 </div>
             </div>
             <div class="mt-6 pt-3 border-t border-brand-border flex justify-end gap-2">
-                <button onclick="closeApiSettingsModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all">Cancel</button>
-                <button onclick="saveApiSettings()" class="px-4 py-2 bg-brand-orange hover:bg-orange-600 text-xs font-bold text-black rounded-xl transition-all">Save Keys</button>
+                <button onclick="closeApiSettingsModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" aria-label="Cancel changes">Cancel</button>
+                <button onclick="saveApiSettings()" class="px-4 py-2 bg-brand-orange hover:bg-orange-600 text-xs font-bold text-black rounded-xl transition-all" aria-label="Commit key configurations">Save Keys</button>
             </div>
         </div>
     </div>
@@ -1064,14 +1075,14 @@
     <!-- Cookie Consent Banner -->
     <div id="cookie-consent-banner" class="fixed bottom-0 left-0 right-0 z-40 bg-brand-surface border-t border-brand-border p-4 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4 hidden">
         <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-orange/15 rounded-lg text-brand-orange flex-shrink-0">
+            <div class="p-2 bg-brand-orange/15 rounded-lg text-brand-orange flex-shrink-0" aria-hidden="true">
                 <i data-lucide="shield-check" class="w-5 h-5"></i>
             </div>
             <p class="text-xs text-brand-muted leading-relaxed max-w-3xl" data-i18n="cookie_text">
-                เราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานและเก็บข้อมูลเซสชันของคุณตามกฎหมาย PDPA <button class="underline text-brand-orange" onclick="openPrivacyModal()">นโยบายความเป็นส่วนตัว</button> และ <button class="underline text-brand-orange" onclick="openTermsModal()">ข้อตกลงการใช้งาน</button>
+                เราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานและเก็บข้อมูลเซสชันของคุณตามกฎหมาย PDPA <button class="underline text-brand-orange bg-transparent border-none" onclick="openPrivacyModal()">นโยบายความเป็นส่วนตัว</button> และ <button class="underline text-brand-orange bg-transparent border-none" onclick="openTermsModal()">ข้อตกลงการใช้งาน</button>
             </p>
         </div>
-        <button onclick="acceptAllCookies()" class="bg-brand-orange hover:bg-orange-600 text-black font-bold text-xs py-2 px-6 rounded-xl transition-all whitespace-nowrap" data-i18n="cookie_accept">
+        <button onclick="acceptAllCookies()" class="bg-brand-orange hover:bg-orange-600 text-black font-bold text-xs py-2 px-6 rounded-xl transition-all whitespace-nowrap" data-i18n="cookie_accept" aria-label="Accept all functional application cookies">
             ยอมรับทั้งหมด
         </button>
     </div>
@@ -1081,7 +1092,7 @@
         <div class="w-full max-w-2xl bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
             <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4 flex-shrink-0">
                 <h3 class="text-sm font-bold text-white uppercase tracking-wider">Privacy Policy (นโยบายความเป็นส่วนตัว)</h3>
-                <button onclick="closePrivacyModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors">
+                <button onclick="closePrivacyModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" aria-label="Close Privacy information screen">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -1108,7 +1119,7 @@
                 </div>
             </div>
             <div class="mt-6 pt-3 border-t border-brand-border flex justify-end flex-shrink-0">
-                <button onclick="closePrivacyModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all">Close</button>
+                <button onclick="closePrivacyModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" aria-label="Dismiss Privacy modal">Close</button>
             </div>
         </div>
     </div>
@@ -1118,7 +1129,7 @@
         <div class="w-full max-w-2xl bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
             <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4 flex-shrink-0">
                 <h3 class="text-sm font-bold text-white uppercase tracking-wider">Terms of Service (ข้อตกลงการใช้งาน)</h3>
-                <button onclick="closeTermsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors">
+                <button onclick="closeTermsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" aria-label="Close Terms of service modal">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -1141,7 +1152,7 @@
                 </div>
             </div>
             <div class="mt-6 pt-3 border-t border-brand-border flex justify-end flex-shrink-0">
-                <button onclick="closeTermsModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all">Close</button>
+                <button onclick="closeTermsModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" aria-label="Dismiss terms modal">Close</button>
             </div>
         </div>
     </div>
@@ -1207,6 +1218,7 @@
             "doc_upload_sub": { th: "รองรับ PDF, DOCX, TXT, CSV (สูงสุด 15MB)", en: "Supports PDF, DOCX, TXT, CSV (Max 15MB)" },
             "btn_gdrive": { th: "นำเข้าจาก Google Drive", en: "Import from Google Drive" },
             "label_detail": { th: "เนื้อความ / รายละเอียดสิ่งที่เกิดขึ้น", en: "Original Context / Email Details" },
+            "label_detail_badge": { th: "รองรับรูปภาพ", en: "Supports Images" },
             "label_tone": { th: "ระดับและโทนการเจรจาเชิง EQ", en: "EQ Communication Tone" },
             "tone_polite": { th: "😊 สุภาพ อ่อนโยน", en: "😊 Polite & Warm" },
             "tone_formal": { th: "💼 ทางการ มั่นใจ", en: "💼 Formal & Confident" },
@@ -1235,7 +1247,7 @@
             "fb_success_desc": { th: "ความคิดเห็นได้รับการบันทึกแล้ว ข้อมูลจะถูกเชื่อมต่อในคลังฐานระบบ SABA Prompt เพื่ออัปเกรดความเจ๋งในเวอร์ชันถัดไป", en: "Thank you! Your feedback has been saved and will help us grow." },
             "gdrive_title": { th: "Google Drive — เอกสารล่าสุด", en: "Google Drive — Recent Files" },
             "gdrive_cancel": { th: "ยกเลิก", en: "Cancel" },
-            "cookie_text": { th: "เราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานและเก็บข้อมูลเซสชันของคุณตามกฎหมาย PDPA <button class='underline text-brand-orange' onclick='openPrivacyModal()'>นโยบายความเป็นส่วนตัว</button> และ <button class='underline text-brand-orange' onclick='openTermsModal()'>ข้อตกลงการใช้งาน</button>", en: "We use cookies to improve your experience and store session data. Read our <button class='underline text-brand-orange' onclick='openPrivacyModal()'>Privacy Policy</button> and <button class='underline text-brand-orange' onclick='openTermsModal()'>Terms of Service</button>" },
+            "cookie_text": { th: "เราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานและเก็บข้อมูลเซสชันของคุณตามกฎหมาย PDPA <button class='underline text-brand-orange bg-transparent border-none' onclick='openPrivacyModal()'>นโยบายความเป็นส่วนตัว</button> และ <button class='underline text-brand-orange bg-transparent border-none' onclick='openTermsModal()'>ข้อตกลงการใช้งาน</button>", en: "We use cookies to improve your experience and store session data. Read our <button class='underline text-brand-orange bg-transparent border-none' onclick='openPrivacyModal()'>Privacy Policy</button> and <button class='underline text-brand-orange bg-transparent border-none' onclick='openTermsModal()'>Terms of Service</button>" },
             "cookie_accept": { th: "ยอมรับทั้งหมด", en: "Accept All" }
         };
 
@@ -1271,9 +1283,18 @@
             // Update placeholders
             document.getElementById('inputWho').placeholder = lang === 'th' ? "ตัวอย่าง: คุณรวิภา VP of Sales, พี่สมพงษ์ PM" : "e.g. VP of Sales, PM Lead, Project Lead";
             document.getElementById('inputSender').placeholder = lang === 'th' ? "ตัวอย่าง: สมชาย, นรินทร์" : "e.g. John, Sarah";
-            document.getElementById('inputDetail').placeholder = lang === 'th' 
-                ? "ระบุเรื่องราวหรือโจทย์งานแบบดิบๆ เช่น: จะขอลาหยุดไปพักผ่อนต่างประเทศ 5 วันช่วงสงกรานต์ งานตอนนี้เสร็จแล้ว และฝากเจมส์ช่วยดูเรื่องเร่งด่วนไว้ให้หมดแล้ว" 
-                : "Enter raw context, e.g. Requesting 5-day vacation. Projects are handled. James will cover urgent tasks...";
+            
+            const detailInput = document.getElementById('inputDetail');
+            if (detailInput) {
+                const thPlaceholder = "ระบุเรื่องราวหรือโจทย์งานแบบดิบๆ (สามารถ Copy ข้อความและรูปภาพมาวางได้เลย) เช่น: จะขอลาหยุดไปพักผ่อนต่างประเทศ 5 วัน...";
+                const enPlaceholder = "Enter raw context (You can copy & paste text and images here), e.g. Requesting 5-day vacation...";
+                if (detailInput.tagName.toLowerCase() === 'textarea') {
+                    detailInput.placeholder = lang === 'th' ? thPlaceholder : enPlaceholder;
+                } else {
+                    detailInput.setAttribute('data-placeholder', lang === 'th' ? thPlaceholder : enPlaceholder);
+                }
+            }
+
             document.getElementById('feedback-text').placeholder = lang === 'th' 
                 ? "ระบุสิ่งที่อยากให้ปรับปรุง ฟีเจอร์ที่อยากได้เพิ่ม หรือผลลัพธ์การใช้งานจริง..." 
                 : "Describe improvements, request features or report feedback...";
@@ -1297,9 +1318,22 @@
             // If prompt was already compiled, regenerate prompt with the new language text
             const inputWho = document.getElementById('inputWho').value.trim();
             const inputSender = document.getElementById('inputSender').value.trim() || "[ชื่อของคุณ]";
-            const inputDetail = document.getElementById('inputDetail').value.trim();
-            if (inputWho && inputDetail && document.getElementById('compiler-placeholder').classList.contains('hidden')) {
-                generateTargetPrompt(inputWho, inputDetail, inputSender);
+            
+            const detailInputEl = document.getElementById('inputDetail');
+            let inputDetail = "";
+            let hasImages = false;
+            
+            if (detailInputEl) {
+                if (detailInputEl.tagName.toLowerCase() === 'textarea') {
+                    inputDetail = detailInputEl.value.trim();
+                } else {
+                    inputDetail = detailInputEl.innerText.trim();
+                    hasImages = detailInputEl.querySelectorAll('img').length > 0;
+                }
+            }
+            
+            if (inputWho && (inputDetail || hasImages) && document.getElementById('compiler-placeholder').classList.contains('hidden')) {
+                generateTargetPrompt(inputWho, inputDetail, inputSender, hasImages);
             }
         }
 
@@ -1343,9 +1377,10 @@
             loadApiSettings();
             
             // Characters counter
-            const detailTextarea = document.getElementById('inputDetail');
-            detailTextarea.addEventListener('input', (e) => {
-                document.getElementById('charCounter').innerText = `${e.target.value.length} อักษร`;
+            const detailInput = document.getElementById('inputDetail');
+            detailInput.addEventListener('input', (e) => {
+                const textLength = e.target.innerText ? e.target.innerText.replace(/\n/g, '').length : (e.target.value ? e.target.value.length : 0);
+                document.getElementById('charCounter').innerText = `${textLength} อักษร`;
             });
             
             // Tripbox support card dismiss check
@@ -1681,7 +1716,14 @@
             if (preset) {
                 document.getElementById('inputWho').value = preset.who;
                 document.getElementById('inputSender').value = preset.sender || "";
-                document.getElementById('inputDetail').value = preset.detail;
+                
+                const detailInput = document.getElementById('inputDetail');
+                if (detailInput.tagName.toLowerCase() === 'textarea') {
+                    detailInput.value = preset.detail;
+                } else {
+                    detailInput.innerText = preset.detail;
+                }
+                
                 document.getElementById('charCounter').innerText = `${preset.detail.length} อักษร`;
                 showToast(
                     currentLang === 'en' ? "Scenario Loaded" : "โหลดเคสตัวอย่าง", 
@@ -1696,12 +1738,22 @@
         function compileMegaPrompt() {
             const inputWho = document.getElementById('inputWho').value.trim();
             const inputSender = document.getElementById('inputSender').value.trim() || "[ชื่อของคุณ]";
-            const inputDetail = document.getElementById('inputDetail').value.trim();
+            
+            const detailInput = document.getElementById('inputDetail');
+            let inputDetail = "";
+            let hasImages = false;
+            
+            if (detailInput.tagName.toLowerCase() === 'textarea') {
+                inputDetail = detailInput.value.trim();
+            } else {
+                inputDetail = detailInput.innerText.trim();
+                hasImages = detailInput.querySelectorAll('img').length > 0;
+            }
 
-            if (!inputWho || !inputDetail) {
+            if (!inputWho || (!inputDetail && !hasImages)) {
                 showToast(
                     currentLang === 'en' ? "Form Incomplete" : "กรอกข้อมูลไม่ครบถ้วน", 
-                    currentLang === 'en' ? "Please input recipient name and raw details context." : "โปรดระบุชื่อผู้รับ / ตำแหน่ง และรายละเอียดโจทย์งานที่พนักงานต้องการจัดการ", 
+                    currentLang === 'en' ? "Please input recipient name and raw details context (or paste image)." : "โปรดระบุชื่อผู้รับ / ตำแหน่ง และรายละเอียดโจทย์งานที่พนักงานต้องการจัดการ (หรือวางรูปภาพ)", 
                     "warning"
                 );
                 return;
@@ -1721,7 +1773,7 @@
                     </div>`;
                 lucide.createIcons();
 
-                generateTargetPrompt(inputWho, inputDetail, inputSender);
+                generateTargetPrompt(inputWho, inputDetail, inputSender, hasImages);
                 
                 document.getElementById('compiler-placeholder').classList.add('hidden');
                 document.getElementById('simulate-placeholder').classList.add('hidden');
@@ -1842,13 +1894,16 @@
         }
 
         // Mega Prompt Generation logic
-        function generateTargetPrompt(who, detail, sender) {
+        function generateTargetPrompt(who, detail, sender, hasImages = false) {
             let catHeader = "";
             let psychologyLayer = "";
             let generatedEmailMock = "";
 
             let fileSystemPrompt = "";
             let docReferenceText = "";
+            
+            let imageNoteTh = hasImages ? "\n• [มีภาพประกอบแนบมาด้วยในโจทย์]: โปรดพิจารณารายละเอียดจากภาพหากมีการวิเคราะห์ด้วย Vision AI" : "";
+            let imageNoteEn = hasImages ? "\n• [Image Attached in Context]: Please consider visual details if analyzing via Vision AI." : "";
             
             if (currentLang === 'th') {
                 if (uploadedFile) {
@@ -1877,7 +1932,7 @@
 
                 const highlightWho = `<span class="var-highlight">${safeWho}</span>`;
                 const highlightSender = `<span class="var-highlight">${safeSender}</span>`;
-                const highlightDetail = `<span class="var-highlight">${safeDetail}</span>`;
+                const highlightDetail = `<span class="var-highlight">${safeDetail}${hasImages ? ' [🖼️ มีภาพแนบ]' : ''}</span>`;
                 const highlightTone = `<span class="var-highlight">${safeTone}</span>`;
 
                 let highlightFileBlock = "";
@@ -1899,7 +1954,7 @@
 • ชื่อผู้รับ / ตำแหน่ง: ${highlightWho}
 • ชื่อผู้ส่ง (ชื่อของคุณ): ${highlightSender}
 • สถานการณ์ดั้งเดิม: ${highlightDetail}
-• โทนและน้ำเสียงหลักที่ต้องการ: ${highlightTone}${highlightFileBlock}
+• โทนและน้ำเสียงหลักที่ต้องการ: ${highlightTone}${highlightFileBlock}${imageNoteTh}
 
 [จิตวิทยาและกรอบยุทธศาสตร์ที่นำมาใช้ประมวลผล - SABA PROMPT]:
 ${psychologyLayer}
@@ -1941,7 +1996,7 @@ ${psychologyLayer}
 
                 const highlightWho = `<span class="var-highlight">${safeWho}</span>`;
                 const highlightSender = `<span class="var-highlight">${safeSender}</span>`;
-                const highlightDetail = `<span class="var-highlight">${safeDetail}</span>`;
+                const highlightDetail = `<span class="var-highlight">${safeDetail}${hasImages ? ' [🖼️ Image Attached]' : ''}</span>`;
                 const highlightTone = `<span class="var-highlight">${safeTone}</span>`;
 
                 let highlightFileBlock = "";
@@ -1963,7 +2018,7 @@ Your task is to draft a clean email based on the context and parameters provided
 • Recipient / Position: ${highlightWho}
 • Sender Name (Your Name): ${highlightSender}
 • Raw Context Notes: ${highlightDetail}
-• Target EQ Tone: ${highlightTone}${highlightFileBlock}
+• Target EQ Tone: ${highlightTone}${highlightFileBlock}${imageNoteEn}
 
 [PSYCHOLOGY & FRAMEWORK APPLIED]:
 ${psychologyLayer}
@@ -2093,14 +2148,14 @@ ${psychologyLayer}
             const safeMessage = escapeHtmlForDisplay(message);
 
             toast.innerHTML = `
-                <div class="text-brand-orange mt-0.5">
+                <div class="text-brand-orange mt-0.5" aria-hidden="true">
                     <i data-lucide="${typeIcon}" class="w-4 h-4"></i>
                 </div>
                 <div class="flex-grow space-y-1">
                     <h5 class="text-xs font-extrabold text-white uppercase tracking-wider">${safeTitle}</h5>
                     <p class="text-[11px] text-brand-muted leading-relaxed">${safeMessage}</p>
                 </div>
-                <button onclick="this.parentElement.remove()" class="text-zinc-500 hover:text-white flex-shrink-0">
+                <button onclick="this.parentElement.remove()" class="text-zinc-500 hover:text-white flex-shrink-0" aria-label="Dismiss this toast alert notification">
                     <i data-lucide="x" class="w-3.5 h-3.5"></i>
                 </button>
             `;
