@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ตกแต่งแถบ Scrollbar สไตล์โมเดิร์น */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #09090B;
+}
+::-webkit-scrollbar-thumb {
+    background: #27272A;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #F97316;
+}
+
+/* แอนิเมชันสำหรับออร่าเรืองแสงด้านหลัง */
+@keyframes auraDrift {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+    100% { transform: translate(0px, 0px) scale(1); }
+}
+.aura-glow-1 {
+    animation: auraDrift 15s infinite ease-in-out;
+}
+.aura-glow-2 {
+    animation: auraDrift 20s infinite ease-in-out 2s;
+}
+
+/* ไฮไลต์ข้อมูลตัวแปรสำคัญภายในหน้า Terminal เพื่อความปลอดภัย (Layer 3) */
+.var-highlight {
+    background-color: rgba(249, 115, 22, 0.15);
+    color: #FB923C;
+    border-bottom: 2px solid #F97316;
+    padding: 0px 4px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* เอฟเฟกต์สำหรับพื้นที่ลากวางไฟล์ */
+.drag-active {
+    border-color: #F97316 !important;
+    background-color: rgba(249, 115, 22, 0.08) !important;
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.15);
+}
+
+/* รองรับการแสดงผลรูปภาพที่ Copy มาวางใน ContentEditable */
+#inputDetail img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #27272A;
+    display: inline-block;
+}

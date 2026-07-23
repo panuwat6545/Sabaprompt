@@ -1,0 +1,7 @@
+# robots.txt for SABA PROMPT
+User-agent: *
+Allow: /
+
+# Host & Sitemap
+Host: https://skills.mussocial.com
+Sitemap: https://skills.mussocial.com/sitemap.xml
