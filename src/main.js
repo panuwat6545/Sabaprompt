@@ -435,16 +435,16 @@ function switchLoginTab(type) {
     const panelFed = document.getElementById('login-federated-panel');
     
     if (type === 'otp') {
-        btnOtp.className = "py-2 text-xs font-semibold rounded-md bg-brand-surface text-brand-orange transition-all duration-300";
+        btnOtp.className = "py-2 text-xs font-semibold rounded-md bg-white border border-slate-200/80 text-brand-orange shadow-sm transition-all duration-300";
         btnOtp.setAttribute('aria-selected', 'true');
-        btnFed.className = "py-2 text-xs font-semibold rounded-md text-brand-muted hover:text-white transition-all duration-300";
+        btnFed.className = "py-2 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition-all duration-300";
         btnFed.setAttribute('aria-selected', 'false');
         panelOtp.classList.remove('hidden');
         panelFed.classList.add('hidden');
     } else {
-        btnFed.className = "py-2 text-xs font-semibold rounded-md bg-brand-surface text-brand-orange transition-all duration-300";
+        btnFed.className = "py-2 text-xs font-semibold rounded-md bg-white border border-slate-200/80 text-brand-orange shadow-sm transition-all duration-300";
         btnFed.setAttribute('aria-selected', 'true');
-        btnOtp.className = "py-2 text-xs font-semibold rounded-md text-brand-muted hover:text-white transition-all duration-300";
+        btnOtp.className = "py-2 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition-all duration-300";
         btnOtp.setAttribute('aria-selected', 'false');
         panelFed.classList.remove('hidden');
         panelOtp.classList.add('hidden');
@@ -568,12 +568,12 @@ function navigateTab(tabName) {
     const tabs = ['workspace', 'seo', 'framework', 'architect'];
     tabs.forEach(t => {
         document.getElementById(`view-${t}`).classList.add('hidden');
-        document.getElementById(`nav-${t}`).className = "px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all";
+        document.getElementById(`nav-${t}`).className = "px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-950 hover:bg-slate-100/50 transition-all";
         document.getElementById(`nav-${t}`).setAttribute('aria-selected', 'false');
     });
 
     document.getElementById(`view-${tabName}`).classList.remove('hidden');
-    document.getElementById(`nav-${tabName}`).className = "px-3.5 py-2 rounded-lg text-sm font-medium bg-brand-border text-white transition-all";
+    document.getElementById(`nav-${tabName}`).className = "px-3.5 py-2 rounded-lg text-sm font-semibold bg-white border border-slate-200 text-slate-900 shadow-sm transition-all";
     document.getElementById(`nav-${tabName}`).setAttribute('aria-selected', 'true');
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
@@ -592,10 +592,10 @@ function selectCategory(cat) {
         
         if (c === cat) {
             card.classList.remove('border-brand-border', 'border');
-            card.classList.add('border-brand-orange', 'border-2', 'shadow-brand-orange/10');
+            card.classList.add('border-brand-orange', 'border-2', 'shadow-lg', 'shadow-orange-500/10');
             card.setAttribute('aria-selected', 'true');
         } else {
-            card.classList.remove('border-brand-orange', 'border-2', 'shadow-brand-orange/10');
+            card.classList.remove('border-brand-orange', 'border-2', 'shadow-lg', 'shadow-orange-500/10');
             card.classList.add('border-brand-border', 'border');
             card.setAttribute('aria-selected', 'false');
         }
@@ -607,9 +607,9 @@ function selectTone(tone, element) {
     selectedTone = tone;
     const buttons = document.querySelectorAll('.tone-btn');
     buttons.forEach(btn => {
-        btn.className = "tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all";
+        btn.className = "tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-600 hover:text-slate-955 transition-all";
     });
-    element.className = "tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border-2 border-brand-orange text-brand-orange transition-all";
+    element.className = "tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-white border-2 border-brand-orange text-brand-orange transition-all shadow-sm";
     SabaAnalytics.trackEvent("tone_selected", { tone: tone });
 }
 
