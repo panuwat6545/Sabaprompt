@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="th" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="robots" content="index, follow">
+    
+    <title>SABA PROMPT — ตัวช่วยเขียนอีเมล วิธีเขียนเมลด้วย AI สื่อสารระดับมืออาชีพ</title>
+    <meta name="description" content="แนะนำวิธีเขียนอีเมล (Email) ด้วยตัวช่วยเขียนเมลระดับพรีเมียม SABA PROMPT (หรือ sabapromt) แพลตฟอร์มปรับแต่งพรอพท์และจัดทำดราฟต์อีเมลด้วยจิตวิทยา AI เพื่อปิดการขาย คุยงานลูกค้า และลาหยุดอย่างมืออาชีพ"/>
+    <meta name="keywords" content="Email, เขียนเมล, เขียนเมลล์, วิธีเขียนเมล, วิธีเขียนเมลล์, ตัวช่วยเขียนเมล, ตัวช่วยเขียนเมล์, ตัวช่วยเขียนอีเมล, sabapromt, sabaprompt, AI, เอไอ, พรอพท์เขียนเมล"/>
+    <meta name="author" content="SABA PROMPT Team"/>
+    <link rel="canonical" href="https://skills.mussocial.com"/>
+    <link rel="alternate" hreflang="th" href="https://skills.mussocial.com/" />
+    <link rel="alternate" hreflang="en" href="https://skills.mussocial.com/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://skills.mussocial.com/" />
+    
+    <!-- Open Graph (Facebook / LinkedIn) -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="SABA PROMPT — ตัวช่วยเขียนเมล วิธีเขียนเมลล์ด้วย AI สื่อสารระดับยุทธศาสตร์"/>
+    <meta property="og:description" content="เปลี่ยนโจทย์เขียนเมลยาก ๆ ให้เป็นเรื่องง่ายด้วย AI ตัวช่วยเขียนเมลอัจฉริยะ sabapromt จัดการสยบทุกความขัดแย้งในที่ทำงาน"/>
+    <meta property="og:url" content="https://skills.mussocial.com"/>
+    <meta property="og:site_name" content="SABA PROMPT"/>
+    <meta property="og:image" content="saba-og-image.jpeg"/>
+    
+    <!-- Twitter Metadata -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="SABA PROMPT — ตัวช่วยเขียนอีเมลด้วยเทคโนโลยี AI"/>
+    <meta name="twitter:description" content="วิเคราะห์และปรับแต่งพรอพท์เพื่อสร้างสรรค์วิธีเขียนอีเมล (Email) สื่อสารในออฟฟิศอย่างราบรื่น"/>
+    <meta name="twitter:image" content="saba-og-image.jpeg"/>
+
+    <!-- Dynamic Favicon using inline SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23F97316'/><path d='M32 68 L46 36 L54 36 L68 68 L58 68 L48 44 L38 68 Z' fill='black'/></svg>" />
+
+    <!-- JSON-LD Schema Markup for Search Engines (Google SEO Rich Snippets) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "SABA PROMPT",
+      "alternateName": ["sabapromt", "Saba Prompt Workspace"],
+      "url": "https://skills.mussocial.com",
+      "description": "ตัวช่วยเขียนอีเมลอัจฉริยะและวิธีเขียนเมลด้วย AI เชิงจิตวิทยาเพื่อพนักงานประจำและฟรีแลนซ์",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "genre": "AI Writing Tool",
+      "keywords": "Email, เขียนเมลล์, วิธีเขียนเมลล์, ตัวช่วยเขียนเมล์, sabapromt, AI"
+    }
+    </script>
+
+    <!-- โหลดฟอนต์สไตล์พรีเมียม Outfit, IBM Plex Sans Thai และ Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- โหลด Lucide Icons สำหรับสัญลักษณ์ต่างๆ -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- นำเข้า compiled CSS และ Javascript module ของ Vite -->
+  <script type="module" crossorigin src="/assets/index-zr_IZMUx.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-3dUnaW5_.css">
+</head>
+<body class="bg-brand-bg text-gray-100 min-h-screen font-sans overflow-x-hidden relative selection:bg-brand-orange selection:text-black">
+
+    <!-- ระบบแจ้งเตือนลอยพรีเมียม (Toast System) -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- แสงออร่าสีส้มอ่อนจางเพื่อมิติความพรีเมียม -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0" aria-hidden="true">
+        <div class="aura-glow-1 absolute -top-40 -left-40 w-96 h-96 rounded-full bg-brand-orange opacity-[0.06] blur-[120px]"></div>
+        <div class="aura-glow-2 absolute top-[40%] -right-40 w-80 h-80 rounded-full bg-brand-orange opacity-[0.04] blur-[100px]"></div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- LAYER 1: AUTHENTICATION / หน้าจอเข้าสู่ระบบ -->
+    <!-- ========================================================= -->
+    <div id="auth-screen" class="min-h-screen flex flex-col justify-center items-center p-4 relative z-10">
+        <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-8 shadow-2xl relative">
+            
+            <!-- Language Switcher on Auth Screen -->
+            <div class="absolute top-4 right-4">
+                <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-bold transition-all" aria-label="Switch Language Button">
+                    <span class="auth-lang-btn-text">EN</span>
+                </button>
+            </div>
+
+            <!-- ส่วนหัวโลโก้แบรนด์ SABA -->
+            <div class="flex flex-col items-center text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-tr from-brand-orange to-amber-500 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-orange/20 mb-4">
+                    <svg class="w-10 h-10 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M8 8s1-1.5 2-1.5c1.5 0 2 2 2 2s.5-2 2-2c1 0 2 1.5 2 1.5"/>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-heading font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-500 bg-clip-text text-transparent" data-i18n="auth_title">
+                    SABA PROMPT
+                </h1>
+                <p class="text-sm text-brand-muted mt-1" data-i18n="auth_sub">The Strategist: Story-to-Prompt Platform</p>
+            </div>
+
+            <!-- เมนูล็อกอินแบ่งประเภท -->
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-1 p-1 bg-brand-bg rounded-lg border border-brand-border" role="tablist">
+                    <button onclick="switchLoginTab('otp')" id="tab-otp" class="py-2 text-xs font-semibold rounded-md bg-brand-surface text-brand-orange transition-all duration-300" role="tab" aria-selected="true" data-i18n="tab_otp" aria-label="Simulated SMS OTP Login Tab">
+                        OTP Sign-in
+                    </button>
+                    <button onclick="switchLoginTab('federated')" id="tab-fed" class="py-2 text-xs font-semibold rounded-md text-brand-muted hover:text-white transition-all duration-300" role="tab" aria-selected="false" data-i18n="tab_fed" aria-label="OAuth Federated Account Login Tab">
+                        OAuth & AI Accounts
+                    </button>
+                </div>
+
+                <!-- เข้าสู่ระบบผ่านเบอร์โทรศัพท์ (จำลอง OTP) -->
+                <div id="login-otp-panel" class="space-y-4">
+                    <div>
+                        <label for="login-phone" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2" data-i18n="phone_label">เบอร์โทรศัพท์มือถือ</label>
+                        <div class="relative">
+                            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-brand-muted font-mono">+66</span>
+                            <input id="login-phone" type="tel" placeholder="0812345678" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 pl-14 pr-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all font-mono"/>
+                        </div>
+                    </div>
+                    
+                    <div id="otp-confirm-container" class="space-y-2 hidden transition-all duration-300">
+                        <label for="login-otp-code" class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="otp_label">กรอกรหัส OTP (รหัสจำลองคือ: 1234)</label>
+                        <input id="login-otp-code" type="text" placeholder="XXXX" maxlength="4" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-center tracking-[0.5em] text-lg font-mono focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all"/>
+                    </div>
+
+                    <button onclick="handleOTPRequest()" id="btn-otp-action" class="w-full bg-brand-orange hover:bg-orange-600 active:scale-[0.98] text-black font-semibold rounded-xl py-3.5 text-sm transition-all shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2" aria-label="Request SMS Verification Action">
+                        <i data-lucide="smartphone" class="w-4 h-4"></i>
+                        <span data-i18n="btn_otp_init">รับรหัส OTP</span>
+                    </button>
+                </div>
+
+                <!-- เชื่อมโยงบัญชีโซเชียลภายนอก -->
+                <div id="login-federated-panel" class="space-y-3 hidden">
+                    <button onclick="simulateThirdPartyLogin('Google')" class="w-full bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-white text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group" aria-label="Connect with Google OAuth Account">
+                        <span class="flex items-center gap-3">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.85c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            <span>Sign in with Google</span>
+                        </span>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-brand-muted opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </button>
+
+                    <div class="relative my-4 flex items-center justify-center" aria-hidden="true">
+                        <div class="border-t border-brand-border w-full"></div>
+                        <span class="absolute bg-brand-surface px-3 text-[10px] text-brand-muted uppercase font-bold tracking-widest" data-i18n="connect_ai_id">Connect AI Identity</span>
+                    </div>
+
+                    <button onclick="simulateThirdPartyLogin('ChatGPT Account')" class="w-full bg-brand-bg hover:bg-emerald-950/20 border border-emerald-900/30 text-emerald-400 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group" aria-label="Sign in with ChatGPT Account">
+                        <span class="flex items-center gap-3">
+                            <i data-lucide="bot" class="w-4 h-4 text-emerald-500"></i>
+                            <span>Connect ChatGPT Account</span>
+                        </span>
+                        <span class="text-xs bg-emerald-500/10 text-emerald-500 px-2.5 py-0.5 rounded-full font-semibold">Ready</span>
+                    </button>
+
+                    <button onclick="simulateThirdPartyLogin('Gemini Account')" class="w-full bg-brand-bg hover:bg-indigo-950/20 border border-indigo-900/30 text-indigo-400 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group" aria-label="Sign in with Google Gemini Account">
+                        <span class="flex items-center gap-3">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i>
+                            <span>Connect Gemini Account</span>
+                        </span>
+                        <span class="text-xs bg-indigo-500/10 text-indigo-400 px-2.5 py-0.5 rounded-full font-semibold">Active</span>
+                    </button>
+
+                    <button onclick="simulateThirdPartyLogin('Claude Account')" class="w-full bg-brand-bg hover:bg-amber-950/20 border border-amber-900/30 text-amber-500 text-sm font-medium rounded-xl py-3 px-4 transition-all flex items-center justify-between group" aria-label="Sign in with Anthropic Claude Account">
+                        <span class="flex items-center gap-3">
+                            <i data-lucide="brain" class="w-4 h-4 text-amber-500"></i>
+                            <span>Connect Claude Account</span>
+                        </span>
+                        <span class="text-xs bg-amber-500/10 text-amber-500 px-2.5 py-0.5 rounded-full font-semibold">OAuth v2</span>
+                    </button>
+                </div>
+
+                <!-- เข้าใช้งานทันทีแบบ Guest Mode -->
+                <div class="relative my-4 flex items-center justify-center" aria-hidden="true">
+                    <div class="border-t border-brand-border w-full"></div>
+                    <span class="absolute bg-brand-surface px-3 text-[10px] text-brand-muted uppercase font-bold tracking-widest" data-i18n="or_text">หรือ</span>
+                </div>
+
+                <button onclick="handleGuestLogin()" class="w-full bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-brand-border text-gray-200 text-sm font-semibold rounded-xl py-3 px-4 transition-all flex items-center justify-center gap-2 group" aria-label="Bypass login using Guest Session">
+                    <i data-lucide="user" class="w-4 h-4 text-brand-orange group-hover:scale-110 transition-transform"></i>
+                    <span data-i18n="btn_guest">เข้าใช้งานแบบ Guest Mode</span>
+                </button>
+            </div>
+
+            <p class="text-[11px] text-brand-muted text-center mt-8 leading-relaxed" data-i18n="auth_disclaimer">
+                การเข้าใช้ระบบจะทำการเก็บเซสชันจำลองในอุปกรณ์เพื่อความเป็นส่วนตัวสูงสุด (Layer 1 Privacy Framework)
+            </p>
+        </div>
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- INTERFACE หลักของเว็บแอปพลิเคชัน (DASHBOARD) -->
+    <!-- ========================================================= -->
+    <div id="main-workspace" class="hidden min-h-screen flex flex-col relative z-10">
+        
+        <!-- แถบเมนูด้านบน (HEADER / NAVIGATION) -->
+        <header class="bg-brand-surface/80 backdrop-blur-md border-b border-brand-border sticky top-0 z-40 transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    
+                    <!-- โลโก้แอปพลิเคชัน -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 bg-brand-orange rounded-xl flex items-center justify-center shadow-lg shadow-brand-orange/20">
+                            <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <path d="M8 8s1-1.5 2-1.5c1.5 0 2 2 2 2s.5-2 2-2c1 0 2 1.5 2 1.5"/>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-md font-heading font-extrabold tracking-tight text-white leading-none">SABA PROMPT</span>
+                            <span class="text-[9px] text-brand-orange font-semibold tracking-widest mt-0.5 uppercase">THE STRATEGIST</span>
+                        </div>
+                    </div>
+
+                    <!-- เมนูการสลับหน้าบอร์ด (ปรับปรุง Accessibility เปลียน div เป็น button ทั้งหมด) -->
+                    <nav class="hidden md:flex space-x-1" role="tablist">
+                        <button onclick="navigateTab('workspace')" id="nav-workspace" class="px-3.5 py-2 rounded-lg text-sm font-medium bg-brand-border text-white transition-all" role="tab" aria-selected="true" data-i18n="nav_workspace" aria-label="Strategic Workspace Panel tab">
+                            Workspace
+                        </button>
+                        <button onclick="navigateTab('seo')" id="nav-seo" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_seo" aria-label="SEO Writing Guide tab">
+                            วิธีเขียนอีเมล (SEO Guide)
+                        </button>
+                        <button onclick="navigateTab('framework')" id="nav-framework" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_framework" aria-label="SABA Psychology Framework tab">
+                            Our Psychology & Framework
+                        </button>
+                        <button onclick="navigateTab('architect')" id="nav-architect" class="px-3.5 py-2 rounded-lg text-sm font-medium text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="nav_architect" aria-label="About the System Architect tab">
+                            About the Architect
+                        </button>
+                    </nav>
+
+                    <!-- แสดงสถานะและชื่อบัญชีของผู้เข้าใช้ + ปุ่มภาษา & ปุ่มเฟือง -->
+                    <div class="flex items-center gap-3">
+                        
+                        <!-- Quick Tour Button -->
+                        <button onclick="startOnboardingTour()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-bold transition-all focus:outline-none focus:ring-2 focus:ring-brand-orange flex items-center gap-1" title="Quick Tour" aria-label="Quick Tour">
+                            <i data-lucide="help-circle" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                            <span data-i18n="btn_tour">Quick Tour</span>
+                        </button>
+                        
+                        <!-- Upgrade Pro Button -->
+                        <button onclick="openPricingModal()" class="bg-brand-orange/15 hover:bg-brand-orange/25 border border-brand-orange/40 text-xs px-3 py-1.5 rounded-lg text-brand-orange font-extrabold transition-all focus:outline-none focus:ring-2 focus:ring-brand-orange flex items-center gap-1 shadow-lg shadow-brand-orange/5" title="Upgrade Pro" aria-label="Upgrade to Pro Plan">
+                            <i data-lucide="zap" class="w-3.5 h-3.5 fill-brand-orange" aria-hidden="true"></i>
+                            <span data-i18n="btn_upgrade">Upgrade Pro</span>
+                        </button>
+
+                        <!-- Language Switcher -->
+                        <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-extrabold transition-all focus:outline-none focus:ring-2 focus:ring-brand-orange" title="Switch Language" aria-label="Switch Language Button">
+                            <span class="nav-lang-btn-text">EN</span>
+                        </button>
+                        
+                        <!-- API settings configurations -->
+                        <button onclick="openApiSettingsModal()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border p-2 rounded-lg text-brand-muted hover:text-brand-orange transition-all focus:outline-none focus:ring-2 focus:ring-brand-orange" title="API Settings" aria-label="API System Keys Configuration Settings">
+                            <i data-lucide="settings" class="w-4 h-4"></i>
+                        </button>
+
+                        <div class="flex items-center gap-2 bg-brand-bg px-3 py-1.5 rounded-full border border-brand-border">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
+                            <span id="session-user-badge" class="text-xs font-mono text-gray-300 font-medium">Guest Mode</span>
+                            <span class="text-[10px] uppercase tracking-wider font-extrabold text-brand-orange px-1.5 py-0.2 bg-brand-orange/10 rounded-full border border-brand-orange/20" data-i18n="vip_badge">VIP ACTIVE</span>
+                        </div>
+                        
+                        <button onclick="handleSignOut()" class="text-brand-muted hover:text-brand-orange p-1.5 rounded-lg border border-transparent hover:border-brand-border transition-all focus:outline-none focus:ring-2 focus:ring-brand-orange" title="Sign Out" aria-label="Sign out from SABA PROMPT session">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <!-- หน้าแสดงผลที่ 1: WORKSPACE LAYOUT -->
+        <main id="view-workspace" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full transition-all duration-300">
+            
+            <!-- ส่วนแบนเนอร์ทักทายฮีโร่ (zero to pro Edition - Minimalist Style) -->
+            <div class="mb-8 text-center md:text-left relative">
+                <div class="inline-flex items-center gap-2 bg-brand-orange/10 border border-brand-orange/25 px-3.5 py-1 rounded-full text-brand-orange text-xs font-semibold mb-3">
+                    <i data-lucide="zap" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                    <span data-i18n="welcome_badge">SABA PROMPT • ตัวช่วยเขียนเมลลาหยุด & คุยงานระดับเซียน</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-white leading-tight">
+                    <span>zero to pro</span>
+                </h1>
+                <p class="text-xs md:text-sm text-brand-muted mt-2 max-w-lg leading-relaxed" data-i18n="welcome_subtitle">
+                    แพลตฟอร์มตัวช่วยเขียนอีเมลและขจัดดราม่าการสื่อสารในที่ทำงานด้วยพลังจิตวิทยาสากลและ AI อัจฉริยะ
+                </p>
+            </div>
+
+            <!-- กล่องการ์ดเลือก 3 แนวทางยุทธศาสตร์เจรจา (ปรับปรุง Accessibility WCAG 2.1) -->
+            <div class="mb-8">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-muted mb-4 flex items-center gap-2">
+                    <i data-lucide="layers" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                    <span data-i18n="cat_title">เลือกสไตล์และรูปแบบการสื่อสารเชิงยุทธศาสตร์</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" role="tablist">
+                    
+                    <!-- การ์ดที่ 1: The Closer -->
+                    <button onclick="selectCategory('customer')" id="card-customer" class="text-left w-full cursor-pointer bg-brand-surface border-2 border-brand-orange rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="true" aria-label="Client Negotiation Strategy - The Closer">
+                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform" aria-hidden="true"></span>
+                        <span class="flex items-start justify-between">
+                            <span class="p-2.5 bg-brand-orange/15 rounded-lg border border-brand-orange/20 text-brand-orange">
+                                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                            </span>
+                            <span class="text-[9px] font-extrabold uppercase bg-brand-orange/20 text-brand-orange border border-brand-orange/30 px-2 py-0.5 rounded-full">The Closer</span>
+                        </span>
+                        <h3 class="text-base font-bold text-white mt-4" data-i18n="cat_closer_title">คุยงานลูกค้า / เสนอไอเดีย / ปิดการขาย</h3>
+                        <p class="text-xs text-brand-muted mt-1.5 leading-relaxed" data-i18n="cat_closer_desc">มุ่งเน้นการชูคุณค่าหลักของงานและผลประโยชน์ร่วมกัน (Value-First Selling) เพื่อให้เขียนเมลปิดการขายได้อย่างน่าเชื่อถือ</p>
+                    </button>
+
+                    <!-- การ์ดที่ 2: The Tactical Vacation -->
+                    <button onclick="selectCategory('leave')" id="card-leave" class="text-left w-full cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="false" aria-label="Leave Request Strategy - Tactical Vacation">
+                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform" aria-hidden="true"></span>
+                        <span class="flex items-start justify-between">
+                            <span class="p-2.5 bg-zinc-800 rounded-lg text-zinc-400 group-hover:text-brand-orange group-hover:bg-brand-orange/10 transition-colors">
+                                <i data-lucide="calendar" class="w-5 h-5"></i>
+                            </span>
+                            <span class="text-[9px] font-extrabold uppercase bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full">Tactical Vacation</span>
+                        </span>
+                        <h3 class="text-base font-bold text-white mt-4" data-i18n="cat_leave_title">วิธีเขียนเมลลาหยุดกับหัวหน้า (อนุมัติทันที)</h3>
+                        <p class="text-xs text-brand-muted mt-1.5 leading-relaxed" data-i18n="cat_leave_desc">วิธีเขียนอีเมลขอลากับผู้บริหารโดยไม่มีสะดุด ด้วยการเตรียมแผนจัดการความเสี่ยงและส่งมอบงานล่วงหน้า</p>
+                    </button>
+
+                    <!-- การ์ดที่ 3: The Diplomat -->
+                    <button onclick="selectCategory('cowork')" id="card-cowork" class="text-left w-full cursor-pointer bg-brand-surface border border-brand-border rounded-xl p-5 hover:translate-y-[-2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange transition-all duration-300 relative overflow-hidden group shadow-lg" role="tab" aria-selected="false" aria-label="Cross-Departmental Collaboration Strategy - The Diplomat">
+                        <span class="absolute top-0 right-0 w-24 h-24 bg-brand-orange/5 rounded-full blur-xl translate-x-8 -translate-y-8 group-hover:scale-125 transition-transform" aria-hidden="true"></span>
+                        <span class="flex items-start justify-between">
+                            <span class="p-2.5 bg-zinc-800 rounded-lg text-zinc-400 group-hover:text-brand-orange group-hover:bg-brand-orange/10 transition-colors">
+                                <i data-lucide="users-round" class="w-5 h-5"></i>
+                            </span>
+                            <span class="text-[9px] font-extrabold uppercase bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full">The Diplomat</span>
+                        </span>
+                        <h3 class="text-base font-bold text-white mt-4" data-i18n="cat_cowork_title">Co-Work ประสานงานข้ามแผนก</h3>
+                        <p class="text-xs text-brand-muted mt-1.5 leading-relaxed" data-i18n="cat_cowork_desc">วิธีเขียนอีเมลประสานงานอย่างมีชั้นเชิง สลายกำแพง Silo ระหว่างฝ่ายด้วยหลัก Win-Win Strategy</p>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- โครงสร้างบอร์ดทำงานแบ่งออกเป็น 2 ฝั่งซ้าย-ขวา -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- บอร์ดฝั่งซ้าย: กล่องกรอกข้อมูลฟอร์มและตัวแปรต่างๆ -->
+                <div class="lg:col-span-5 bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-xl space-y-5">
+                    <div class="flex items-center justify-between border-b border-brand-border pb-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-brand-orange animate-pulse" aria-hidden="true"></div>
+                            <span class="text-sm font-bold uppercase tracking-wider text-white" data-i18n="form_title">Dynamic Form Controls</span>
+                        </div>
+                        <button onclick="loadSuggestedScenario()" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2.5 rounded-md hover:bg-brand-orange/10 transition-all" aria-label="Load strategic scenario mock values">
+                            <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                            <span data-i18n="btn_suggest">แนะนำสถานการณ์</span>
+                        </button>
+                    </div>
+
+                    <!-- ฟิลด์ระบุชื่อ/ตำแหน่งผู้รับการสื่อสาร -->
+                    <div>
+                        <label for="inputWho" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5" data-i18n="label_recipient">ชื่อผู้รับ / ตำแหน่ง</label>
+                        <div class="relative">
+                            <input id="inputWho" type="text" placeholder="ตัวอย่าง: คุณรวิภา VP of Sales, พี่สมพงษ์ PM" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 pl-11 pr-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white"/>
+                            <i data-lucide="user" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <!-- ฟิลด์ระบุชื่อผู้ส่ง (ชื่อของคุณ) -->
+                    <div>
+                        <label for="inputSender" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5" data-i18n="label_sender">ชื่อผู้ส่ง (ชื่อของคุณ)</label>
+                        <div class="relative">
+                            <input id="inputSender" type="text" placeholder="ตัวอย่าง: สมชาย, นรินทร์" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 pl-11 pr-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white"/>
+                            <i data-lucide="user-check" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted" aria-hidden="true"></i>
+                        </div>
+                    </div>
+
+                    <!-- อัปโหลดเอกสารเชิงยุทธศาสตร์ (PC / Google Drive) -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="label_doc">เอกสารประกอบการเจรจา (PC / Google Drive)</label>
+                        
+                        <!-- Drag & Drop Zone -->
+                        <div id="drag-drop-zone" class="border-2 border-dashed border-brand-border hover:border-brand-orange/50 bg-brand-bg/30 rounded-xl p-4 text-center cursor-pointer transition-all relative group overflow-hidden" tabindex="0" role="button" aria-label="Upload document file">
+                            <input type="file" id="doc-file-input" class="hidden" accept=".txt,.pdf,.docx,.doc,.csv,.xlsx,.xls" />
+                            <div class="flex flex-col items-center justify-center space-y-2 py-1">
+                                <div class="p-2 bg-brand-orange/15 rounded-full text-brand-orange group-hover:scale-110 transition-transform" aria-hidden="true">
+                                    <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+                                </div>
+                                <p class="text-xs font-semibold text-gray-200" id="doc_upload_main_box" data-i18n="doc_upload_main">ลากและวางไฟล์ที่นี่ หรือ คลิกเพื่ออัปโหลด</p>
+                                <p class="text-[10px] text-brand-muted" data-i18n="doc_upload_sub">รองรับ PDF, DOCX, TXT, CSV (สูงสุด 15MB)</p>
+                            </div>
+                        </div>
+
+                        <!-- Import from Google Drive -->
+                        <div class="flex gap-2">
+                            <button type="button" onclick="openGoogleDriveModal()" class="w-full py-2.5 px-3 bg-zinc-900 hover:bg-zinc-800 border border-brand-border rounded-xl text-[11px] font-semibold text-gray-300 transition-all flex items-center justify-center gap-2" aria-label="Import files directly from Google Drive">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M19.43 12.98L13.1 2H10.9L17.23 12.98H19.43ZM15.35 13.02L18.43 18.25C18.67 18.66 18.67 19.16 18.43 19.57C18.19 19.98 17.75 20.25 17.27 20.25H6.73C6.25 20.25 5.81 19.98 5.57 19.57C5.33 19.16 5.33 18.66 5.57 18.25L8.65 13.02H15.35ZM8.65 11.02L2.3 20.25L4.5 20.25L10.82 11.02H8.62Z" fill="#34A853"/>
+                                    <path d="M15.35 13.02L8.65 13.02L10.85 9.25H13.15L15.35 13.02Z" fill="#1A73E8"/>
+                                    <path d="M10.82 11.02L13.1 2H10.9L4.58 11.02H10.82Z" fill="#FFBA00"/>
+                                </svg>
+                                <span data-i18n="btn_gdrive">นำเข้าจาก Google Drive</span>
+                            </button>
+                        </div>
+
+                        <!-- Status File Uploaded -->
+                        <div id="file-status-container" class="hidden bg-brand-orange/5 border border-brand-orange/20 rounded-xl p-3 flex items-center justify-between transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-brand-orange/10 text-brand-orange rounded-lg" id="file-icon-wrapper" aria-hidden="true">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span id="file-name-display" class="text-xs font-semibold text-white max-w-[170px] truncate">Document_Sample.pdf</span>
+                                    <span id="file-size-display" class="text-[9px] text-brand-muted font-mono">1.2 MB • วิเคราะห์เนื้อหาพร้อมใช้</span>
+                                </div>
+                            </div>
+                            <button type="button" onclick="clearUploadedFile()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" title="ลบไฟล์" aria-label="Remove uploaded document attachment">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- รายละเอียดข้อมูลโจทย์ความประสงค์แบบดิบๆ -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <div class="flex items-center gap-2">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted" data-i18n="label_detail">เนื้อความ / รายละเอียดสิ่งที่เกิดขึ้น</label>
+                                <span class="text-[9px] font-bold bg-brand-orange/10 text-brand-orange px-1.5 py-0.5 rounded border border-brand-orange/20" data-i18n="label_detail_badge">รองรับรูปภาพ</span>
+                            </div>
+                            <span id="charCounter" class="text-[10px] font-mono text-brand-muted">0 อักษร</span>
+                        </div>
+                        <div class="relative">
+                            <div id="inputDetail" contenteditable="true" role="textbox" aria-multiline="true"
+                                data-placeholder="ระบุเรื่องราวหรือโจทย์งานแบบดิบๆ (Copy ข้อความและรูปภาพมาวางได้เลย) เช่น: จะขอลาหยุด..." 
+                                class="w-full min-h-[120px] max-h-[300px] overflow-y-auto bg-brand-bg border border-brand-border rounded-xl p-4 text-sm focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white leading-relaxed cursor-text empty:before:content-[attr(data-placeholder)] empty:before:text-brand-muted/50 break-words"></div>
+                        </div>
+                    </div>
+
+                    <!-- ตัวเลือกการปรับโทนและน้ำเสียงการเจรจา -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2" data-i18n="label_tone">ระดับและโทนการเจรจาเชิง EQ</label>
+                        <div class="grid grid-cols-2 gap-1.5" role="group" aria-label="Tone selection">
+                            <button onclick="selectTone('สุภาพ อ่อนน้อม', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border-2 border-brand-orange text-brand-orange transition-all" data-i18n="tone_polite" aria-label="Tone: Polite and warm">
+                                😊 สุภาพ อ่อนโยน
+                            </button>
+                            <button onclick="selectTone('ทางการ มั่นใจ', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_formal" aria-label="Tone: Formal and confident">
+                                💼 ทางการ มั่นใจ
+                            </button>
+                            <button onclick="selectTone('เป็นกันเอง ยืดหยุ่น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_casual" aria-label="Tone: Casual and flexible">
+                                ☕ เป็นกันเอง ยืดหยุ่น
+                            </button>
+                            <button onclick="selectTone('เร่งด่วน ตรงประเด็น', this)" class="tone-btn text-xs font-semibold py-2.5 px-2 rounded-xl bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-brand-muted hover:text-white transition-all" data-i18n="tone_urgent" aria-label="Tone: Urgent and direct">
+                                🚨 เร่งด่วน ตรงประเด็น
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ปุ่มหลักในการสั่งประกอบพรอพท์เชิงยุทธศาสตร์ -->
+                    <button onclick="compileMegaPrompt()" id="btn-compile" class="w-full bg-brand-orange hover:bg-orange-600 active:scale-[0.98] text-black font-extrabold rounded-xl py-4 text-sm transition-all shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2 relative overflow-hidden group" aria-label="Compile Mega Prompt Action">
+                        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-amber-400 to-brand-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true"></span>
+                        <div class="relative z-10 flex items-center justify-center gap-2 text-black">
+                            <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
+                            <span data-i18n="btn_compile">สร้างพรอพท์และร่างอีเมลด้วย AI</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- บอร์ดฝั่งขวา: โครงแสดงผลลัพธ์พรอพท์และแบบร่างการเจรจา (TERMINAL) -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <!-- โครงหลักของกล่องเทอร์มินอลผลลัพธ์ -->
+                    <div id="prompt-compiler-matrix" class="bg-brand-surface border border-brand-border rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[520px] transition-all">
+                        
+                        <!-- เมนูด้านหัวเทอร์มินอลสไตล์ระบบปฏิบัติการพรีเมียม -->
+                        <div class="bg-brand-bg px-4 py-3 border-b border-brand-border flex items-center justify-between flex-shrink-0">
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded-full bg-[#FF5F56]" aria-hidden="true"></span>
+                                <span class="w-3 h-3 rounded-full bg-[#FFBD2E]" aria-hidden="true"></span>
+                                <span class="w-3 h-3 rounded-full bg-[#27C93F]" aria-hidden="true"></span>
+                                <span class="text-xs font-mono text-brand-muted ml-3 tracking-widest uppercase" data-i18n="term_title">PROMPT COMPILER MATRIX</span>
+                            </div>
+
+                            <!-- แท็บตัวเลือกการแสดงผลลัพธ์ภายในกล่องเทอร์มินอล -->
+                            <div class="flex gap-1 p-0.5 bg-brand-surface rounded-lg border border-brand-border" role="tablist">
+                                <button onclick="switchTerminalTab('prompt')" id="tab-term-prompt" class="px-3 py-1.5 text-xs font-bold rounded-md bg-brand-bg text-brand-orange border border-brand-border/30 transition-all" role="tab" aria-selected="true" data-i18n="tab_term_prompt" aria-label="Show Generated Prompt Output Tab">
+                                    Prompt Output
+                                </button>
+                                <button onclick="switchTerminalTab('simulate')" id="tab-term-sim" class="px-3 py-1.5 text-xs font-bold rounded-md text-brand-muted hover:text-white transition-all" role="tab" aria-selected="false" data-i18n="tab_term_sim" aria-label="Show Simulated Email/Chat Draft Output Tab">
+                                    Simulated Chat
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- แผงแสดงผลลัพธ์แท็บที่ 1: PROMPT OUTPUT -->
+                        <div id="terminal-prompt-panel" class="p-6 flex-grow overflow-y-auto space-y-4 font-mono text-xs text-gray-300 relative">
+                            <!-- ข้อความแจ้งเตือนขณะรอประมวลผลเริ่มต้น -->
+                            <div id="compiler-placeholder" class="absolute inset-0 bg-brand-surface/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center text-center p-6 transition-all duration-300">
+                                <div class="w-12 h-12 rounded-full bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center text-brand-orange mb-3" aria-hidden="true">
+                                    <i data-lucide="code-2" class="w-6 h-6"></i>
+                                </div>
+                                <h4 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="placeholder_prompt_title">พร้อมประกอบร่างคำสั่งพรอพท์</h4>
+                                <p class="text-xs text-brand-muted mt-2 max-w-sm leading-relaxed" id="placeholder_prompt_desc_box" data-i18n="placeholder_prompt_desc">
+                                    กรอกข้อมูลตัวแปรทางฝั่งซ้ายมือ แล้วกดปุ่ม <span class="text-brand-orange font-bold">Compile Mega Prompt</span> เพื่อเริ่มวิเคราะห์ยุทธศาสตร์และรับโค้ดพรอพท์
+                                </p>
+                            </div>
+
+                            <!-- ส่วนหัวและปุ่มคัดลอกพรอพท์คลีนแบบไร้แท็กสีตกแต่ง -->
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded" data-i18n="label_gen_prompt">Generated System Prompt</span>
+                                <button onclick="copyToClipboard('prompt')" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2 hover:bg-brand-orange/10 rounded transition-all" aria-label="Copy compiled prompt payload">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                    <span data-i18n="btn_copy_prompt">Copy Clean Prompt</span>
+                                </button>
+                            </div>
+
+                            <div class="border-t border-brand-border/40 my-3" aria-hidden="true"></div>
+
+                            <!-- พื้นที่พิมพ์แสดงผลโค้ดพรอพท์พร้อมรันไฮไลต์สีส้มตัวแปร -->
+                            <pre id="compiled-prompt-output" class="whitespace-pre-wrap leading-relaxed select-text font-mono text-gray-300"></pre>
+                        </div>
+
+                        <!-- แผงแสดงผลลัพธ์แท็บที่ 2: SIMULATED CHAT -->
+                        <div id="terminal-simulate-panel" class="hidden p-6 flex-grow overflow-y-auto space-y-4 relative bg-[#0d0d0f]">
+                            <!-- ข้อความแจ้งเตือนขณะรอประกอบร่างคำสั่ง -->
+                            <div id="simulate-placeholder" class="absolute inset-0 bg-[#0d0d0f]/95 backdrop-blur-sm z-20 flex flex-col items-center justify-center text-center p-6">
+                                <div class="w-12 h-12 rounded-full bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center text-brand-orange mb-3" aria-hidden="true">
+                                    <i data-lucide="message-square" class="w-6 h-6"></i>
+                                </div>
+                                <h4 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="placeholder_sim_title">รอยืนยันพรอพท์เชิงยุทธศาสตร์</h4>
+                                <p class="text-xs text-brand-muted mt-2 max-w-sm leading-relaxed" data-i18n="placeholder_sim_desc">
+                                    เมื่อทำการคัดเลือกและกดประกอบคำสั่งเสร็จสิ้น ระบบ AI อัจฉริยะจะสวมรอยเจรจาแทนคุณด้วยการร่างอีเมลฉบับพรีเมียมให้ทันทีที่แผงนี้!
+                                </p>
+                            </div>
+
+                            <!-- รายละเอียดแสดงผลพร้อมปุ่มก๊อบปี้ดราฟต์อีเมล -->
+                            <div class="flex items-center justify-between border-b border-brand-border/50 pb-3">
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded" data-i18n="label_sim_email">Simulated Workspace Email</span>
+                                <button onclick="copyToClipboard('simulate')" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2 hover:bg-brand-orange/10 rounded transition-all" aria-label="Copy compiled draft email message">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                    <span data-i18n="btn_copy_email">Copy Draft Message</span>
+                                </button>
+                            </div>
+
+                            <!-- โครงแสดงผลจำลองบทสนทนาโชว์ผลประโยชน์ดราฟต์อีเมล -->
+                            <div class="space-y-4">
+                                <div class="flex gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center text-black font-extrabold text-sm flex-shrink-0" aria-hidden="true">
+                                        SB
+                                    </div>
+                                    <div class="bg-brand-surface border border-brand-border/60 p-4 rounded-xl rounded-tl-none max-w-[85%]">
+                                        <p class="text-xs text-brand-muted font-mono mb-1">SABA AI Framework Ingested ✅</p>
+                                        <p class="text-xs text-gray-300 leading-relaxed" data-i18n="placeholder_sim_desc">นี่คือร่างการเจรจาระดับสูงที่ผ่านการคิดวิเคราะห์ยุทธศาสตร์ความสัมพันธ์เชิงลึกเพื่อส่งมอบผลประโยชน์ที่ดีที่สุด:</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-3 justify-end">
+                                    <div class="bg-brand-orangeGlow border border-brand-orange/30 p-4 rounded-xl rounded-tr-none max-w-[85%]">
+                                        <p class="text-xs text-brand-orange font-mono mb-2" data-i18n="sim_tip">💡 แนะนำ: ส่งข้อความนี้ในช่องทาง Chat หลัก หรือ Email ส่วนตัว</p>
+                                        <div id="simulated-draft-output" class="text-sm text-gray-200 leading-relaxed font-sans whitespace-pre-wrap select-text"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ========================================================= -->
+                    <!-- LAYER 5: กล่องสนับสนุนแมวส้มค่าอาหารเปียกซาบะ (TRIPBOX) -->
+                    <!-- ========================================================= -->
+                    <div id="tripbox-support-card" class="bg-gradient-to-br from-brand-surface to-brand-bg border border-brand-orange/30 rounded-2xl p-6 shadow-2xl relative overflow-hidden transition-all duration-500">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" aria-hidden="true"></div>
+                        
+                        <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
+                            
+                            <!-- พื้นที่แสดง QR Code ของเจ้าซาบะตัวจริง (ระบุไฟล์ promptpay-qr_6.png ตามข้อกำหนด) -->
+                            <div class="w-40 h-40 bg-white p-2 rounded-xl border-2 border-brand-orange/40 flex items-center justify-center flex-shrink-0 relative group">
+                                <img src="promptpay-qr_6.png" alt="SABA Support PromptPay QR Code" class="w-full h-full object-contain rounded" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 150 150\'><rect width=\'150\' height=\'150\' fill=\'white\'/><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'10\' fill=\'black\' text-anchor=\'middle\'>[PROMPTPAY QR CODES]</text></svg>';"/>
+                                <div class="absolute inset-0 bg-black/60 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer" onclick="notifySupport()" role="button" aria-label="Expand Support QR Code View">
+                                    <span class="text-[10px] text-brand-orange font-bold text-center px-2">คลิกเพื่อขยายภาพ<br/>เลี้ยงเปียกซาบะ 🐈</span>
+                                </div>
+                            </div>
+
+                            <!-- รายละเอียดเชิญชวนสนับสนุนค่าอาหารเปียก -->
+                            <div class="flex-grow space-y-3 text-center md:text-left">
+                                <div class="flex items-center justify-center md:justify-between gap-2">
+                                    <span class="text-xs font-extrabold uppercase bg-brand-orange/20 text-brand-orange border border-brand-orange/30 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 animate-bounce" data-i18n="tripbox_tag">
+                                        🐈 เลี้ยงอาหารเปียกซาบะ
+                                    </span>
+                                    <button onclick="dismissTripbox()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" title="ซ่อนกล่องสนับสนุน" aria-label="Close Saba support box banner">
+                                        <i data-lucide="x" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                                <h3 class="text-base font-bold text-white" data-i18n="tripbox_title">ถูกใจยุทธศาสตร์คำสั่งพรอพท์นี้ไหม?</h3>
+                                <p class="text-xs text-brand-muted leading-relaxed" data-i18n="tripbox_desc">
+                                    หากแอปพลิเคชันนี้ช่วยให้ประหยัดเวลาการเจรจางานและเจาะจิตวิทยาประสานงานไปได้หลายชั่วโมง คุณสามารถสนับสนุนค่าอาหารเปียกให้น้องแมวส้มตัวตึงซาบะของทีมพัฒนาโดยตรงโดยการสแกน PromptPay ด้านข้างได้เลยครับ! ขอบคุณสำหรับมิตรภาพและการสนับสนุน
+                                </p>
+                                <div class="flex flex-wrap justify-center md:justify-start gap-4 text-[11px] text-zinc-400 font-mono">
+                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i> Instant Secure Scan</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="heart" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i> Developer Friendly support</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- LAYER 6: NOTION PROMPT VAULT WIDGET (CROSS-SELLING) -->
+            <!-- ========================================================= -->
+            <div class="mt-8 max-w-7xl mx-auto">
+                <div class="bg-gradient-to-r from-brand-surface via-brand-surface to-brand-orange/5 border border-brand-orange/20 rounded-2xl p-6 shadow-2xl relative overflow-hidden transition-all duration-300 group hover:border-brand-orange/45">
+                    <div class="absolute -right-16 -top-16 w-40 h-40 bg-brand-orange/10 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500" aria-hidden="true"></div>
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-brand-orange/15 border border-brand-orange/30 rounded-xl flex items-center justify-center text-brand-orange flex-shrink-0">
+                                <i data-lucide="database" class="w-6 h-6" aria-hidden="true"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-[9px] font-bold tracking-widest uppercase text-brand-orange bg-brand-orange/10 px-2 py-0.5 rounded border border-brand-orange/20" data-i18n="vault_tag">PREMIUM BUNDLE</span>
+                                <h3 class="text-base font-bold text-white flex items-center gap-1.5">
+                                    <span data-i18n="vault_title">SABA Prompt Notion Vault (คลังพรอพท์ 100+ สถานการณ์)</span>
+                                </h3>
+                                <p class="text-xs text-brand-muted max-w-2xl leading-relaxed" data-i18n="vault_desc">
+                                    คลังพรอพท์เจรจาในชีวิตจริงของออฟฟิศ รวบรวมทางออกครอบคลุมทุกวิกฤตอารมณ์และจิตวิทยาการสื่อสาร (เช่น เขียนเมลทวงหนี้แบบผู้ดี, เมลยอมรับผิดแบบชนะใจ, เมลขอขึ้นเงินเดือนเชิงยุทธศาสตร์) โคลนไปใช้บน Notion ได้ทันที
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="buyNotionVault()" class="bg-brand-orange hover:bg-orange-600 active:scale-[0.98] text-black font-extrabold text-xs py-3 px-6 rounded-xl transition-all shadow-lg shadow-brand-orange/20 whitespace-nowrap flex items-center gap-2" aria-label="Purchase Notion Prompt Vault Link">
+                            <i data-lucide="shopping-cart" class="w-4 h-4 fill-black" aria-hidden="true"></i>
+                            <span data-i18n="btn_vault">รับสิทธิ์เข้าคลัง Notion Vault (290.-)</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback & Suggestions Panel -->
+            <div class="mt-12 max-w-2xl mx-auto">
+                <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-xl space-y-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 border-b border-brand-border pb-4 mb-4">
+                            <i data-lucide="message-square-plus" class="w-5 h-5 text-brand-orange" aria-hidden="true"></i>
+                            <h3 class="text-sm font-bold uppercase tracking-wider text-white font-heading" data-i18n="fb_title">Feedback & Suggestions</h3>
+                        </div>
+                        <p class="text-xs text-brand-muted leading-relaxed mb-4" data-i18n="fb_desc">
+                            เรามุ่งหวังที่จะปรับแต่งพรอพท์และโครงสร้างแอปพลิเคชันให้พนักงานทุกคนมีชีวิตในสเปซออฟฟิศที่ดีขึ้น ส่งข้อคิดเห็นของคุณโดยระบุรายละเอียดด้านล่างนี้
+                        </p>
+                        
+                        <!-- หน้ากรอกฟอร์มฟีดแบ็กปกติ -->
+                        <div id="feedback-form-panel" class="space-y-4">
+                            <textarea id="feedback-text" rows="3" placeholder="ระบุสิ่งที่อยากให้ปรับปรุง ฟีเจอร์ที่อยากได้เพิ่ม หรือผลลัพธ์การใช้งานจริง..." class="w-full bg-brand-bg border border-brand-border rounded-xl p-4 text-xs focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange/50 transition-all text-white leading-relaxed resize-none"></textarea>
+                            
+                            <button onclick="submitFeedback()" class="w-full bg-zinc-800 hover:bg-zinc-700 hover:text-white text-zinc-300 text-xs font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2" aria-label="Submit system suggestions feedback button">
+                                <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                                <span data-i18n="btn_fb_submit">ส่งความคิดเห็นเชิงสถาปัตยกรรม</span>
+                            </button>
+                        </div>
+
+                        <!-- แจ้งสถานะส่งข้อมูล Mock API สำเร็จ -->
+                        <div id="feedback-success-panel" class="hidden text-center py-6 space-y-3">
+                            <div class="w-10 h-10 bg-emerald-500/10 border border-emerald-500/35 text-emerald-400 rounded-full flex items-center justify-center mx-auto" aria-hidden="true">
+                                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-white" data-i18n="fb_success_title">บันทึกข้อมูลเรียบร้อย</h4>
+                            <p class="text-xs text-brand-muted" data-i18n="fb_success_desc">ความคิดเห็นได้รับการบันทึกแล้ว ข้อมูลจะถูกเชื่อมต่อในคลังฐานระบบ SABA Prompt เพื่ออัปเกรดความเจ๋งในเวอร์ชันถัดไป</p>
+                        </div>
+                    </div>
+
+                    <div class="text-[10px] text-zinc-400 font-mono text-center pt-4 border-t border-brand-border/40">
+                        SABA Local Mock Post API Gateway • Session Connected
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ========================================================= -->
+        <!-- หน้าแสดงผลพิเศษ (SEO TAB): วิธีเขียนอีเมล (SEO GUIDE) -->
+        <!-- ========================================================= -->
+        <main id="view-seo" class="hidden flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+            
+            <!-- Thai Version -->
+            <article id="view-seo-th" class="space-y-10">
+                <div class="text-center space-y-4 max-w-3xl mx-auto">
+                    <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3.5 py-1.5 rounded-full border border-brand-orange/20 inline-block">
+                        🔍 สารานุกรมและบทความแนะนำการเจรจาเชิงรุก
+                    </span>
+                    <h1 class="text-3xl md:text-5xl font-heading font-black text-white leading-tight">
+                        วิธีเขียนอีเมล (Email) และวิธีเขียนเมลล์อย่างมืออาชีพด้วยตัวช่วยเขียนเมล AI
+                    </h1>
+                    <p class="text-sm md:text-base text-brand-muted">
+                        รวมทุกวิธีเขียนเมลลาหยุด คุยงานลูกค้า ติดตามปิดการขาย และสลายกำแพงความอึดอัดในที่ทำงานโดยใช้หลักจิตวิทยาประสานงานยุคใหม่
+                    </p>
+                </div>
+                <div class="border-t border-brand-border/60 my-6" aria-hidden="true"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-8 space-y-8 text-gray-300 text-sm leading-relaxed">
+                        <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
+                            <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
+                                1. ทำไม “วิธีเขียนอีเมล” ถึงยังคงกำหนดอนาคตการทำงานของคุณ?
+                            </h2>
+                            <p>
+                                แม้ในยุคที่มีแอปพลิเคชันแชทเกิดขึ้นมากมาย แต่การติดต่อสื่อสารหลักในบริษัท (Enterprise Communication) ก็ยังคงดำเนินผ่าน <strong>Email (อีเมล)</strong> เป็นแกนหลัก การศึกษาวิธีเขียนเมล และวิธีเขียนเมลล์อย่างมีระบบจะทำให้คุณได้รับการยอมรับจากเพื่อนร่วมงานและผู้บริหารสูงสุด
+                            </p>
+                            <p>
+                                สำหรับพนักงานออฟฟิศหลายท่าน มักประสบปัญหาเรื่องความกดดันและประหม่าเวลาต้องการ <strong>เขียนเมลลาหยุด</strong> หรือ <strong>ส่งดราฟต์เมลติดตามงานลูกค้า</strong> SABA PROMPT จึงพัฒนาแพลตฟอร์มนี้มาเพื่อสวมรอยเป็น <em>ตัวช่วยเขียนอีเมล</em> (Email Writer AI Assistant) ที่มีความนุ่มนวล เข้าใจธรรมชาติอารมณ์และพฤติกรรมมนุษย์ลึกซึ้ง
+                            </p>
+                        </section>
+                        <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
+                            <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
+                                2. ตัวช่วยเขียนเมล AI กับหลักการแก้ไขสากล (sabapromt Framework)
+                            </h2>
+                            <p>
+                                เครื่องมือพ่นคำสั่งทั่วไป (หรือที่คุณอาจเคยเสิร์ชว่า <strong>sabapromt</strong>, sabaprompt) มักออกแบบคำตอบออกมาแห้งแล้งและเป็นทางการจนแข็งกระด้าง SABA PROMPT นำยุทธศาสตร์ 3 แกนหลักมาประยุกต์ใช้เพื่อความสมบูรณ์แบบ:
+                            </p>
+                            <ul class="list-disc pl-5 space-y-2 text-brand-muted">
+                                <li><strong class="text-white">Radical Empathy:</strong> สัมผัสความต้องการลึกๆ ของฝ่ายผู้รับสาร (เช่น หัวหน้ากลัวไม่มีคนรันโปรเจค, ลูกค้ากลัวโดนทิ้งงาน)</li>
+                                <li><strong class="text-white">Risk-Mitigation Ready:</strong> ใส่แผนป้องกันภัยและความเสี่ยงให้ผู้รับตัดสินใจอนุมัติอย่างสบายใจที่สุด</li>
+                                <li><strong class="text-white">Polite Persuasion:</strong> วางประโยคต้อนมุมแบบสุภาพ ให้เกียรติ แต่มีความเฉียบขาดเชิงรุก</li>
+                            </ul>
+                        </section>
+                        <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
+                            <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
+                                3. เคล็ดลับและวิธีเขียนเมลขอลากับหัวหน้าให้ราบรื่นผ่านฉลุย
+                            </h2>
+                            <p>
+                                วิธีเขียนเมลลาหยุด หรือวิธีเขียนเมลล์ลากิจที่ดีที่สุดไม่ใช่การบอกเพียงว่า "เราขอหยุดช่วงวันที่..." แต่คือการเสนอ <strong>Handover Plan (แผนส่งต่องานสำรอง)</strong> ล่วงหน้า เพื่อลดความกังวลของเจ้านาย:
+                            </p>
+                            <div class="bg-brand-bg p-4 rounded-xl border border-brand-border font-mono text-xs text-brand-orange leading-relaxed">
+                                แผนการลาพักร้อน 5 วัน = แจ้งวันลาที่ชัดเจน + แผนงานที่เคลียร์เสร็จแล้วก่อนลา + มอบหมายเพื่อนร่วมทีม (เจมส์) สแตนด์บายประสานเรื่องเร่งด่วนแทน
+                            </div>
+                        </section>
+                    </div>
+                    <aside class="lg:col-span-4 space-y-6">
+                        <div class="bg-brand-surface p-5 rounded-2xl border border-brand-border space-y-4">
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-brand-orange">SABA SEO FAQ Index</h3>
+                            <div class="space-y-3">
+                                <div class="border-b border-brand-border/60 pb-2">
+                                    <h4 class="text-xs font-bold text-white mb-1">Q: เขียนเมล กับ เขียนเมลล์ เขียนแบบไหนถูก?</h4>
+                                    <p class="text-[11px] text-brand-muted">A: อ้างอิงตามพจนานุกรมคำศัพท์ 'เขียนเมล' (ล.ลิง) ถูกต้องที่สุด</p>
+                                </div>
+                                <div class="border-b border-brand-border/60 pb-2">
+                                    <h4 class="text-xs font-bold text-white mb-1">Q: sabapromt ทำงานอย่างไร?</h4>
+                                    <p class="text-[11px] text-brand-muted">A: เราคือระบบช่วยจัดทำ Dynamic Meta-Prompt อัจฉริยะก่อนส่งต่อให้ AI</p>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </article>
+
+            <!-- English Version -->
+            <article id="view-seo-en" class="space-y-10 hidden">
+                <div class="text-center space-y-4 max-w-3xl mx-auto">
+                    <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3.5 py-1.5 rounded-full border border-brand-orange/20 inline-block">
+                        🔍 Encyclopedia & Professional Communication Guide
+                    </span>
+                    <h1 class="text-3xl md:text-5xl font-heading font-black text-white leading-tight">
+                        How to Write Emails Professionally using AI Writing Assistant Tools
+                    </h1>
+                    <p class="text-sm md:text-base text-brand-muted">
+                        Mastering client negotiations, leave requests, and resolving workplace communication conflicts with empathy frameworks.
+                    </p>
+                </div>
+                <div class="border-t border-brand-border/60 my-6" aria-hidden="true"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-8 space-y-8 text-gray-300 text-sm leading-relaxed">
+                        <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
+                            <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
+                                1. Why Email Communication Still Shapes Your Career Future
+                            </h2>
+                            <p>
+                                Despite instant messaging, **Email** remains the gold standard in enterprise communication. Writing clear, structured messages ensures recognition from peers and upper management. SABA PROMPT was developed to act as an empathetic *AI Email Assistant* to reduce stress when requesting leaves or following up with sponsorships.
+                            </p>
+                        </section>
+                        <section class="space-y-3 bg-brand-surface p-6 rounded-2xl border border-brand-border">
+                            <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
+                                2. Empathetic Persuasion Framework (SABA Empathy Model)
+                            </h2>
+                            <p>
+                                Generic prompts often generate rigid, standard text that feels mechanical. SABA PROMPT uses a three-pillar methodology for emotional intelligence:
+                            </p>
+                            <ul class="list-disc pl-5 space-y-2 text-brand-muted">
+                                <li><strong class="text-white">Radical Empathy:</strong> Realizing stakeholder anxieties (e.g. manager worried about milestones).</li>
+                                <li><strong class="text-white">Risk-Mitigation Ready:</strong> Offering backup plans upfront to clear objections.</li>
+                                <li><strong class="text-white">Polite Persuasion:</strong> Gentle yet assertive closing tactics.</li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+
+        <!-- หน้าแสดงผลที่ 3: OUR PSYCHOLOGY & FRAMEWORK -->
+        <main id="view-framework" class="hidden flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+            
+            <!-- Thai Version -->
+            <div id="view-framework-th" class="space-y-8">
+                <div class="text-center">
+                    <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Mindset Framework</span>
+                    <h2 class="text-3xl font-heading font-black text-white mt-4">ทฤษฎีการสื่อสารแบบ SABA Empathy Model</h2>
+                    <p class="text-sm text-brand-muted mt-2">ถอดสูตรคิดวิเคราะห์ด้วยยุทธศาสตร์ความร่วมมือระดับมืออาชีพ</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                    <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
+                        <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                            <i data-lucide="heart" class="w-4 h-4" aria-hidden="true"></i>
+                            <span>1. Radical Empathy</span>
+                        </h3>
+                        <p class="text-xs text-brand-muted leading-relaxed">
+                            การสื่อสารที่ดีเป็นการสัมผัสถึงความกลัว ความกดดัน และความต้องการจริงของผู้มีส่วนได้ส่วนเสียในที่ทำงาน (เช่น เจ้านายกลัวงานหลุดต่อผู้บริหาร, ลูกค้ากลัวงานไม่ตรงเวลา)
+                        </p>
+                    </div>
+                    <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
+                        <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                            <i data-lucide="shield" class="w-4 h-4" aria-hidden="true"></i>
+                            <span>2. Risk-Mitigation Ready</span>
+                        </h3>
+                        <p class="text-xs text-brand-muted leading-relaxed">
+                            ผู้เจรจาเชิงรุกจะนำเสนอวิธีการลดปัญหาความเสี่ยงควบคู่ไปกับคำร้องขอเสมอ (Proactive Risk Solutions) เพื่อให้อีกฝ่ายตัดสินใจอนุมัติง่ายที่สุด
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- English Version -->
+            <div id="view-framework-en" class="space-y-8 hidden">
+                <div class="text-center">
+                    <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Mindset Framework</span>
+                    <h2 class="text-3xl font-heading font-black text-white mt-4">SABA Empathy Model Theory</h2>
+                    <p class="text-sm text-brand-muted mt-2">Deconstruct relationship strategy in professional workflows</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                    <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
+                        <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                            <i data-lucide="heart" class="w-4 h-4" aria-hidden="true"></i>
+                            <span>1. Radical Empathy</span>
+                        </h3>
+                        <p class="text-xs text-brand-muted leading-relaxed">
+                            Acknowledge the core fears, pressures, and goals of colleagues and managers (e.g. managers fearing blame, clients fearing delay).
+                        </p>
+                    </div>
+                    <div class="bg-brand-surface border border-brand-border rounded-2xl p-6">
+                        <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                            <i data-lucide="shield" class="w-4 h-4" aria-hidden="true"></i>
+                            <span>2. Risk-Mitigation Ready</span>
+                        </h3>
+                        <p class="text-xs text-brand-muted leading-relaxed">
+                            Always pair requests with risk-mitigating solutions, making it effortless for the other party to approve immediately.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-brand-surface border border-brand-border rounded-2xl p-8 text-center space-y-4 mt-8">
+                <h3 class="text-lg font-bold text-white">"จงเป็นนักประสานผลประโยชน์ที่เข้าใจหัวอกผู้อื่นอย่างแท้จริง"</h3>
+                <p class="text-xs text-brand-muted leading-relaxed max-w-lg mx-auto">
+                    สถาปัตยกรรมคำสั่งที่เราบรรจุลงใน SABA Prompt จะช่วยล้อมกรอบตัวแปรแบบอเนกประสงค์เพื่อให้ AI ประมวลและให้ผลลัพธ์การร่างบทสนทนาที่มีมิติอย่างแท้จริง
+                </p>
+                <button onclick="navigateTab('workspace')" class="bg-brand-orange hover:bg-orange-600 text-black font-bold text-xs py-2.5 px-6 rounded-xl transition-all" aria-label="Return back to primary prompt builder tab">
+                    กลับสู่หน้าทดลองใช้พรอพท์
+                </button>
+            </div>
+        </main>
+
+        <!-- หน้าแสดงผลที่ 4: ABOUT THE ARCHITECT -->
+        <main id="view-architect" class="hidden flex-grow max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+            
+            <!-- Thai Version -->
+            <div id="view-architect-th" class="bg-brand-surface border border-brand-border rounded-3xl p-8 relative overflow-hidden shadow-2xl">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" aria-hidden="true"></div>
+                <div class="flex flex-col items-center text-center space-y-6">
+                    <div class="w-24 h-24 rounded-full bg-brand-orange/10 border-2 border-brand-orange/30 flex items-center justify-center text-brand-orange overflow-hidden">
+                        <i data-lucide="shield" class="w-12 h-12" aria-hidden="true"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Visionary Engineer</span>
+                        <h2 class="text-2xl font-heading font-black text-white">สถาปนิกและผู้สร้างสรรค์ระบบ</h2>
+                        <p class="text-xs text-brand-muted">ขับเคลื่อนนวัตกรรมการทำงานผ่านมุมมองมนุษยวิทยาและวิศวกรรมจิตวิทยา</p>
+                    </div>
+                    <p class="text-xs text-gray-300 leading-relaxed max-w-md">
+                        แอปพลิเคชันและฐานระบบคำสั่ง "The Strategist: Story-to-Prompt" ได้รับการสร้างสรรค์ขึ้นโดยมีพื้นฐานจิตวิทยาแบบ INFJ-A ที่ผสานวิศวกรรมทางตรรกะ เพื่อส่งต่อเครื่องมือที่จะช่วยเหลือพนักงานออฟฟิศทุกคนให้ก้าวข้ามขีดจำกัดการสื่อสารอย่างสง่างาม
+                    </p>
+                </div>
+            </div>
+
+            <!-- English Version -->
+            <div id="view-architect-en" class="bg-brand-surface border border-brand-border rounded-3xl p-8 relative overflow-hidden shadow-2xl hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" aria-hidden="true"></div>
+                <div class="flex flex-col items-center text-center space-y-6">
+                    <div class="w-24 h-24 rounded-full bg-brand-orange/10 border-2 border-brand-orange/30 flex items-center justify-center text-brand-orange overflow-hidden">
+                        <i data-lucide="shield" class="w-12 h-12" aria-hidden="true"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Visionary Engineer</span>
+                        <h2 class="text-2xl font-heading font-black text-white">The System Architect</h2>
+                        <p class="text-xs text-brand-muted">Empowering workers through anthropological insights and design engineering</p>
+                    </div>
+                    <p class="text-xs text-gray-300 leading-relaxed max-w-md">
+                        "The Strategist: Story-to-Prompt" platform was constructed with an INFJ-A mindset, blending rigorous logic with deep human empathy. It provides structural tools for workers to traverse tough office communications.
+                    </p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ส่วนท้ายหน้าเว็บ (FOOTER) -->
+        <footer class="bg-brand-bg border-t border-brand-border py-8 mt-12 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+                <p class="text-xs text-brand-muted font-mono">
+                    © 2026 SABA PROMPT. Built with passion for modern workers. Optimized for Email, เขียนเมลล์, ตัวช่วยเขียนเมล, sabapromt.
+                </p>
+                <div class="flex items-center justify-center gap-4 text-zinc-400 text-[10px] font-mono">
+                    <button class="hover:underline bg-transparent border-none cursor-pointer" onclick="openPrivacyModal()">Privacy Policy</button>
+                    <span>•</span>
+                    <button class="hover:underline bg-transparent border-none cursor-pointer" onclick="openTermsModal()">Terms of Service</button>
+                    <span>•</span>
+                    <span>Clean Copying Guaranteed</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Google Drive File Selection Modal -->
+    <div id="gdrive-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M19.43 12.98L13.1 2H10.9L17.23 12.98H19.43ZM15.35 13.02L18.43 18.25C18.67 18.66 18.67 19.16 18.43 19.57C18.19 19.98 17.75 20.25 17.27 20.25H6.73C6.25 20.25 5.81 19.98 5.57 19.57C5.33 19.16 5.33 18.66 5.57 18.25L8.65 13.02H15.35ZM8.62 11.02L2.3 20.25L4.5 20.25L10.82 11.02H8.62Z" fill="#34A853"/>
+                        <path d="M15.35 13.02L8.65 13.02L10.85 9.25H13.15L15.35 13.02Z" fill="#1A73E8"/>
+                        <path d="M10.82 11.02L13.1 2H10.9L4.58 11.02H10.82Z" fill="#FFBA00"/>
+                    </svg>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="gdrive_title">Google Drive — เอกสารล่าสุด</h3>
+                </div>
+                <button onclick="closeGoogleDriveModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" aria-label="Close Google Drive asset selection modal">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                <button onclick="selectGoogleDriveFile('Q3_Performance_Review.pdf', '2.4 MB', 'pdf', 'สรุปผลประกอบการไตรมาส 3: ยอดขายทะลุเป้า 120% มีการเติบโตอย่างก้าวกระโดดในตลาด AI Marketing และต้องการปรับแผนตารางส่งมอบงานแคมเปญการตลาดยุค AI เพิ่มขึ้น')" class="w-full flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-border/40 border border-brand-border rounded-xl cursor-pointer transition-all group text-left">
+                    <span class="flex items-center gap-3">
+                        <i data-lucide="file-text" class="w-4 h-4 text-rose-500"></i>
+                        <span class="text-xs text-gray-200 group-hover:text-brand-orange transition-colors">Q3_Performance_Review.pdf</span>
+                    </span>
+                    <span class="text-[10px] font-mono text-brand-muted">2.4 MB</span>
+                </button>
+                <button onclick="selectGoogleDriveFile('Leave_and_Handover_Specification.docx', '1.1 MB', 'word', 'สเปคการส่งต่องานสำคัญล่วงหน้า: งานหลักทั้งหมดได้รับการส่งมอบล่วงหน้าอย่างสมบูรณ์ และมีคุณเจมส์คอยรับเรื่องและดูแลเรื่องเร่งด่วนแทน')" class="w-full flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-border/40 border border-brand-border rounded-xl cursor-pointer transition-all group text-left">
+                    <span class="flex items-center gap-3">
+                        <i data-lucide="file-text" class="w-4 h-4 text-blue-500"></i>
+                        <span class="text-xs text-gray-200 group-hover:text-brand-orange transition-colors">Leave_and_Handover_Plan.docx</span>
+                    </span>
+                    <span class="text-[10px] font-mono text-brand-muted">1.1 MB</span>
+                </button>
+                <button onclick="selectGoogleDriveFile('Silo_Breaking_Financial_Budget.csv', '450 KB', 'spreadsheet', 'งบโครงการดิจิทัลปีหน้า: ใบกำกับงวดงานชุดสุดท้ายสำหรับแคมเปญของโครงการดิจิทัลซึ่งมีผลร่วมกันของทั้งสองแผนก เพื่ออัปเกรดจัดซื้อซอฟต์แวร์แสนล้ำร่วมกัน')" class="w-full flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-border/40 border border-brand-border rounded-xl cursor-pointer transition-all group text-left">
+                    <span class="flex items-center gap-3">
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-500"></i>
+                        <span class="text-xs text-gray-200 group-hover:text-brand-orange transition-colors">Campaign_Budget_Draft.csv</span>
+                    </span>
+                    <span class="text-[10px] font-mono text-brand-muted">450 KB</span>
+                </button>
+            </div>
+            <div class="mt-4 pt-3 border-t border-brand-border flex justify-end">
+                <button onclick="closeGoogleDriveModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" data-i18n="gdrive_cancel" aria-label="Cancel Selection">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- NEW MODALS & OVERLAYS (Cookie Consent, API Settings, Privacy Policies) -->
+    <!-- ========================================================= -->
+    
+    <!-- API Settings Keys Modal -->
+    <div id="api-settings-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="settings" class="w-5 h-5 text-brand-orange" aria-hidden="true"></i>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">API Keys Configuration</h3>
+                </div>
+                <button onclick="closeApiSettingsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" aria-label="Close API configuration properties screen">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label for="api-provider" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Provider</label>
+                    <select id="api-provider" onchange="toggleApiFields()" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-orange transition-all text-white">
+                        <option value="gemini">Google Gemini API</option>
+                        <option value="openai">OpenAI API</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="api-key" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Key</label>
+                    <div class="relative">
+                        <input id="api-key" type="password" placeholder="AIzaSy..." class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-orange transition-all text-white font-mono" />
+                        <button onclick="toggleApiKeyVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white" aria-label="Toggle password text obscure filter">
+                            <i data-lucide="eye" id="api-key-eye" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label for="api-model" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">Model Name</label>
+                    <select id="api-model" class="w-full bg-brand-bg border border-brand-border rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-orange transition-all text-white">
+                    </select>
+                </div>
+                <div class="bg-brand-orangeGlow border border-brand-orange/20 rounded-xl p-3 text-[11px] text-brand-muted leading-relaxed">
+                    <span class="text-brand-orange font-bold">🔒 Clien            "btn_compile": { th: "สร้างพรอพท์และร่างอีเมลด้วย AI", en: "GENERATE PROMPT & AI DRAFT" },
+            "term_title": { th: "PROMPT COMPILER MATRIX", en: "PROMPT COMPILER MATRIX" },
+            "tab_term_prompt": { th: "Prompt Output", en: "Prompt Output" },
+            "tab_term_sim": { th: "Simulated Chat", en: "Simulated Chat" },
+            "placeholder_prompt_title": { th: "พร้อมประกอบร่างคำสั่งพรอพท์", en: "Ready to Compile Prompt" },
+            "placeholder_prompt_desc": { th: "กรอกข้อมูลตัวแปรทางฝั่งซ้ายมือ แล้วกดปุ่ม <span class='text-brand-orange font-bold'>สร้างพรอพท์และร่างอีเมลด้วย AI</span> เพื่อเริ่มวิเคราะห์ยุทธศาสตร์และรับโค้ดพรอพท์", en: "Fill in the variables on the left, then click <span class='text-brand-orange font-bold'>Generate Prompt & AI Draft</span> to generate." },
+            "label_gen_prompt": { th: "Generated System Prompt", en: "Generated System Prompt" },
+            "btn_copy_prompt": { th: "Copy Clean Prompt", en: "Copy Clean Prompt" },
+            "placeholder_sim_title": { th: "รอยืนยันพรอพท์เชิงยุทธศาสตร์", en: "Awaiting Strategic Prompt" },
+            "placeholder_sim_desc": { th: "เมื่อทำการคัดเลือกและกดประกอบคำสั่งเสร็จสิ้น ระบบ AI อัจฉริยะจะสวมรอยเจรจาแทนคุณด้วยการร่างอีเมลฉบับพรีเมียมให้ทันทีที่แผงนี้!", en: "Once compiled, the AI will draft your premium message here!" },
+            "label_sim_email": { th: "Simulated Workspace Email", en: "Simulated Workspace Email" },
+            "btn_copy_email": { th: "Copy Draft Message", en: "Copy Draft Message" },
+            "sim_tip": { th: "💡 แนะนำ: ส่งข้อความนี้ในช่องทาง Chat หลัก หรือ Email ส่วนตัว", en: "💡 Tip: Send this message in main Chat channels or personal Email." },
+            "tripbox_tag": { th: "🐈 เลี้ยงอาหารเปียกซาบะ", en: "🐈 Buy Wet Food for Saba" },
+            "tripbox_title": { th: "ถูกใจยุทธศาสตร์คำสั่งพรอพท์นี้ไหม?", en: "Enjoy SABA PROMPT?" },
+            "tripbox_desc": { th: "หากแอปพลิเคชันนี้ช่วยให้ประหยัดเวลาการเจรจางานและเจาะจิตวิทยาประสานงานไปได้หลายชั่วโมง คุณสามารถสนับสนุนค่าอาหารเปียกให้น้องแมวส้มตัวตึงซาบะของทีมพัฒนาโดยตรงโดยการสแกน PromptPay ด้านข้างได้เลยครับ! ขอบคุณสำหรับมิตรภาพและการสนับสนุน", en: "If this app saved you hours of writing, consider buying some wet food for our cat Saba by scanning the PromptPay code! Thanks for your support." },
+            "fb_title": { th: "Feedback & Suggestions", en: "Feedback & Suggestions" },
+            "fb_desc": { th: "เรามุ่งหวังที่จะปรับแต่งพรอพท์และโครงสร้างแอปพลิเคชันให้พนักงานทุกคนมีชีวิตในสเปซออฟฟิศที่ดีขึ้น ส่งข้อคิดเห็นของคุณโดยระบุรายละเอียดด้านล่างนี้", en: "Help us improve SABA PROMPT. Send your comments and feature ideas below." },
+            "btn_fb_submit": { th: "ส่งความคิดเห็นเชิงสถาปัตยกรรม", en: "Submit Architect Feedback" },
+            "fb_success_title": { th: "บันทึกข้อมูลเรียบร้อย", en: "Feedback Saved Successfully" },
+            "fb_success_desc": { th: "ความคิดเห็นได้รับการบันทึกแล้ว ข้อมูลจะถูกเชื่อมต่อในคลังฐานระบบ SABA Prompt เพื่ออัปเกรดความเจ๋งในเวอร์ชันถัดไป", en: "Thank you! Your feedback has been saved and will help us grow." },
+            "gdrive_title": { th: "Google Drive — เอกสารล่าสุด", en: "Google Drive — Recent Files" },
+            "gdrive_cancel": { th: "ยกเลิก", en: "Cancel" },
+            "cookie_text": { th: "เราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานและเก็บข้อมูลเซสชันของคุณตามกฎหมาย PDPA <button class='underline text-brand-orange bg-transparent border-none' onclick='openPrivacyModal()'>นโยบายความเป็นส่วนตัว</button> และ <button class='underline text-brand-orange bg-transparent border-none' onclick='openTermsModal()'>ข้อตกลงการใช้งาน</button>", en: "We use cookies to improve your experience and store session data. Read our <button class='underline text-brand-orange bg-transparent border-none' onclick='openPrivacyModal()'>Privacy Policy</button> and <button class='underline text-brand-orange bg-transparent border-none' onclick='openTermsModal()'>Terms of Service</button>" },
+            "cookie_accept": { th: "ยอมรับทั้งหมด", en: "Accept All" },
+            "btn_tour": { th: "คู่มือแนะนำด่วน", en: "Quick Tour" },
+            "btn_upgrade": { th: "อัปเกรด Pro", en: "Upgrade Pro" },
+            "pricing_title": { th: "ยกระดับบัญชี SABA PROMPT Premium", en: "Upgrade SABA PROMPT Premium" },
+            "pricing_subtitle": { th: "ยกระดับการทำงานและการเจรจาสื่อสารเชิงจิตวิทยาด้วย AI ปลดล็อกฟีเจอร์จัดเต็มเพื่อพนักงานและองค์กรมืออาชีพ", en: "Take your workplace communication to the next level. Unlock premium features for individual professionals and enterprise teams." },
+            "plan_free_name": { th: "แผนใช้งานฟรี (Free Plan)", en: "Free Plan" },
+            "plan_free_desc": { th: "เริ่มต้นใช้งานสำหรับบุคคลทั่วไป", en: "Essential tools for individual workers" },
+            "plan_free_feat1": { th: "ใช้งาน Prompt Compiler ได้ไม่จำกัด", en: "Unlimited Prompt Compilation" },
+            "plan_free_feat2": { th: "ดราฟต์อีเมล AI พื้นฐาน 3 ครั้ง/วัน", en: "3 Mock AI Email drafts per day" },
+            "plan_free_feat3": { th: "ต้องใช้ API Key ของตนเองในการเชื่อมต่อจริง", en: "Requires personal API keys for live AI connection" },
+            "btn_plan_current": { th: "แผนปัจจุบันของคุณ", en: "Current Plan" },
+            "plan_pro_badge": { th: "ยอดนิยม", en: "POPULAR" },
+            "plan_pro_name": { th: "Pro Architect", en: "Pro Architect" },
+            "plan_pro_desc": { th: "เพิ่มผลลัพธ์และสมาธิการสื่อสารขั้นเทพ", en: "Maximum output and communication edge" },
+            "plan_pro_feat1": { th: "ใช้งาน AI ร่างคำสั่งเมลด่วนได้ไม่จำกัด", en: "Unlimited live AI email drafts" },
+            "plan_pro_feat2": { th: "ไม่ต้องป้อน API Keys เอง (รันหลังบ้านทันที)", en: "No API Keys required (Runs on our secure proxy)" },
+            "plan_pro_feat3": { th: "สลับเรียก Gemini Pro / GPT-4o ได้ฟรี", en: "Free access to Gemini Pro & GPT-4o models" },
+            "plan_pro_feat4": { th: "วิเคราะห์รูปภาพและแนบไฟล์ได้ถึง 15MB", en: "Image analysis & large document parsing (up to 15MB)" },
+            "btn_plan_upgrade": { th: "สมัครสมาชิก Pro", en: "Upgrade to Pro" },
+            "plan_ent_name": { th: "ระดับองค์กร (Enterprise)", en: "Enterprise Space" },
+            "plan_ent_desc": { th: "สำหรับหน่วยงานและองค์กรสากล", en: "For companies and professional agencies" },
+            "plan_ent_feat1": { th: "ฟีเจอร์ Pro ทั้งหมดแก่ทุกคนในทีม", en: "All Pro features unlocked for all team members" },
+            "plan_ent_feat2": { th: "แท็บแชร์เทมเพลตเฉพาะแผนกในองค์กร", en: "Shared workspace template libraries" },
+            "plan_ent_feat3": { th: "ปรับแต่งโทนเสียงและคำเฉพาะของบริษัท", en: "Custom company tone of voice & terminology" },
+            "plan_ent_feat4": { th: "การันตี Uptime 99.9% พร้อม Dedicated Support", en: "99.9% Uptime SLA and dedicated account support" },
+            "btn_plan_contact": { th: "ติดต่อฝ่ายขาย", en: "Contact Sales" },
+            "vault_tag": { th: "แพ็กเกจพรีเมียม", en: "PREMIUM BUNDLE" },
+            "vault_title": { th: "SABA Prompt Notion Vault (คลังพรอพท์ 100+ สถานการณ์)", en: "SABA Prompt Notion Vault (100+ Scenarios)" },
+            "vault_desc": { th: "คลังพรอพท์เจรจาในชีวิตจริงของออฟฟิศ รวบรวมทางออกครอบคลุมทุกวิกฤตอารมณ์และจิตวิทยาการสื่อสาร (เช่น เขียนเมลทวงหนี้แบบผู้ดี, เมลยอมรับผิดแบบชนะใจ, เมลขอขึ้นเงินเดือนเชิงยุทธศาสตร์) โคลนไปใช้บน Notion ได้ทันที", en: "The ultimate database of real-world workplace email prompts. Solve conflicts, request promotions, handle terminations gracefully. Duplicate directly to Notion." },
+            "btn_vault": { th: "รับสิทธิ์เข้าคลัง Notion Vault (290.-)", en: "Get Notion Prompt Vault (290 THB)" },
+            "tour_modal_title": { th: "คู่มือการแนะนำด่วน SABA PROMPT", en: "SABA PROMPT Quick Guide" },
+            "tour_s1_title": { th: "1. เลือกประเภทการ์ดความสัมพันธ์", en: "1. Select Relationship Style" },
+            "tour_s1_desc": { th: "เริ่มต้นโดยเลือกหมวดหมู่ที่เหมาะสมกับการสื่อสารในหน้านั้นของคุณ (เช่น The Closer เมื่อจะปิดการขายหรือตกลงดีล, Tactical Vacation เพื่อขอหยุดงานโดยรักษาความสัมพันธ์กับหัวหน้า, หรือ The Diplomat เพื่อเชื่อมสัมพันธ์สยบดราม่า)", en: "Start by picking the style that fits your scenario: The Closer for sales & business deals, Tactical Vacation for leaving requests, or The Diplomat for handling sensitive workplace drama." },
+            "tour_s2_title": { th: "2. กำหนดตัวแปรและข้อมูลผู้ติดต่อ", en: "2. Define Contact Variables" },
+            "tour_s2_desc": { th: "ระบุตัวแปรที่เกี่ยวข้องลงในกล่องข้อความ เช่น บุคลิกของผู้รับสาร (เช่น หัวหน้าสุดโหด, ลูกค้ารายใหญ่) และระบุชื่อของคุณ หรือนำเข้าไฟล์เอกสาร PDF/DOCX เพื่อให้ AI ใช้อ้างอิงบริบทของหัวเรื่องได้อย่างเหมาะสม", en: "Fill in who the email goes to (e.g. micromanaging boss, enterprise client) and your sender name. Upload support PDFs or CSVs so the AI gains context." },
+            "tour_s3_title": { th: "3. ป้อนเรื่องราว (วางรูปภาพได้) & ปรับโทน", en: "3. Input Context (Images supported) & Tone" },
+            "tour_s3_desc": { th: "เขียนความต้องการดิบๆ ของคุณลงไป โดยคุณสามารถคัดลอกไฟล์รูปภาพหรือหน้าจอแคปเจอร์มาวางแทรกพร้อมข้อความได้โดยตรง จากนั้นเลือกน้ำเสียงระดับความเจรจา (EQ Tone) ที่เหมาะกับอารมณ์ที่อยากนำเสนอ", en: "Type your raw story or bullet points. You can copy & paste images (e.g. screenshots) directly alongside your text! Then, choose the EQ communication tone." },
+            "tour_s4_title": { th: "4. กดรับผลลัพธ์พรอพท์และแบบร่างอีเมล AI", en: "4. Generate Prompt & AI Draft Output" },
+            "tour_s4_desc": { th: "กดปุ่ม สร้างพรอพท์และร่างอีเมลด้วย AI แผงควบคุมเทอร์มินอลจะแสดงผลลัพธ์: แท็บ Prompt Output สำหรับนำโค้ดไปคุยต่อกับ AI ข้างนอก หรือแท็บ Simulated Chat เพื่อดูแบบร่างอีเมลสำเร็จรูปพร้อมส่งด่วน!", en: "Click Generate Prompt & AI Draft. SABA PROMPT analyzes the psychology and yields two views: Prompt Output (for copying to external AIs) or Simulated Chat (for viewing your complete generated email instantly)." }       <p>ยินดีต้อนรับสู่ SABA PROMPT แพลตฟอร์มช่วยเขียนอีเมลและควิซวิเคราะห์จิตวิทยา เราให้ความสำคัญอย่างยิ่งต่อความปลอดภัยของข้อมูลส่วนบุคคลของคุณ:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>ข้อมูลที่เราจัดเก็บ:</strong> เราจัดเก็บเบอร์โทรศัพท์จำลอง (ผ่านกระบวนการ OTP Mock) และข้อมูลตัวแปรที่คุณกรอกในระบบ (ชื่อผู้ส่ง ชื่อผู้รับ รายละเอียดอีเมล และเนื้อหาเอกสารประกอบการเจรจา)</li>
+                        <li><strong>การจัดเก็บและการรักษาความปลอดภัย:</strong> ข้อมูลทั้งหมดที่ถูกกรอกจะถูกบันทึกและประมวลผลภายในเบราว์เซอร์ของท่านเองผ่านทาง <code>LocalStorage</code> และ <code>SessionStorage</code> โดยไม่มีการส่งขึ้นบันทึกบนคลังฐานข้อมูลเซิร์ฟเวอร์กลางของเรา เว้นแต่จะระบุเป็นอย่างอื่น</li>
+                        <li><strong>การเชื่อมต่อ AI API:</strong> หากท่านป้อน API Keys ระบบจะจัดเก็บไว้เฉพาะในเบราว์เซอร์ของท่าน (Client-side localStorage) และยิงเรียก API ของ OpenAI/Gemini โดยตรง ไม่ผ่านเซิร์ฟเวอร์ของเรา</li>
+                        <li><strong>สิทธิของเจ้าของข้อมูลส่วนบุคคล:</strong> ท่านสามารถเคลียร์ข้อมูลและคุกกี้ทั้งหมดจากหน้าเว็บได้ตลอดเวลาโดยการล้างแคชหรือคุกกี้เบราว์เซอร์</li>
+                    </ul>
+                </div>
+                <div id="privacy-content-en" class="hidden">
+                    <h4 class="text-sm font-bold text-white mb-2">Privacy Policy (PDPA & GDPR Compliant)</h4>
+                    <p>Welcome to SABA PROMPT. We prioritize your privacy and data security. Below is how we handle your personal data:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>Data Collected:</strong> We process mock phone numbers (via simulated OTP) and structural data you insert into forms (sender, recipient, raw story text, and uploaded mock files).</li>
+                        <li><strong>Data Storage:</strong> All inputs are stored and processed locally within your browser using <code>LocalStorage</code> and <code>SessionStorage</code>. No server-side storage is utilized for these inputs.</li>
+                        <li><strong>AI API Keys:</strong> If you input API Keys, they are saved locally on your client machine and sent directly to Google Gemini or OpenAI endpoints. They are never transmitted to our servers.</li>
+                        <li><strong>Your Rights:</strong> You have absolute control to delete your data at any time by clearing browser cookies and local storage.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 pt-3 border-t border-brand-border flex justify-end flex-shrink-0">
+                <button onclick="closePrivacyModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" aria-label="Dismiss Privacy modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="terms-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-2xl bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4 flex-shrink-0">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Terms of Service (ข้อตกลงการใช้งาน)</h3>
+                <button onclick="closeTermsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" aria-label="Close Terms of service modal">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto pr-2 space-y-4 text-xs text-brand-muted leading-relaxed flex-grow">
+                <div id="terms-content-th">
+                    <h4 class="text-sm font-bold text-white mb-2">ข้อตกลงการใช้งาน</h4>
+                    <p>โปรดอ่านข้อตกลงการใช้งานก่อนเริ่มรันสเปซแอปพลิเคชัน SABA PROMPT:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>ขอบเขตสิทธิ์การใช้งาน:</strong> ซอร์สโค้ดและดีไซน์นี้พัฒนาขึ้นสำหรับการเจรจาสื่อสารอัจฉริยะเชิงพาณิชย์ ไม่อนุญาตให้คัดลอก คัดลอกซ้ำ หรือดัดแปลงเพื่อนำไปขายแข่งโดยตรงในรูปแบบแพลตฟอร์มพรอพท์ใกล้เคียงกันโดยไม่ได้รับอนุญาต</li>
+                        <li><strong>การปฏิเสธความรับผิดชอบ (Disclaimer):</strong> อีเมลและข้อความที่สร้างผ่านพรอพท์เป็นตัวร่างเชิงจำลองจิตวิทยา ผู้ใช้มีหน้าที่ตรวจสอบความถูกต้อง เหมาะสม และความเสี่ยงของคำพูดก่อนนำไปส่งจริง บริษัทจะไม่รับผิดชอบต่อความเสียหายใดๆ ในการเจรจางานของคุณ</li>
+                    </ul>
+                </div>
+                <div id="terms-content-en" class="hidden">
+                    <h4 class="text-sm font-bold text-white mb-2">Terms of Service</h4>
+                    <p>Please read these Terms of Service before using SABA PROMPT:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>Permitted Use:</strong> This source code is created for professional communication aid. Directly cloning or reselling this platform design to build a competing prompt product is strictly prohibited.</li>
+                        <li><strong>Disclaimer of Warranty:</strong> Generated outputs are draft templates. You hold sole responsibility to review their accuracy and appropriateness before communication. SABA PROMPT is not liable for negotiation failures.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 pt-3 border-t border-brand-border flex justify-end flex-shrink-0">
+                <button onclick="closeTermsModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" aria-label="Dismiss terms modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Plans Modal -->
+    <div id="pricing-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-4xl bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[90vh]">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4 flex-shrink-0">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="zap" class="w-5 h-5 text-brand-orange fill-brand-orange" aria-hidden="true"></i>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="pricing_title">Upgrade to SABA PROMPT Premium</h3>
+                </div>
+                <button onclick="closePricingModal()" class="text-zinc-400 hover:text-white p-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-brand-orange" aria-label="Close Pricing Modal">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            
+            <div class="overflow-y-auto pr-1 flex-grow">
+                <p class="text-xs text-brand-muted text-center mb-6 leading-relaxed max-w-xl mx-auto" data-i18n="pricing_subtitle">
+                    ยกระดับการทำงานและการเจรจาสื่อสารเชิงจิตวิทยาด้วย AI ปลดล็อกฟีเจอร์จัดเต็มเพื่อพนักงานและองค์กรมืออาชีพ
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-2">
+                    <!-- Free Plan -->
+                    <div class="bg-brand-bg border border-brand-border rounded-xl p-5 flex flex-col justify-between hover:border-zinc-700 transition-all">
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-sm font-extrabold text-white font-heading" data-i18n="plan_free_name">Free Plan</h4>
+                                <p class="text-[10px] text-brand-muted mt-1" data-i18n="plan_free_desc">เริ่มต้นใช้งานสำหรับบุคคลทั่วไป</p>
+                            </div>
+                            <div class="py-2 border-b border-brand-border">
+                                <span class="text-2xl font-black text-white font-mono">0 THB</span>
+                                <span class="text-[10px] text-brand-muted">/ month</span>
+                            </div>
+                            <ul class="space-y-2 text-[11px] text-zinc-300">
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_free_feat1">ใช้งาน Prompt Compiler ได้ไม่จำกัด</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_free_feat2">ดราฟต์อีเมล AI พื้นฐาน 3 ครั้ง/วัน</span>
+                                </li>
+                                <li class="flex items-center gap-2 text-zinc-500">
+                                    <i data-lucide="x" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                                    <span data-i18n="plan_free_feat3">ต้องใช้ API Key ของตนเองในการเชื่อมต่อจริง</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="selectPlan('free')" class="w-full mt-6 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" data-i18n="btn_plan_current">
+                            Current Plan
+                        </button>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="bg-brand-bg border-2 border-brand-orange rounded-xl p-5 flex flex-col justify-between relative shadow-lg shadow-brand-orange/5 hover:scale-[1.02] transition-all">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-orange text-black font-extrabold text-[8px] uppercase tracking-widest px-3 py-1 rounded-full border border-black" data-i18n="plan_pro_badge">POPULAR</div>
+                        <div class="space-y-4">
+                            <div class="mt-1">
+                                <h4 class="text-sm font-extrabold text-white font-heading" data-i18n="plan_pro_name">Pro Architect</h4>
+                                <p class="text-[10px] text-brand-orange font-bold mt-1" data-i18n="plan_pro_desc">เพิ่มผลลัพธ์และสมาธิการสื่อสารขั้นเทพ</p>
+                            </div>
+                            <div class="py-2 border-b border-brand-border">
+                                <span class="text-2xl font-black text-white font-mono">199 THB</span>
+                                <span class="text-[10px] text-brand-muted">/ month</span>
+                            </div>
+                            <ul class="space-y-2 text-[11px] text-zinc-200">
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_pro_feat1">ใช้งาน AI ร่างคำสั่งเมลด่วนได้ไม่จำกัด</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_pro_feat2">ไม่ต้องป้อน API Keys เอง (รันหลังบ้านเราทันที)</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_pro_feat3">สลับเรียก Gemini Pro / GPT-4o ได้ฟรี</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_pro_feat4">วิเคราะห์รูปภาพและแนบไฟล์ได้ถึง 15MB</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="selectPlan('pro')" class="w-full mt-6 py-2.5 bg-brand-orange hover:bg-orange-600 text-xs font-extrabold text-black rounded-xl transition-all shadow-md shadow-brand-orange/15" data-i18n="btn_plan_upgrade">
+                            Upgrade Now
+                        </button>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="bg-brand-bg border border-brand-border rounded-xl p-5 flex flex-col justify-between hover:border-zinc-700 transition-all">
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-sm font-extrabold text-white font-heading" data-i18n="plan_ent_name">Enterprise Space</h4>
+                                <p class="text-[10px] text-brand-muted mt-1" data-i18n="plan_ent_desc">สำหรับหน่วยงานและองค์กรสากล</p>
+                            </div>
+                            <div class="py-2 border-b border-brand-border">
+                                <span class="text-2xl font-black text-white font-mono">499 THB</span>
+                                <span class="text-[10px] text-brand-muted">/ month</span>
+                            </div>
+                            <ul class="space-y-2 text-[11px] text-zinc-300">
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_ent_feat1">ฟีเจอร์ Pro ทั้งหมดแก่ทุกคนในทีม</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_ent_feat2">แท็บแชร์เทมเพลตเฉพาะแผนกในองค์กร</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_ent_feat3">ปรับแต่งโทนเสียงและคำเฉพาะของบริษัท</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-3.5 h-3.5 text-brand-orange" aria-hidden="true"></i>
+                                    <span data-i18n="plan_ent_feat4">การันตี Uptime 99.9% พร้อม Dedicated Support</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="selectPlan('enterprise')" class="w-full mt-6 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all" data-i18n="btn_plan_contact">
+                            Contact Sales
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Onboarding Tour Modal -->
+    <div id="onboarding-tour-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-lg bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
+            
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4 flex-shrink-0">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="help-circle" class="w-5 h-5 text-brand-orange" aria-hidden="true"></i>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider" data-i18n="tour_modal_title">SABA PROMPT Quick Guide</h3>
+                </div>
+                <button onclick="closeOnboardingTour()" class="text-zinc-400 hover:text-white p-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-brand-orange" aria-label="Close Tour">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Carousel Slider Container -->
+            <div class="flex-grow overflow-y-auto pr-1">
+                
+                <!-- Slide 1 -->
+                <div id="tour-slide-1" class="tour-slide space-y-4">
+                    <div class="w-full h-40 bg-zinc-900 border border-brand-border rounded-xl flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-orange/5 to-transparent" aria-hidden="true"></div>
+                        <!-- Mock representation of category cards -->
+                        <div class="flex gap-3 relative z-10">
+                            <div class="w-20 h-24 bg-brand-surface border-2 border-brand-orange rounded-lg flex flex-col justify-between p-2">
+                                <span class="text-xs">😊</span>
+                                <span class="text-[8px] font-bold text-white leading-none">The Closer</span>
+                            </div>
+                            <div class="w-20 h-24 bg-brand-surface border border-brand-border rounded-lg flex flex-col justify-between p-2 opacity-50">
+                                <span class="text-xs">🌴</span>
+                                <span class="text-[8px] font-bold text-white leading-none">Tactical Vacation</span>
+                            </div>
+                            <div class="w-20 h-24 bg-brand-surface border border-brand-border rounded-lg flex flex-col justify-between p-2 opacity-50">
+                                <span class="text-xs">🤝</span>
+                                <span class="text-[8px] font-bold text-white leading-none">The Diplomat</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-center md:text-left">
+                        <span class="text-[10px] font-extrabold uppercase text-brand-orange bg-brand-orange/10 px-2.5 py-0.5 rounded-full border border-brand-orange/20">Step 1 of 4</span>
+                        <h4 class="text-sm font-bold text-white" data-i18n="tour_s1_title">1. เลือกประเภทการ์ดความสัมพันธ์</h4>
+                        <p class="text-xs text-brand-muted leading-relaxed" data-i18n="tour_s1_desc">
+                            เริ่มต้นโดยเลือกหมวดหมู่ที่เหมาะสมกับการสื่อสารในหน้านั้นของคุณ (เช่น <strong>The Closer</strong> เมื่อจะปิดการขายหรือตกลงดีล, <strong>Tactical Vacation</strong> เพื่อขอหยุดงานโดยรักษาความสัมพันธ์กับหัวหน้า, หรือ <strong>The Diplomat</strong> เพื่อเชื่อมสัมพันธ์สยบดราม่า)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div id="tour-slide-2" class="tour-slide space-y-4 hidden">
+                    <div class="w-full h-40 bg-zinc-900 border border-brand-border rounded-xl flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-orange/5 to-transparent" aria-hidden="true"></div>
+                        <!-- Mock representation of Input controls -->
+                        <div class="w-3/4 space-y-2 relative z-10 scale-90">
+                            <div class="h-8 bg-brand-surface border border-brand-orange/45 rounded p-1.5 flex justify-between items-center text-[10px] text-zinc-400">
+                                <span>ผู้รับเมล: หัวหน้าจอมบงการ</span>
+                            </div>
+                            <div class="h-8 bg-brand-surface border border-brand-border rounded p-1.5 flex justify-between items-center text-[10px] text-zinc-500">
+                                <span>ชื่อผู้ส่ง: [ชื่อของคุณ]</span>
+                            </div>
+                            <div class="h-6 bg-brand-orange/10 border border-brand-orange/30 rounded flex items-center justify-center text-[8px] text-brand-orange font-bold">
+                                📎 แนบไฟล์อ้างอิงประกอบ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-center md:text-left">
+                        <span class="text-[10px] font-extrabold uppercase text-brand-orange bg-brand-orange/10 px-2.5 py-0.5 rounded-full border border-brand-orange/20">Step 2 of 4</span>
+                        <h4 class="text-sm font-bold text-white" data-i18n="tour_s2_title">2. กำหนดตัวแปรและข้อมูลผู้ติดต่อ</h4>
+                        <p class="text-xs text-brand-muted leading-relaxed" data-i18n="tour_s2_desc">
+                            ระบุตัวแปรที่เกี่ยวข้องลงในกล่องข้อความ เช่น บุคลิกของผู้รับสาร (เช่น หัวหน้าสุดโหด, ลูกค้ารายใหญ่) และระบุชื่อของคุณ หรือนำเข้าไฟล์เอกสาร PDF/DOCX เพื่อให้ AI ใช้อ้างอิงบริบทของหัวเรื่องได้อย่างเหมาะสม
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div id="tour-slide-3" class="tour-slide space-y-4 hidden">
+                    <div class="w-full h-40 bg-zinc-900 border border-brand-border rounded-xl flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-orange/5 to-transparent" aria-hidden="true"></div>
+                        <!-- Mock representation of rich input area -->
+                        <div class="w-4/5 space-y-2 relative z-10 scale-90">
+                            <div class="bg-brand-surface border border-brand-border rounded-lg p-2 text-[9px] space-y-1">
+                                <p class="text-white leading-tight">ขอลากลับบ้านช่วงสงกรานต์ 5 วัน งานส่งมอบเรียบร้อย...</p>
+                                <div class="w-16 h-8 bg-zinc-800 rounded border border-brand-border flex items-center justify-center text-[8px] text-zinc-500">
+                                    🖼️ Image.png
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="px-2 py-1 bg-brand-orange text-black rounded text-[8px] font-bold">😊 สุภาพ อ่อนโยน</span>
+                                <span class="px-2 py-1 bg-zinc-800 text-zinc-400 rounded text-[8px]">💼 ทางการ</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-center md:text-left">
+                        <span class="text-[10px] font-extrabold uppercase text-brand-orange bg-brand-orange/10 px-2.5 py-0.5 rounded-full border border-brand-orange/20">Step 3 of 4</span>
+                        <h4 class="text-sm font-bold text-white" data-i18n="tour_s3_title">3. ป้อนเรื่องราว (วางรูปภาพได้) & ปรับโทน</h4>
+                        <p class="text-xs text-brand-muted leading-relaxed" data-i18n="tour_s3_desc">
+                            เขียนความต้องการดิบๆ ของคุณลงไป โดยคุณสามารถ<strong>คัดลอกไฟล์รูปภาพหรือหน้าจอแคปเจอร์มาวางแทรกพร้อมข้อความได้โดยตรง</strong> จากนั้นเลือกน้ำเสียงระดับความเจรจา (EQ Tone) ที่เหมาะกับอารมณ์ที่อยากนำเสนอ
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div id="tour-slide-4" class="tour-slide space-y-4 hidden">
+                    <div class="w-full h-40 bg-zinc-900 border border-brand-border rounded-xl flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-orange/5 to-transparent" aria-hidden="true"></div>
+                        <!-- Mock representation of dual terminal -->
+                        <div class="w-4/5 bg-brand-surface border border-brand-border rounded-lg flex flex-col h-28 relative z-10 scale-95">
+                            <div class="bg-brand-bg px-2 py-1 border-b border-brand-border flex justify-between items-center">
+                                <div class="flex gap-1">
+                                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                                    <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                                </div>
+                                <span class="text-[8px] text-zinc-500">Output Preview</span>
+                            </div>
+                            <div class="p-2 space-y-1 overflow-hidden">
+                                <p class="text-[8px] text-brand-orange font-mono">Dear Chief Executive Officer,</p>
+                                <p class="text-[7px] text-zinc-400">I am writing to formally request a tactical absence...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-center md:text-left">
+                        <span class="text-[10px] font-extrabold uppercase text-brand-orange bg-brand-orange/10 px-2.5 py-0.5 rounded-full border border-brand-orange/20">Step 4 of 4</span>
+                        <h4 class="text-sm font-bold text-white" data-i18n="tour_s4_title">4. กดรับผลลัพธ์พรอพท์และแบบร่างอีเมล AI</h4>
+                        <p class="text-xs text-brand-muted leading-relaxed" data-i18n="tour_s4_desc">
+                            กดปุ่ม <strong>สร้างพรอพท์และร่างอีเมลด้วย AI</strong> แผงควบคุมเทอร์มินอลจะแสดงผลลัพธ์: แท็บ <strong>Prompt Output</strong> สำหรับนำโค้ดไปคุยต่อกับ AI ข้างนอก หรือแท็บ <strong>Simulated Chat</strong> เพื่อดูแบบร่างอีเมลสำเร็จรูปพร้อมส่งด่วน!
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Controls -->
+            <div class="mt-6 pt-3 border-t border-brand-border flex justify-between items-center flex-shrink-0">
+                <button id="tour-prev-btn" onclick="prevTourSlide()" class="px-3.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-[11px] font-bold text-white rounded-xl transition-all opacity-50 cursor-not-allowed" disabled>
+                    Back
+                </button>
+                <div class="flex gap-1.5" id="tour-indicators">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-700"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-700"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-700"></span>
+                </div>
+                <button id="tour-next-btn" onclick="nextTourSlide()" class="px-4 py-2 bg-brand-orange hover:bg-orange-600 text-[11px] font-extrabold text-black rounded-xl transition-all">
+                    Next
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- JAVASCRIPT MASTER SYSTEM LOGIC -->
+    <!-- ========================================================= -->
+</body>
+</html>
