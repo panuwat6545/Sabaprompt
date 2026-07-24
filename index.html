@@ -54,6 +54,23 @@
     <!-- โหลด Lucide Icons สำหรับสัญลักษณ์ต่างๆ -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- โหลดไลบรารีสกัดข้อความ PDF.js และ Mammoth.js (DOCX) ฝั่ง Client -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <!-- Google Drive Picker API Client Libraries -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- นำเข้า compiled CSS และ Javascript module ของ Vite -->
     <link rel="stylesheet" href="/src/index.css">
     <script type="module" src="/src/main.js"></script>

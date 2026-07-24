@@ -1,3 +1,39 @@
+import { createClient } from '@supabase/supabase-js';
+
+// --- SUPABASE CLIENT INITIALIZATION ---
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+let supabase = null;
+
+if (supabaseUrl && supabaseAnonKey) {
+    try {
+        supabase = createClient(supabaseUrl, supabaseAnonKey);
+        console.log('[Supabase Auth] Client initialized successfully.');
+    } catch (err) {
+        console.warn('[Supabase Auth] Initialization failed:', err);
+    }
+}
+
+// Auto-check Supabase session on startup
+if (supabase) {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+            currentUser = session.user.email || session.user.phone || session.user.id;
+            localStorage.setItem('saba_session_user', currentUser);
+        }
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+        if (session) {
+            currentUser = session.user.email || session.user.phone || session.user.id;
+            localStorage.setItem('saba_session_user', currentUser);
+            if (typeof showDashboard === 'function') {
+                showDashboard();
+            }
+        }
+    });
+}
+
 // --- 0. MOCK ANALYTICS SYSTEM ---
 const SabaAnalytics = {
     trackEvent: function(eventName, eventParams) {
@@ -347,22 +383,182 @@ function setupDragAndDrop() {
 // Upload local PC files
 function processLocalFile(file) {
     const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
-    let mockText = `เอกสารสำคัญจากการอัปโหลดในเครื่องเพื่อใช้เสนอยุทธศาสตร์: ${file.name} ข้อมูลประกอบการอ้างอิงและประสานประสิทธิภาพตามนโยบายบริษัท`;
+    const type = file.name.split('.').pop().toLowerCase();
     
-    uploadedFile = {
-        name: file.name,
-        size: `${sizeInMB} MB`,
-        type: file.name.split('.').pop().toLowerCase(),
-        mockContent: mockText
-    };
+    showToast("กำลังประมวลผลไฟล์...", "ระบบกำลังอ่านและสแกนข้อมูลจากไฟล์ในเครื่องของคุณ...", "info");
 
-    updateFileStatusUI();
-    showToast("อัปโหลดไฟล์สำเร็จ", `นำเข้าเอกสาร ${file.name} จาก PC เรียบร้อยแล้วครับ`, "success");
-    SabaAnalytics.trackEvent("file_uploaded_pc", { fileName: file.name, fileSize: sizeInMB });
+    const reader = new FileReader();
+    
+    reader.onload = async function(e) {
+        let parsedText = "";
+        
+        try {
+            if (type === 'txt') {
+                parsedText = e.target.result;
+            } else if (type === 'csv') {
+                parsedText = e.target.result;
+            } else if (type === 'pdf') {
+                const arrayBuffer = e.target.result;
+                parsedText = await parsePdfClient(arrayBuffer);
+            } else if (type === 'docx') {
+                const arrayBuffer = e.target.result;
+                parsedText = await parseDocxClient(arrayBuffer);
+            } else {
+                parsedText = `สแกนไฟล์เรียบร้อย: ${file.name} (ประเภทไฟล์นี้ไม่รองรับการดึงข้อความอัตโนมัติ จึงใช้ชื่อไฟล์เป็นบริบท)`;
+            }
+            
+            uploadedFile = {
+                name: file.name,
+                size: `${sizeInMB} MB`,
+                type: type,
+                mockContent: parsedText.substring(0, 3000) // Keep text capped to prevent API payload bloat
+            };
+            
+            updateFileStatusUI();
+            showToast("สแกนและอ่านไฟล์สำเร็จ", `ระบบนำเข้าเนื้อหาจากไฟล์ ${file.name} เพื่อรันยุทธศาสตร์เรียบร้อยแล้ว`, "success");
+            SabaAnalytics.trackEvent("file_parsed_success", { fileName: file.name, fileType: type });
+        } catch (error) {
+            console.error("Error parsing file:", error);
+            showToast("สแกนไฟล์ล้มเหลว", `ไม่สามารถสกัดข้อความ: ${error.message}`, "error");
+            
+            // Fallback
+            uploadedFile = {
+                name: file.name,
+                size: `${sizeInMB} MB`,
+                type: type,
+                mockContent: `ข้อมูลเอกสารแนบ: ${file.name} (สแกนล้มเหลวเนื่องจาก ${error.message})`
+            };
+            updateFileStatusUI();
+        }
+    };
+    
+    if (type === 'txt' || type === 'csv') {
+        reader.readAsText(file);
+    } else {
+        reader.readAsArrayBuffer(file);
+    }
 }
 
+// PDF.js Client-Side Parser
+async function parsePdfClient(arrayBuffer) {
+    if (typeof pdfjsLib === 'undefined') {
+        throw new Error("ระบบไม่พบไลบรารี PDF.js โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ต");
+    }
+    
+    // Set worker from standard cdnjs endpoint
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+    
+    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+    const pdf = await loadingTask.promise;
+    let fullText = "";
+    
+    // Limit to reading first 15 pages for prompt size safety
+    const maxPages = Math.min(pdf.numPages, 15);
+    for (let i = 1; i <= maxPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(" ");
+        fullText += pageText + "\n";
+    }
+    
+    return fullText.trim() || "[ไม่พบข้อความตัวอักษรในไฟล์ PDF (ไฟล์นี้อาจเป็นภาพสแกนหรือสแกนล้มเหลว)]";
+}
+
+// Mammoth.js Client-Side Parser
+async function parseDocxClient(arrayBuffer) {
+    if (typeof mammoth === 'undefined') {
+        throw new Error("ระบบไม่พบไลบรารี Mammoth.js โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ต");
+    }
+    
+    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+    return result.value.trim() || "[ไม่พบเนื้อหาข้อความในไฟล์ DOCX]";
+}
+
+let googlePickerToken = null;
+
 function openGoogleDriveModal() {
-    document.getElementById('gdrive-modal').classList.remove('hidden');
+    if (typeof gapi !== 'undefined' && typeof google !== 'undefined') {
+        initGoogleDrivePicker();
+    } else {
+        document.getElementById('gdrive-modal').classList.remove('hidden');
+    }
+}
+
+function initGoogleDrivePicker() {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
+
+    if (!clientId || !apiKey) {
+        document.getElementById('gdrive-modal').classList.remove('hidden');
+        showToast("Google Drive Setup", "โปรดระบุ VITE_GOOGLE_CLIENT_ID และ VITE_GOOGLE_API_KEY เพื่อเปิดใช้ Google Picker หรือเลือกไฟล์จำลอง", "info");
+        return;
+    }
+
+    try {
+        const tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: clientId,
+            scope: 'https://www.googleapis.com/auth/drive.readonly',
+            callback: async (response) => {
+                if (response.error) {
+                    showToast("Google Auth Error", response.error, "error");
+                    return;
+                }
+                googlePickerToken = response.access_token;
+                createPicker(apiKey, googlePickerToken);
+            },
+        });
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+    } catch (err) {
+        console.error("Google Picker error:", err);
+        document.getElementById('gdrive-modal').classList.remove('hidden');
+    }
+}
+
+function createPicker(apiKey, accessToken) {
+    gapi.load('picker', {
+        callback: () => {
+            const view = new google.picker.View(google.picker.ViewId.DOCS);
+            const picker = new google.picker.PickerBuilder()
+                .addView(view)
+                .setOAuthToken(accessToken)
+                .setDeveloperKey(apiKey)
+                .setCallback(pickerCallback)
+                .build();
+            picker.setVisible(true);
+        }
+    });
+}
+
+async function pickerCallback(data) {
+    if (data.action === google.picker.Action.PICKED) {
+        const doc = data.docs[0];
+        const fileId = doc.id;
+        const fileName = doc.name;
+        const fileSize = doc.sizeBytes ? `${(doc.sizeBytes / (1024 * 1024)).toFixed(1)} MB` : '1.0 MB';
+        const fileType = fileName.split('.').pop().toLowerCase();
+
+        showToast("กำลังดึงไฟล์...", `กำลังโหลดไฟล์ ${fileName} จาก Google Drive...`, "info");
+        
+        try {
+            const res = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+                headers: { 'Authorization': `Bearer ${googlePickerToken}` }
+            });
+            const textContent = await res.text();
+
+            uploadedFile = {
+                name: fileName,
+                size: fileSize,
+                type: fileType,
+                mockContent: textContent.substring(0, 3000)
+            };
+
+            updateFileStatusUI();
+            showToast("ดึงไฟล์สำเร็จ", `นำเข้าเนื้อหาจาก Google Drive: ${fileName} เรียบร้อยแล้ว`, "success");
+            SabaAnalytics.trackEvent("file_uploaded_gdrive_real", { fileName: fileName });
+        } catch (err) {
+            selectGoogleDriveFile(fileName, fileSize, fileType, `[นำเข้าไฟล์ Google Drive]: ${fileName}`);
+        }
+    }
 }
 
 function closeGoogleDriveModal() {
@@ -452,60 +648,117 @@ function switchLoginTab(type) {
     SabaAnalytics.trackEvent("auth_tab_switched", { tab: type });
 }
 
-function handleOTPRequest() {
-    const phoneVal = document.getElementById('login-phone').value.trim();
+async function handleOTPRequest() {
+    const inputVal = document.getElementById('login-phone').value.trim();
     const actionBtn = document.getElementById('btn-otp-action');
     const confirmContainer = document.getElementById('otp-confirm-container');
     const otpCodeField = document.getElementById('login-otp-code');
     
-    if (!phoneVal || phoneVal.length < 9) {
-        showToast("แจ้งเตือน", "โปรดกรอกเบอร์โทรศัพท์มือถือให้ถูกต้องครับ", "warning");
+    if (!inputVal || inputVal.length < 5) {
+        showToast("แจ้งเตือน", "โปรดกรอกอีเมลหรือเบอร์โทรศัพท์มือถือให้ถูกต้องครับ", "warning");
         return;
     }
+
+    const isEmail = inputVal.includes('@');
 
     if (confirmContainer.classList.contains('hidden')) {
         actionBtn.disabled = true;
         actionBtn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>กำลังส่ง OTP...</span>`;
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
+        if (typeof lucide !== 'undefined') { lucide.createIcons(); }
 
-        setTimeout(() => {
-            actionBtn.disabled = false;
-            actionBtn.innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i><span data-i18n="btn_otp_verify">ยืนยันเข้าสู่ระบบ</span>`;
-            confirmContainer.classList.remove('hidden');
-            confirmContainer.classList.add('animate-fade-in');
-            showToast("OTP ส่งสำเร็จ", "รหัสผ่านจำลองส่งไปยังเบอร์โทรแล้ว (รหัสทดสอบเพื่อรันระบบคือ: 1234)", "success");
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
+        if (supabase) {
+            try {
+                let error = null;
+                if (isEmail) {
+                    const res = await supabase.auth.signInWithOtp({ email: inputVal });
+                    error = res.error;
+                } else {
+                    const formattedPhone = inputVal.startsWith('+') ? inputVal : `+66${inputVal.replace(/^0/, '')}`;
+                    const res = await supabase.auth.signInWithOtp({ phone: formattedPhone });
+                    error = res.error;
+                }
+
+                if (error) throw error;
+
+                actionBtn.disabled = false;
+                actionBtn.innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i><span data-i18n="btn_otp_verify">ยืนยันเข้าสู่ระบบ</span>`;
+                confirmContainer.classList.remove('hidden');
+                showToast("OTP ส่งสำเร็จ", isEmail ? `รหัสยืนยัน OTP ถูกส่งไปยังอีเมล ${inputVal} เรียบร้อยแล้ว` : `รหัสยืนยัน OTP ถูกส่งไปยังเบอร์ ${inputVal} เรียบร้อยแล้ว`, "success");
+            } catch (err) {
+                console.error("Supabase OTP error:", err);
+                actionBtn.disabled = false;
+                actionBtn.innerHTML = `<i data-lucide="smartphone" class="w-4 h-4"></i><span data-i18n="btn_otp_init">รับรหัส OTP</span>`;
+                showToast("ส่ง OTP ล้มเหลว", err.message, "error");
             }
-            
-            const lang = localStorage.getItem('saba_lang') || 'th';
-            if (lang === 'en') {
-                actionBtn.innerText = "Verify & Sign In";
-            }
-        }, 1200);
+        } else {
+            // Mock fallback
+            setTimeout(() => {
+                actionBtn.disabled = false;
+                actionBtn.innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i><span data-i18n="btn_otp_verify">ยืนยันเข้าสู่ระบบ</span>`;
+                confirmContainer.classList.remove('hidden');
+                showToast("OTP ส่งสำเร็จ (Mock Mode)", "รหัสผ่านจำลองส่งแล้ว (รหัสทดสอบคือ: 1234)", "success");
+                if (typeof lucide !== 'undefined') { lucide.createIcons(); }
+            }, 1000);
+        }
     } else {
         const codeVal = otpCodeField.value.trim();
-        if (codeVal === '1234') {
-            currentUser = `+66 ${phoneVal.substring(1, 4)}***${phoneVal.substring(7)}`;
-            localStorage.setItem('saba_session_user', currentUser);
-            showDashboard();
-            SabaAnalytics.trackEvent("login_otp_success", { phone: phoneVal });
+        if (supabase) {
+            actionBtn.disabled = true;
+            try {
+                let res;
+                if (isEmail) {
+                    res = await supabase.auth.verifyOtp({ email: inputVal, token: codeVal, type: 'email' });
+                } else {
+                    const formattedPhone = inputVal.startsWith('+') ? inputVal : `+66${inputVal.replace(/^0/, '')}`;
+                    res = await supabase.auth.verifyOtp({ phone: formattedPhone, token: codeVal, type: 'sms' });
+                }
+
+                if (res.error) throw res.error;
+
+                currentUser = res.data.user?.email || res.data.user?.phone || inputVal;
+                localStorage.setItem('saba_session_user', currentUser);
+                showDashboard();
+                showToast("ล็อกอินสำเร็จ", `ยินดีต้อนรับเข้าสู่ระบบ ${currentUser}`, "success");
+            } catch (err) {
+                console.error("OTP verification error:", err);
+                actionBtn.disabled = false;
+                showToast("รหัสไม่ถูกต้อง", err.message, "error");
+            }
         } else {
-            showToast("รหัสไม่ถูกต้อง", "โปรดระบุรหัส OTP จำลองให้ถูกต้อง (พิมพ์ 1234 เพื่อรันตัวทดสอบระบบ)", "error");
+            if (codeVal === '1234') {
+                currentUser = isEmail ? inputVal : `+66 ${inputVal.substring(1, 4)}***${inputVal.substring(7)}`;
+                localStorage.setItem('saba_session_user', currentUser);
+                showDashboard();
+                SabaAnalytics.trackEvent("login_otp_success", { input: inputVal });
+            } else {
+                showToast("รหัสไม่ถูกต้อง", "โปรดระบุรหัส OTP จำลองให้ถูกต้อง (พิมพ์ 1234 เพื่อรันตัวทดสอบระบบ)", "error");
+            }
         }
     }
 }
 
-function simulateThirdPartyLogin(provider) {
-    showToast("กำลังประมวลผล", `กำลังเชื่อมโยงบัญชีและยืนยันตัวตนกับระบบ ${provider}...`, "info");
-    setTimeout(() => {
-        currentUser = `${provider} User`;
-        localStorage.setItem('saba_session_user', currentUser);
-        showDashboard();
-        SabaAnalytics.trackEvent("login_oauth_success", { provider: provider });
-    }, 1000);
+async function simulateThirdPartyLogin(provider) {
+    if (supabase && (provider === 'Google' || provider === 'ChatGPT Account' || provider === 'Gemini Account')) {
+        try {
+            showToast("กำลังเชื่อมต่อ", `กำลังสลับไปหน้ายืนยันตัวตนกับ ${provider}...`, "info");
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.origin }
+            });
+            if (error) throw error;
+        } catch (err) {
+            console.error("OAuth error:", err);
+            showToast("OAuth ล้มเหลว", err.message, "error");
+        }
+    } else {
+        showToast("กำลังประมวลผล", `กำลังเชื่อมโยงบัญชีและยืนยันตัวตนกับระบบ ${provider}...`, "info");
+        setTimeout(() => {
+            currentUser = `${provider} User`;
+            localStorage.setItem('saba_session_user', currentUser);
+            showDashboard();
+            SabaAnalytics.trackEvent("login_oauth_success", { provider: provider });
+        }, 1000);
+    }
 }
 
 function showDashboard() {
@@ -1043,7 +1296,7 @@ function notifySupport() {
 }
 
 // --- 9. FEEDBACK FORM SIMULATOR ---
-function submitFeedback() {
+async function submitFeedback() {
     const fbText = document.getElementById('feedback-text').value.trim();
     if (!fbText) {
         showToast("กล่องข้อความว่างเปล่า", "โปรดป้อนข้อคิดเห็นหรือข้อเสนอแนะในการอัปเกรดฐานพรอพท์ก่อนครับ", "warning");
@@ -1053,14 +1306,32 @@ function submitFeedback() {
     const fbFormPanel = document.getElementById('feedback-form-panel');
     const fbSuccessPanel = document.getElementById('feedback-success-panel');
     
-    showToast("กำลังประมวลผล", "กำลังทำการ Mock API Post ส่งข้อมูลเพื่อบันทึกไปฐานระบบ...", "info");
+    showToast("กำลังส่งข้อมูล", "กำลังส่งความคิดเห็นเชิงสถาปัตยกรรมไปยังเซิร์ฟเวอร์หลังบ้าน...", "info");
 
-    setTimeout(() => {
+    try {
+        const response = await fetch('/api/feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                text: fbText,
+                user: currentUser || 'Guest Mode'
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server returned status ${response.status}`);
+        }
+
         fbFormPanel.classList.add('hidden');
         fbSuccessPanel.classList.remove('hidden');
-        showToast("ส่งความคิดเห็นสำเร็จ", "บันทึกข้อแนะนำของคุณเรียบร้อยแล้ว!", "success");
+        showToast("ส่งความคิดเห็นสำเร็จ", "บันทึกข้อแนะนำของคุณเรียบร้อยแล้ว! ขอบคุณสำหรับข้อเสนอแนะคุณภาพครับ", "success");
         SabaAnalytics.trackEvent("feedback_submitted", { content: fbText });
-    }, 1200);
+    } catch (error) {
+        console.error("Failed to submit feedback:", error);
+        showToast("ส่งไม่สำเร็จ", `เกิดข้อผิดพลาดในการเชื่อมต่อเกตเวย์: ${error.message}`, "error");
+    }
 }
 
 // --- 10. TOAST NOTIFICATION UTILITY ---
