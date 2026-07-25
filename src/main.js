@@ -698,7 +698,7 @@ async function handleOTPRequest() {
                 confirmContainer.classList.remove('hidden');
                 showToast("OTP ส่งสำเร็จ (Mock Mode)", "รหัสผ่านจำลองส่งแล้ว (รหัสทดสอบคือ: 1234)", "success");
                 if (typeof lucide !== 'undefined') { lucide.createIcons(); }
-            }, 1000);
+            }, 400);
         }
     } else {
         const codeVal = otpCodeField.value.trim();
