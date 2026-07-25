@@ -72,8 +72,8 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <!-- นำเข้า compiled CSS และ Javascript module ของ Vite -->
-  <script type="module" crossorigin src="/assets/index-UVqHe3Ir.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-B5fQ9zD8.css">
+  <script type="module" crossorigin src="/assets/index-1FsWjCpz.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-_TVXxxIV.css">
 </head>
 <body class="bg-brand-bg text-slate-800 min-h-screen font-sans overflow-x-hidden relative selection:bg-brand-orange selection:text-black">
 
@@ -265,6 +265,7 @@
                             <i data-lucide="settings" class="w-4 h-4"></i>
                         </button>
 
+
                         <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
                             <span id="session-user-badge" class="text-xs font-mono text-slate-700 font-medium">Guest Mode</span>
@@ -381,37 +382,66 @@
                         </div>
                     </div>
 
-                    <!-- [2. EQ Tone Selector] -->
-                    <div class="space-y-2">
-                        <label class="block text-xs font-extrabold uppercase tracking-wider text-slate-500" data-i18n="tone_label">โทนและอารมณ์ของการสื่อสาร (EQ Tone Option)</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                            <button onclick="selectTone('สุภาพ อ่อนน้อม', this)" class="tone-btn text-xs font-semibold py-2 px-3 rounded-lg border-2 border-brand-orange bg-orange-50/60 text-brand-orange transition-all outline-none shadow-sm flex items-center justify-center gap-1.5" role="radio" aria-checked="true">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
-                                <span data-i18n="tone_polite">😊 สุภาพนอบน้อม</span>
-                            </button>
-                            <button onclick="selectTone('ทางการ มั่นใจ', this)" class="tone-btn text-xs font-semibold py-2 px-3 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 transition-all outline-none flex items-center justify-center gap-1.5" role="radio" aria-checked="false">
-                                <span class="w-1.5 h-1.5 rounded-full bg-transparent"></span>
-                                <span data-i18n="tone_formal">💼 ทางการระดับสูง</span>
-                            </button>
-                            <button onclick="selectTone('เป็นกันเอง ยืดหยุ่น', this)" class="tone-btn text-xs font-semibold py-2 px-3 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 transition-all outline-none flex items-center justify-center gap-1.5" role="radio" aria-checked="false">
-                                <span class="w-1.5 h-1.5 rounded-full bg-transparent"></span>
-                                <span data-i18n="tone_casual">☕ เป็นกันเองน่ารัก</span>
-                            </button>
-                            <button onclick="selectTone('เร่งด่วน ตรงประเด็น', this)" class="tone-btn text-xs font-semibold py-2 px-3 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 transition-all outline-none flex items-center justify-center gap-1.5" role="radio" aria-checked="false">
-                                <span class="w-1.5 h-1.5 rounded-full bg-transparent"></span>
-                                <span data-i18n="tone_urgent">🚨 เร่งด่วนสุภาพ</span>
-                            </button>
+                    <!-- [2. Interactive EQ Sliders] -->
+                    <div class="space-y-3">
+                        <label class="block text-xs font-extrabold uppercase tracking-wider text-slate-500" data-i18n="tone_label">ระดับอารมณ์และจิตวิทยาการสื่อสาร (Interactive EQ Tone Sliders)</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Slider 1: Assertiveness -->
+                            <div class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/60 shadow-sm">
+                                <div class="flex justify-between items-center text-[10px] font-bold text-slate-700">
+                                    <span class="flex items-center gap-1.5"><i data-lucide="shield-alert" class="w-3.5 h-3.5 text-brand-orange"></i> Assertiveness (ความเด็ดขาด)</span>
+                                    <span id="val-assertive" class="text-brand-orange font-mono font-extrabold bg-orange-50 px-1.5 py-0.2 rounded border border-brand-orange/20">50%</span>
+                                </div>
+                                <input type="range" id="input-assertive" min="0" max="100" value="50" oninput="updateSliderVal('assertive', this.value)" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-orange">
+                                <div class="flex justify-between text-[8px] text-slate-400 font-extrabold uppercase tracking-wider">
+                                    <span>นอบน้อม (Polite)</span>
+                                    <span>เด็ดขาด (Direct)</span>
+                                </div>
+                            </div>
+                            <!-- Slider 2: Urgency -->
+                            <div class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/60 shadow-sm">
+                                <div class="flex justify-between items-center text-[10px] font-bold text-slate-700">
+                                    <span class="flex items-center gap-1.5"><i data-lucide="alarm-clock" class="w-3.5 h-3.5 text-brand-orange"></i> Urgency (ความเร่งด่วน)</span>
+                                    <span id="val-urgency" class="text-brand-orange font-mono font-extrabold bg-orange-50 px-1.5 py-0.2 rounded border border-brand-orange/20">30%</span>
+                                </div>
+                                <input type="range" id="input-urgency" min="0" max="100" value="30" oninput="updateSliderVal('urgency', this.value)" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-orange">
+                                <div class="flex justify-between text-[8px] text-slate-400 font-extrabold uppercase tracking-wider">
+                                    <span>ปกติ (Normal)</span>
+                                    <span>เร่งด่วน (Urgent)</span>
+                                </div>
+                            </div>
+                            <!-- Slider 3: Empathy -->
+                            <div class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/60 shadow-sm">
+                                <div class="flex justify-between items-center text-[10px] font-bold text-slate-700">
+                                    <span class="flex items-center gap-1.5"><i data-lucide="heart" class="w-3.5 h-3.5 text-brand-orange"></i> Empathy (ความเห็นอกเห็นใจ)</span>
+                                    <span id="val-empathy" class="text-brand-orange font-mono font-extrabold bg-orange-50 px-1.5 py-0.2 rounded border border-brand-orange/20">80%</span>
+                                </div>
+                                <input type="range" id="input-empathy" min="0" max="100" value="80" oninput="updateSliderVal('empathy', this.value)" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-orange">
+                                <div class="flex justify-between text-[8px] text-slate-400 font-extrabold uppercase tracking-wider">
+                                    <span>เน้นงาน (Task-focused)</span>
+                                    <span>เน้นความสัมพันธ์ (Relationship)</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- [3. Center] Rich Text Input & [4. Document Attachment Zone] inside same container -->
                     <div class="space-y-1.5">
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
                             <label for="inputDetail" class="block text-xs font-extrabold uppercase tracking-wider text-slate-500" data-i18n="detail_label">โจทย์งานดิบหรือเหตุการณ์ที่เกิดขึ้น</label>
-                            <button onclick="loadSuggestedScenario()" class="text-xs text-brand-orange hover:text-orange-400 font-bold transition-all focus:outline-none flex items-center gap-1" title="Load scenario variables">
-                                <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
-                                <span data-i18n="btn_load_scenario">จำลองสถานการณ์ตัวอย่าง</span>
-                            </button>
+                            <div class="flex items-center gap-4">
+                                <!-- Privacy Shield Toggle -->
+                                <label class="inline-flex items-center cursor-pointer select-none" title="ระบบเซนเซอร์ข้อมูลอ่อนไหวอัตโนมัติ เช่น เบอร์โทรศัพท์ อีเมล ยอดเงิน">
+                                    <input type="checkbox" id="privacy-shield-active" class="sr-only peer">
+                                    <div class="relative w-8 h-4 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-500"></div>
+                                    <span class="ms-1.5 text-[10px] font-bold text-slate-500 flex items-center gap-1"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-500"></i> Privacy Shield</span>
+                                </label>
+                                
+                                <button onclick="loadSuggestedScenario()" class="text-xs text-brand-orange hover:text-orange-400 font-bold transition-all focus:outline-none flex items-center gap-1" title="Load scenario variables">
+                                    <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                                    <span data-i18n="btn_load_scenario">จำลองสถานการณ์ตัวอย่าง</span>
+                                </button>
+                            </div>
                         </div>
                         
                         <!-- Rich Text Input Container -->
@@ -510,36 +540,74 @@
                     </div>
                 </div>
 
-                <!-- แท็บแสดงผลตัวที่ 2: ผลร่างอีเมลเจรจาสำเร็จ -->
-                <div id="terminal-simulate-panel" class="p-6 font-mono text-xs text-brand-muted leading-relaxed overflow-x-auto min-h-[300px] hidden select-text relative" role="tabpanel">
+                <!-- แท็บแสดงผลตัวที่ 2: ผลร่างอีเมลเจรจาสำเร็จ (A/B Comparison) -->
+                <div id="terminal-simulate-panel" class="p-6 font-mono text-xs text-brand-muted leading-relaxed min-h-[350px] hidden select-text relative" role="tabpanel">
                     
                     <!-- หัวข้อแผงจำลองร่างเมลจริง -->
-                    <div class="flex items-center justify-between border-b border-brand-border/50 pb-3 mb-4">
-                        <span class="text-[10px] uppercase font-bold tracking-widest text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded" data-i18n="label_sim_email">Simulated Workspace Email</span>
-                        <button onclick="copyToClipboard('simulate')" class="text-xs text-brand-orange hover:text-orange-400 font-semibold flex items-center gap-1.5 py-1 px-2 hover:bg-brand-orange/10 rounded transition-all" aria-label="Copy compiled draft email message">
-                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                            <span data-i18n="btn_copy_email">Copy Draft Message</span>
-                        </button>
+                    <div class="flex items-center justify-between border-b border-brand-border/50 pb-3 mb-6">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded" data-i18n="label_sim_email">Simulated Workspace Email (A/B Draft Compare)</span>
+                        <span class="text-[9px] text-slate-400 font-medium hidden sm:inline">เปรียบเทียบสไตล์การเจรจาและส่งออกในคลิกเดียว</span>
                     </div>
 
-                    <!-- โครงแสดงผลจำลองบทสนทนาโชว์ผลประโยชน์ดราฟต์อีเมล -->
-                    <div class="space-y-4 font-sans text-slate-800">
-                        <div class="flex gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center text-black font-extrabold text-sm flex-shrink-0" aria-hidden="true">
-                                SB
+                    <!-- โครงสร้างแสดงผลแบบ A/B Columns -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans text-slate-800">
+                        
+                        <!-- Column Option A: Soft & Tactical Approach -->
+                        <div class="flex flex-col bg-slate-50/50 border border-slate-200/80 rounded-2xl p-5 relative">
+                            <div class="flex items-center justify-between border-b border-slate-200/60 pb-2.5 mb-3.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-[10px]">A</span>
+                                    <span class="text-xs font-black text-slate-800">Soft & Tactical Approach</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="copyDraft('A')" class="text-[11px] text-slate-600 hover:text-brand-orange font-bold flex items-center gap-1.5 py-1 px-2 hover:bg-slate-100 rounded transition-all" title="คัดลอกร่างจดหมาย Option A">
+                                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                        <span>คัดลอก</span>
+                                    </button>
+                                    <button onclick="openMailClient('A')" class="text-[11px] text-emerald-600 hover:text-emerald-700 font-bold flex items-center gap-1.5 py-1 px-2 hover:bg-emerald-50 rounded transition-all" title="เปิดหน้าต่างส่งอีเมล Gmail/Outlook สำหรับ Option A">
+                                        <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                                        <span>ส่งเมล</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl rounded-tl-none max-w-[85%]">
-                                <p class="text-xs text-brand-orange font-bold font-mono mb-1">SABA AI Framework Ingested ✅</p>
-                                <p class="text-xs text-slate-600 leading-relaxed" data-i18n="placeholder_sim_desc">นี่คือร่างการเจรจาระดับสูงที่ผ่านการคิดวิเคราะห์ยุทธศาสตร์ความสัมพันธ์เชิงลึกเพื่อส่งมอบผลประโยชน์ที่ดีที่สุด:</p>
+                            
+                            <div class="text-xs text-brand-orange font-bold font-mono mb-2 flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                <span>เน้นประนีประนอม & ทอดสะพาน (Win-Win Strategy)</span>
                             </div>
+                            
+                            <!-- Draft Output A -->
+                            <div id="simulated-draft-output-a" class="text-xs text-slate-800 leading-relaxed whitespace-pre-wrap select-text bg-white p-3.5 rounded-xl border border-slate-200 min-h-[160px] leading-relaxed"></div>
                         </div>
 
-                        <div class="flex gap-3 justify-end">
-                            <div class="bg-orange-50/50 border border-brand-orange/20 p-4 rounded-xl rounded-tr-none max-w-[85%]">
-                                <p class="text-xs text-brand-orange font-bold font-mono mb-2" data-i18n="sim_tip">💡 แนะนำ: ส่งข้อความนี้ในช่องทาง Chat หลัก หรือ Email ส่วนตัว</p>
-                                <div id="simulated-draft-output" class="text-sm text-slate-800 leading-relaxed font-sans whitespace-pre-wrap select-text"></div>
+                        <!-- Column Option B: Direct & Assertive Approach -->
+                        <div class="flex flex-col bg-slate-50/50 border border-slate-200/80 rounded-2xl p-5 relative">
+                            <div class="flex items-center justify-between border-b border-slate-200/60 pb-2.5 mb-3.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-[10px]">B</span>
+                                    <span class="text-xs font-black text-slate-800">Direct & Assertive Approach</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="copyDraft('B')" class="text-[11px] text-slate-600 hover:text-brand-orange font-bold flex items-center gap-1.5 py-1 px-2 hover:bg-slate-100 rounded transition-all" title="คัดลอกร่างจดหมาย Option B">
+                                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                        <span>คัดลอก</span>
+                                    </button>
+                                    <button onclick="openMailClient('B')" class="text-[11px] text-indigo-600 hover:text-indigo-700 font-bold flex items-center gap-1.5 py-1 px-2 hover:bg-indigo-50 rounded transition-all" title="เปิดหน้าต่างส่งอีเมล Gmail/Outlook สำหรับ Option B">
+                                        <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                                        <span>ส่งเมล</span>
+                                    </button>
+                                </div>
                             </div>
+                            
+                            <div class="text-xs text-brand-orange font-bold font-mono mb-2 flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                                <span>เน้นชัดเจน ตรงจุดยืน (Assertive Delivery)</span>
+                            </div>
+                            
+                            <!-- Draft Output B -->
+                            <div id="simulated-draft-output-b" class="text-xs text-slate-800 leading-relaxed whitespace-pre-wrap select-text bg-white p-3.5 rounded-xl border border-slate-200 min-h-[160px] leading-relaxed"></div>
                         </div>
+
                     </div>
 
                     <div id="simulate-placeholder" class="absolute inset-0 flex flex-col items-center justify-center bg-brand-surface/90 text-brand-muted font-bold text-center gap-2">
@@ -1201,6 +1269,93 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global SaaS Subscription Payment Modal -->
+    <div id="payment-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-4 flex-shrink-0">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="credit-card" class="w-5 h-5 text-brand-orange" aria-hidden="true"></i>
+                    <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">SABA PROMPT Premium Checkout</h3>
+                </div>
+                <button onclick="closePaymentModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded transition-colors focus:outline-none" aria-label="Close Payment Modal">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4 text-slate-800">
+                <!-- Summary -->
+                <div class="bg-slate-50 border border-slate-200/80 p-3.5 rounded-xl flex justify-between items-center">
+                    <div>
+                        <span class="block text-xs font-black text-slate-800">Pro Architect (Monthly Subscription)</span>
+                        <span class="text-[10px] text-slate-500">ปลดล็อกโควตา 200 เมล/วัน + Sliders + คลีนฟรอนต์</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-sm font-black text-brand-orange font-mono">199.00 THB</span>
+                        <span class="text-[9px] text-slate-400">/ month</span>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500">เลือกช่องทางการชำระเงิน (Select Payment Method)</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <!-- Option Card -->
+                        <label onclick="togglePaymentForm('card')" class="border border-brand-orange bg-orange-50/20 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer hover:bg-orange-50/40 transition-all select-none">
+                            <input type="radio" name="payment_method" id="pay-method-card" value="card" checked class="sr-only">
+                            <i data-lucide="credit-card" class="w-5 h-5 text-brand-orange mb-1"></i>
+                            <span class="text-[10px] font-bold text-slate-800">บัตรเครดิต / เดบิต</span>
+                        </label>
+                        <!-- Option Mobile -->
+                        <label onclick="togglePaymentForm('mobile')" class="border border-slate-200 hover:border-brand-orange rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer hover:bg-orange-50/10 transition-all select-none">
+                            <input type="radio" name="payment_method" id="pay-method-mobile" value="mobile" class="sr-only">
+                            <i data-lucide="smartphone" class="w-5 h-5 text-slate-500 mb-1"></i>
+                            <span class="text-[10px] font-bold text-slate-800">บิลโทรศัพท์มือถือ</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Card Details Form -->
+                <div id="payment-form-card" class="space-y-3">
+                    <div class="space-y-1">
+                        <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider">หมายเลขบัตร (Card Number)</label>
+                        <input type="text" placeholder="•••• •••• •••• ••••" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-semibold focus:bg-white focus:border-brand-orange outline-none transition-all">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider">วันหมดอายุ (Expiry)</label>
+                            <input type="text" placeholder="MM/YY" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-semibold focus:bg-white focus:border-brand-orange outline-none transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider">รหัสหลังบัตร (CVC)</label>
+                            <input type="text" placeholder="•••" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-semibold focus:bg-white focus:border-brand-orange outline-none transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Billing Carrier Select -->
+                <div id="payment-form-mobile" class="space-y-3 hidden">
+                    <div class="space-y-1">
+                        <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider">ผู้ให้บริการเครือข่าย (Carrier)</label>
+                        <select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-semibold focus:bg-white focus:border-brand-orange outline-none transition-all">
+                            <option>AIS (เครือข่ายอันดับ 1)</option>
+                            <option>TrueMove H / dtac</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider">เบอร์โทรศัพท์สำหรับเรียกเก็บเงิน (Phone Number)</label>
+                        <input type="text" placeholder="08X-XXX-XXXX" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-semibold focus:bg-white focus:border-brand-orange outline-none transition-all">
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <button onclick="simulatePaymentSuccess()" class="w-full mt-4 py-3 bg-brand-orange hover:bg-orange-600 text-xs font-black text-black rounded-xl transition-all shadow-lg shadow-brand-orange/15 flex items-center justify-center gap-1.5 focus:outline-none">
+                    <i data-lucide="check-circle" class="w-4 h-4 fill-black"></i>
+                    <span>⚡ สมัครสมาชิก Pro รายเดือนสำเร็จ (Simulate Subscribe)</span>
+                </button>
             </div>
         </div>
     </div>

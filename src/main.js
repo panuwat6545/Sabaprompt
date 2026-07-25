@@ -60,6 +60,11 @@ const i18nDict = {
     "otp_label": { th: "กรอกรหัส OTP (รหัสจำลองคือ: 1234)", en: "Enter OTP Code (Mock: 1234)" },
     "btn_otp_init": { th: "รับรหัส OTP", en: "Get OTP Code" },
     "btn_otp_verify": { th: "ยืนยันเข้าสู่ระบบ", en: "Verify & Sign In" },
+    "sender_label": { th: "ชื่อผู้ส่ง (ชื่อของคุณ)", en: "Sender Name (Your Name)" },
+    "who_label": { th: "ชื่อผู้รับ / ตำแหน่ง", en: "Recipient / Position" },
+    "tone_label": { th: "ระดับอารมณ์และจิตวิทยาการสื่อสาร (EQ Sliders)", en: "Interactive EQ Tone Sliders" },
+    "detail_label": { th: "โจทย์งานดิบหรือเหตุการณ์ที่เกิดขึ้น", en: "Raw Details / Context" },
+    "btn_load_scenario": { th: "จำลองสถานการณ์ตัวอย่าง", en: "Load Suggested Scenario" },
     "connect_ai_id": { th: "เชื่อมโยง AI Identity", en: "Connect AI Identity" },
     "or_text": { th: "หรือ", en: "OR" },
     "btn_guest": { th: "เข้าใช้งานแบบ Guest Mode", en: "Enter as Guest Mode" },
@@ -953,6 +958,29 @@ function loadSuggestedScenario() {
 
 // --- 5. MEGA PROMPT COMPILER ---
 function compileMegaPrompt() {
+    // Quota limits validation
+    const tier = localStorage.getItem('saba_subscription_tier') || 'free';
+    const sentCount = parseInt(localStorage.getItem('saba_daily_emails_sent') || '0');
+    const maxLimit = tier === 'pro' ? 200 : 5;
+
+    if (sentCount >= maxLimit) {
+        if (tier === 'free') {
+            showToast(
+                currentLang === 'en' ? "Free Limit Reached" : "หมดโควตาใช้งานฟรีประจำวัน",
+                currentLang === 'en' ? "You have reached your daily limit of 5 drafts. Please upgrade to Pro Tier to unlock 200 drafts/day!" : "คุณใช้งานโควตาฟรีครบ 5 ครั้งสำหรับวันนี้แล้ว โปรดรอรีเซ็ตในวันถัดไป หรืออัปเกรดเป็น Pro Tier (199.-/เดือน) เพื่อใช้งาน 200 ครั้ง/วัน",
+                "warning"
+            );
+            openPricingModal();
+        } else {
+            showToast(
+                currentLang === 'en' ? "Pro Limit Reached" : "หมดโควตา Pro ประจำวัน",
+                currentLang === 'en' ? "You have reached your daily Pro limit of 200 drafts. Please wait until tomorrow for a reset!" : "คุณใช้งานโควตา Pro ครบ 200 ครั้งสำหรับวันนี้แล้ว โปรดรอระบบรีเซ็ตใหม่ในวันถัดไปครับ",
+                "warning"
+            );
+        }
+        return;
+    }
+
     const inputWho = document.getElementById('inputWho').value.trim();
     const inputSender = document.getElementById('inputSender').value.trim() || "[ชื่อของคุณ]";
     
@@ -1003,6 +1031,11 @@ function compileMegaPrompt() {
 
         generateTargetPrompt(inputWho, inputDetail, inputSender, hasImages);
         
+        // Increment daily emails count
+        const newCount = sentCount + 1;
+        localStorage.setItem('saba_daily_emails_sent', newCount.toString());
+        updateQuotaIndicator();
+
         document.getElementById('compiler-placeholder').classList.add('hidden');
         document.getElementById('simulate-placeholder').classList.add('hidden');
 
@@ -1112,141 +1145,202 @@ async function queryRealAI(apiKey, who, detail, sender) {
 function generateTargetPrompt(who, detail, sender, hasImages = false) {
     let catHeader = "";
     let psychologyLayer = "";
-    let generatedEmailMock = "";
+    let generatedEmailMockA = "";
+    let generatedEmailMockB = "";
 
     let fileSystemPrompt = "";
     let docReferenceText = "";
     
     let imageNoteTh = hasImages ? "\n• [มีภาพประกอบแนบมาด้วยในโจทย์]: โปรดพิจารณารายละเอียดจากภาพหากมีการวิเคราะห์ด้วย Vision AI" : "";
     let imageNoteEn = hasImages ? "\n• [Image Attached in Context]: Please consider visual details if analyzing via Vision AI." : "";
+
+    // Read range sliders from DOM
+    const assertive = document.getElementById('input-assertive') ? parseInt(document.getElementById('input-assertive').value) : 50;
+    const urgency = document.getElementById('input-urgency') ? parseInt(document.getElementById('input-urgency').value) : 30;
+    const empathy = document.getElementById('input-empathy') ? parseInt(document.getElementById('input-empathy').value) : 80;
+
+    // Check if Privacy Shield (PII Masking) is enabled
+    const privacyActive = document.getElementById('privacy-shield-active') && document.getElementById('privacy-shield-active').checked;
+    let finalDetail = detail;
+    if (privacyActive) {
+        finalDetail = sanitizePII(detail, sender, who);
+    }
     
+    // Core emotional rules determined dynamically from Sliders
+    let emotionalGuidelinesTh = "";
+    let emotionalGuidelinesEn = "";
+
+    if (assertive > 70) {
+        emotionalGuidelinesTh += "\n• [Assertive Level: High (" + assertive + "%)]: วางกรอบเจรจาด้วยจุดยืนมั่นคง กระชับ ตรงประเด็น ไม่โอ้โลมหรือเกริ่นยาวเกินไป";
+        emotionalGuidelinesEn += "\n• [Assertive Level: High (" + assertive + "%)]: Formulate the negotiation with a firm stance, keep it concise, direct, and avoid unnecessary small talk.";
+    } else {
+        emotionalGuidelinesTh += "\n• [Assertive Level: Gentle (" + assertive + "%)]: สื่อสารด้วยความอ่อนน้อมถ่อมตน ประนีประนอมสูง และเน้นแสดงความนับถือคู่กรณี";
+        emotionalGuidelinesEn += "\n• [Assertive Level: Gentle (" + assertive + "%)]: Communicate with high humility, compromise-first approach, and show maximum politeness.";
+    }
+
+    if (urgency > 60) {
+        emotionalGuidelinesTh += "\n• [Urgency Level: High (" + urgency + "%)]: กำหนดกรอบเวลาส่งมอบที่ชัดเจน ดึงผู้รับให้เข้ามาแก้ปัญหาร่วมกันโดยเร่งด่วนแต่สุภาพ";
+        emotionalGuidelinesEn += "\n• [Urgency Level: High (" + urgency + "%)]: Set clear timelines, nudge the recipient for quick cooperation respectfully.";
+    } else {
+        emotionalGuidelinesTh += "\n• [Urgency Level: Normal (" + urgency + "%)]: รักษารอบการสื่อสารตามกำหนดการปกติ ไม่บีบคั้น";
+        emotionalGuidelinesEn += "\n• [Urgency Level: Normal (" + urgency + "%)]: Keep communications at a normal business pace without high pressure.";
+    }
+
+    if (empathy > 70) {
+        emotionalGuidelinesTh += "\n• [Empathy Level: High (" + empathy + "%)]: ใช้ Radical Empathy คาดเดาความอึดอัดใจและวิกฤตฝั่งผู้รับ (Fear Factor) พร้อมเสนอความช่วยเหลือเพื่อลดความขัดแย้ง";
+        emotionalGuidelinesEn += "\n• [Empathy Level: High (" + empathy + "%)]: Use Radical Empathy to predict recipient anxiety or fear factor, offering clear backup paths to de-escalate tension.";
+    } else {
+        emotionalGuidelinesTh += "\n• [Empathy Level: Task-focused (" + empathy + "%)]: เน้นความถูกต้อง ชัดเจน และกติกาการปฏิบัติงานเป็นที่ตั้งหลัก";
+        emotionalGuidelinesEn += "\n• [Empathy Level: Task-focused (" + empathy + "%)]: Focus strictly on execution parameters, objective clarity, and process compliance.";
+    }
+
     if (currentLang === 'th') {
         if (uploadedFile) {
-            fileSystemPrompt = `\n[ข้อมูลวิเคราะห์เอกสารแนบ - ${uploadedFile.name}]:\n• สาระสำคัญในเอกสาร: ${uploadedFile.mockContent}\n• ข้อกำหนด: ร่างอีเมลให้เชื่อมโยงและสอดคล้องกับสาระสำคัญของเอกสารนี้อย่างแนบเนียนและเป็นมืออาชีพ`;
-            docReferenceText = ` ตามเอกสารที่ผมได้แนบมาพร้อมกันนี้ (${uploadedFile.name}) ซึ่งได้ระบุประเด็นและรายละเอียดหลักไว้อย่างครบถ้วนแล้วครับ`;
+            fileSystemPrompt = "\n[ข้อมูลวิเคราะห์เอกสารแนบ - " + uploadedFile.name + "]:\n• สาระสำคัญในเอกสาร: " + uploadedFile.mockContent + "\n• ข้อกำหนด: ร่างอีเมลให้เชื่อมโยงและสอดคล้องกับสาระสำคัญของเอกสารนี้อย่างแนบเนียนและเป็นมืออาชีพ";
+            docReferenceText = " ตามเอกสารรายละเอียดแนบแนบ (" + uploadedFile.name + ") ซึ่งระบุหลักการข้อกำหนดร่วมกันไว้เป็นที่เรียบร้อยครับ";
         }
 
         if (currentSelectedCategory === 'customer') {
             catHeader = "THE CLOSER: VALUE-FIRST INFLUENCE FRAMEWORK";
             psychologyLayer = "• ใช้จิตวิทยาแบบ Win-Win Selling ค้นหาคุณค่าที่ส่งมอบให้ผู้รับ\n• สร้างอารมณ์ความเชื่อมั่นแต่คงไว้ซึ่งความเคารพในอำนาจหน้าที่อย่างเหมาะสม";
-            generatedEmailMock = `เรียน ${who},\n\nผมใคร่ขออนุญาตนำเรียนอัปเดตความคืบหน้าของโครงการแคมเปญการตลาดยุค AI ครับ${docReferenceText}\n\nจากการพิจารณาของทีมวิศวกรรมการผลิตร่วมกับนักออกแบบระดับสูง เพื่อส่งมอบผลลัพธ์คุณภาพสูงสุดระดับ Premium-Aesthetic ในโครงการนี้ ทางเราประสงค์ขอขยับเวลาจัดส่งต้นแบบรอบสุดท้ายเพิ่ม 3 วันทำการ ซึ่งเวลาที่เพิ่มนี้จะทำให้เราสามารถดำเนินการเรนเดอร์โมเดลอัจฉริยะได้อย่างละเอียดประณีต\n\nทางทีมตระหนักถึงความสำคัญและเพื่อเป็นการตอบแทนความร่วมมืออันดียิ่งนี้ เราขอมอบสิทธิ์การอัปเกรดระบบโมเดลวิเคราะห์ตัวอย่างชุดฟรีเป็นของขวัญเพิ่มเติมทันทีครับ\n\nขอแสดงความนับถืออย่างสูง,\n${sender}`;
+            
+            generatedEmailMockA = "เรื่อง: เสนอทางเลือกปรับปรุงคุณภาพและอัปเกรดแคมเปญการตลาดดิจิทัล\n\nเรียน " + who + ",\n\nผมขออนุญาตนำเรียนอัปเดตความคืบหน้าการส่งมอบโครงการแคมเปญการตลาดยุค AI ครับ" + docReferenceText + "\n\nเพื่อส่งมอบผลงานการเรนเดอร์ระดับพรีเมียม (Premium-Aesthetic) ทางทีมออกแบบขอเรียนแจ้งขยับกำหนดการส่งมอบร่างสุดท้ายออกไปอีก 3 วันทำการครับ ซึ่งในระหว่างนี้เพื่อชดเชยเวลาทำงานและแสดงความขอบคุณ ทางเราขอมอบสิทธิ์อัปเกรดโมเดลวิเคราะห์ข้อมูลสถิติแคมเปญเพิ่มให้อีก 1 ชุดฟรีทันทีครับ\n\nขอแสดงความนับถืออย่างสูง,\n" + sender;
+            
+            generatedEmailMockB = "เรื่อง: แจ้งขยับกำหนดส่งมอบผลงานโครงการการตลาดดิจิทัล AI\n\nเรียน " + who + ",\n\nผมขออนุญาตประสานงานเพื่อแจ้งอัปเดตกำหนดส่งมอบโครงการแคมเปญล่าสุดครับ" + docReferenceText + "\n\nเนื่องด้วยกระบวนการเรนเดอร์กราฟิกจำเป็นต้องใช้เวลาเพิ่มเติมเพื่อให้ได้ชิ้นงานที่ตรงตามมาตรฐานสูงสุด ทางเราประสงค์ขอนัดหมายขยับวันส่งมอบออกไป 3 วันทำการ (เป็นวันที่ [วันที่กำหนด]) โดยเราได้จัดแจงระบบและอัปเกรดการสแกนโมเดลข้อมูลเพิ่มเติมอีก 1 ชุดไว้รองรับระบบให้เรียบร้อยแล้วเพื่อความราบรื่นครับ\n\nขอแสดงความนับถือ,\n" + sender;
+            
         } else if (currentSelectedCategory === 'leave') {
             catHeader = "THE TACTICAL VACATION: RISK-MITIGATION VACATION PARADIGM";
             psychologyLayer = "• ถอดจิตวิทยาลดความหวาดระแวงของผู้บริหารด้วย Handover Plan\n• เสนอแผนแก้ไขความเสี่ยงรอบรับงานฉุกเฉิน เพื่อขจัดปัญหาการปฏิเสธ";
-            generatedEmailMock = `เรียน ${who},\n\nผมเขียนจดหมายฉบับนี้ขึ้นเพื่อขอรายงานและอนุมัติวันหยุดพักผ่อนล่วงหน้าในช่วงกลางเดือนพฤษภาคม เป็นเวลา 5 วันทำการครับ\n\nเพื่อยืนยันว่าการทำงานขององค์กรและแผนกจะดำเนินไปอย่างราบรื่นร้อยเปอร์เซ็นต์ ผมได้จัดทำและวางแผนการรักษาความปลอดภัยจัดการงานทั้งหมด ซึ่งสรุปข้อมูลรายละเอียดและแผนส่งต่องานไว้เรียบร้อยแล้ว${docReferenceText || ' (ตามแผนงานรายละเอียดที่เตรียมไว้นี้)'} ดังนี้:\n1. งานหลักทั้งหมดได้รับการส่งมอบล่วงหน้าเป็นที่เรียบร้อยในสัปดาห์นี้\n2. ผมประสานงานมอบหมายงานเร่งด่วนฉุกเฉินให้คุณเจมส์ (อาวุโส) คอยดูแลประสานเรื่องด่วนแทนอย่างเป็นระบบเรียบร้อยแล้ว\n\nผมจะคอยตอบกลับอีเมลเฉพาะเรื่องด่วนฉุกเฉินสำคัญสูงเป็นระยะๆ และเชื่อมั่นว่างานจะรันต่อไปได้โดยไม่มีติดขัดครับ\n\nด้วยความเคารพอย่างสูง,\n${sender}`;
+            
+            generatedEmailMockA = "เรื่อง: รายงานแผนงานล่วงหน้าและขออนุมัติลาพักร้อนช่วงกลางเดือนพฤษภาคม\n\nเรียน " + who + ",\n\nผมใคร่ขอรายงานแผนการทำงานล่วงหน้าและขออนุมัติลากิจพักร้อนเป็นเวลา 5 วันทำการช่วงกลางเดือนพฤษภาคมครับ\n\nเพื่อดูแลการส่งมอบงานทั้งหมดให้อยู่ในความเรียบร้อยร้อยเปอร์เซ็นต์ ผมได้เตรียมข้อมูลแผนการส่งต่องาน (Handover Plan) ไว้พร้อมแล้วครับ\n1. งานหลักทั้งหมดจะจัดส่งเสร็จสิ้นล่วงหน้าในสัปดาห์นี้\n2. คุณเจมส์ (Senior PM) จะสแตนด์บายคอยช่วยเหลือตรวจเช็กเรื่องเร่งด่วนแทนตัวผมในระหว่างนี้\n\nขอขอบพระคุณล่วงหน้าสำหรับเวลาพิจารณาครับ\n\nด้วยความเคารพอย่างสูง,\n" + sender;
+            
+            generatedEmailMockB = "เรื่อง: ขออนุมัติวันหยุดลาพักร้อน 5 วันทำการและข้อเสนอแผนรับมือความเสี่ยงโครงการ\n\nเรียน " + who + ",\n\nผมเขียนจดหมายฉบับนี้เพื่อขออนุมัติลากิจพักผ่อนประจำปีเป็นเวลา 5 วันทำการ ในช่วงกลางเดือนพฤษภาคมครับ\n\nเพื่อป้องกันความเสี่ยงในการดำเนินงาน ผมได้จัดแจงระบบแผนงานส่งมอบไว้เรียบร้อยแล้ว" + (docReferenceText || '') + ":\n1. งานสำคัญหลักของแคมเปญสัปดาห์นั้นได้รับการจัดส่งล่วงหน้าเรียบร้อยแล้ว\n2. ประสานส่งต่อความรับผิดชอบเรื่องด่วนฉุกเฉินให้คุณเจมส์ (Senior PM) คอยดูแลแทนอย่างเป็นระบบ\n\nจึงเรียนมาเพื่อโปรดอนุมัติคำขอวันลาพักร้อนดังกล่าวครับ\n\nด้วยความเคารพ,\n" + sender;
+            
         } else {
             catHeader = "THE DIPLOMAT: SILO-BREAKING COLLABORATIVE DIALOGUE";
             psychologyLayer = "• สลายกำแพงการขัดแย้งข้ามสายงาน (Inter-departmental Silos)\n• เจรจาด้วยการอ้างอิงเป้าหมายที่แชร์ร่วมกันและผลสัมฤทธิ์ปลายทาง";
-            generatedEmailMock = `สวัสดีครับคุณผู้ช่วย ${who},\n\nทางเราได้รับการติดต่อและประทับใจความคืบหน้าโครงการล่าสุดอย่างยิ่งครับ\n\nในการนี้ ผมอยากจะประสานเพื่อขอส่งมอบและตรวจรับใบกำกับงวดงานชุดสุดท้ายสำหรับแคมเปญ${docReferenceText} เพื่อที่ฝ่ายการเงินของทางแบรนด์จะได้รับข้อมูลตัวนี้ไปดำเนินขั้นตอนอนุมัติงบกองกลางปีหน้าของทั้งสองฝ่ายร่วมกัน ซึ่งการตั้งงบประมาณนี้เป็นคีย์หลักที่จะทำให้เราได้รับการจัดสรรและอัปเกรดระบบจัดซื้อซอฟต์แวร์ระดับโลกเพื่อเพิ่มขีดความสามารถร่วมกันทั้งสองแผนกครับ\n\nหากท่านมีข้อสงสัยหรือต้องการให้ข้อมูลเพิ่มเติมด้านใดเพื่อความสะดวกรวดเร็วแจ้งกลับผมได้ทันทีครับ\n\nขอแสดงความนับถือ,\n${sender}`;
+            
+            generatedEmailMockA = "เรื่อง: ประสานงานขอเอกสารใบกำกับงวดงานชุดสุดท้ายเพื่อเตรียมแผนงบซอฟต์แวร์ปีหน้า\n\nสวัสดีครับคุณผู้ช่วย " + who + ",\n\nผมขออนุญาตส่งข้อความมาทักทายและขอประสานงานเรื่องใบกำกับงวดงานแคมเปญชุดสุดท้ายครับ" + docReferenceText + "\n\nตัวใบกำกับนี้จะช่วยปลดล็อกขั้นตอนการอนุมัติและจัดตั้งงบประมาณส่วนกลางปีหน้าของฝ่ายบัญชีการเงิน ซึ่งเป็นงบก้อนสำคัญที่จะช่วยให้ฝ่ายของเราทั้งคู่ได้รับการจัดสรรและอัปเกรดระบบซอฟต์แวร์ทำงานใหม่เพื่อลดชั่วโมงงานของทั้งสองแผนกร่วมกันในปีหน้าอย่างมากครับ\n\nขอแสดงความนับถือ,\n" + sender;
+            
+            generatedEmailMockB = "เรื่อง: ขอรับใบกำกับงวดงานโครงการชุดสุดท้ายเพื่อนำส่งฝ่ายการเงินอนุมัติงบปีถัดไป\n\nสวัสดีครับคุณผู้ช่วย " + who + ",\n\nผมรบกวนขอใบกำกับงวดงานชุดสุดท้ายสำหรับโครงการล่าสุดเพื่อนำส่งบัญชีด่วนครับ" + docReferenceText + "\n\nฝ่ายการเงินต้องการเอกสารชุดนี้เพื่อสรุปรายการและตั้งงบประมาณซื้อระบบซอฟต์แวร์ปีถัดไป ซึ่งเป็นเป้าหมายหลักที่ทางเราและคุณตกลงร่วมมือกันไว้เพื่ออัปเกรดระบบงานของทั้งสองฝ่ายให้ดีขึ้น หากทางคุณเซ็นเอกสารเรียบร้อยแล้วสามารถแจ้งและจัดส่งกลับหาผมได้เลยครับ\n\nขอแสดงความนับถือ,\n" + sender;
         }
 
         const safeWho = escapeHtmlForDisplay(who);
         const safeSender = escapeHtmlForDisplay(sender);
-        const safeDetail = escapeHtmlForDisplay(detail);
+        const safeDetail = escapeHtmlForDisplay(finalDetail); // Masked PII details
         const safeTone = escapeHtmlForDisplay(selectedTone);
 
-        const highlightWho = `<span class="var-highlight">${safeWho}</span>`;
-        const highlightSender = `<span class="var-highlight">${safeSender}</span>`;
-        const highlightDetail = `<span class="var-highlight">${safeDetail}${hasImages ? ' [🖼️ มีภาพแนบ]' : ''}</span>`;
-        const highlightTone = `<span class="var-highlight">${safeTone}</span>`;
+        const highlightWho = '<span class="var-highlight">' + safeWho + '</span>';
+        const highlightSender = '<span class="var-highlight">' + safeSender + '</span>';
+        const highlightDetail = '<span class="var-highlight">' + safeDetail + (hasImages ? ' [🖼️ มีภาพแนบ]' : '') + '</span>';
+        const highlightTone = '<span class="var-highlight">Assertive: ' + assertive + '%, Urgency: ' + urgency + '%, Empathy: ' + empathy + '%</span>';
 
         let highlightFileBlock = "";
         if (uploadedFile) {
-            highlightFileBlock = `\n• <span class="text-brand-orange font-bold">เอกสารแนบเชิงลึก:</span> <span class="var-highlight">${escapeHtmlForDisplay(uploadedFile.name)} (${escapeHtmlForDisplay(uploadedFile.size)})</span>`;
+            highlightFileBlock = '\n• <span class="text-brand-orange font-bold">เอกสารแนบเชิงลึก:</span> <span class="var-highlight">' + escapeHtmlForDisplay(uploadedFile.name) + ' (' + escapeHtmlForDisplay(uploadedFile.size) + ')</span>';
         }
 
-        const terminalFormattedText = `/*
- * ==========================================
- * SYSTEM PROMPT: ${catHeader}
- * CORE TARGET AI: Gemini / ChatGPT / Claude
- * ==========================================
- */
-
-คุณคือผู้เชี่ยวชาญการเจรจาระดับสูงสไตล์ INFJ-A ที่มี EQ ลึกซึ้งและสุภาพอ่อนน้อมที่สุด 
-หน้าที่ของคุณคือช่วยฉันตอบข้อความหรือเขียนอีเมลติดต่อกับผู้มีส่วนเกี่ยวข้อง
-
-[บริบทความต้องการสื่อสาร - วิธีเขียนอีเมล]:
-• ชื่อผู้รับ / ตำแหน่ง: ${highlightWho}
-• ชื่อผู้ส่ง (ชื่อของคุณ): ${highlightSender}
-• สถานการณ์ดั้งเดิม: ${highlightDetail}
-• โทนและน้ำเสียงหลักที่ต้องการ: ${highlightTone}${highlightFileBlock}${imageNoteTh}
-
-[จิตวิทยาและกรอบยุทธศาสตร์ที่นำมาใช้ประมวลผล - SABA PROMPT]:
-${psychologyLayer}
-• ดึงระบบ Radical Empathy ช่วยตอบสนองจุดเจ็บปวดของผู้ร่วมงานและรักษาประโยชน์ขององค์กร${uploadedFile ? '\n• วางกรอบวิเคราะห์ตามเอกสารอ้างอิงที่แนบมาโดยไม่ละทิ้งความสุภาพระดับมืออาชีพ' : ''}
-
-[กติกาการแสดงผลลัพธ์ ตัวช่วยเขียนอีเมล]:
-1. เสนอร่างทางเลือกในการเขียนข้อความเจรจาภาษาไทยจำนวน 1 ฉบับอย่างเป็นทางการ
-2. ห้ามใช้คำพูดเชิงรุกราน หรือสร้างความตื่นตระหนก (Anti-Aggressive Strategy)
-3. ปิดท้ายด้วยประโยคแสดงความเคารพที่เหมาะสม ตามด้วยชื่อผู้ส่ง: ${highlightSender}
-4. ร่างเนื้อหาให้อ่านเข้าใจง่าย มีความกระชับ มั่นใจ และน่ารักสมดั่งพนักงานยุคใหม่`;
+        const terminalFormattedText = "/*\n" +
+ " * ===================================================\n" +
+ " * SYSTEM PROMPT: " + catHeader + "\n" +
+ " * CORE TARGET AI: Gemini / ChatGPT / Claude\n" +
+ " * SECURITY RULES: [Privacy Shield Active: " + (privacyActive ? "YES (PII Masked)" : "NO") + "]\n" +
+ " * ===================================================\n" +
+ " */\n\n" +
+ "คุณคือผู้เชี่ยวชาญการเจรจาระดับสูงสไตล์ INFJ-A ที่มี EQ ลึกซึ้งและมีความเป็นมืออาชีพที่สุด\n" +
+ "หน้าที่ของคุณคือเขียนหรือปรับดราฟต์อีเมลเจรจาระหว่างหน่วยงานหรือคู่ค้าทางธุรกิจ\n\n" +
+ "[ข้อมูลผู้เกี่ยวข้องและบริบทการสื่อสาร]:\n" +
+ "• ชื่อผู้รับ / ตำแหน่ง: " + highlightWho + "\n" +
+ "• ชื่อผู้ส่ง (ชื่อของคุณ): " + highlightSender + "\n" +
+ "• โจทย์ความต้องการดิบ: " + highlightDetail + "\n" +
+ "• พารามิเตอร์ระดับอารมณ์ EQ: " + highlightTone + highlightFileBlock + imageNoteTh + "\n\n" +
+ "[พฤติกรรมอารมณ์และจิตวิทยาที่ควบคุมการเจรจา (Sliders Mapped)]:" + emotionalGuidelinesTh + "\n" +
+ psychologyLayer + "\n" +
+ "• ดึงระบบ Radical Empathy ช่วยลดจุดเจ็บปวดของผู้รับ และสร้างแผนสำรองปิดจุดหวาดระแวงล่วงหน้า\n\n" +
+ "[กติกาการแสดงผลลัพธ์ (A/B Output Format for SaaS)]:\n" +
+ "1. ให้ผลลัพธ์ข้อความอีเมลเจรจาภาษาไทยเปรียบเทียบกันจำนวน 2 แบบ (Option A และ Option B)\n" +
+ "   - Option A: Soft & Tactical (เน้นอารมณ์นอบน้อม ทอดสะพาน ประนีประนอมสูง)\n" +
+ "   - Option B: Direct & Assertive (เน้นตรงจุดยืน มั่นคง ตรงเป้าหมาย รักษาสิทธิ์และแผนงานของฝ่ายเรา)\n" +
+ "2. ปิดท้ายแต่ละทางเลือกด้วยชื่อผู้ส่งเสมอ: " + highlightSender + "\n" +
+ "3. ห้ามใช้คำพูดสร้างความตื่นตระหนกหรือการพูดเชิงรุกรานเด็ดขาด";
 
         document.getElementById('compiled-prompt-output').innerHTML = terminalFormattedText;
-        document.getElementById('simulated-draft-output').innerText = generatedEmailMock;
+        document.getElementById('simulated-draft-output-a').innerText = generatedEmailMockA;
+        document.getElementById('simulated-draft-output-b').innerText = generatedEmailMockB;
     } else {
         // English Mode Mega Prompt Compiling
         if (uploadedFile) {
-            fileSystemPrompt = `\n[Reference Document Analysis - ${uploadedFile.name}]:\n• Key contents: ${uploadedFile.mockContent}\n• Rule: Incorporate these key details naturally and professionally into the draft email.`;
-            docReferenceText = ` as detailed in the attached document (${uploadedFile.name}) which outlines the main scope and guidelines.`;
+            fileSystemPrompt = "\n[Reference Document Analysis - " + uploadedFile.name + "]:\n• Key contents: " + uploadedFile.mockContent + "\n• Rule: Incorporate these key details naturally and professionally into the draft email.";
+            docReferenceText = " as detailed in the attached document (" + uploadedFile.name + ") which outlines the main scope and guidelines.";
         }
 
         if (currentSelectedCategory === 'customer') {
             catHeader = "THE CLOSER: VALUE-FIRST INFLUENCE FRAMEWORK";
             psychologyLayer = "• Use Win-Win Selling psychology to highlight value delivered to the recipient.\n• Instill confidence while remaining highly respectful of authority and guidelines.";
-            generatedEmailMock = `Dear ${who},\n\nI would like to update you on the progress of our AI marketing campaign project.${docReferenceText}\n\nTo deliver the highest aesthetic quality for this launch, our design team requires an additional 3 business days for final rendering. This extension ensures the results meet premium-tier standards.\n\nTo show our appreciation for your partnership, we are pleased to upgrade your account to include 1 free additional analytics model slice.\n\nSincerely,\n${sender}`;
+            
+            generatedEmailMockA = "Subject: Proposal for Premium Campaign Deliverables and Upgraded Service\n\nDear " + who + ",\n\nI would like to update you on the progress of our AI marketing campaign launch." + docReferenceText + "\n\nTo ensure we deliver the highest premium aesthetic quality, our design team requires an additional 3 business days for final rendering. To show our appreciation for your partnership, we are pleased to upgrade your account to include 1 free additional analytics model slice.\n\nSincerely,\n" + sender;
+            
+            generatedEmailMockB = "Subject: Postponement Notification & Compensatory Package for Marketing Campaign\n\nDear " + who + ",\n\nI am writing to notify you that the final deliverable date for our AI campaign has been rescheduled." + docReferenceText + "\n\nTo ensure the graphics rendering meets our top quality tier standards, we are extending the delivery window by 3 business days (to [Target Date]). We have prepared 1 additional free data parsing module upgrade on your dashboard to thank you for your understanding.\n\nBest regards,\n" + sender;
+            
         } else if (currentSelectedCategory === 'leave') {
             catHeader = "THE TACTICAL VACATION: RISK-MITIGATION VACATION PARADIGM";
             psychologyLayer = "• Alleviate stakeholder anxiety through a clear Handover Plan.\n• Proactively address project risks during absence to ensure zero rejection.";
-            generatedEmailMock = `Dear ${who},\n\nI am writing to formally request a 5-day vacation leave starting mid-May.\n\nTo ensure all workflows remain uninterrupted, I have put a full risk-mitigation handover plan in place${docReferenceText || ''}:\n1. All core project deliverables for this week have been completed ahead of schedule.\n2. James (Senior PM) has been briefed and will act as my backup to handle any urgent queries.\n\nI will monitor high-priority emails occasionally and remain confident that the team is fully supported.\n\nBest regards,\n${sender}`;
+            
+            generatedEmailMockA = "Subject: Forward Handover Plan & Vacation Request (Mid-May)\n\nDear " + who + ",\n\nI would like to share my forward project schedule and request a 5-day vacation leave for mid-May.\n\nTo ensure zero impact on our workflows, I have completed all core weekly deliverables ahead of schedule and briefed James (Senior PM) to handle any urgent inquiries during my absence. Thank you for your support and time.\n\nBest regards,\n" + sender;
+            
+            generatedEmailMockB = "Subject: Formal 5-Day Vacation Leave Request & Handover Plan\n\nDear " + who + ",\n\nI am writing to request a formal 5-day vacation leave starting mid-May.\n\nTo mitigate all project risks during my absence, I have set up the following handover plan" + (docReferenceText || '') + ":\n1. Core deliverables are completed in advance.\n2. James (Senior PM) will act as active PM cover for high-priority needs.\n\nSincerely,\n" + sender;
+            
         } else {
             catHeader = "THE DIPLOMAT: SILO-BREAKING COLLABORATIVE DIALOGUE";
             psychologyLayer = "• Break cross-departmental silos.\n• Align negotiation points with shared corporate goals and bottom-line growth.";
-            generatedEmailMock = `Hi ${who},\n\nHope you are doing well.\n\nI am writing to request the final signed invoice for the digital campaign budget.${docReferenceText} This document is required by our finance department to lock in our joint digital tool upgrade budget for next fiscal year, which directly benefits both of our teams.\n\nPlease let me know if you need any additional files or clarifications.\n\nBest regards,\n${sender}`;
+            
+            generatedEmailMockA = "Subject: Collaboration Request: Final Invoice for Next Fiscal Software Funding\n\nHi " + who + ",\n\nHope you are doing well.\n\nI would like to request the final digital campaign invoice" + docReferenceText + " to secure our joint software procurement funding for next year. This upgrade will significantly decrease manual hours for both of our teams.\n\nSincerely,\n" + sender;
+            
+            generatedEmailMockB = "Subject: Digital Invoice Submission Request for Mutual Software Budget Allocation\n\nHi " + who + ",\n\nPlease assist in sharing the final invoice for the digital campaign project." + docReferenceText + "\n\nOur accounts team requires this invoice to lock in our joint software license budget, which directly aligns with our shared department growth goals. Thank you for your fast action.\n\nBest regards,\n" + sender;
         }
 
         const safeWho = escapeHtmlForDisplay(who);
         const safeSender = escapeHtmlForDisplay(sender);
-        const safeDetail = escapeHtmlForDisplay(detail);
+        const safeDetail = escapeHtmlForDisplay(finalDetail);
         const safeTone = escapeHtmlForDisplay(selectedTone);
 
-        const highlightWho = `<span class="var-highlight">${safeWho}</span>`;
-        const highlightSender = `<span class="var-highlight">${safeSender}</span>`;
-        const highlightDetail = `<span class="var-highlight">${safeDetail}${hasImages ? ' [🖼️ Image Attached]' : ''}</span>`;
-        const highlightTone = `<span class="var-highlight">${safeTone}</span>`;
+        const highlightWho = '<span class="var-highlight">' + safeWho + '</span>';
+        const highlightSender = '<span class="var-highlight">' + safeSender + '</span>';
+        const highlightDetail = '<span class="var-highlight">' + safeDetail + (hasImages ? ' [🖼️ Image Attached]' : '') + '</span>';
+        const highlightTone = '<span class="var-highlight">Assertive: ' + assertive + '%, Urgency: ' + urgency + '%, Empathy: ' + empathy + '%</span>';
 
         let highlightFileBlock = "";
         if (uploadedFile) {
-            highlightFileBlock = `\n• <span class="text-brand-orange font-bold">Attached Doc:</span> <span class="var-highlight">${escapeHtmlForDisplay(uploadedFile.name)} (${escapeHtmlForDisplay(uploadedFile.size)})</span>`;
+            highlightFileBlock = '\n• <span class="text-brand-orange font-bold">Attached Doc:</span> <span class="var-highlight">' + escapeHtmlForDisplay(uploadedFile.name) + ' (' + escapeHtmlForDisplay(uploadedFile.size) + ')</span>';
         }
 
-        const terminalFormattedText = `/*
- * ==========================================
- * SYSTEM PROMPT: ${catHeader}
- * CORE TARGET AI: Gemini / ChatGPT / Claude
- * ==========================================
- */
-
-You are an expert negotiator with high emotional intelligence (INFJ-A style) and professional tone.
-Your task is to draft a clean email based on the context and parameters provided below.
-
-[COMMUNICATION CONTEXT]:
-• Recipient / Position: ${highlightWho}
-• Sender Name (Your Name): ${highlightSender}
-• Raw Context Notes: ${highlightDetail}
-• Target EQ Tone: ${highlightTone}${highlightFileBlock}${imageNoteEn}
-
-[PSYCHOLOGY & FRAMEWORK APPLIED]:
-${psychologyLayer}
-• Apply Radical Empathy to address the fears/goals of the recipient while maintaining business objectives.${uploadedFile ? '\n• Incorporate the attached reference document insights while keeping the email professional.' : ''}
-
-[OUTPUT FORMAT INSTRUCTIONS]:
-1. Draft 1 formal business email in English.
-2. Avoid passive-aggressive phrases or alarmist words (Anti-Aggressive Strategy).
-3. Conclude with a warm, professional closing followed by the Sender Name: ${highlightSender}
-4. Ensure the draft is concise, easy to read, and polite.`;
+        const terminalFormattedText = "/*\n" +
+ " * ===================================================\n" +
+ " * SYSTEM PROMPT: " + catHeader + "\n" +
+ " * CORE TARGET AI: Gemini / ChatGPT / Claude\n" +
+ " * SECURITY RULES: [Privacy Shield Active: " + (privacyActive ? "YES (PII Masked)" : "NO") + "]\n" +
+ " * ===================================================\n" +
+ " */\n\n" +
+ "You are an expert negotiator with high emotional intelligence (INFJ-A style) and professional tone.\n" +
+ "Your task is to draft a clean email based on the context and parameters provided below.\n\n" +
+ "[COMMUNICATION CONTEXT]:\n" +
+ "• Recipient / Position: " + highlightWho + "\n" +
+ "• Sender Name (Your Name): " + highlightSender + "\n" +
+ "• Raw Context Notes: " + highlightDetail + "\n" +
+ "• Target EQ Parameters: " + highlightTone + highlightFileBlock + imageNoteEn + "\n\n" +
+ "[EMOTIONAL DIRECTION (Sliders Mapped)]:" + emotionalGuidelinesEn + "\n" +
+ psychologyLayer + "\n" +
+ "• Apply Radical Empathy to address the fears/goals of the recipient while maintaining business objectives.\n\n" +
+ "[OUTPUT FORMAT INSTRUCTIONS]:\n" +
+ "1. Draft 2 formal business emails in English.\n" +
+ "   - Option A: Soft & Tactical (Polite tone, relationship-focused, compromise-first)\n" +
+ "   - Option B: Direct & Assertive (Direct tone, task-focused, protective of our timeline/budget)\n" +
+ "2. Conclude with a warm, professional closing followed by the Sender Name: " + highlightSender + "\n" +
+ "3. Ensure both options are concise and easy to read.";
 
         document.getElementById('compiled-prompt-output').innerHTML = terminalFormattedText;
-        document.getElementById('simulated-draft-output').innerText = generatedEmailMock;
+        document.getElementById('simulated-draft-output-a').innerText = generatedEmailMockA;
+        document.getElementById('simulated-draft-output-b').innerText = generatedEmailMockB;
     }
 }
 
@@ -1555,26 +1649,8 @@ function selectPlan(planName) {
             "success"
         );
     } else if (planName === 'pro') {
-        showToast(
-            currentLang === 'en' ? "Pro Upgrade Processing" : "กำลังดำเนินการอัปเกรด Pro",
-            currentLang === 'en' ? "Connecting to secure payment gateway..." : "กำลังเชื่อมต่อระบบทำรายการจ่ายชำระเงินจำลอง...",
-            "warning"
-        );
-        setTimeout(() => {
-            localStorage.setItem('saba_session_vip', 'true');
-            const badge = document.querySelector('[data-i18n="vip_badge"]');
-            if (badge) {
-                badge.innerText = currentLang === 'en' ? "PRO ARCHITECT" : "PRO ACTIVE";
-                badge.className = "text-[10px] uppercase tracking-wider font-black text-black px-1.5 py-0.2 bg-amber-400 rounded-full border border-amber-400";
-            }
-            closePricingModal();
-            showToast(
-                currentLang === 'en' ? "Upgrade Successful!" : "อัปเกรด Pro สำเร็จ!",
-                currentLang === 'en' ? "Welcome to Pro Architect level! Unlimited compiles unlocked." : "ยินดีต้อนรับสู่ระดับ Pro Architect! ปลดล็อกการร่าง AI ไม่จำกัดเรียบร้อยแล้ว",
-                "success"
-            );
-            SabaAnalytics.trackEvent("plan_upgraded", { plan: "pro" });
-        }, 1500);
+        closePricingModal();
+        openPaymentModal();
     } else if (planName === 'enterprise') {
         showToast(
             currentLang === 'en' ? "Contacting Enterprise Sales" : "กำลังติดต่อแผนกดูแลลูกค้าองค์กร",
@@ -1704,3 +1780,178 @@ window.simulateThirdPartyLogin = simulateThirdPartyLogin;
 window.handleSignOut = handleSignOut;
 window.handleGuestLogin = handleGuestLogin;
 window.switchLoginTab = switchLoginTab;
+
+
+// --- SABA PROMPT Global SaaS Upgrades Helper Functions ---
+function sanitizePII(text, sender, recipient) {
+    if (!text) return "";
+    let cleanText = text;
+    
+    // Mask specific sender and recipient names if they appear in text (case-insensitive)
+    if (sender && sender !== "[ชื่อของคุณ]") {
+        const escapedSender = sender.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const reSender = new RegExp(escapedSender, 'gi');
+        cleanText = cleanText.replace(reSender, '[SENDER_NAME]');
+    }
+    if (recipient) {
+        const escapedRecipient = recipient.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const reRecipient = new RegExp(escapedRecipient, 'gi');
+        cleanText = cleanText.replace(reRecipient, '[RECIPIENT_NAME]');
+    }
+
+    // Mask phone numbers (e.g. 081-234-5678, 02-345-6789, +66 81 234 5678, etc.)
+    const phoneRegex = /(\+?66|0)[-.\s]?\d{1,2}[-.\s]?\d{3,4}[-.\s]?\d{4}/g;
+    cleanText = cleanText.replace(phoneRegex, '[PHONE_REDACTED]');
+
+    // Mask email addresses
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+    cleanText = cleanText.replace(emailRegex, '[EMAIL_REDACTED]');
+
+    // Mask currency/amounts (e.g. 50,000 บาท, $10,000, 3,000 THB)
+    const currencyRegex = /\d{1,3}(,\d{3})*(\.\d{2})?\s*(บาท|THB|USD|\$|dollars?)/gi;
+    cleanText = cleanText.replace(currencyRegex, '[BUDGET_REDACTED]');
+    
+    return cleanText;
+}
+
+function updateSliderVal(sliderId, value) {
+    const valSpan = document.getElementById('val-' + sliderId);
+    if (valSpan) {
+        valSpan.innerText = value + '%';
+    }
+}
+
+function copyDraft(type) {
+    const outputId = type === 'A' ? 'simulated-draft-output-a' : 'simulated-draft-output-b';
+    const textToCopy = document.getElementById(outputId).innerText;
+    
+    if (!textToCopy || textToCopy.includes("พร้อมประกอบร่าง") || textToCopy.includes("รอยืนยันพรอพท์") || textToCopy.includes("Awaiting") || textToCopy.includes("Ready to")) {
+        showToast("พบข้อผิดพลาด", "ไม่พบเนื้อความในการคัดลอก โปรดป้อนข้อมูลและรัน Mega Prompt ก่อนครับ", "warning");
+        return;
+    }
+
+    const tempTextArea = document.createElement("textarea");
+    tempTextArea.value = textToCopy;
+    document.body.appendChild(tempTextArea);
+    tempTextArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempTextArea);
+
+    showToast(
+        currentLang === 'en' ? "Copied Option " + type + "!" : "คัดลอกดราฟต์ " + type + " สำเร็จ!", 
+        currentLang === 'en' ? "Copied clean draft to your clipboard." : "คัดลอกร่างจดหมายทางเลือก " + type + " ลงในคลิปบอร์ดแล้วครับ!", 
+        "success"
+    );
+    SabaAnalytics.trackEvent("copy_draft_ab", { type: type });
+}
+
+function openMailClient(type) {
+    const outputId = type === 'A' ? 'simulated-draft-output-a' : 'simulated-draft-output-b';
+    const rawText = document.getElementById(outputId).innerText;
+    if (!rawText) {
+        showToast("พบข้อผิดพลาด", "ไม่พบเนื้อความในการส่งออก โปรดป้อนข้อมูลและรัน Mega Prompt ก่อนครับ", "warning");
+        return;
+    }
+    
+    let subject = "SABA PROMPT Email Draft";
+    let body = rawText;
+    
+    const lines = rawText.split('\n');
+    if (lines[0] && (lines[0].toLowerCase().startsWith('subject:') || lines[0].toLowerCase().startsWith('เรื่อง:'))) {
+        subject = lines[0].substring(lines[0].indexOf(':') + 1).trim();
+        body = lines.slice(1).join('\n').trim();
+    }
+    
+    window.location.href = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    SabaAnalytics.trackEvent("mailto_opened", { type: type });
+}
+
+// Expose functions to window scope for HTML onclick access
+window.updateSliderVal = updateSliderVal;
+window.copyDraft = copyDraft;
+window.openMailClient = openMailClient;
+window.sanitizePII = sanitizePII;
+
+
+// --- Quota Management & Billing Sandbox Functions ---
+function updateQuotaIndicator() {
+    const tier = localStorage.getItem('saba_subscription_tier') || 'free';
+    
+    // Update VIP badge to show only BASIC TIER or PRO TIER without sent counts
+    const badge = document.querySelector('[data-i18n="vip_badge"]');
+    if (badge) {
+        badge.innerText = tier === 'pro' ? (currentLang === 'en' ? "PRO TIER" : "PRO TIER") : (currentLang === 'en' ? "BASIC TIER" : "BASIC TIER");
+        if (tier === 'pro') {
+            badge.className = "text-[10px] uppercase tracking-wider font-extrabold text-emerald-500 px-1.5 py-0.2 bg-emerald-500/10 rounded-full border border-emerald-500/20";
+        } else {
+            badge.className = "text-[10px] uppercase tracking-wider font-extrabold text-brand-orange px-1.5 py-0.2 bg-brand-orange/10 rounded-full border border-brand-orange/20";
+        }
+    }
+}
+
+function openPaymentModal() {
+    document.getElementById('payment-modal').classList.remove('hidden');
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    SabaAnalytics.trackEvent("modal_opened", { name: "payment" });
+}
+
+function closePaymentModal() {
+    document.getElementById('payment-modal').classList.add('hidden');
+}
+
+function togglePaymentForm(method) {
+    if (method === 'card') {
+        document.getElementById('payment-form-card').classList.remove('hidden');
+        document.getElementById('payment-form-mobile').classList.add('hidden');
+        document.getElementById('pay-method-card').checked = true;
+    } else {
+        document.getElementById('payment-form-card').classList.add('hidden');
+        document.getElementById('payment-form-mobile').classList.remove('hidden');
+        document.getElementById('pay-method-mobile').checked = true;
+    }
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    SabaAnalytics.trackEvent("payment_method_switched", { method });
+}
+
+function simulatePaymentSuccess() {
+    localStorage.setItem('saba_subscription_tier', 'pro');
+    localStorage.setItem('saba_daily_emails_sent', '0'); // reset sent count upon upgrade
+    
+    closePaymentModal();
+    updateQuotaIndicator();
+    
+    showToast(
+        currentLang === 'en' ? "Subscription Active!" : "สมัครสมาชิกสำเร็จ!",
+        currentLang === 'en' ? "Welcome to SABA PROMPT Pro! Daily limit expanded to 200 emails." : "ยินดีต้อนรับสู่ระดับ Pro Architect! ปลดล็อกโควตา 200 ครั้ง/วัน สำเร็จแล้วครับ",
+        "success"
+    );
+    SabaAnalytics.trackEvent("plan_upgraded", { plan: "pro" });
+}
+
+// Startup Quota Reset Check
+(function() {
+    const todayStr = new Date().toISOString().split('T')[0];
+    let lastReset = localStorage.getItem('saba_last_reset_date') || '';
+    if (lastReset !== todayStr) {
+        localStorage.setItem('saba_daily_emails_sent', '0');
+        localStorage.setItem('saba_last_reset_date', todayStr);
+    }
+
+    if (!localStorage.getItem('saba_subscription_tier')) {
+        localStorage.setItem('saba_subscription_tier', 'free');
+    }
+
+    // Delay update slightly to ensure DOM elements exist
+    setTimeout(updateQuotaIndicator, 300);
+})();
+
+// Bind to window
+window.openPaymentModal = openPaymentModal;
+window.closePaymentModal = closePaymentModal;
+window.togglePaymentForm = togglePaymentForm;
+window.simulatePaymentSuccess = simulatePaymentSuccess;
+window.updateQuotaIndicator = updateQuotaIndicator;
