@@ -1019,9 +1019,8 @@ function compileMegaPrompt() {
         
         SabaAnalytics.trackEvent("compile_prompt", { category: currentSelectedCategory, tone: selectedTone });
 
-        // Call Secure API Gateway
-        const apiKey = localStorage.getItem('saba_api_key');
-        await queryRealAI(apiKey, inputWho, inputDetail, inputSender);
+        // Always bypass AI query and show pre-defined templates instantly from local database
+        document.getElementById('simulate-placeholder').classList.add('hidden');
     }, 1000);
 }
 
