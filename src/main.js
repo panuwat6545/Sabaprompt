@@ -362,6 +362,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
     setupDragAndDrop();
 
+    // Clipboard Drop Listener for contenteditable input Detail
+    detailInput.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.indexOf('image') !== -1) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.alt = file.name;
+                        img.className = "max-w-xs max-h-40 rounded-lg border border-slate-200 shadow-sm my-2 block";
+                        detailInput.appendChild(img);
+                        
+                        showToast(
+                            currentLang === 'en' ? "Image Attached" : "แนบรูปภาพแล้ว",
+                            currentLang === 'en' ? `Image file "${file.name}" dropped successfully.` : `ตรวจพบการลากรูปภาพ "${file.name}" มาวางในกล่องข้อความเรียบร้อย`,
+                            "success"
+                        );
+                        SabaAnalytics.trackEvent("image_dropped", { name: file.name });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    });
+
     // Clipboard Paste Listener for contenteditable input Detail
     detailInput.addEventListener('paste', (e) => {
         e.preventDefault();
@@ -445,6 +474,44 @@ function setupDragAndDrop() {
 function processLocalFile(file) {
     const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
     const type = file.name.split('.').pop().toLowerCase();
+    
+    const imageTypes = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+    if (imageTypes.includes(type)) {
+        showToast(
+            currentLang === 'en' ? "Processing Image..." : "กำลังประมวลผลรูปภาพ...", 
+            currentLang === 'en' ? "Importing image into strategy matrix..." : "ระบบกำลังนำภาพเข้ามาประกอบร่างยุทธศาสตร์...", 
+            "info"
+        );
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = file.name;
+            img.className = "max-w-xs max-h-40 rounded-lg border border-slate-200 shadow-sm my-2 block";
+            
+            const detailInput = document.getElementById('inputDetail');
+            if (detailInput) {
+                detailInput.appendChild(img);
+            }
+
+            uploadedFile = {
+                name: file.name,
+                size: `${sizeInMB} MB`,
+                type: type,
+                mockContent: `[ภาพแนบประกอบยุทธศาสตร์: ${file.name}]`
+            };
+            updateFileStatusUI();
+            
+            showToast(
+                currentLang === 'en' ? "Image Attached" : "แนบไฟล์รูปภาพแล้ว", 
+                currentLang === 'en' ? "Successfully uploaded and inserted image in text box." : "ตรวจพบการอัปโหลดไฟล์รูปภาพ และแทรกลงในกล่องข้อความเรียบร้อย", 
+                "success"
+            );
+            SabaAnalytics.trackEvent("image_uploaded", { name: file.name });
+        };
+        reader.readAsDataURL(file);
+        return;
+    }
     
     showToast("กำลังประมวลผลไฟล์...", "ระบบกำลังอ่านและสแกนข้อมูลจากไฟล์ในเครื่องของคุณ...", "info");
 
