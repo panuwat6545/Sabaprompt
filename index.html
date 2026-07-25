@@ -93,9 +93,14 @@
         <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-8 shadow-2xl relative">
             
             <!-- Language Switcher on Auth Screen -->
-            <div class="absolute top-4 right-4">
-                <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-bold transition-all" aria-label="Switch Language Button">
-                    <span class="auth-lang-btn-text">EN</span>
+            <div class="absolute top-4 right-4 flex items-center bg-zinc-900 border border-brand-border rounded-xl p-1 text-[10px] font-extrabold tracking-wider shadow-inner shadow-black/25">
+                <button onclick="setLanguage('th')" id="auth-lang-btn-th" class="px-2 py-0.5 rounded-lg transition-all flex items-center gap-1 focus:outline-none text-brand-orange bg-zinc-800 border border-brand-border/40 shadow">
+                    <span class="w-1 h-1 rounded-full bg-brand-orange animate-pulse"></span>
+                    <span>TH</span>
+                </button>
+                <button onclick="setLanguage('en')" id="auth-lang-btn-en" class="px-2 py-0.5 rounded-lg transition-all flex items-center gap-1 focus:outline-none text-zinc-400 hover:text-white">
+                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-700 hidden"></span>
+                    <span>EN</span>
                 </button>
             </div>
 
@@ -255,10 +260,17 @@
                             <span data-i18n="btn_upgrade">Upgrade Pro</span>
                         </button>
 
-                        <!-- Language Switcher -->
-                        <button onclick="toggleLanguage()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border text-xs px-2.5 py-1.5 rounded-lg text-gray-300 font-extrabold transition-all focus:outline-none focus:ring-2 focus:ring-brand-orange" title="Switch Language" aria-label="Switch Language Button">
-                            <span class="nav-lang-btn-text">EN</span>
-                        </button>
+                        <!-- Language Switcher Segmented Control -->
+                        <div class="flex items-center bg-zinc-900 border border-brand-border rounded-xl p-1 text-[10px] font-extrabold tracking-wider shadow-inner shadow-black/25">
+                            <button onclick="setLanguage('th')" id="lang-btn-th" class="px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-brand-orange bg-zinc-800 border border-brand-border/40 shadow-md">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse"></span>
+                                <span>TH</span>
+                            </button>
+                            <button onclick="setLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-zinc-400 hover:text-white">
+                                <span class="w-1.5 h-1.5 rounded-full bg-zinc-700 hidden"></span>
+                                <span>EN</span>
+                            </button>
+                        </div>
                         
                         <!-- API settings configurations -->
                         <button onclick="openApiSettingsModal()" class="bg-brand-bg hover:bg-brand-border/40 border border-brand-border p-2 rounded-lg text-brand-muted hover:text-brand-orange transition-all focus:outline-none focus:ring-2 focus:ring-brand-orange" title="API Settings" aria-label="API System Keys Configuration Settings">
@@ -389,37 +401,37 @@
                             <!-- Slider 1: Assertiveness -->
                             <div class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/60 shadow-sm">
                                 <div class="flex justify-between items-center text-[10px] font-bold text-slate-700">
-                                    <span class="flex items-center gap-1.5"><i data-lucide="shield-alert" class="w-3.5 h-3.5 text-brand-orange"></i> Assertiveness (ความเด็ดขาด)</span>
+                                    <span class="flex items-center gap-1.5"><i data-lucide="shield-alert" class="w-3.5 h-3.5 text-brand-orange"></i> <span data-i18n="slider_lbl_assertive">Assertiveness (ความเด็ดขาด)</span></span>
                                     <span id="val-assertive" class="text-brand-orange font-mono font-extrabold bg-orange-50 px-1.5 py-0.2 rounded border border-brand-orange/20">50%</span>
                                 </div>
                                 <input type="range" id="input-assertive" min="0" max="100" value="50" oninput="updateSliderVal('assertive', this.value)" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-orange">
                                 <div class="flex justify-between text-[8px] text-slate-400 font-extrabold uppercase tracking-wider">
-                                    <span>นอบน้อม (Polite)</span>
-                                    <span>เด็ดขาด (Direct)</span>
+                                    <span data-i18n="slider_bound_polite">นอบน้อม (Polite)</span>
+                                    <span data-i18n="slider_bound_direct">เด็ดขาด (Direct)</span>
                                 </div>
                             </div>
                             <!-- Slider 2: Urgency -->
                             <div class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/60 shadow-sm">
                                 <div class="flex justify-between items-center text-[10px] font-bold text-slate-700">
-                                    <span class="flex items-center gap-1.5"><i data-lucide="alarm-clock" class="w-3.5 h-3.5 text-brand-orange"></i> Urgency (ความเร่งด่วน)</span>
+                                    <span class="flex items-center gap-1.5"><i data-lucide="alarm-clock" class="w-3.5 h-3.5 text-brand-orange"></i> <span data-i18n="slider_lbl_urgency">Urgency (ความเร่งด่วน)</span></span>
                                     <span id="val-urgency" class="text-brand-orange font-mono font-extrabold bg-orange-50 px-1.5 py-0.2 rounded border border-brand-orange/20">30%</span>
                                 </div>
                                 <input type="range" id="input-urgency" min="0" max="100" value="30" oninput="updateSliderVal('urgency', this.value)" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-orange">
                                 <div class="flex justify-between text-[8px] text-slate-400 font-extrabold uppercase tracking-wider">
-                                    <span>ปกติ (Normal)</span>
-                                    <span>เร่งด่วน (Urgent)</span>
+                                    <span data-i18n="slider_bound_normal">ปกติ (Normal)</span>
+                                    <span data-i18n="slider_bound_urgent">เร่งด่วน (Urgent)</span>
                                 </div>
                             </div>
                             <!-- Slider 3: Empathy -->
                             <div class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/60 shadow-sm">
                                 <div class="flex justify-between items-center text-[10px] font-bold text-slate-700">
-                                    <span class="flex items-center gap-1.5"><i data-lucide="heart" class="w-3.5 h-3.5 text-brand-orange"></i> Empathy (ความเห็นอกเห็นใจ)</span>
+                                    <span class="flex items-center gap-1.5"><i data-lucide="heart" class="w-3.5 h-3.5 text-brand-orange"></i> <span data-i18n="slider_lbl_empathy">Empathy (ความเห็นอกเห็นใจ)</span></span>
                                     <span id="val-empathy" class="text-brand-orange font-mono font-extrabold bg-orange-50 px-1.5 py-0.2 rounded border border-brand-orange/20">80%</span>
                                 </div>
                                 <input type="range" id="input-empathy" min="0" max="100" value="80" oninput="updateSliderVal('empathy', this.value)" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-orange">
                                 <div class="flex justify-between text-[8px] text-slate-400 font-extrabold uppercase tracking-wider">
-                                    <span>เน้นงาน (Task-focused)</span>
-                                    <span>เน้นความสัมพันธ์ (Relationship)</span>
+                                    <span data-i18n="slider_bound_task">เน้นงาน (Task-focused)</span>
+                                    <span data-i18n="slider_bound_relation">เน้นความสัมพันธ์ (Relationship)</span>
                                 </div>
                             </div>
                         </div>

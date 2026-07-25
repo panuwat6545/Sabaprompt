@@ -60,6 +60,15 @@ const i18nDict = {
     "otp_label": { th: "กรอกรหัส OTP (รหัสจำลองคือ: 1234)", en: "Enter OTP Code (Mock: 1234)" },
     "btn_otp_init": { th: "รับรหัส OTP", en: "Get OTP Code" },
     "btn_otp_verify": { th: "ยืนยันเข้าสู่ระบบ", en: "Verify & Sign In" },
+    "slider_lbl_assertive": { th: "Assertiveness (ความเด็ดขาด)", en: "Assertiveness (ความเด็ดขาด)" },
+    "slider_lbl_urgency": { th: "Urgency (ความเร่งด่วน)", en: "Urgency (ความเร่งด่วน)" },
+    "slider_lbl_empathy": { th: "Empathy (ความเห็นอกเห็นใจ)", en: "Empathy (ความเห็นอกเห็นใจ)" },
+    "slider_bound_polite": { th: "นอบน้อม (Polite)", en: "Polite" },
+    "slider_bound_direct": { th: "เด็ดขาด (Direct)", en: "Direct" },
+    "slider_bound_normal": { th: "ปกติ (Normal)", en: "Normal" },
+    "slider_bound_urgent": { th: "เร่งด่วน (Urgent)", en: "Urgent" },
+    "slider_bound_task": { th: "เน้นงาน (Task-focused)", en: "Task-focused" },
+    "slider_bound_relation": { th: "เน้นความสัมพันธ์ (Relationship)", en: "Relationship" },
     "sender_label": { th: "ชื่อผู้ส่ง (ชื่อของคุณ)", en: "Sender Name (Your Name)" },
     "who_label": { th: "ชื่อผู้รับ / ตำแหน่ง", en: "Recipient / Position" },
     "tone_label": { th: "ระดับอารมณ์และจิตวิทยาการสื่อสาร (EQ Sliders)", en: "Interactive EQ Tone Sliders" },
@@ -196,9 +205,35 @@ function setLanguage(lang) {
     localStorage.setItem('saba_lang', lang);
     document.documentElement.lang = lang;
     
-    // Update Switch buttons labels
-    const btnTexts = document.querySelectorAll('.nav-lang-btn-text, .auth-lang-btn-text');
-    btnTexts.forEach(el => el.innerText = lang === 'th' ? 'EN' : 'TH');
+    // Update Switch buttons visual indicators (TH/EN Segmented Control)
+    const thBtn = document.getElementById('lang-btn-th');
+    const enBtn = document.getElementById('lang-btn-en');
+    const authThBtn = document.getElementById('auth-lang-btn-th');
+    const authEnBtn = document.getElementById('auth-lang-btn-en');
+    
+    const updateButtons = (th, en) => {
+        if (!th || !en) return;
+        if (lang === 'th') {
+            th.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-brand-orange bg-zinc-800 border border-brand-border/40 shadow-md";
+            const dot = th.querySelector('span');
+            if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse";
+            
+            en.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-zinc-400 hover:text-white";
+            const enDot = en.querySelector('span');
+            if (enDot) enDot.className = "w-1.5 h-1.5 rounded-full bg-zinc-700 hidden";
+        } else {
+            en.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-brand-orange bg-zinc-800 border border-brand-border/40 shadow-md";
+            const dot = en.querySelector('span');
+            if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse";
+            
+            th.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-zinc-400 hover:text-white";
+            const thDot = th.querySelector('span');
+            if (thDot) thDot.className = "w-1.5 h-1.5 rounded-full bg-zinc-700 hidden";
+        }
+    };
+    
+    updateButtons(thBtn, enBtn);
+    updateButtons(authThBtn, authEnBtn);
 
     // Apply data-i18n replacements
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -207,6 +242,27 @@ function setLanguage(lang) {
             el.innerHTML = i18nDict[key][lang];
         }
     });
+
+    // Translate input placeholders
+    const senderEl = document.getElementById('inputSender');
+    if (senderEl) {
+        senderEl.placeholder = lang === 'en' ? "e.g. John (Sales)" : "เช่น ก้องเกียรติ (ฝ่ายขาย)";
+    }
+    const whoEl = document.getElementById('inputWho');
+    if (whoEl) {
+        whoEl.placeholder = lang === 'en' ? "e.g. Somsak (Production Head)" : "เช่น คุณสมศักดิ์ (หัวหน้าฝ่ายผลิต)";
+    }
+    const detailEl = document.getElementById('inputDetail');
+    if (detailEl) {
+        if (detailEl.tagName.toLowerCase() === 'textarea') {
+            detailEl.placeholder = lang === 'en' ? "Enter raw context (e.g. Requesting 5-day vacation...)" : "เขียนความต้องการดิบๆ ของคุณลงไป...";
+        }
+    }
+    
+    // Update quota indicators
+    if (typeof updateQuotaIndicator === 'function') {
+        updateQuotaIndicator();
+    }
 
     // Update placeholders
     document.getElementById('inputWho').placeholder = lang === 'th' ? "ตัวอย่าง: คุณรวิภา VP of Sales, พี่สมพงษ์ PM" : "e.g. VP of Sales, PM Lead, Project Lead";
