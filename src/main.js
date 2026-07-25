@@ -214,19 +214,19 @@ function setLanguage(lang) {
     const updateButtons = (th, en) => {
         if (!th || !en) return;
         if (lang === 'th') {
-            th.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-brand-orange bg-zinc-800 border border-brand-border/40 shadow-md";
+            th.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-brand-orange bg-brand-orange/15 border border-brand-orange/30 shadow-sm";
             const dot = th.querySelector('span');
             if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse";
             
-            en.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-zinc-400 hover:text-white";
+            en.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-gray-400 hover:text-white bg-transparent border border-transparent";
             const enDot = en.querySelector('span');
             if (enDot) enDot.className = "w-1.5 h-1.5 rounded-full bg-zinc-700 hidden";
         } else {
-            en.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-brand-orange bg-zinc-800 border border-brand-border/40 shadow-md";
+            en.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-brand-orange bg-brand-orange/15 border border-brand-orange/30 shadow-sm";
             const dot = en.querySelector('span');
             if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse";
             
-            th.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-zinc-400 hover:text-white";
+            th.className = "px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-gray-400 hover:text-white bg-transparent border border-transparent";
             const thDot = th.querySelector('span');
             if (thDot) thDot.className = "w-1.5 h-1.5 rounded-full bg-zinc-700 hidden";
         }
@@ -1799,6 +1799,7 @@ function updateTourSlide() {
 
 // --- 15. BIND GLOBALS FOR INLINE HTML EVENT HANDLERS ---
 window.toggleLanguage = toggleLanguage;
+window.setLanguage = setLanguage;
 window.navigateTab = navigateTab;
 window.selectCategory = selectCategory;
 window.selectTone = selectTone;
