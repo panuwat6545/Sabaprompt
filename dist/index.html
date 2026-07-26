@@ -72,8 +72,8 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <!-- นำเข้า compiled CSS และ Javascript module ของ Vite -->
-  <script type="module" crossorigin src="/assets/index-9BJ47uhu.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BSrFSElg.css">
+  <script type="module" crossorigin src="/assets/index-BlsbYaz3.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DMIM4fsN.css">
 </head>
 <body class="bg-brand-bg text-slate-800 min-h-screen font-sans overflow-x-hidden relative selection:bg-brand-orange selection:text-black">
 
@@ -602,18 +602,41 @@
                     <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" aria-hidden="true"></div>
                     
                     <div class="flex flex-col sm:flex-row items-center gap-6 relative z-10">
-                        <!-- QR Code ของเจ้าซาบะตัวจริง -->
-                        <div class="w-40 h-40 bg-white p-2 rounded-xl border-2 border-brand-orange/40 flex items-center justify-center flex-shrink-0 relative group">
-                            <img src="/promptpay-qr.png" alt="SABA Support PromptPay QR Code" class="w-full h-full object-contain rounded"/>
-                            <div class="absolute inset-0 bg-black/60 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer" onclick="notifySupport()" role="button" aria-label="Expand Support QR Code View">
-                                <span class="text-[10px] text-brand-orange font-bold text-center px-2">คลิกเพื่อขยายภาพ<br/>เลี้ยงเปียกซาบะ 🐈</span>
+                        <!-- Dynamic PromptPay QR Code -->
+                        <div class="flex flex-col items-center gap-1.5">
+                            <div class="w-40 h-40 bg-white p-2 rounded-xl border-2 border-brand-orange/40 flex items-center justify-center flex-shrink-0 relative group shadow-sm">
+                                <img id="promptpay-qr-img" src="/promptpay-qr.png" alt="SABA Support PromptPay QR Code" class="w-full h-full object-contain rounded transition-all"/>
+                                <div class="absolute inset-0 bg-black/60 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer" onclick="notifySupport()" role="button" aria-label="Expand Support QR Code View">
+                                    <span class="text-[10px] text-brand-orange font-bold text-center px-2">สแกนสดด้วยแอปธนาคาร<br/>เลี้ยงเปียกซาบะ 🐈</span>
+                                </div>
+                            </div>
+                            <div id="promptpay-amount-display" class="text-[10px] font-mono font-bold text-brand-orange bg-orange-50 px-2 py-0.5 rounded border border-brand-orange/20">
+                                ยอดสแกนตั้งอัตโนมัติ: 29.00 บาท
                             </div>
                         </div>
                         
-                        <div class="space-y-3 text-center sm:text-left">
-                            <div class="inline-flex items-center gap-1.5 bg-brand-orange/15 px-2.5 py-0.5 rounded text-[10px] text-brand-orange font-extrabold uppercase tracking-wider" data-i18n="support_title">เลี้ยงอาหารเปียกซาบะ</div>
+                        <div class="space-y-3 text-center sm:text-left flex-grow">
+                            <div class="inline-flex items-center gap-1.5 bg-brand-orange/15 px-2.5 py-0.5 rounded text-[10px] text-brand-orange font-extrabold uppercase tracking-wider" data-i18n="support_title">เลี้ยงอาหารเปียกซาบะ (Dynamic PromptPay)</div>
                             <h4 class="text-sm font-black text-slate-900 leading-snug" data-i18n="support_sub">สนับสนุนแมวส้มซาบะและค่ากาแฟผู้พัฒนา</h4>
-                            <p class="text-[11px] text-slate-600 leading-relaxed" data-i18n="support_desc">ระบบ SABA PROMPT เปิดให้รันและสร้างยุทธศาสตร์พรอพท์ฟรีอย่างไม่จำกัด ท่านสามารถร่วมสนับสนุนพัฒนาฟังก์ชันหรือสนับสนุนค่าน้ำยาแมวเปียกของเจ้าซาบะได้โดยตรงผ่าน QR PromptPay นี้เลยครับ!</p>
+                            <p class="text-[11px] text-slate-600 leading-relaxed" data-i18n="support_desc">เลือกระดับยอดเงินเพื่อเจน QR Code สแกน PromptPay แบบตั้งยอดเงินอัตโนมัติเข้าแอปธนาคารได้ทันทีครับ!</p>
+                            
+                            <!-- Dynamic Amount Selector Buttons -->
+                            <div class="flex flex-wrap gap-2 pt-1">
+                                <button onclick="updatePromptPayQR(29)" class="px-2.5 py-1 text-[10px] font-bold rounded-lg bg-orange-50 hover:bg-orange-100 text-brand-orange border border-brand-orange/30 transition-all">
+                                    🐱 29.- (เปียก 1 ซอง)
+                                </button>
+                                <button onclick="updatePromptPayQR(59)" class="px-2.5 py-1 text-[10px] font-bold rounded-lg bg-orange-50 hover:bg-orange-100 text-brand-orange border border-brand-orange/30 transition-all">
+                                    🐈 59.- (เปียก 2 ซอง)
+                                </button>
+                                <button onclick="updatePromptPayQR(199)" class="px-2.5 py-1 text-[10px] font-bold rounded-lg bg-brand-orange text-black hover:bg-orange-600 font-extrabold transition-all">
+                                    ⚡ 199.- (Pro Support)
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center gap-2 pt-1">
+                                <input type="number" id="promptpay-custom-amount" min="1" placeholder="ระบุยอดเงินเอง..." oninput="updatePromptPayQR('custom')" class="w-32 bg-slate-50 border border-slate-200 text-slate-800 text-[10px] font-mono p-1.5 rounded-lg outline-none focus:border-brand-orange">
+                                <span class="text-[10px] font-bold text-slate-500">บาท</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -981,9 +1004,21 @@
                     <select id="api-model" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all">
                     </select>
                 </div>
+                <div>
+                    <label for="discord-webhook-url" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">Discord Webhook URL (รับข้อเสนอแนะจริง)</label>
+                    <input id="discord-webhook-url" type="url" placeholder="https://discord.com/api/webhooks/..." class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-mono font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all" />
+                </div>
+                <div>
+                    <label for="google-client-id" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">Google OAuth Client ID (ล็อกอิน Google จริง)</label>
+                    <input id="google-client-id" type="text" placeholder="1234567890-xxx.apps.googleusercontent.com" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-mono font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all" />
+                </div>
+                <div>
+                    <label for="promptpay-id-input" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">PromptPay ID / เบอร์โทร PromptPay (สำหรับรับเงินสแกนสด)</label>
+                    <input id="promptpay-id-input" type="text" placeholder="0812345678 หรือ 1234567890123" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-mono font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all" />
+                </div>
                 <div class="bg-brand-orangeGlow border border-brand-orange/20 rounded-xl p-3 text-[11px] text-brand-muted leading-relaxed">
                     <span class="text-brand-orange font-bold">🔒 Client-Side Storage Guarantee</span>
-                    <p>API Keys ของคุณจะถูกเก็บบันทึกอย่างปลอดภัยใน LocalStorage ของเบราว์เซอร์เครื่องคุณเท่านั้น และไม่มีการส่งไปบันทึกที่เซิร์ฟเวอร์ของเรา</p>
+                    <p>คีย์ API, Discord Webhook และ Google Client ID ของคุณจะถูกเก็บบันทึกอย่างปลอดภัยใน LocalStorage ของเบราว์เซอร์เครื่องคุณเท่านั้น</p>
                 </div>
             </div>
             <div class="mt-6 pt-3 border-t border-brand-border flex justify-end gap-2">

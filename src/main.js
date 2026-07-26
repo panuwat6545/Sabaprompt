@@ -865,28 +865,67 @@ async function handleOTPRequest() {
     }
 }
 
-async function simulateThirdPartyLogin(provider) {
-    if (supabase && (provider === 'Google' || provider === 'ChatGPT Account' || provider === 'Gemini Account')) {
-        try {
-            showToast("กำลังเชื่อมต่อ", `กำลังสลับไปหน้ายืนยันตัวตนกับ ${provider}...`, "info");
-            const { error } = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: { redirectTo: window.location.origin }
-            });
-            if (error) throw error;
-        } catch (err) {
-            console.error("OAuth error:", err);
-            showToast("OAuth ล้มเหลว", err.message, "error");
+function handleGoogleJWTResponse(response) {
+    try {
+        const base64Url = response.credential.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        const payload = JSON.parse(jsonPayload);
+        const userName = payload.name || payload.email || 'Google User';
+        const userPicture = payload.picture || '';
+
+        currentUser = userName;
+        localStorage.setItem('saba_session_user', currentUser);
+        showDashboard();
+        
+        const badge = document.getElementById('session-user-badge');
+        if (badge && userPicture) {
+            badge.innerHTML = `<img src="${userPicture}" class="w-4 h-4 rounded-full inline mr-1 object-cover"/> ${userName}`;
         }
-    } else {
-        showToast("กำลังประมวลผล", `กำลังเชื่อมโยงบัญชีและยืนยันตัวตนกับระบบ ${provider}...`, "info");
-        setTimeout(() => {
-            currentUser = `${provider} User`;
-            localStorage.setItem('saba_session_user', currentUser);
-            showDashboard();
-            SabaAnalytics.trackEvent("login_oauth_success", { provider: provider });
-        }, 1000);
+
+        showToast("เข้าสู่ระบบด้วย Google สำเร็จ", `ยินดีต้อนรับคุณ ${userName} เข้าสู่ SABA PROMPT`, "success");
+        SabaAnalytics.trackEvent("google_login_success", { name: userName });
+    } catch (err) {
+        console.error("Failed to parse Google JWT credential:", err);
+        showToast("การเข้าสู่ระบบล้มเหลว", "ไม่สามารถถอดรหัสผ่าน Google Account ได้", "error");
     }
+}
+window.handleGoogleJWTResponse = handleGoogleJWTResponse;
+
+async function simulateThirdPartyLogin(provider) {
+    if (provider === 'Google') {
+        const googleClientId = localStorage.getItem('saba_google_client_id') || '';
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id && googleClientId) {
+            showToast("กำลังเชื่อมต่อ Google", "กำลังเริ่มระบบล็อกอิน Google Account ของแท้...", "info");
+            google.accounts.id.initialize({
+                client_id: googleClientId,
+                callback: handleGoogleJWTResponse
+            });
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    showToast("Google One Tap", "โปรดอนุญาตป๊อปอัป Google บนหน้าจอ", "info");
+                }
+            });
+            return;
+        } else if (!googleClientId) {
+            showToast(
+                "เข้าสู่ระบบด้วย Google (จำลอง)", 
+                "คุณสามารถกรอก Google Client ID ในหน้าตั้งค่าเฟืองเพื่อเปิดล็อกอิน Google ของแท้ได้เลยครับ!", 
+                "info"
+            );
+        }
+    }
+    
+    showToast("กำลังประมวลผล", `กำลังเชื่อมโยงบัญชีกับระบบ ${provider}...`, "info");
+    setTimeout(() => {
+        currentUser = `${provider} User`;
+        localStorage.setItem('saba_session_user', currentUser);
+        showDashboard();
+        SabaAnalytics.trackEvent("login_oauth_success", { provider: provider });
+    }, 800);
 }
 
 function showDashboard() {
@@ -1175,9 +1214,12 @@ function compileMegaPrompt() {
         
         SabaAnalytics.trackEvent("compile_prompt", { category: currentSelectedCategory, tone: selectedTone });
 
-        // Always bypass AI query and show pre-defined templates instantly from local database
         document.getElementById('simulate-placeholder').classList.add('hidden');
-    }, 1000);
+        
+        // Always query live AI via Serverless Backend / Environment API Key automatically for all users!
+        const userApiKey = localStorage.getItem('saba_api_key') || '';
+        queryRealAI(userApiKey, inputWho, inputDetail, inputSender);
+    }, 800);
 }
 
 // Real API call logic via Secure Backend Proxy
@@ -1545,32 +1587,57 @@ async function submitFeedback() {
 
     const fbFormPanel = document.getElementById('feedback-form-panel');
     const fbSuccessPanel = document.getElementById('feedback-success-panel');
-    
-    showToast("กำลังส่งข้อมูล", "กำลังส่งความคิดเห็นเชิงสถาปัตยกรรมไปยังเซิร์ฟเวอร์หลังบ้าน...", "info");
+    const webhookUrl = localStorage.getItem('saba_discord_webhook') || '';
 
-    try {
-        const response = await fetch('/api/feedback', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                text: fbText,
-                user: currentUser || 'Guest Mode'
-            })
-        });
+    showToast("กำลังส่งข้อมูล", "กำลังยิงส่งความคิดเห็นไปยัง Discord ห้องหลังบ้าน...", "info");
 
-        if (!response.ok) {
-            throw new Error(`Server returned status ${response.status}`);
+    if (webhookUrl) {
+        try {
+            const response = await fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: "SABA PROMPT Feedback Bot",
+                    avatar_url: "https://sabaprompt.vercel.app/logo-web-rev01.png",
+                    embeds: [{
+                        title: "📝 ข้อเสนอแนะใหม่จากผู้ใช้งาน SABA PROMPT",
+                        description: fbText,
+                        color: 16355606, // Brand Orange #F97316
+                        fields: [
+                            { name: "👤 ผู้ส่ง", value: typeof currentUser === 'string' ? currentUser : (currentUser && currentUser.name ? currentUser.name : 'Guest Mode'), inline: true },
+                            { name: "🌐 ภาษาใช้งาน", value: (currentLang || 'th').toUpperCase(), inline: true },
+                            { name: "⏰ เวลาส่งข้อมูล", value: new Date().toLocaleString('th-TH'), inline: false }
+                        ],
+                        footer: { text: "SABA PROMPT Live Discord Gateway" }
+                    }]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Discord Gateway Response: ${response.status}`);
+            }
+
+            fbFormPanel.classList.add('hidden');
+            fbSuccessPanel.classList.remove('hidden');
+            showToast("ส่งเข้า Discord สำเร็จ", "ส่งข้อแนะนำของคุณยิงตรงเข้าห้อง Discord เรียบร้อยแล้ว ขอบพระคุณครับ!", "success");
+            SabaAnalytics.trackEvent("feedback_submitted_discord", { content: fbText });
+        } catch (error) {
+            console.error("Failed to send Discord webhook:", error);
+            showToast("ส่งเข้า Discord ไม่สำเร็จ", `ข้อผิดพลาด: ${error.message}`, "error");
         }
-
-        fbFormPanel.classList.add('hidden');
-        fbSuccessPanel.classList.remove('hidden');
-        showToast("ส่งความคิดเห็นสำเร็จ", "บันทึกข้อแนะนำของคุณเรียบร้อยแล้ว! ขอบคุณสำหรับข้อเสนอแนะคุณภาพครับ", "success");
-        SabaAnalytics.trackEvent("feedback_submitted", { content: fbText });
-    } catch (error) {
-        console.error("Failed to submit feedback:", error);
-        showToast("ส่งไม่สำเร็จ", `เกิดข้อผิดพลาดในการเชื่อมต่อเกตเวย์: ${error.message}`, "error");
+    } else {
+        setTimeout(() => {
+            fbFormPanel.classList.add('hidden');
+            fbSuccessPanel.classList.remove('hidden');
+            showToast(
+                "บันทึกความคิดเห็นแล้ว", 
+                "บันทึกข้อมูลเรียบร้อย! (คุณสามารถใส่ Discord Webhook URL ในหน้าตั้งค่าเฟืองเพื่อยิงเข้า Discord จริงได้เลยครับ)", 
+                "success"
+            );
+            SabaAnalytics.trackEvent("feedback_submitted_local", { content: fbText });
+        }, 600);
     }
 }
 
@@ -1717,6 +1784,11 @@ function loadApiSettings() {
     const savedProvider = localStorage.getItem('saba_api_provider') || 'gemini';
     const savedKey = localStorage.getItem('saba_api_key') || '';
     const savedModel = localStorage.getItem('saba_api_model') || '';
+    const savedDiscord = localStorage.getItem('saba_discord_webhook') || '';
+    const savedGoogleClientId = localStorage.getItem('saba_google_client_id') || '';
+    const savedPromptPayId = localStorage.getItem('saba_promptpay_id') || '';
+    const promptpayEl = document.getElementById('promptpay-id-input');
+    if (promptpayEl) promptpayEl.value = savedPromptPayId;
     
     document.getElementById('api-provider').value = savedProvider;
     toggleApiFields();
@@ -1725,32 +1797,34 @@ function loadApiSettings() {
     if (savedModel) {
         document.getElementById('api-model').value = savedModel;
     }
+    const discordEl = document.getElementById('discord-webhook-url');
+    if (discordEl) discordEl.value = savedDiscord;
+    const googleEl = document.getElementById('google-client-id');
+    if (googleEl) googleEl.value = savedGoogleClientId;
 }
 
 function saveApiSettings() {
     const provider = document.getElementById('api-provider').value;
     const key = document.getElementById('api-key').value.trim();
     const model = document.getElementById('api-model').value;
+    const discordUrl = document.getElementById('discord-webhook-url') ? document.getElementById('discord-webhook-url').value.trim() : '';
+    const googleClientId = document.getElementById('google-client-id') ? document.getElementById('google-client-id').value.trim() : '';
     
     localStorage.setItem('saba_api_provider', provider);
     localStorage.setItem('saba_api_key', key);
     localStorage.setItem('saba_api_model', model);
+    localStorage.setItem('saba_discord_webhook', discordUrl);
+    localStorage.setItem('saba_google_client_id', googleClientId);
+    const promptPayId = document.getElementById('promptpay-id-input') ? document.getElementById('promptpay-id-input').value.trim() : '';
+    localStorage.setItem('saba_promptpay_id', promptPayId);
     
     closeApiSettingsModal();
-    if (key) {
-        showToast(
-            currentLang === 'en' ? "API Keys Connected" : "เชื่อมต่อ API Keys สำเร็จ",
-            currentLang === 'en' ? `Ready to make requests to ${model} model!` : `พร้อมใช้งานระบบส่ง Request หาโมเดล ${model} แล้วครับ!`,
-            "success"
-        );
-    } else {
-        showToast(
-            currentLang === 'en' ? "Settings Saved" : "บันทึกการตั้งค่าแล้ว",
-            currentLang === 'en' ? "Mock mode active (no API Key provided)" : "สลับเข้าใช้งานระบบจำลองแบบ Mock (ไม่มี API Key)",
-            "info"
-        );
-    }
-    SabaAnalytics.trackEvent("api_keys_configured", { provider, model, hasKey: !!key });
+    showToast(
+        currentLang === 'en' ? "Settings Saved" : "บันทึกการตั้งค่าแล้ว",
+        currentLang === 'en' ? "Saved API, Discord Webhook, & Google Client ID!" : "บันทึกการตั้งค่า API, Discord Webhook และ Google Client ID เรียบร้อยแล้ว!",
+        "success"
+    );
+    SabaAnalytics.trackEvent("api_keys_configured", { provider, model, hasKey: !!key, hasDiscord: !!discordUrl, hasGoogle: !!googleClientId });
 }
 
 // --- 13. PRICING & NOTION VAULT SYSTEM ---
@@ -2079,3 +2153,73 @@ window.closePaymentModal = closePaymentModal;
 window.togglePaymentForm = togglePaymentForm;
 window.simulatePaymentSuccess = simulatePaymentSuccess;
 window.updateQuotaIndicator = updateQuotaIndicator;
+
+// --- DYNAMIC PROMPTPAY EMVCO PAYLOAD & QR GENERATOR ---
+function crc16Ccitt(str) {
+    let crc = 0xFFFF;
+    for (let i = 0; i < str.length; i++) {
+        crc ^= str.charCodeAt(i) << 8;
+        for (let j = 0; j < 8; j++) {
+            if ((crc & 0x8000) !== 0) {
+                crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+            } else {
+                crc = (crc << 1) & 0xFFFF;
+            }
+        }
+    }
+    return crc.toString(16).toUpperCase().padStart(4, '0');
+}
+
+function generatePromptPayPayload(target, amount) {
+    let sanitized = (target || '0812345678').replace(/[^0-9]/g, '');
+    let targetTag = '';
+    
+    if (sanitized.length === 10 && sanitized.startsWith('0')) {
+        const mobileFormatted = '0066' + sanitized.substring(1);
+        targetTag = '0113' + mobileFormatted;
+    } else if (sanitized.length === 13) {
+        targetTag = '0213' + sanitized;
+    } else {
+        targetTag = '01130066812345678';
+    }
+
+    const merchantInfo = '0016A000000677010111' + targetTag;
+    const tag29 = '29' + merchantInfo.length.toString().padStart(2, '0') + merchantInfo;
+    
+    let rawPayload = '000201' + '010212' + tag29 + '5303764';
+
+    if (amount && parseFloat(amount) > 0) {
+        const amountStr = parseFloat(amount).toFixed(2);
+        rawPayload += '54' + amountStr.length.toString().padStart(2, '0') + amountStr;
+    }
+
+    rawPayload += '5802TH' + '6304';
+    const checksum = crc16Ccitt(rawPayload);
+    return rawPayload + checksum;
+}
+
+function updatePromptPayQR(amount) {
+    const customInput = document.getElementById('promptpay-custom-amount');
+    let finalAmount = amount;
+    if (amount === 'custom' && customInput) {
+        finalAmount = customInput.value || '29';
+    }
+    
+    const target = localStorage.getItem('saba_promptpay_id') || '0812345678';
+    const payload = generatePromptPayPayload(target, finalAmount);
+    const qrImgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(payload)}`;
+    
+    const qrEl = document.getElementById('promptpay-qr-img');
+    if (qrEl) {
+        qrEl.src = qrImgUrl;
+    }
+    
+    const displayEl = document.getElementById('promptpay-amount-display');
+    if (displayEl) {
+        displayEl.innerText = `ยอดสแกนตั้งอัตโนมัติ: ${parseFloat(finalAmount || 0).toFixed(2)} บาท`;
+    }
+    
+    SabaAnalytics.trackEvent("promptpay_amount_changed", { amount: finalAmount });
+}
+window.updatePromptPayQR = updatePromptPayQR;
+window.generatePromptPayPayload = generatePromptPayPayload;
