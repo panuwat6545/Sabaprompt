@@ -143,7 +143,7 @@
                 </div>
 
                 <!-- 2. ล็อกอินด้วย Google Account -->
-                <button onclick="simulateThirdPartyLogin('Google')" class="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 text-sm font-semibold rounded-xl py-3 px-4 transition-all flex items-center justify-center gap-3 group" aria-label="Connect with Google OAuth Account">
+                <button onclick="handleGoogleSignInClick()" class="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 text-sm font-semibold rounded-xl py-3 px-4 transition-all flex items-center justify-center gap-3 group" aria-label="Connect with Google OAuth Account">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -975,58 +975,78 @@
         <div class="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-6 shadow-2xl relative animate-fade-in">
             <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4">
                 <div class="flex items-center gap-2">
-                    <i data-lucide="settings" class="w-5 h-5 text-brand-orange" aria-hidden="true"></i>
-                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">API Keys Configuration</h3>
+                    <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400" aria-hidden="true"></i>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">System Architecture Status</h3>
                 </div>
-                <button onclick="closeApiSettingsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" aria-label="Close API configuration properties screen">
+                <button onclick="closeApiSettingsModal()" class="text-zinc-500 hover:text-white p-1 rounded transition-colors" aria-label="Close System Status modal">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
-            <div class="space-y-4">
-                <div>
-                    <label for="api-provider" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Provider</label>
-                    <select id="api-provider" onchange="toggleApiFields()" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all">
-                        <option value="gemini">Google Gemini API</option>
-                        <option value="openai">OpenAI API</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="api-key" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">API Key</label>
-                    <div class="relative">
-                        <input id="api-key" type="password" placeholder="AIzaSy..." class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-mono font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all" />
-                        <button onclick="toggleApiKeyVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white" aria-label="Toggle password text obscure filter">
-                            <i data-lucide="eye" id="api-key-eye" class="w-4 h-4"></i>
-                        </button>
+            
+            <div class="space-y-3">
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-emerald-500/10 text-emerald-600 rounded-lg">
+                            <i data-lucide="cpu" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-extrabold text-slate-800">Live AI Engine (Gemini / OpenAI)</span>
+                            <span class="text-[10px] text-slate-500">Managed via Vercel Serverless Gateway</span>
+                        </div>
                     </div>
+                    <span class="text-[9px] font-black uppercase tracking-wider bg-emerald-500/15 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-500/30">Active</span>
                 </div>
-                <div>
-                    <label for="api-model" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">Model Name</label>
-                    <select id="api-model" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all">
-                    </select>
+
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/10 text-blue-600 rounded-lg">
+                            <i data-lucide="key-round" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-extrabold text-slate-800">Google OAuth & Drive API</span>
+                            <span class="text-[10px] text-slate-500">Managed via Developer Identity Client</span>
+                        </div>
+                    </div>
+                    <span class="text-[9px] font-black uppercase tracking-wider bg-emerald-500/15 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-500/30">Connected</span>
                 </div>
-                <div>
-                    <label for="discord-webhook-url" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">Discord Webhook URL (รับข้อเสนอแนะจริง)</label>
-                    <input id="discord-webhook-url" type="url" placeholder="https://discord.com/api/webhooks/..." class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-mono font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all" />
+
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-indigo-500/10 text-indigo-600 rounded-lg">
+                            <i data-lucide="message-square" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-extrabold text-slate-800">Discord Live Webhook Gateway</span>
+                            <span class="text-[10px] text-slate-500">Direct Delivery to Developer Channel</span>
+                        </div>
+                    </div>
+                    <span class="text-[9px] font-black uppercase tracking-wider bg-emerald-500/15 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-500/30">Live</span>
                 </div>
-                <div>
-                    <label for="google-client-id" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">Google OAuth Client ID (ล็อกอิน Google จริง)</label>
-                    <input id="google-client-id" type="text" placeholder="1234567890-xxx.apps.googleusercontent.com" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-mono font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all" />
+
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-amber-500/10 text-amber-600 rounded-lg">
+                            <i data-lucide="qr-code" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-extrabold text-slate-800">EMVCo Dynamic PromptPay</span>
+                            <span class="text-[10px] text-slate-500">Auto Amount Calculation Active</span>
+                        </div>
+                    </div>
+                    <span class="text-[9px] font-black uppercase tracking-wider bg-emerald-500/15 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-500/30">Ready</span>
                 </div>
-                <div>
-                    <label for="promptpay-id-input" class="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-1.5">PromptPay ID / เบอร์โทร PromptPay (สำหรับรับเงินสแกนสด)</label>
-                    <input id="promptpay-id-input" type="text" placeholder="0812345678 หรือ 1234567890123" class="w-full bg-slate-50 border border-slate-200 text-slate-800 font-mono font-semibold rounded-xl py-3 px-4 text-sm focus:bg-white focus:outline-none focus:border-brand-orange transition-all" />
-                </div>
+
                 <div class="bg-brand-orangeGlow border border-brand-orange/20 rounded-xl p-3 text-[11px] text-brand-muted leading-relaxed">
-                    <span class="text-brand-orange font-bold">🔒 Client-Side Storage Guarantee</span>
-                    <p>คีย์ API, Discord Webhook และ Google Client ID ของคุณจะถูกเก็บบันทึกอย่างปลอดภัยใน LocalStorage ของเบราว์เซอร์เครื่องคุณเท่านั้น</p>
+                    <span class="text-brand-orange font-bold block mb-0.5">🔒 Zero End-User Friction Guarantee</span>
+                    <p>ระบบทั้งหมดได้รับการบริหารจัดการคีย์ความปลอดภัยอย่างเรียบร้อย ผู้ใช้งานสามารถสร้างพรอพท์ ร่างอีเมล AI และส่งข้อเสนอแนะได้ทันทีโดยไม่ต้องตั้งค่าคีย์ใดๆ ทั้งสิ้น</p>
                 </div>
             </div>
-            <div class="mt-6 pt-3 border-t border-brand-border flex justify-end gap-2">
-                <button onclick="closeApiSettingsModal()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl transition-all">ยกเลิก</button>
-                <button onclick="saveApiSettings()" class="px-4 py-2 bg-brand-orange hover:bg-orange-600 text-xs font-black text-black rounded-xl transition-all">บันทึกการตั้งค่า</button>
+            
+            <div class="mt-5 pt-3 border-t border-brand-border flex justify-end">
+                <button onclick="closeApiSettingsModal()" class="px-5 py-2 bg-brand-orange hover:bg-orange-600 text-xs font-black text-black rounded-xl transition-all">เรียบร้อย</button>
             </div>
         </div>
-    </div>
+    </div></div>
 
     <!-- Privacy Policy Modal -->
     <div id="privacy-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 hidden">

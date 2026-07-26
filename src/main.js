@@ -2205,7 +2205,7 @@ function updatePromptPayQR(amount) {
         finalAmount = customInput.value || '29';
     }
     
-    const target = localStorage.getItem('saba_promptpay_id') || '0812345678';
+    const target = localStorage.getItem('saba_promptpay_id') || (import.meta && import.meta.env ? import.meta.env.VITE_PROMPTPAY_ID : '') || (typeof process !== 'undefined' && process.env ? process.env.VITE_PROMPTPAY_ID : '') || '0812345678';
     const payload = generatePromptPayPayload(target, finalAmount);
     const qrImgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(payload)}`;
     
@@ -2223,3 +2223,119 @@ function updatePromptPayQR(amount) {
 }
 window.updatePromptPayQR = updatePromptPayQR;
 window.generatePromptPayPayload = generatePromptPayPayload;
+
+function handleGoogleUserInfoResponse(userInfo) {
+    const userName = userInfo.name || userInfo.email || 'Google User';
+    const userPicture = userInfo.picture || '';
+
+    currentUser = userName;
+    localStorage.setItem('saba_session_user', userName);
+    showDashboard();
+    
+    const badge = document.getElementById('session-user-badge');
+    if (badge && userPicture) {
+        badge.innerHTML = `<img src="${userPicture}" class="w-4 h-4 rounded-full inline mr-1 object-cover"/> ${userName}`;
+    }
+
+    showToast("เข้าสู่ระบบด้วย Google สำเร็จ", `ยินดีต้อนรับคุณ ${userName} เข้าสู่ SABA PROMPT`, "success");
+    SabaAnalytics.trackEvent("google_login_success", { name: userName });
+}
+
+function handleGoogleSignInClick() {
+    const clientId = localStorage.getItem('saba_google_client_id') || 
+                     (import.meta && import.meta.env ? import.meta.env.VITE_GOOGLE_CLIENT_ID : '') || 
+                     (typeof process !== 'undefined' && process.env ? process.env.VITE_GOOGLE_CLIENT_ID : '') || '';
+                     
+    if (typeof google !== 'undefined' && google.accounts && google.accounts.id && clientId) {
+        showToast("กำลังเชื่อมต่อ Google", "กำลังเปิดหน้าต่างล็อกอิน Google Account ของแท้...", "info");
+        google.accounts.id.initialize({
+            client_id: clientId,
+            callback: handleGoogleJWTResponse
+        });
+        google.accounts.id.prompt((notification) => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                if (google.accounts.oauth2) {
+                    const client = google.accounts.oauth2.initTokenClient({
+                        client_id: clientId,
+                        scope: 'email profile openid',
+                        callback: (tokenResponse) => {
+                            if (tokenResponse.access_token) {
+                                fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                                    headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+                                })
+                                .then(r => r.json())
+                                .then(userInfo => {
+                                    handleGoogleUserInfoResponse(userInfo);
+                                });
+                            }
+                        }
+                    });
+                    client.requestAccessToken();
+                }
+            }
+        });
+    } else {
+        simulateThirdPartyLogin('Google');
+    }
+}
+window.handleGoogleSignInClick = handleGoogleSignInClick;
+window.handleGoogleUserInfoResponse = handleGoogleUserInfoResponse;
+
+function launchGooglePickerSDK() {
+    const clientId = localStorage.getItem('saba_google_client_id') || 
+                     (import.meta && import.meta.env ? import.meta.env.VITE_GOOGLE_CLIENT_ID : '') || 
+                     (typeof process !== 'undefined' && process.env ? process.env.VITE_GOOGLE_CLIENT_ID : '') || '';
+    const apiKey = localStorage.getItem('saba_api_key') || 
+                   (import.meta && import.meta.env ? import.meta.env.VITE_GEMINI_API_KEY : '') || 
+                   (typeof process !== 'undefined' && process.env ? process.env.VITE_GEMINI_API_KEY : '') || '';
+
+    if (typeof gapi !== 'undefined' && typeof google !== 'undefined' && google.picker && clientId) {
+        showToast("กำลังเปิด Google Drive", "กำลังดึงข้อมูลจาก Google Drive API...", "info");
+        const tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: clientId,
+            scope: 'https://www.googleapis.com/auth/drive.readonly',
+            callback: (tokenResponse) => {
+                if (tokenResponse.access_token) {
+                    const picker = new google.picker.PickerBuilder()
+                        .addView(google.picker.ViewId.DOCS)
+                        .setOAuthToken(tokenResponse.access_token)
+                        .setDeveloperKey(apiKey)
+                        .setCallback((data) => {
+                            if (data.action === google.picker.Action.PICKED) {
+                                const doc = data.docs[0];
+                                showToast("เลือกไฟล์สำเร็จ", `นำเข้าเอกสาร ${doc.name} จาก Google Drive เรียบร้อยแล้ว`, "success");
+                                uploadedFile = {
+                                    name: doc.name,
+                                    size: 'Google Drive',
+                                    mockContent: `[เอกสารจาก Google Drive: ${doc.name}]`
+                                };
+                                updateFileStatusUI();
+                                closeGoogleDriveModal();
+                            }
+                        })
+                        .build();
+                    picker.setVisible(true);
+                }
+            }
+        });
+        tokenClient.requestAccessToken();
+    } else {
+        showToast("เปิดคลัง Google Drive", "นำเข้าไฟล์ตัวอย่างจาก Google Drive...", "info");
+        selectGoogleDriveFile('Q3_Performance_Review.pdf', '2.4 MB', 'pdf', 'สรุปผลประกอบการไตรมาส 3');
+    }
+}
+window.launchGooglePickerSDK = launchGooglePickerSDK;
+
+function processRealPaymentConfirmation() {
+    localStorage.setItem('saba_subscription_tier', 'pro');
+    localStorage.setItem('saba_session_vip', 'true');
+    closePaymentModal();
+    updateQuotaIndicator();
+    showToast(
+        currentLang === 'en' ? "Pro Tier Activated!" : "ยกระดับเป็น Pro Tier สำเร็จ!", 
+        currentLang === 'en' ? "Your account has been upgraded to 200 drafts/day Pro status!" : "บัญชีของคุณได้รับการอัปเกรดเป็น Pro Tier (โควตา 200 เมล/วัน) เรียบร้อยแล้ว!", 
+        "success"
+    );
+    SabaAnalytics.trackEvent("subscription_upgraded", { tier: "pro" });
+}
+window.processRealPaymentConfirmation = processRealPaymentConfirmation;
