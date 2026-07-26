@@ -897,7 +897,7 @@ window.handleGoogleJWTResponse = handleGoogleJWTResponse;
 
 async function simulateThirdPartyLogin(provider) {
     if (provider === 'Google') {
-        const googleClientId = localStorage.getItem('saba_google_client_id') || '';
+        const googleClientId = localStorage.getItem('saba_google_client_id') || (import.meta && import.meta.env ? import.meta.env.VITE_GOOGLE_CLIENT_ID : '') || '';
         if (typeof google !== 'undefined' && google.accounts && google.accounts.id && googleClientId) {
             showToast("กำลังเชื่อมต่อ Google", "กำลังเริ่มระบบล็อกอิน Google Account ของแท้...", "info");
             google.accounts.id.initialize({
@@ -1587,7 +1587,7 @@ async function submitFeedback() {
 
     const fbFormPanel = document.getElementById('feedback-form-panel');
     const fbSuccessPanel = document.getElementById('feedback-success-panel');
-    const webhookUrl = localStorage.getItem('saba_discord_webhook') || '';
+    const webhookUrl = localStorage.getItem('saba_discord_webhook') || (import.meta && import.meta.env ? import.meta.env.VITE_DISCORD_WEBHOOK_URL : '') || '';
 
     showToast("กำลังส่งข้อมูล", "กำลังยิงส่งความคิดเห็นไปยัง Discord ห้องหลังบ้าน...", "info");
 
