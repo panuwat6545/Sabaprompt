@@ -616,6 +616,17 @@ async function parseDocxClient(arrayBuffer) {
 let googlePickerToken = null;
 
 function openGoogleDriveModal() {
+    const userSession = localStorage.getItem('saba_session_user') || '';
+    if (userSession === 'Guest User' || !userSession) {
+        showToast(
+            "โปรดล็อกอินด้วย Google", 
+            "กรุณาเข้าสู่ระบบด้วยบัญชี Google เพื่อใช้งานระบบนำเข้าจาก Google Drive ของคุณ", 
+            "warning"
+        );
+        handleGoogleSignInClick();
+        return;
+    }
+
     if (typeof gapi !== 'undefined' && typeof google !== 'undefined') {
         initGoogleDrivePicker();
     } else {
@@ -624,8 +635,12 @@ function openGoogleDriveModal() {
 }
 
 function initGoogleDrivePicker() {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
-    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
+    const clientId = (import.meta && import.meta.env ? import.meta.env.VITE_GOOGLE_CLIENT_ID : '') || 
+                     (typeof process !== 'undefined' && process.env ? process.env.VITE_GOOGLE_CLIENT_ID : '') || '';
+    const apiKey = (import.meta && import.meta.env ? import.meta.env.VITE_GOOGLE_API_KEY : '') || 
+                   (import.meta && import.meta.env ? import.meta.env.VITE_GEMINI_API_KEY : '') || 
+                   (typeof process !== 'undefined' && process.env ? process.env.VITE_GOOGLE_API_KEY : '') || 
+                   (typeof process !== 'undefined' && process.env ? process.env.VITE_GEMINI_API_KEY : '') || '';
 
     if (!clientId || !apiKey) {
         document.getElementById('gdrive-modal').classList.remove('hidden');
