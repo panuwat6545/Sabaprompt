@@ -397,8 +397,8 @@
                             
                             <!-- [4. Bottom Layer] Document Attachment Zone -->
                             <div class="border-t border-slate-100 p-3 bg-slate-50/50 flex flex-col gap-2">
-                                <input type="file" id="doc-file-input" class="hidden" accept=".pdf,.docx,.xlsx,.csv,.txt,.png,.jpg,.jpeg,.gif,.webp" aria-label="Upload document file from PC">
-                                <div id="doc-drop-zone" class="border border-dashed border-slate-200 hover:border-brand-orange/60 rounded-lg p-3.5 text-center cursor-pointer transition-colors flex flex-col items-center justify-center gap-2 bg-white">
+                                <input type="file" id="doc-file-input" style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;" accept=".pdf,.docx,.xlsx,.csv,.txt,.png,.jpg,.jpeg,.gif,.webp" aria-label="Upload document file from PC">
+                                <div id="doc-drop-zone" onclick="if (!event.target.closest('button')) document.getElementById('doc-file-input').click();" class="border border-dashed border-slate-200 hover:border-brand-orange/60 rounded-lg p-3.5 text-center cursor-pointer transition-colors flex flex-col items-center justify-center gap-2 bg-white">
                                     <div class="flex items-center justify-center gap-2">
                                         <i data-lucide="upload-cloud" class="w-4 h-4 text-brand-orange"></i>
                                         <span class="text-[10px] font-bold text-slate-500" data-i18n="dropzone_text">ลากไฟล์ PDF, DOCX, CSV หรือคลิกเลือกจากเครื่อง</span>

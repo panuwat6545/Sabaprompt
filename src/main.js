@@ -449,11 +449,6 @@ function setupDragAndDrop() {
     const fileInput = document.getElementById('doc-file-input');
 
     if (dropZone && fileInput) {
-        dropZone.addEventListener('click', (e) => {
-            if (e.target.closest('button')) return;
-            fileInput.click();
-        });
-    
     dropZone.addEventListener('keydown', (e) => {
         if (e.key === ' ' || e.key === 'Enter') {
             e.preventDefault();
