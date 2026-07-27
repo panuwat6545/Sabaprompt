@@ -397,18 +397,20 @@
                             
                             <!-- [4. Bottom Layer] Document Attachment Zone -->
                             <div class="border-t border-slate-100 p-3 bg-slate-50/50 flex flex-col gap-2">
-                                <div id="doc-drop-zone" class="border border-dashed border-slate-200 hover:border-brand-orange/60 rounded-lg p-2.5 text-center cursor-pointer transition-colors flex items-center justify-center gap-2 bg-white">
+                                <div id="doc-drop-zone" class="border border-dashed border-slate-200 hover:border-brand-orange/60 rounded-lg p-3.5 text-center cursor-pointer transition-colors flex flex-col items-center justify-center gap-2 bg-white">
                                     <input type="file" id="doc-file-input" class="hidden" accept=".pdf,.docx,.xlsx,.csv,.txt,.png,.jpg,.jpeg,.gif,.webp" aria-label="Upload document file from PC">
-                                    <i data-lucide="upload-cloud" class="w-4 h-4 text-brand-orange"></i>
-                                    <span class="text-[10px] font-bold text-slate-500" data-i18n="dropzone_text">ลากไฟล์ PDF, DOCX, CSV หรือกดเลือกไฟล์จากในเครื่องเพื่ออ่านบริบท</span>
-                                </div>
-                                
-                                <div class="flex items-center justify-between gap-4">
-                                    <button onclick="openGoogleDriveModal()" class="py-1 px-2.5 text-[10px] font-extrabold rounded bg-slate-200/80 text-slate-700 hover:bg-slate-300 transition-colors flex items-center gap-1.5 outline-none focus:ring-1 focus:ring-slate-400" aria-label="Import files from Google Drive">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <i data-lucide="upload-cloud" class="w-4 h-4 text-brand-orange"></i>
+                                        <span class="text-[10px] font-bold text-slate-500" data-i18n="dropzone_text">ลากไฟล์ PDF, DOCX, CSV หรือคลิกเลือกจากเครื่อง</span>
+                                    </div>
+                                    <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">หรือ</div>
+                                    <button onclick="event.stopPropagation(); openGoogleDriveModal();" class="py-1.5 px-4 text-[10px] font-extrabold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1.5 outline-none focus:ring-1 focus:ring-slate-300" aria-label="Import files from Google Drive">
                                         <i data-lucide="hard-drive" class="w-3.5 h-3.5 text-blue-500"></i>
                                         <span data-i18n="btn_gdrive">นำเข้าไฟล์จาก Google Drive</span>
                                     </button>
-                                    
+                                </div>
+                                
+                                <div class="flex items-center justify-end">
                                     <!-- File Status Container -->
                                     <div id="file-status-container" class="hidden flex items-center gap-2 bg-brand-orange/5 border border-brand-orange/20 py-0.5 px-2 rounded-lg">
                                         <div id="file-icon-wrapper" class="p-1 rounded"></div>

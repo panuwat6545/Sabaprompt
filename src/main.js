@@ -364,9 +364,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Clipboard Drop Listener for contenteditable input Detail
     detailInput.addEventListener('drop', (e) => {
-        e.preventDefault();
         const files = e.dataTransfer.files;
         if (files && files.length > 0) {
+            e.preventDefault();
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 if (file.type.indexOf('image') !== -1) {
@@ -376,7 +376,15 @@ window.addEventListener('DOMContentLoaded', () => {
                         img.src = event.target.result;
                         img.alt = file.name;
                         img.className = "max-w-xs max-h-40 rounded-lg border border-slate-200 shadow-sm my-2 block";
-                        detailInput.appendChild(img);
+                        
+                        const selection = window.getSelection();
+                        if (selection.rangeCount) {
+                            const range = selection.getRangeAt(0);
+                            range.insertNode(img);
+                            range.collapse(false);
+                        } else {
+                            detailInput.appendChild(img);
+                        }
                         
                         showToast(
                             currentLang === 'en' ? "Image Attached" : "แนบรูปภาพแล้ว",
@@ -384,6 +392,9 @@ window.addEventListener('DOMContentLoaded', () => {
                             "success"
                         );
                         SabaAnalytics.trackEvent("image_dropped", { name: file.name });
+                        
+                        const textLength = detailInput.innerText.replace(/\n/g, '').length;
+                        document.getElementById('charCounter').innerText = `${textLength} อักษร`;
                     };
                     reader.readAsDataURL(file);
                 }
@@ -393,51 +404,55 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Clipboard Paste Listener for contenteditable input Detail
     detailInput.addEventListener('paste', (e) => {
-        e.preventDefault();
         const clipboardData = e.clipboardData || window.clipboardData;
-        
-        // Look for image files in clipboard
         let hasImage = false;
-        if (clipboardData.items) {
+
+        if (clipboardData && clipboardData.items) {
             for (let i = 0; i < clipboardData.items.length; i++) {
                 const item = clipboardData.items[i];
                 if (item.type.indexOf('image') !== -1) {
+                    e.preventDefault();
+                    hasImage = true;
                     const file = item.getAsFile();
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const img = document.createElement('img');
                         img.src = event.target.result;
                         img.alt = "Pasted image";
-                        detailInput.appendChild(img);
+                        img.className = "max-w-xs max-h-40 rounded-lg border border-slate-200 shadow-sm my-2 block";
+                        
+                        const selection = window.getSelection();
+                        if (selection.rangeCount) {
+                            const range = selection.getRangeAt(0);
+                            range.insertNode(img);
+                            range.collapse(false);
+                        } else {
+                            detailInput.appendChild(img);
+                        }
+                        
                         showToast("แนบรูปภาพแล้ว", "ตรวจพบการวางรูปภาพจากคลิปบอร์ดและแทรกลงในกล่องข้อความเรียบร้อย", "success");
                         SabaAnalytics.trackEvent("image_pasted", {});
+                        
+                        const textLength = detailInput.innerText.replace(/\n/g, '').length;
+                        document.getElementById('charCounter').innerText = `${textLength} อักษร`;
                     };
                     reader.readAsDataURL(file);
-                    hasImage = true;
                 }
             }
-        }
-        
-        // Extract and insert plain text
-        const text = clipboardData.getData('text/plain');
-        if (text) {
-            const selection = window.getSelection();
-            if (!selection.rangeCount) return;
-            selection.deleteFromDocument();
-            selection.getRangeAt(0).insertNode(document.createTextNode(text));
-            // Trigger character counter
-            const textLength = detailInput.innerText.replace(/\n/g, '').length;
-            document.getElementById('charCounter').innerText = `${textLength} อักษร`;
         }
     });
 });
 
 // Setup Drag & Drop File Upload
 function setupDragAndDrop() {
-    const dropZone = document.getElementById('drag-drop-zone');
+    const dropZone = document.getElementById('doc-drop-zone') || document.getElementById('drag-drop-zone');
     const fileInput = document.getElementById('doc-file-input');
 
-    dropZone.addEventListener('click', () => fileInput.click());
+    if (dropZone && fileInput) {
+        dropZone.addEventListener('click', (e) => {
+            if (e.target.closest('button')) return;
+            fileInput.click();
+        });
     
     dropZone.addEventListener('keydown', (e) => {
         if (e.key === ' ' || e.key === 'Enter') {
@@ -468,6 +483,7 @@ function setupDragAndDrop() {
             processLocalFile(e.dataTransfer.files[0]);
         }
     });
+    }
 }
 
 // Upload local PC files
