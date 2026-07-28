@@ -14,7 +14,14 @@ export default defineConfig(({ mode }) => {
       port: 3000
     },
     build: {
-      outDir: 'dist'
+      outDir: 'dist',
+      rollupOptions: {
+        input: {
+          main: 'index.html',
+          privacy: 'privacy.html',
+          terms: 'terms.html'
+        }
+      }
     }
   };
 });
