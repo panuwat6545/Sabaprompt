@@ -651,7 +651,7 @@ function initGoogleDrivePicker() {
     try {
         const tokenClient = google.accounts.oauth2.initTokenClient({
             client_id: clientId,
-            scope: 'https://www.googleapis.com/auth/drive.readonly',
+            scope: 'https://www.googleapis.com/auth/drive.file',
             callback: async (response) => {
                 if (response.error) {
                     showToast("Google Auth Error", response.error, "error");
