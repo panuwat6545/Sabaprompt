@@ -72,8 +72,8 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <!-- นำเข้า compiled CSS และ Javascript module ของ Vite -->
-  <script type="module" crossorigin src="/assets/main-BoeB1J6P.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/main-D3LsvBPa.css">
+  <script type="module" crossorigin src="/assets/main-D9axgX_O.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-D3LsvBPa.css">
 </head>
 <body class="bg-brand-bg text-slate-800 min-h-screen font-sans overflow-x-hidden relative selection:bg-brand-orange selection:text-black">
 
@@ -168,6 +168,9 @@
                         <button onclick="navigateTab('workspace')" id="nav-workspace" class="px-3.5 py-2 rounded-lg text-sm font-semibold bg-white border border-slate-200 text-slate-900 shadow-sm transition-all" role="tab" aria-selected="true" data-i18n="nav_workspace" aria-label="Strategic Workspace Panel tab">
                             Workspace
                         </button>
+                        <a href="/blog/index.html" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-950 hover:bg-slate-100/50 transition-all flex items-center gap-1" aria-label="Blog Articles tab">
+                            บทความแนะนำ
+                        </a>
                         <button onclick="navigateTab('seo')" id="nav-seo" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-950 hover:bg-slate-100/50 transition-all" role="tab" aria-selected="false" data-i18n="nav_seo" aria-label="SEO Writing Guide tab">
                             วิธีเขียนอีเมล (SEO Guide)
                         </button>
@@ -237,6 +240,7 @@
                     <span data-i18n="welcome_badge">SABA PROMPT • ตัวช่วยเขียนเมลลาหยุด & คุยงานระดับเซียน</span>
                 </div>
                 <h1 class="text-4xl md:text-6xl font-heading font-black tracking-tight text-slate-900 leading-tight">
+                    <span class="block text-brand-orange text-sm md:text-base font-bold uppercase tracking-wider mb-2" data-i18n="h1_sub_seo">ตัวช่วยเขียนอีเมล วิธีเขียนเมลด้วย AI</span>
                     <span>zero to pro</span>
                 </h1>
                 <p class="text-xs md:text-sm text-slate-600 mt-2 max-w-lg leading-relaxed" data-i18n="welcome_subtitle">
@@ -580,7 +584,7 @@
                         <!-- Dynamic PromptPay QR Code -->
                         <div class="flex flex-col items-center gap-1.5">
                             <div class="w-40 h-40 bg-white p-2 rounded-xl border-2 border-brand-orange/40 flex items-center justify-center flex-shrink-0 relative group shadow-sm">
-                                <img id="promptpay-qr-img" src="/promptpay-qr.png" alt="SABA Support PromptPay QR Code" class="w-full h-full object-contain rounded transition-all"/>
+                                <img id="promptpay-qr-img" src="/promptpay-qr.webp" alt="SABA Support PromptPay QR Code" class="w-full h-full object-contain rounded transition-all"/>
                                 <div class="absolute inset-0 bg-black/60 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer" onclick="notifySupport()" role="button" aria-label="Expand Support QR Code View">
                                     <span class="text-[10px] text-brand-orange font-bold text-center px-2">สแกนสดด้วยแอปธนาคาร<br/>เลี้ยงเปียกซาบะ 🐈</span>
                                 </div>
@@ -885,6 +889,8 @@
                     © 2026 SABA PROMPT. Built with passion for modern workers. Optimized for Email, เขียนเมลล์, ตัวช่วยเขียนเมล, sabapromt.
                 </p>
                 <div class="flex items-center justify-center gap-4 text-zinc-400 text-[10px] font-mono">
+                    <a href="/blog/index.html" class="hover:underline bg-transparent border-none cursor-pointer text-zinc-400">บทความแนะนำ (Blog)</a>
+                    <span>•</span>
                     <a href="/privacy.html" target="_blank" class="hover:underline bg-transparent border-none cursor-pointer text-zinc-400">Privacy Policy</a>
                     <span>•</span>
                     <a href="/terms.html" target="_blank" class="hover:underline bg-transparent border-none cursor-pointer text-zinc-400">Terms of Service</a>

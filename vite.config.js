@@ -19,7 +19,11 @@ export default defineConfig(({ mode }) => {
         input: {
           main: 'index.html',
           privacy: 'privacy.html',
-          terms: 'terms.html'
+          terms: 'terms.html',
+          blog: 'blog/index.html',
+          'blog-template-leave': 'blog/template-sick-leave.html',
+          'blog-postpone-job': 'blog/postpone-job.html',
+          'blog-follow-up-docs': 'blog/follow-up-docs.html'
         }
       }
     }

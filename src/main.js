@@ -85,6 +85,7 @@ const i18nDict = {
     "vip_badge": { th: "VIP ACTIVE", en: "VIP ACTIVE" },
     "welcome_badge": { th: "SABA PROMPT • ตัวช่วยเขียนเมลลาหยุด & คุยงานระดับเซียน", en: "SABA PROMPT • Pro Email & Leave Assistant" },
     "welcome_subtitle": { th: "แพลตฟอร์มตัวช่วยเขียนอีเมลและขจัดดราม่าการสื่อสารในที่ทำงานด้วยพลังจิตวิทยาสากลและ AI อัจฉริยะ", en: "Resolve workplace communication drama with dynamic psychology and advanced AI." },
+    "h1_sub_seo": { th: "ตัวช่วยเขียนอีเมล วิธีเขียนเมลด้วย AI", en: "AI Email Assistant & Writing Guide" },
     "cat_title": { th: "เลือกสไตล์และรูปแบบการสื่อสารเชิงยุทธศาสตร์", en: "Select Strategic Communication Style" },
     "cat_closer_title": { th: "คุยงานลูกค้า / เสนอไอเดีย / ปิดการขาย", en: "Client Chat / Pitch Ideas / Close Sales" },
     "cat_closer_desc": { th: "มุ่งเน้นการชูคุณค่าหลักของงานและผลประโยชน์ร่วมกัน (Value-First Selling) เพื่อให้เขียนเมลปิดการขายได้อย่างน่าเชื่อถือ", en: "Focus on core value delivery and shared benefits (Value-First Selling) to close deals confidently." },
@@ -353,6 +354,25 @@ window.addEventListener('DOMContentLoaded', () => {
         const textLength = e.target.innerText ? e.target.innerText.replace(/\n/g, '').length : (e.target.value ? e.target.value.length : 0);
         document.getElementById('charCounter').innerText = `${textLength} อักษร`;
     });
+
+    // Deep Linking Conversion Loop URL Parameters Handler
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('cat');
+    if (cat && typeof selectCategory === 'function') {
+        selectCategory(cat);
+    }
+    const who = params.get('who');
+    if (who) {
+        const inputWhoEl = document.getElementById('inputWho');
+        if (inputWhoEl) inputWhoEl.value = who;
+    }
+    const detail = params.get('detail');
+    if (detail) {
+        if (detailInput) {
+            detailInput.innerText = detail;
+            detailInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    }
     
     // Tripbox support card dismiss check
     const tripboxDismissed = sessionStorage.getItem('saba_tripbox_dismissed');
