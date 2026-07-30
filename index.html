@@ -1512,50 +1512,25 @@
 
     <!-- Production Layout Script Interceptor & UI Handlers -->
     <script>
-        // Custom Workspace Layout State
-        let emailHistorySessions = [
-            {
-                id: 'sess-001',
-                recipient: 'คุณสมศักดิ์ (หัวหน้าฝ่ายผลิต)',
-                sender: 'ก้องเกียรติ (ฝ่ายขาย)',
-                subject: 'ติดตามใบเสนอราคา Q3 ด่วน',
-                strategy: 'customer',
-                timestamp: '10 นาทีที่แล้ว',
-                messages: [
-                    { sender: 'user', text: 'อยากตามเงินงวดสุดท้ายจากลูกค้าที่เลื่อนชำระมา 2 สัปดาห์' },
-                    { sender: 'ai', text: 'สร้างพรอพท์และดราฟต์อีเมลปิดการขายเรียบร้อยครับ' }
-                ]
-            },
-            {
-                id: 'sess-002',
-                recipient: 'หัวหน้าประวิทย์ (VP)',
-                sender: 'ก้องเกียรติ (ฝ่ายขาย)',
-                subject: 'ขอลากิจช่วงเทศกาลสงกรานต์ 2 วัน',
-                strategy: 'leave',
-                timestamp: 'เมื่อวานนี้',
-                messages: [
-                    { sender: 'user', text: 'ขอลากิจไปทำธุระครอบครัว 2 วัน เตรียมแผนรองรับงานแล้ว' },
-                    { sender: 'ai', text: 'ดราฟต์อีเมลขอลากับหัวหน้าอนุมัติทันทีสร้างสำเร็จครับ' }
-                ]
-            },
-            {
-                id: 'sess-003',
-                recipient: 'ทีม IT & DevOps',
-                sender: 'ก้องเกียรติ (ฝ่ายขาย)',
-                subject: 'ขออนุมัติเปิดสิทธิ์ใช้งานระบบบริหารงบใหม่',
-                strategy: 'cowork',
-                timestamp: '3 วันที่แล้ว',
-                messages: [
-                    { sender: 'user', text: 'ตามข้อมูลจากฝ่าย IT เพื่อเปิดสิทธิ์ใช้งานระบบ' },
-                    { sender: 'ai', text: 'ดราฟต์อีเมลประสานงานข้ามแผนกสร้างสำเร็จครับ' }
-                ]
+        // Load sessions from localStorage or default to empty list (Zero history on first run)
+        let emailHistorySessions = [];
+        try {
+            const savedRaw = localStorage.getItem('saba_chat_sessions');
+            if (savedRaw) {
+                emailHistorySessions = JSON.parse(savedRaw);
             }
-        ];
+        } catch (e) {
+            console.error("Failed to parse saba_chat_sessions", e);
+        }
 
         let mockupState = {
-            activeSessionId: 'sess-001',
+            activeSessionId: emailHistorySessions.length > 0 ? emailHistorySessions[0].id : null,
             feedbackCategory: '🐞 บั๊ก/ปัญหา'
         };
+
+        function saveSessionsToLocalStorage() {
+            localStorage.setItem('saba_chat_sessions', JSON.stringify(emailHistorySessions));
+        }
 
         const strategies = {
             customer: { badge: 'The Closer', emoji: '🎯' },
@@ -1657,6 +1632,10 @@
 
                 // Override compileMegaPrompt to feed outputs straight into the Chat Stream
                 window.compileMegaPrompt = function() {
+                    if (!mockupState.activeSessionId) {
+                        showToast("ไม่พบห้องสนทนา", "โปรดคลิกปุ่ม 'สร้างบทสนทนาใหม่' ที่แถบเมนูด้านซ้ายเพื่อเริ่มร่างอีเมลครับ", "warning");
+                        return;
+                    }
                     const recipient = document.getElementById('inputWho').value.trim();
                     const detailEl = document.getElementById('inputDetail');
                     const detail = detailEl ? detailEl.innerText.trim() : '';
@@ -1800,6 +1779,14 @@
                 setupClickOutsidePopover();
                 setupDragAndDrop();
 
+                // If activeSessionId is set, load it!
+                if (mockupState.activeSessionId) {
+                    loadEmailSession(mockupState.activeSessionId);
+                } else {
+                    document.getElementById('inputWho').value = '';
+                    document.getElementById('inputSender').value = '';
+                }
+
             }, 500);
         });
 
@@ -1871,7 +1858,12 @@
             );
 
             if (filtered.length === 0) {
-                list.innerHTML = `<div class="text-[10px] text-slate-500 italic py-3 text-center">ไม่พบประวัติการคุยอีเมล</div>`;
+                list.innerHTML = `
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 italic py-4 text-center space-y-1">
+                        <div>ไม่มีประวัติการเจรจา</div>
+                        <div class="text-[9px] text-slate-450 dark:text-slate-500">คลิกปุ่มด้านบนเพื่อสร้างแชทใหม่</div>
+                    </div>
+                `;
                 return;
             }
 
@@ -1932,6 +1924,7 @@
                 if (id === mockupState.activeSessionId) {
                     updateActiveHeaderTitle();
                 }
+                saveSessionsToLocalStorage();
                 showToast(`อัปเดตข้อมูล ${field === 'sender' ? 'ผู้ส่ง' : 'ผู้รับ'} สำเร็จ`, 'success');
             }
         }
@@ -1959,6 +1952,7 @@
             document.getElementById('inputSender').value = 'ก้องเกียรติ';
             renderEmailHistoryList();
             updateActiveHeaderTitle();
+            saveSessionsToLocalStorage();
             
             document.getElementById('dynamic-chat-stream').innerHTML = '';
             showToast('สร้างบทสนทนาอีเมลใหม่แล้ว', 'success');
@@ -2018,6 +2012,7 @@
                 sess.subject = text.slice(0, 20) + '...';
                 renderEmailHistoryList();
                 updateActiveHeaderTitle();
+                saveSessionsToLocalStorage();
             }
         }
 
@@ -2115,6 +2110,7 @@
             const sess = emailHistorySessions.find(s => s.id === mockupState.activeSessionId);
             if (sess) {
                 sess.messages.push({ sender: 'ai', text: responseHtml });
+                saveSessionsToLocalStorage();
             }
         }
 
@@ -2247,8 +2243,13 @@
 
         function updateActiveHeaderTitle() {
             const sess = emailHistorySessions.find(s => s.id === mockupState.activeSessionId);
-            if (sess) {
-                document.getElementById('active-session-title-header').innerText = `${sess.recipient} — ${sess.subject}`;
+            const headerEl = document.getElementById('active-session-title-header');
+            if (headerEl) {
+                if (sess) {
+                    headerEl.innerText = `${sess.recipient} — ${sess.subject}`;
+                } else {
+                    headerEl.innerText = 'กรุณาสร้างหรือเลือกบทสนทนาที่แถบด้านซ้าย';
+                }
             }
         }
 

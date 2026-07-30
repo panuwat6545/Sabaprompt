@@ -2115,6 +2115,7 @@ window.updateSliderVal = updateSliderVal;
 window.copyDraft = copyDraft;
 window.openMailClient = openMailClient;
 window.sanitizePII = sanitizePII;
+window.showToast = showToast;
 
 
 // --- Quota Management & Billing Sandbox Functions ---
