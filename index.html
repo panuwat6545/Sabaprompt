@@ -204,6 +204,13 @@
         .dark #view-seo .text-gray-300 {
             color: #E2E8F0 !important;
         }
+        /* Override lang button hover contrast in light mode */
+        html:not(.dark) #lang-btn-th:not(.bg-brand-orange\/15):hover,
+        html:not(.dark) #lang-btn-en:not(.bg-brand-orange\/15):hover,
+        html:not(.dark) #auth-lang-btn-th:not(.bg-brand-orange\/15):hover,
+        html:not(.dark) #auth-lang-btn-en:not(.bg-brand-orange\/15):hover {
+            color: #0F172A !important;
+        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-orange-500 selection:text-black transition-colors duration-200">
