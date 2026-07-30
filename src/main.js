@@ -178,6 +178,7 @@ let currentUser = null;
 let currentSelectedCategory = 'customer'; 
 let selectedTone = 'สุภาพ อ่อนน้อม';
 let uploadedFile = null; 
+let uploadedFiles = [];
 let isKeyVisible = false;
 let currentTourStep = 1;
 const totalTourSteps = 4;
@@ -515,12 +516,15 @@ function processLocalFile(file) {
         );
         const reader = new FileReader();
         reader.onload = function(e) {
-            uploadedFile = {
+            const fileObj = {
+                id: `file-${Date.now()}-${Math.random()}`,
                 name: file.name,
                 size: `${sizeInMB} MB`,
                 type: type,
                 mockContent: `[ภาพแนบประกอบยุทธศาสตร์: ${file.name}]`
             };
+            uploadedFile = fileObj;
+            uploadedFiles.push(fileObj);
             updateFileStatusUI();
             
             showToast(
@@ -556,12 +560,15 @@ function processLocalFile(file) {
                 parsedText = `สแกนไฟล์เรียบร้อย: ${file.name} (ประเภทไฟล์นี้ไม่รองรับการดึงข้อความอัตโนมัติ จึงใช้ชื่อไฟล์เป็นบริบท)`;
             }
             
-            uploadedFile = {
+            const fileObj = {
+                id: `file-${Date.now()}-${Math.random()}`,
                 name: file.name,
                 size: `${sizeInMB} MB`,
                 type: type,
-                mockContent: parsedText.substring(0, 3000) // Keep text capped to prevent API payload bloat
+                mockContent: parsedText.substring(0, 3000)
             };
+            uploadedFile = fileObj;
+            uploadedFiles.push(fileObj);
             
             updateFileStatusUI();
             showToast("สแกนและอ่านไฟล์สำเร็จ", `ระบบนำเข้าเนื้อหาจากไฟล์ ${file.name} เพื่อรันยุทธศาสตร์เรียบร้อยแล้ว`, "success");
@@ -571,12 +578,15 @@ function processLocalFile(file) {
             showToast("สแกนไฟล์ล้มเหลว", `ไม่สามารถสกัดข้อความ: ${error.message}`, "error");
             
             // Fallback
-            uploadedFile = {
+            const fileObj = {
+                id: `file-${Date.now()}-${Math.random()}`,
                 name: file.name,
                 size: `${sizeInMB} MB`,
                 type: type,
                 mockContent: `ข้อมูลเอกสารแนบ: ${file.name} (สแกนล้มเหลวเนื่องจาก ${error.message})`
             };
+            uploadedFile = fileObj;
+            uploadedFiles.push(fileObj);
             updateFileStatusUI();
         }
     };
@@ -745,6 +755,7 @@ function selectGoogleDriveFile(fileName, fileSize, fileType, fileInsight) {
 
 function clearUploadedFile() {
     uploadedFile = null;
+    uploadedFiles = [];
     document.getElementById('doc-file-input').value = "";
     const bar = document.getElementById('attached-previews-bar');
     if (bar) {
@@ -753,8 +764,21 @@ function clearUploadedFile() {
     }
     const container = document.getElementById('file-status-container');
     if (container) container.classList.add('hidden');
-    showToast("ลบไฟล์สำเร็จ", "เคลียร์เอกสารแนบออกจาก Workspace แล้วครับ", "info");
+    showToast("ลบไฟล์สำเร็จ", "เคลียร์เอกสารแนบทั้งหมดออกจาก Workspace แล้วครับ", "info");
 }
+
+function removeAttachedFile(id) {
+    uploadedFiles = uploadedFiles.filter(f => f.id !== id);
+    if (uploadedFiles.length > 0) {
+        uploadedFile = uploadedFiles[uploadedFiles.length - 1];
+    } else {
+        uploadedFile = null;
+        document.getElementById('doc-file-input').value = "";
+    }
+    updateFileStatusUI();
+    showToast("ลบไฟล์สำเร็จ", "เคลียร์เอกสารแนบที่เลือกแล้วครับ", "info");
+}
+window.removeAttachedFile = removeAttachedFile;
 
 function updateFileStatusUI() {
     const bar = document.getElementById('attached-previews-bar');
@@ -763,36 +787,39 @@ function updateFileStatusUI() {
 
     if (!bar) return;
 
-    if (!uploadedFile) {
+    if (uploadedFiles.length === 0) {
         bar.innerHTML = '';
         bar.classList.add('hidden');
         return;
     }
 
-    let iconName = 'file-text';
-    let iconClass = 'text-orange-500';
-    if (uploadedFile.type === 'pdf') {
-        iconName = 'file-text';
-        iconClass = 'text-rose-500';
-    } else if (uploadedFile.type === 'xlsx' || uploadedFile.type === 'csv' || uploadedFile.type === 'spreadsheet') {
-        iconName = 'file-spreadsheet';
-        iconClass = 'text-emerald-500';
-    } else if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(uploadedFile.type)) {
-        iconName = 'image';
-        iconClass = 'text-blue-500';
-    }
+    bar.innerHTML = uploadedFiles.map(file => {
+        let iconName = 'file-text';
+        let iconClass = 'text-orange-500';
+        if (file.type === 'pdf') {
+            iconName = 'file-text';
+            iconClass = 'text-rose-500';
+        } else if (file.type === 'xlsx' || file.type === 'csv' || file.type === 'spreadsheet') {
+            iconName = 'file-spreadsheet';
+            iconClass = 'text-emerald-500';
+        } else if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(file.type)) {
+            iconName = 'image';
+            iconClass = 'text-blue-500';
+        }
 
-    const safeName = uploadedFile.name.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        const safeName = file.name.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
 
-    bar.innerHTML = `
-        <div class="inline-flex items-center gap-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 px-3 py-1 rounded-full text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-sm animate-fade-in">
-            <i data-lucide="${iconName}" class="w-3.5 h-3.5 ${iconClass}"></i>
-            <span class="truncate max-w-[150px]" title="${safeName}">${safeName}</span>
-            <button onclick="clearUploadedFile()" class="text-slate-450 hover:text-rose-500 transition-colors p-0.5 ml-0.5" title="ลบไฟล์">
-                <i data-lucide="x" class="w-3 h-3"></i>
-            </button>
-        </div>
-    `;
+        return `
+            <div class="inline-flex items-center gap-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 px-3 py-1 rounded-full text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-sm animate-fade-in">
+                <i data-lucide="${iconName}" class="w-3.5 h-3.5 ${iconClass}"></i>
+                <span class="truncate max-w-[120px]" title="${safeName}">${safeName}</span>
+                <button onclick="removeAttachedFile('${file.id}')" class="text-slate-450 hover:text-rose-500 transition-colors p-0.5 ml-0.5" title="ลบไฟล์">
+                    <i data-lucide="x" class="w-3 h-3"></i>
+                </button>
+            </div>
+        `;
+    }).join('');
+
     bar.classList.remove('hidden');
     
     if (typeof lucide !== 'undefined') {
@@ -1211,7 +1238,7 @@ function compileMegaPrompt() {
         inputDetail = detailInput.value.trim();
     } else {
         inputDetail = detailInput.innerText.trim();
-        hasImages = (detailInput.querySelectorAll('img').length > 0) || (uploadedFile && ['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(uploadedFile.type));
+        hasImages = (detailInput.querySelectorAll('img').length > 0) || uploadedFiles.some(f => ['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(f.type));
     }
 
     if (!inputWho || (!inputDetail && !hasImages)) {
@@ -1417,9 +1444,11 @@ function generateTargetPrompt(who, detail, sender, hasImages = false) {
     }
 
     if (currentLang === 'th') {
-        if (uploadedFile) {
-            fileSystemPrompt = "\n[ข้อมูลวิเคราะห์เอกสารแนบ - " + uploadedFile.name + "]:\n• สาระสำคัญในเอกสาร: " + uploadedFile.mockContent + "\n• ข้อกำหนด: ร่างอีเมลให้เชื่อมโยงและสอดคล้องกับสาระสำคัญของเอกสารนี้อย่างแนบเนียนและเป็นมืออาชีพ";
-            docReferenceText = " ตามเอกสารรายละเอียดแนบแนบ (" + uploadedFile.name + ") ซึ่งระบุหลักการข้อกำหนดร่วมกันไว้เป็นที่เรียบร้อยครับ";
+        if (uploadedFiles.length > 0) {
+            const fileNames = uploadedFiles.map(f => f.name).join(', ');
+            const fileContents = uploadedFiles.map(f => `• ${f.name}: ${f.mockContent}`).join('\n');
+            fileSystemPrompt = "\n[ข้อมูลวิเคราะห์เอกสารแนบ - " + fileNames + "]:\n" + fileContents + "\n• ข้อกำหนด: ร่างอีเมลให้เชื่อมโยงและสอดคล้องกับสาระสำคัญของเอกสารเหล่านี้อย่างแนบเนียนและเป็นมืออาชีพ";
+            docReferenceText = " ตามเอกสารรายละเอียดแนบ (" + fileNames + ") ซึ่งระบุหลักการข้อกำหนดร่วมกันไว้เป็นที่เรียบร้อยครับ";
         }
 
         if (currentSelectedCategory === 'customer') {
@@ -1491,9 +1520,11 @@ function generateTargetPrompt(who, detail, sender, hasImages = false) {
         document.getElementById('simulated-draft-output-b').innerText = generatedEmailMockB;
     } else {
         // English Mode Mega Prompt Compiling
-        if (uploadedFile) {
-            fileSystemPrompt = "\n[Reference Document Analysis - " + uploadedFile.name + "]:\n• Key contents: " + uploadedFile.mockContent + "\n• Rule: Incorporate these key details naturally and professionally into the draft email.";
-            docReferenceText = " as detailed in the attached document (" + uploadedFile.name + ") which outlines the main scope and guidelines.";
+        if (uploadedFiles.length > 0) {
+            const fileNames = uploadedFiles.map(f => f.name).join(', ');
+            const fileContents = uploadedFiles.map(f => `• ${f.name}: ${f.mockContent}`).join('\n');
+            fileSystemPrompt = "\n[Reference Document Analysis - " + fileNames + "]:\n" + fileContents + "\n• Rule: Incorporate these key details naturally and professionally into the draft email.";
+            docReferenceText = " as detailed in the attached documents (" + fileNames + ") which outlines the main scope and guidelines.";
         }
 
         if (currentSelectedCategory === 'customer') {
