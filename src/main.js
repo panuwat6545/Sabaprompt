@@ -515,16 +515,6 @@ function processLocalFile(file) {
         );
         const reader = new FileReader();
         reader.onload = function(e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.alt = file.name;
-            img.className = "max-w-xs max-h-40 rounded-lg border border-slate-200 shadow-sm my-2 block";
-            
-            const detailInput = document.getElementById('inputDetail');
-            if (detailInput) {
-                detailInput.appendChild(img);
-            }
-
             uploadedFile = {
                 name: file.name,
                 size: `${sizeInMB} MB`,
@@ -756,34 +746,55 @@ function selectGoogleDriveFile(fileName, fileSize, fileType, fileInsight) {
 function clearUploadedFile() {
     uploadedFile = null;
     document.getElementById('doc-file-input').value = "";
-    document.getElementById('file-status-container').classList.add('hidden');
+    const bar = document.getElementById('attached-previews-bar');
+    if (bar) {
+        bar.innerHTML = '';
+        bar.classList.add('hidden');
+    }
+    const container = document.getElementById('file-status-container');
+    if (container) container.classList.add('hidden');
     showToast("ลบไฟล์สำเร็จ", "เคลียร์เอกสารแนบออกจาก Workspace แล้วครับ", "info");
 }
 
 function updateFileStatusUI() {
-    if (!uploadedFile) return;
+    const bar = document.getElementById('attached-previews-bar');
     const container = document.getElementById('file-status-container');
-    const nameDisp = document.getElementById('file-name-display');
-    const sizeDisp = document.getElementById('file-size-display');
-    const iconWrapper = document.getElementById('file-icon-wrapper');
+    if (container) container.classList.add('hidden'); // Hide the old block container
 
-    nameDisp.innerText = uploadedFile.name;
-    sizeDisp.innerText = `${uploadedFile.size} • วิเคราะห์เนื้อหาพร้อมใช้`;
+    if (!bar) return;
 
-    let iconMarkup = '<i data-lucide="file-text" class="w-4 h-4"></i>';
-    if (uploadedFile.type === 'pdf') {
-        iconWrapper.className = "p-2 bg-rose-500/15 text-rose-500 rounded-lg";
-        iconMarkup = '<i data-lucide="file-text" class="w-4 h-4"></i>';
-    } else if (uploadedFile.type === 'xlsx' || uploadedFile.type === 'csv' || uploadedFile.type === 'spreadsheet') {
-        iconWrapper.className = "p-2 bg-emerald-500/15 text-emerald-500 rounded-lg";
-        iconMarkup = '<i data-lucide="file-spreadsheet" class="w-4 h-4"></i>';
-    } else {
-        iconWrapper.className = "p-2 bg-blue-500/15 text-blue-500 rounded-lg";
-        iconMarkup = '<i data-lucide="file-text" class="w-4 h-4"></i>';
+    if (!uploadedFile) {
+        bar.innerHTML = '';
+        bar.classList.add('hidden');
+        return;
     }
 
-    iconWrapper.innerHTML = iconMarkup;
-    container.classList.remove('hidden');
+    let iconName = 'file-text';
+    let iconClass = 'text-orange-500';
+    if (uploadedFile.type === 'pdf') {
+        iconName = 'file-text';
+        iconClass = 'text-rose-500';
+    } else if (uploadedFile.type === 'xlsx' || uploadedFile.type === 'csv' || uploadedFile.type === 'spreadsheet') {
+        iconName = 'file-spreadsheet';
+        iconClass = 'text-emerald-500';
+    } else if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(uploadedFile.type)) {
+        iconName = 'image';
+        iconClass = 'text-blue-500';
+    }
+
+    const safeName = uploadedFile.name.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+
+    bar.innerHTML = `
+        <div class="inline-flex items-center gap-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 px-3 py-1 rounded-full text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-sm animate-fade-in">
+            <i data-lucide="${iconName}" class="w-3.5 h-3.5 ${iconClass}"></i>
+            <span class="truncate max-w-[150px]" title="${safeName}">${safeName}</span>
+            <button onclick="clearUploadedFile()" class="text-slate-450 hover:text-rose-500 transition-colors p-0.5 ml-0.5" title="ลบไฟล์">
+                <i data-lucide="x" class="w-3 h-3"></i>
+            </button>
+        </div>
+    `;
+    bar.classList.remove('hidden');
+    
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
@@ -1200,7 +1211,7 @@ function compileMegaPrompt() {
         inputDetail = detailInput.value.trim();
     } else {
         inputDetail = detailInput.innerText.trim();
-        hasImages = detailInput.querySelectorAll('img').length > 0;
+        hasImages = (detailInput.querySelectorAll('img').length > 0) || (uploadedFile && ['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(uploadedFile.type));
     }
 
     if (!inputWho || (!inputDetail && !hasImages)) {
@@ -1689,6 +1700,10 @@ async function submitFeedback() {
 
 // --- 10. TOAST NOTIFICATION UTILITY ---
 function showToast(title, message, type = "info") {
+    // Only show errors and warnings, silence info and success to prevent cluttering the view
+    if (type !== "error" && type !== "warning") {
+        return;
+    }
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
     
