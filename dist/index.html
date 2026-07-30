@@ -211,7 +211,7 @@
         }
     </style>
   <script type="module" crossorigin src="/assets/main-D-5dscS_.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BkGNnb3K.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-BRa4WGZW.css">
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-orange-500 selection:text-black transition-colors duration-200">
 
@@ -232,7 +232,7 @@
     <!-- LAYER 1: AUTHENTICATION / หน้าจอเข้าสู่ระบบ -->
     <!-- ========================================================= -->
     <div id="auth-screen" class="min-h-screen flex flex-col justify-center items-center p-4 relative z-10">
-        <div class="w-full max-w-md bg-white dark:bg-slate-800 border border-slate-250 dark:border-slate-700 rounded-2xl p-8 shadow-2xl relative">
+        <div class="w-full max-w-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-8 shadow-2xl relative">
             
             <!-- Language Switcher on Auth Screen -->
             <div class="absolute top-4 right-4 flex items-center bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-1 text-[10px] font-extrabold tracking-wider shadow-md">
@@ -342,45 +342,34 @@
                     <!-- Populated dynamically by script -->
                 </div>
 
-                <!-- TRIPBOX (With PromptPay QR Code Display) -->
-                <div class="mt-4 p-3 rounded-2xl bg-gradient-to-br from-orange-500/10 via-slate-50 to-white dark:from-orange-500/15 dark:via-slate-800 dark:to-slate-900 border border-orange-500/30 space-y-2.5 relative overflow-hidden group shadow-lg">
+                <!-- TRIPBOX (เลี้ยงโอเลี้ยงทีมผู้พัฒนา) -->
+                <div id="tripbox-donation" class="mt-4 p-3 rounded-2xl bg-gradient-to-br from-orange-500/10 via-slate-200 to-white dark:from-orange-500/15 dark:via-slate-800 dark:to-slate-900 border border-orange-500/30 space-y-2.5 relative overflow-hidden group shadow-lg">
                     <div class="flex items-center justify-between">
                         <span class="text-[10px] font-extrabold text-orange-500 uppercase tracking-wider flex items-center gap-1.5">
-                            <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-orange-500"></i>
-                            <span>Trip Box & AI Tips</span>
+                            <i data-lucide="coffee" class="w-3.5 h-3.5 text-orange-500 animate-bounce"></i>
+                            <span>ซื้อโอเลี้ยงให้ทีมผู้พัฒนา</span>
                         </span>
-                        <span class="text-[9px] bg-orange-500/20 text-orange-500 px-1.5 py-0.2 rounded font-mono font-bold">PRO TIP</span>
+                        <span class="text-[8px] bg-orange-500/20 text-orange-500 px-1.5 py-0.2 rounded font-mono font-bold">SUPPORT</span>
                     </div>
 
-                    <p class="text-[10px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                        💡 <strong>คำแนะนำ:</strong> เปิด <strong>Privacy Shield</strong> ก่อนแปะข้อความจริงเสมอ และปรับ <strong>Assertiveness > 70%</strong> เมื่อต้องการตามงานด่วน
-                    </p>
-
                     <!-- PromptPay QR Code Display Area -->
-                    <div class="pt-2 border-t border-orange-500/20 space-y-2">
+                    <div class="space-y-2">
                         <button onclick="toggleTripboxQR()" class="w-full bg-white dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-700 border border-orange-500/40 text-orange-500 font-bold text-[10px] py-1.5 px-2.5 rounded-xl transition-all flex items-center justify-between group">
                             <span class="flex items-center gap-1.5">
                                 <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
-                                <span>สแกน PromptPay QR สนับสนุน</span>
+                                <span>จิ้มเปิดสแกน QR PromptPay</span>
                             </span>
                             <i data-lucide="chevron-down" id="qr-chevron-icon" class="w-3 h-3 transition-transform"></i>
                         </button>
 
                         <!-- Collapsible QR Code Image Card -->
-                        <div id="tripbox-qr-card" class="bg-slate-50 dark:bg-slate-950/90 border border-orange-500/20 dark:border-orange-500/30 p-2.5 rounded-xl text-center space-y-1.5 hidden">
-                            <div class="text-[9px] font-mono text-slate-500 dark:text-slate-400">PromptPay QR Code (พร้อมตั้งยอด)</div>
+                        <div id="tripbox-qr-card" class="bg-slate-100 dark:bg-slate-900/90 border border-orange-500/20 dark:border-orange-500/30 p-2.5 rounded-xl text-center space-y-1.5 hidden">
+                            <div class="text-[9px] font-mono text-slate-500 dark:text-slate-400">เลี้ยงโอเลี้ยงทีมผู้พัฒนา (สแกนเลยคุณน้า)</div>
                             <div class="flex justify-center my-1">
                                 <img src="/promptpay-qr.webp" id="promptpay-qr-img-mock" alt="PromptPay QR Code" class="w-28 h-28 border-2 border-orange-500 rounded-lg shadow-md p-1 bg-white">
                             </div>
-                            <div class="text-[9px] text-orange-500 font-bold">สนับสนุน SABA PROMPT</div>
+                            <div class="text-[9px] text-orange-500 font-bold">ขอบพระคุณสำหรับโอเลี้ยงครับ! 🙏</div>
                         </div>
-                    </div>
-
-                    <div class="pt-1.5 border-t border-orange-500/20 flex justify-between items-center text-[9px] text-slate-500 dark:text-slate-400">
-                        <span>ยุทธศาสตร์การสื่อสาร</span>
-                        <a href="/blog/index.html" class="text-orange-500 hover:underline font-bold flex items-center gap-0.5 transition-all">
-                            อ่านบทความ SEO <i data-lucide="chevron-right" class="w-2.5 h-2.5"></i>
-                        </a>
                     </div>
                 </div>
 
@@ -397,12 +386,12 @@
                     <!-- Category Chips for Feedback -->
                     <div class="flex items-center gap-1 overflow-x-auto text-[9px]">
                         <button onclick="setFeedbackCategory('🐞 บั๊ก/ปัญหา')" id="fb-tag-bug" class="px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/40 font-bold">🐞 ปัญหา</button>
-                        <button onclick="setFeedbackCategory('💡 ไอเดียใหม่')" id="fb-tag-idea" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-750 text-slate-650 dark:text-slate-300 border border-slate-200 dark:border-slate-650 hover:border-indigo-400 transition-colors font-medium">💡 ไอเดีย</button>
-                        <button onclick="setFeedbackCategory('❤️ คำชม')" id="fb-tag-praise" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-750 text-slate-650 dark:text-slate-300 border border-slate-200 dark:border-slate-650 hover:border-indigo-400 transition-colors font-medium">❤️ คำชม</button>
+                        <button onclick="setFeedbackCategory('💡 ไอเดียใหม่')" id="fb-tag-idea" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-indigo-400 transition-colors font-medium">💡 ไอเดีย</button>
+                        <button onclick="setFeedbackCategory('❤️ คำชม')" id="fb-tag-praise" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-indigo-400 transition-colors font-medium">❤️ คำชม</button>
                     </div>
 
                     <!-- Feedback Textarea -->
-                    <textarea id="sidebar-feedback-input" rows="2" placeholder="พิมพ์ข้อเสนอแนะ เจอปัญหา หรือแนะนำฟีเจอร์ที่อยากให้เพิ่ม..." class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-indigo-400 rounded-xl p-2 text-[11px] text-slate-800 dark:text-white placeholder-slate-450 dark:placeholder-slate-500 outline-none resize-none leading-relaxed"></textarea>
+                    <textarea id="sidebar-feedback-input" rows="2" placeholder="พิมพ์ข้อเสนอแนะ เจอปัญหา หรือแนะนำฟีเจอร์ที่อยากให้เพิ่ม..." class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-indigo-400 rounded-xl p-2 text-[11px] text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 outline-none resize-none leading-relaxed"></textarea>
 
                     <!-- Send Button -->
                     <button onclick="sendDiscordFeedback()" id="btn-send-feedback" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-[11px] py-1.5 px-3 rounded-xl transition-all shadow-md shadow-indigo-600/20 flex items-center justify-center gap-1.5 active:scale-95">
@@ -445,9 +434,9 @@
         <main class="flex-grow flex flex-col h-full bg-slate-50 dark:bg-slate-900 relative overflow-hidden transition-colors duration-200">
             
             <!-- Top Navbar -->
-            <header class="h-14 border-b border-slate-250 dark:border-slate-700/60 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md px-4 flex items-center justify-between z-10 flex-shrink-0">
+            <header class="h-14 border-b border-slate-200 dark:border-slate-700/60 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md px-4 flex items-center justify-between z-10 flex-shrink-0">
                 <div class="flex items-center gap-3">
-                    <button onclick="toggleSidebarCollapse()" class="text-slate-450 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="สลับแถบเมนูซ้าย">
+                    <button onclick="toggleSidebarCollapse()" class="text-slate-400 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="สลับแถบเมนูซ้าย">
                         <i data-lucide="panel-left" class="w-5 h-5"></i>
                     </button>
                     <div class="flex items-center gap-2">
@@ -460,26 +449,30 @@
                     <!-- Tab Switcher Navigation -->
                     <nav class="hidden lg:flex space-x-1" role="tablist">
                         <button onclick="navigateTab('workspace')" id="nav-workspace" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-orange-500 text-black border border-orange-500 shadow-md transition-all" role="tab" aria-selected="true" data-i18n="nav_workspace">
-                            Workspace
+                            ห้องทำงานสุดจึ้ง
                         </button>
                         <button onclick="navigateTab('seo')" id="nav-seo" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-700/50 transition-all" role="tab" aria-selected="false" data-i18n="nav_seo">
-                            วิธีเขียนอีเมล (SEO Guide)
+                            วิธีเขียนเมลสุดจึ้ง (SEO Guide)
                         </button>
                         <button onclick="navigateTab('framework')" id="nav-framework" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-700/50 transition-all" role="tab" aria-selected="false" data-i18n="nav_framework">
-                            Our Psychology & Framework
+                            สูตรลับทางจิตวิทยา
                         </button>
                         <button onclick="navigateTab('architect')" id="nav-architect" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-700/50 transition-all" role="tab" aria-selected="false" data-i18n="nav_architect">
-                            About the Architect
+                            ผู้สร้างตัวมารดา (Architect)
                         </button>
                         <a href="/blog/index.html" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-700/50 transition-all flex items-center gap-1">
-                            บทความแนะนำ
+                            บล็อกบทความตัวมัม
                         </a>
+                        <button onclick="startOnboardingTour()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-orange-500/10 hover:bg-orange-500/20 text-orange-500 border border-orange-500/30 shadow-sm transition-all flex items-center gap-1">
+                            <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                            <span>ทัวร์ระบบเจ๋งๆ (Quick Tour)</span>
+                        </button>
                     </nav>
 
                     <div class="h-6 w-[1px] bg-slate-200 dark:bg-slate-700/60 mx-1 hidden lg:block"></div>
 
                     <!-- Theme Toggle Switcher Button -->
-                    <button onclick="toggleTheme()" class="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center justify-center" title="สลับโหมดสว่าง/มืด (Light/Dark Mode)">
+                    <button onclick="toggleTheme()" class="p-1.5 rounded-lg text-slate-400 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center justify-center" title="สลับโหมดสว่าง/มืด (Light/Dark Mode)">
                         <i data-lucide="sun" id="theme-toggle-icon" class="w-4 h-4 text-orange-500"></i>
                     </button>
 
@@ -495,7 +488,7 @@
                             <span class="w-1 h-1 rounded-full bg-orange-500 animate-pulse"></span>
                             <span>TH</span>
                         </button>
-                        <button onclick="setLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-slate-500 dark:text-zinc-400 hover:text-slate-950 dark:hover:text-white bg-transparent border border-transparent">
+                        <button onclick="setLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-slate-400 dark:text-zinc-400 hover:text-slate-950 dark:hover:text-white bg-transparent border border-transparent">
                             <span>EN</span>
                         </button>
                     </div>
@@ -517,9 +510,6 @@
                     
                     <!-- Welcome Banner / Initial Prompt Assistant Message (Hello guys/user) -->
                     <div class="flex gap-3 max-w-3xl mx-auto">
-                        <div class="w-8 h-8 rounded-xl bg-orange-500/20 border border-orange-500/40 flex flex-shrink-0 items-center justify-center text-sm shadow-md shadow-orange-500/10">
-                            🐈
-                        </div>
                         <div class="space-y-3 flex-grow">
                             <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-2xl p-4 rounded-tl-xs shadow-lg text-xs leading-relaxed space-y-3">
                                 <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700/40 pb-2">
@@ -529,11 +519,11 @@
                                     </span>
                                     <span class="text-[10px] text-slate-500 font-mono">Conversational v3.0</span>
                                 </div>
-                                <p class="text-slate-800 dark:text-slate-250 text-sm font-semibold" id="welcome-message-text">
+                                <p class="text-slate-800 dark:text-slate-200 text-sm font-semibold" id="welcome-message-text">
                                     Hello guys
                                 </p>
-                                <p class="text-slate-600 dark:text-slate-350">
-                                    ยินดีต้อนรับเข้าสู่อินเตอร์เฟสความก้าวหน้าโฉมใหม่! ผมพร้อมช่วยร่างพรอพท์และดราฟต์อีเมลด้วยสูตรจิตวิทยาสากลแล้วครับพิมพ์งานดิบ แนบไฟล์ หรือจูนน้ำเสียงจิตวิทยา (EQ sliders) ด้านล่างได้ทันที!
+                                <p class="text-slate-600 dark:text-slate-300">
+                                    ยินดีต้อนรับสู่อาณาจักร SABA PROMPT! ช่วยร่างพรอพท์ & อีเมลจิตวิทยาเชิงรุกสับๆ คุยงานลูกค้า/หัวหน้าแบบไม่ช็อตฟีล ปรับ EQ Sliders ด้านล่างเลยคุณน้า!
                                 </p>
                             </div>
                         </div>
@@ -563,7 +553,7 @@
                             </div>
 
                             <!-- File status display for SABA PROMPT modules -->
-                            <div id="file-status-container" class="hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-750 rounded-xl p-2 mb-2 flex items-center justify-between text-xs">
+                            <div id="file-status-container" class="hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl p-2 mb-2 flex items-center justify-between text-xs">
                                 <div class="flex items-center gap-2">
                                     <div id="file-icon-wrapper" class="text-orange-500"><i data-lucide="file-text" class="w-4 h-4"></i></div>
                                     <div>
@@ -585,7 +575,7 @@
                                 
                                 <!-- Unified "+" Attachment Button & Popover Menu -->
                                 <div class="relative">
-                                    <button onclick="toggleAttachmentMenu()" id="btn-plus-attach" class="w-7 h-7 rounded-full bg-slate-200 hover:bg-slate-350 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-600 dark:text-slate-300 hover:text-orange-500 flex items-center justify-center transition-all border border-slate-300/50 dark:border-slate-650 active:scale-95" title="แนบไฟล์ / เอกสาร (Attachment Options)">
+                                    <button onclick="toggleAttachmentMenu()" id="btn-plus-attach" class="w-7 h-7 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 hover:text-orange-500 flex items-center justify-center transition-all border border-slate-300/50 dark:border-slate-600 active:scale-95" title="แนบไฟล์ / เอกสาร (Attachment Options)">
                                         <i data-lucide="plus" id="plus-icon" class="w-4 h-4 transition-transform"></i>
                                     </button>
 
@@ -607,11 +597,11 @@
                                             </div>
                                             <div>
                                                 <div class="font-bold text-[11px]">Google Drive</div>
-                                                <div class="text-[9px] text-slate-550 dark:text-slate-400">ดึงไฟล์ตรงจากคลาวด์</div>
+                                                <div class="text-[9px] text-slate-500 dark:text-slate-400">ดึงไฟล์ตรงจากคลาวด์</div>
                                             </div>
                                         </button>
 
-                                        <div class="p-1.5 text-[9px] text-slate-450 border-t border-slate-200 dark:border-slate-700/40 text-center italic">
+                                        <div class="p-1.5 text-[9px] text-slate-400 border-t border-slate-200 dark:border-slate-700/40 text-center italic">
                                             หรือลากวาง/กด Ctrl+V วางรูปได้เลย
                                         </div>
                                     </div>
@@ -623,13 +613,13 @@
                                         <input type="checkbox" id="privacy-shield-active" checked class="w-3.5 h-3.5 accent-orange-500 cursor-pointer">
                                         <label for="privacy-shield-active" class="text-[10px] text-slate-500 dark:text-slate-400 font-bold select-none cursor-pointer">Privacy Shield</label>
                                     </div>
-                                    <span id="charCounter" class="text-[10px] text-slate-450 dark:text-slate-500 font-mono">0 อักษร</span>
+                                    <span id="charCounter" class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">0 อักษร</span>
                                 </div>
 
                                 <!-- Generate CTA Button -->
                                 <button onclick="compileMegaPrompt()" id="btn-compile" class="bg-orange-500 hover:bg-orange-600 text-black font-extrabold text-xs px-4 py-2 rounded-xl transition-all shadow-lg shadow-orange-500/20 flex items-center gap-1.5 active:scale-95">
                                     <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
-                                    <span>⚡ GENERATE PROMPT</span>
+                                    <span>⚡ GENERATE PROMPT (จึ้งมากคุณน้า)</span>
                                 </button>
                             </div>
                         </div>
@@ -641,18 +631,18 @@
                             <div class="flex items-center justify-between flex-wrap gap-2">
                                 <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1">
                                     <i data-lucide="sparkles" class="w-3 h-3 text-orange-500"></i>
-                                    <span>1. ประเภทการสื่อสาร (Presets):</span>
+                                    <span>1. Presets เจรจาสุดจึ้ง (สไตล์วัยรุ่น):</span>
                                 </div>
 
                                 <div class="flex items-center gap-1.5 flex-wrap">
                                     <button onclick="selectStrategy('customer')" id="chip-strat-customer" class="px-2.5 py-1 rounded-xl bg-orange-500/20 border border-orange-500/60 text-orange-500 font-bold text-[11px] flex items-center gap-1 transition-all shadow-sm">
-                                        <span>🎯 The Closer</span>
+                                        <span>🎯 The Closer (ปิดดีลฉ่ำๆ)</span>
                                     </button>
-                                    <button onclick="selectStrategy('leave')" id="chip-strat-leave" class="px-2.5 py-1 rounded-xl bg-slate-200 border border-slate-300 text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 font-bold text-[11px] flex items-center gap-1 transition-all hover:border-orange-500/40">
-                                        <span>🌴 Tactical Vacation</span>
+                                    <button onclick="selectStrategy('leave')" id="chip-strat-leave" class="px-2.5 py-1 rounded-xl bg-slate-200 border border-slate-350 text-slate-700 dark:bg-slate-700 dark:border-slate-650 dark:text-slate-300 font-bold text-[11px] flex items-center gap-1 transition-all hover:border-orange-500/40">
+                                        <span>🌴 Tactical Vacation (ลาพักร้อนเนียนๆ)</span>
                                     </button>
-                                    <button onclick="selectStrategy('cowork')" id="chip-strat-cowork" class="px-2.5 py-1 rounded-xl bg-slate-200 border border-slate-300 text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 font-bold text-[11px] flex items-center gap-1 transition-all hover:border-orange-500/40">
-                                        <span>🤝 The Diplomat</span>
+                                    <button onclick="selectStrategy('cowork')" id="chip-strat-cowork" class="px-2.5 py-1 rounded-xl bg-slate-200 border border-slate-350 text-slate-700 dark:bg-slate-700 dark:border-slate-650 dark:text-slate-300 font-bold text-[11px] flex items-center gap-1 transition-all hover:border-orange-500/40">
+                                        <span>🤝 The Diplomat (ตัวแม่ประสานงาน)</span>
                                     </button>
                                 </div>
                             </div>
@@ -662,7 +652,7 @@
                                 <div class="flex items-center justify-between">
                                     <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1">
                                         <i data-lucide="sliders" class="w-3 h-3 text-orange-500"></i>
-                                        <span>2. ระดับอารมณ์จิตวิทยา (EQ Tone Sliders):</span>
+                                        <span>2. ปรับจูนน้ำเสียงจิตวิทยา (ฟีลแบบตัวมัม):</span>
                                     </span>
                                     <span class="text-[9px] text-orange-500 font-mono" id="eq-summary-badge">Assertive: 50% | Urgency: 30% | Empathy: 80%</span>
                                 </div>
@@ -671,39 +661,39 @@
                                     <!-- Assertiveness Slider -->
                                     <div class="bg-white border border-slate-200 dark:bg-slate-800/80 dark:border-slate-700/40 p-2 rounded-xl">
                                         <div class="flex justify-between items-center text-[10px] font-bold mb-0.5">
-                                            <span class="text-slate-600 dark:text-slate-300">Assertiveness (ความเด็ดขาด)</span>
+                                            <span class="text-slate-650 dark:text-slate-300">Assertiveness (ความฟาด / ตัวมัม)</span>
                                             <span id="val-assertive" class="text-orange-500 font-mono">50%</span>
                                         </div>
                                         <input type="range" id="input-assertive" min="0" max="100" value="50" oninput="updateSliderVal('assertive', this.value)" class="w-full h-1 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500">
-                                        <div class="flex justify-between text-[8px] text-slate-450 dark:text-slate-500">
-                                            <span>นอบน้อม</span>
-                                            <span>เด็ดขาด</span>
+                                        <div class="flex justify-between text-[8px] text-slate-400 dark:text-slate-500">
+                                            <span>ฟีลนอบน้อม</span>
+                                            <span>ฟาดสับๆ</span>
                                         </div>
                                     </div>
 
                                     <!-- Urgency Slider -->
                                     <div class="bg-white border border-slate-200 dark:bg-slate-800/80 dark:border-slate-700/40 p-2 rounded-xl">
                                         <div class="flex justify-between items-center text-[10px] font-bold mb-0.5">
-                                            <span class="text-slate-600 dark:text-slate-300">Urgency (ความเร่งด่วน)</span>
+                                            <span class="text-slate-650 dark:text-slate-300">Urgency (รีบเกิ๊นนนคุณน้า)</span>
                                             <span id="val-urgency" class="text-orange-500 font-mono">30%</span>
                                         </div>
                                         <input type="range" id="input-urgency" min="0" max="100" value="30" oninput="updateSliderVal('urgency', this.value)" class="w-full h-1 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500">
-                                        <div class="flex justify-between text-[8px] text-slate-450 dark:text-slate-500">
-                                            <span>ปกติ</span>
-                                            <span>เร่งด่วน</span>
+                                        <div class="flex justify-between text-[8px] text-slate-400 dark:text-slate-500">
+                                            <span>สโลว์ไลฟ์</span>
+                                            <span>ด่วนที่สุด!</span>
                                         </div>
                                     </div>
 
                                     <!-- Empathy Slider -->
                                     <div class="bg-white border border-slate-200 dark:bg-slate-800/80 dark:border-slate-700/40 p-2 rounded-xl">
                                         <div class="flex justify-between items-center text-[10px] font-bold mb-0.5">
-                                            <span class="text-slate-600 dark:text-slate-300">Empathy (เห็นอกเห็นใจ)</span>
+                                            <span class="text-slate-650 dark:text-slate-300">Empathy (ถนอมน้ำใจฉ่ำๆ)</span>
                                             <span id="val-empathy" class="text-orange-500 font-mono">80%</span>
                                         </div>
                                         <input type="range" id="input-empathy" min="0" max="100" value="80" oninput="updateSliderVal('empathy', this.value)" class="w-full h-1 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500">
-                                        <div class="flex justify-between text-[8px] text-slate-450 dark:text-slate-500">
-                                            <span>เน้นงาน</span>
-                                            <span>เน้นความสัมพันธ์</span>
+                                        <div class="flex justify-between text-[8px] text-slate-400 dark:text-slate-500">
+                                            <span>เน้นงานบูดๆ</span>
+                                            <span>เซฟความรู้สึกคุณน้า</span>
                                         </div>
                                     </div>
                                 </div>
@@ -898,7 +888,7 @@
                         <div class="space-y-2">
                             <span class="text-xs font-bold uppercase tracking-wider text-orange-500 bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">The Visionary Engineer</span>
                             <h2 class="text-2xl font-heading font-black text-slate-900 dark:text-white">สถาปนิกและผู้สร้างสรรค์ระบบ</h2>
-                            <p class="text-xs text-slate-550 dark:text-slate-400">ขับเคลื่อนนวัตกรรมการทำงานผ่านมุมมองมนุษยวิทยาและวิศวกรรมจิตวิทยา</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">ขับเคลื่อนนวัตกรรมการทำงานผ่านมุมมองมนุษยวิทยาและวิศวกรรมจิตวิทยา</p>
                         </div>
                         <p class="text-xs text-slate-700 dark:text-gray-300 leading-relaxed max-w-md">
                             แอปพลิเคชันและฐานระบบคำสั่ง "The Strategist: Story-to-Prompt" ได้รับการสร้างสรรค์ขึ้นโดยมีพื้นฐานจิตวิทยาแบบ INFJ-A ที่ผสานวิศวกรรมทางตรรกะ เพื่อส่งต่อเครื่องมือที่จะช่วยเหลือพนักงานออฟฟิศทุกคนให้ก้าวข้ามขีดจำกัดการสื่อสารอย่างสง่างาม
@@ -916,7 +906,7 @@
                         <div class="space-y-2">
                             <span class="text-xs font-bold uppercase tracking-wider text-orange-500 bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">The Visionary Engineer</span>
                             <h2 class="text-2xl font-heading font-black text-slate-900 dark:text-white">The System Architect</h2>
-                            <p class="text-xs text-slate-550 dark:text-slate-400">Empowering workers through anthropological insights and design engineering</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Empowering workers through anthropological insights and design engineering</p>
                         </div>
                         <p class="text-xs text-slate-700 dark:text-gray-300 leading-relaxed max-w-md">
                             "The Strategist: Story-to-Prompt" platform was constructed with an INFJ-A mindset, blending rigorous logic with deep human empathy. It provides structural tools for workers to traverse tough office communications.
@@ -934,13 +924,13 @@
 
     <!-- 1. Google Drive Modal -->
     <div id="gdrive-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="w-full max-w-md bg-white dark:bg-slate-800 border border-slate-250 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative">
+        <div class="w-full max-w-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
                 <div class="flex items-center gap-2">
                     <i data-lucide="hard-drive" class="w-5 h-5 text-blue-500 dark:text-blue-400"></i>
                     <h3 class="text-sm font-bold text-slate-900 dark:text-white">Google Drive — เลือกไฟล์อ้างอิง</h3>
                 </div>
-                <button onclick="closeGoogleDriveModal()" class="text-slate-450 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-1">
+                <button onclick="closeGoogleDriveModal()" class="text-slate-400 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-1">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -968,7 +958,7 @@
 
     <!-- 2. System Status / API Settings Modal -->
     <div id="api-settings-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="w-full max-w-md bg-white dark:bg-slate-800 border border-slate-250 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative animate-fade-in">
+        <div class="w-full max-w-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative animate-fade-in">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
                 <div class="flex items-center gap-2">
                     <i data-lucide="shield-check" class="w-5 h-5 text-emerald-500 dark:text-emerald-400" aria-hidden="true"></i>
@@ -1046,7 +1036,7 @@
 
     <!-- 3. Privacy Policy Modal -->
     <div id="privacy-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="w-full max-w-2xl bg-white dark:bg-slate-800 border border-slate-250 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
+        <div class="w-full max-w-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-4 flex-shrink-0">
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Privacy Policy (นโยบายความเป็นส่วนตัว)</h3>
                 <button onclick="closePrivacyModal()" class="text-zinc-500 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white p-1 rounded transition-colors" aria-label="Close Privacy modal">
@@ -1083,7 +1073,7 @@
 
     <!-- 4. Terms of Service Modal -->
     <div id="terms-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="w-full max-w-2xl bg-white dark:bg-slate-800 border border-slate-250 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
+        <div class="w-full max-w-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-4 flex-shrink-0">
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Terms of Service (ข้อตกลงการใช้งาน)</h3>
                 <button onclick="closeTermsModal()" class="text-zinc-550 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white p-1 rounded transition-colors" aria-label="Close Terms of service modal">
@@ -1116,7 +1106,7 @@
 
     <!-- 5. Pricing Plans Modal -->
     <div id="pricing-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="w-full max-w-4xl bg-white dark:bg-slate-800 border border-slate-250 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[90vh]">
+        <div class="w-full max-w-4xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[90vh]">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-4 flex-shrink-0">
                 <div class="flex items-center gap-2">
                     <i data-lucide="zap" class="w-5 h-5 text-orange-500 fill-orange-500" aria-hidden="true"></i>
@@ -1276,7 +1266,7 @@
                             <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200">บัตรเครดิต / เดบิต</span>
                         </label>
                         <!-- Option Mobile -->
-                        <label onclick="togglePaymentForm('mobile')" class="border border-slate-200 dark:border-slate-750 hover:border-orange-500 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-900 transition-all select-none">
+                        <label onclick="togglePaymentForm('mobile')" class="border border-slate-200 dark:border-slate-700 hover:border-orange-500 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-900 transition-all select-none">
                             <input type="radio" name="payment_method" id="pay-method-mobile" value="mobile" class="sr-only">
                             <i data-lucide="smartphone" class="w-5 h-5 text-slate-500 dark:text-slate-400 mb-1"></i>
                             <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200">บิลโทรศัพท์มือถือ</span>
@@ -1287,16 +1277,16 @@
                 <!-- Card Details Form -->
                 <div id="payment-form-card" class="space-y-3">
                     <div class="space-y-1">
-                        <label class="block text-[9px] font-bold text-slate-550 dark:text-slate-400 uppercase tracking-wider">หมายเลขบัตร (Card Number)</label>
+                        <label class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">หมายเลขบัตร (Card Number)</label>
                         <input type="text" placeholder="•••• •••• •••• ••••" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-xs font-semibold focus:border-orange-500 outline-none transition-all text-slate-800 dark:text-white">
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div class="space-y-1">
-                            <label class="block text-[9px] font-bold text-slate-550 dark:text-slate-400 uppercase tracking-wider">วันหมดอายุ (Expiry)</label>
+                            <label class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">วันหมดอายุ (Expiry)</label>
                             <input type="text" placeholder="MM/YY" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-xs font-semibold focus:border-orange-500 outline-none transition-all text-slate-800 dark:text-white">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-[9px] font-bold text-slate-550 dark:text-slate-400 uppercase tracking-wider">รหัสหลังบัตร (CVC)</label>
+                            <label class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">รหัสหลังบัตร (CVC)</label>
                             <input type="text" placeholder="•••" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-xs font-semibold focus:border-orange-500 outline-none transition-all text-slate-800 dark:text-white">
                         </div>
                     </div>
@@ -1305,14 +1295,14 @@
                 <!-- Mobile Billing Carrier Select -->
                 <div id="payment-form-mobile" class="space-y-3 hidden">
                     <div class="space-y-1">
-                        <label class="block text-[9px] font-bold text-slate-550 dark:text-slate-400 uppercase tracking-wider">ผู้ให้บริการเครือข่าย (Carrier)</label>
+                        <label class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">ผู้ให้บริการเครือข่าย (Carrier)</label>
                         <select class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-xs font-semibold focus:border-orange-500 outline-none transition-all text-slate-800 dark:text-white">
                             <option>AIS (เครือข่ายอันดับ 1)</option>
                             <option>TrueMove H / dtac</option>
                         </select>
                     </div>
                     <div class="space-y-1">
-                        <label class="block text-[9px] font-bold text-slate-550 dark:text-slate-400 uppercase tracking-wider">เบอร์โทรศัพท์สำหรับเรียกเก็บเงิน (Phone Number)</label>
+                        <label class="block text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">เบอร์โทรศัพท์สำหรับเรียกเก็บเงิน (Phone Number)</label>
                         <input type="text" placeholder="08X-XXX-XXXX" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-xs font-semibold focus:border-orange-500 outline-none transition-all text-slate-800 dark:text-white">
                     </div>
                 </div>
@@ -1327,147 +1317,19 @@
     </div>
 
     <!-- 7. Interactive Onboarding Tour Modal (Guide แนะนำผู้ใช้งานตามเลย์เอาต์แชทใหม่) -->
-    <div id="onboarding-tour-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
-        <div class="w-full max-w-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-2xl relative animate-fade-in flex flex-col max-h-[85vh]">
-            
-            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-4 flex-shrink-0">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="help-circle" class="w-5 h-5 text-orange-500" aria-hidden="true"></i>
-                    <h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider" data-i18n="tour_modal_title">SABA PROMPT Quick Guide</h3>
-                </div>
-                <button onclick="closeOnboardingTour()" class="text-zinc-500 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white p-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500" aria-label="Close Tour">
-                    <i data-lucide="x" class="w-4 h-4"></i>
-                </button>
-            </div>
-
-            <!-- Carousel Slider Container -->
-            <div class="flex-grow overflow-y-auto pr-1">
-                
-                <!-- Slide 1 -->
-                <div id="tour-slide-1" class="tour-slide space-y-4">
-                    <div class="w-full h-40 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl flex items-center justify-center relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent" aria-hidden="true"></div>
-                        <!-- Mock representation of category cards -->
-                        <div class="flex gap-3 relative z-10">
-                            <div class="w-20 h-24 bg-white dark:bg-slate-800 border-2 border-orange-500 rounded-lg flex flex-col justify-between p-2 shadow">
-                                <span class="text-xs">🎯</span>
-                                <span class="text-[8px] font-bold text-slate-900 dark:text-white leading-none">The Closer</span>
-                            </div>
-                            <div class="w-20 h-24 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg flex flex-col justify-between p-2 opacity-50 shadow">
-                                <span class="text-xs">🌴</span>
-                                <span class="text-[8px] font-bold text-slate-900 dark:text-white leading-none">Tactical Vacation</span>
-                            </div>
-                            <div class="w-20 h-24 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg flex flex-col justify-between p-2 opacity-50 shadow">
-                                <span class="text-xs">🤝</span>
-                                <span class="text-[8px] font-bold text-slate-900 dark:text-white leading-none">The Diplomat</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-center md:text-left">
-                        <span class="text-[10px] font-extrabold uppercase text-orange-500 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">Step 1 of 4</span>
-                        <h4 class="text-sm font-bold text-slate-900 dark:text-white" data-i18n="tour_s1_title">1. เลือกประเภทการสื่อสาร (Presets)</h4>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="tour_s1_desc">
-                            เลือกหมวดหมู่อีเมลของคุณจากแผง Presets ใต้ช่องแชท (เช่น **🎯 The Closer** สำหรับคุยงานลูกค้า, **🌴 Tactical Vacation** เพื่อเขียนใบลาพักร้อน, หรือ **🤝 The Diplomat** สำหรับคุยงานและประสานงานทั่วไป)
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Slide 2 -->
-                <div id="tour-slide-2" class="tour-slide space-y-4 hidden">
-                    <div class="w-full h-40 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl flex items-center justify-center relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent" aria-hidden="true"></div>
-                        <!-- Mock representation of Input controls -->
-                        <div class="w-3/4 space-y-2 relative z-10 scale-90">
-                            <div class="h-8 bg-white dark:bg-slate-800 border border-orange-500/45 rounded p-1.5 flex justify-between items-center text-[10px] text-slate-800 dark:text-zinc-200 shadow">
-                                <span>ผู้รับเมล: คุณสมศักดิ์ (หัวหน้าฝ่ายผลิต)</span>
-                            </div>
-                            <div class="h-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded p-1.5 flex justify-between items-center text-[10px] text-slate-500 dark:text-zinc-400 shadow">
-                                <span>ชื่อผู้ส่ง (ตัวคุณ): ก้องเกียรติ</span>
-                            </div>
-                            <div class="h-6 bg-orange-500/10 border border-orange-500/30 rounded flex items-center justify-center text-[8px] text-orange-500 font-bold">
-                                📎 แนบไฟล์อ้างอิงประกอบ
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-center md:text-left">
-                        <span class="text-[10px] font-extrabold uppercase text-orange-500 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">Step 2 of 4</span>
-                        <h4 class="text-sm font-bold text-slate-900 dark:text-white" data-i18n="tour_s2_title">2. ตั้งค่าข้อมูลผู้ส่ง/ผู้รับในแถบข้าง</h4>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="tour_s2_desc">
-                            คลิกไอคอนฟันเฟือง `user-cog` ที่แชทประวัติแต่ละคนในแถบซ้าย เพื่อกำหนดชื่อผู้ส่ง (ตัวคุณ) และชื่อผู้รับ/ตำแหน่งจริง ทำให้ AI ปรับคำแทนตัวและยศในอีเมลได้อย่างแม่นยำและสมจริง
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Slide 3 -->
-                <div id="tour-slide-3" class="tour-slide space-y-4 hidden">
-                    <div class="w-full h-40 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl flex items-center justify-center relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent" aria-hidden="true"></div>
-                        <!-- Mock representation of rich input area -->
-                        <div class="w-4/5 space-y-2 relative z-10 scale-90">
-                            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-2 text-[9px] space-y-1 shadow">
-                                <p class="text-slate-800 dark:text-white leading-tight">ขอลากลับบ้านช่วงสงกรานต์ 5 วัน งานส่งมอบเรียบร้อย...</p>
-                                <div class="w-16 h-8 bg-slate-200 dark:bg-slate-900 rounded border border-slate-300 dark:border-slate-700 flex items-center justify-center text-[8px] text-slate-500">
-                                    🖼️ Image.png
-                                </div>
-                            </div>
-                            <div class="flex gap-2">
-                                <span class="px-2 py-1 bg-orange-500 text-black rounded text-[8px] font-bold">🎯 Assertiveness: 50%</span>
-                                <span class="px-2 py-1 bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-zinc-400 rounded text-[8px]">🌴 Empathy: 80%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-center md:text-left">
-                        <span class="text-[10px] font-extrabold uppercase text-orange-500 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">Step 3 of 4</span>
-                        <h4 class="text-sm font-bold text-slate-900 dark:text-white" data-i18n="tour_s3_title">3. พิมพ์โจทย์ แปะภาพ & จูน EQ Sliders</h4>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="tour_s3_desc">
-                            พิมพ์รายละเอียดงานดิบในช่องแชท สามารถลากวางไฟล์ PDF/Word หรือกด Ctrl+V วางภาพจับหน้าจอได้ทันที จากนั้นปรับระดับน้ำเสียง (Assertiveness, Urgency, Empathy) เพื่อกำหนดความจริงจังหรือความอ่อนนุ่ม
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Slide 4 -->
-                <div id="tour-slide-4" class="tour-slide space-y-4 hidden">
-                    <div class="w-full h-40 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl flex items-center justify-center relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent" aria-hidden="true"></div>
-                        <!-- Mock representation of chat outputs -->
-                        <div class="w-4/5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg flex flex-col h-28 relative z-10 scale-95 shadow">
-                            <div class="bg-slate-100 dark:bg-slate-900 px-2 py-1 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
-                                <span class="text-[8px] text-orange-500 font-bold">AI Draft Output</span>
-                                <span class="text-[7px] text-slate-400">Option A / B</span>
-                            </div>
-                            <div class="p-2 space-y-1 overflow-hidden">
-                                <p class="text-[8px] text-slate-900 dark:text-white font-semibold">Option A (Soft & Win-Win):</p>
-                                <p class="text-[7px] text-slate-500 dark:text-slate-400">เรียนคุณสมศักดิ์ ตามที่ฝ่ายขายประสานงานใบเสนอราคา Q3...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-center md:text-left">
-                        <span class="text-[10px] font-extrabold uppercase text-orange-500 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">Step 4 of 4</span>
-                        <h4 class="text-sm font-bold text-slate-900 dark:text-white" data-i18n="tour_s4_title">4. รับแบบร่าง A/B และ Mega-Prompt ในแชท</h4>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="tour_s4_desc">
-                            กดปุ่ม <strong>⚡ GENERATE PROMPT</strong> ระบบจะพ่นข้อความประมวลผลดราฟต์อีเมลทางเลือก A (นุ่มนวล) และ B (เด็ดขาด) พร้อมโครงสร้างพรอพท์เชิงลึกให้คุณเลือกใช้คัดลอก หรือกดเปิดส่งเมลทันทีในรูปแบบแชท!
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Footer Tour Controls -->
-            <div class="mt-6 pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center flex-shrink-0">
-                <button id="tour-prev-btn" onclick="prevTourSlide()" class="px-3.5 py-1.5 bg-zinc-200 dark:bg-zinc-800 text-[11px] font-bold text-slate-800 dark:text-white rounded-xl transition-all opacity-50 cursor-not-allowed" disabled>
-                    Back
-                </button>
-                <div class="flex gap-1.5" id="tour-indicators">
-                    <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700"></span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700"></span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700"></span>
-                </div>
-                <button id="tour-next-btn" onclick="nextTourSlide()" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-[11px] font-extrabold text-black rounded-xl transition-all">
-                    Next
-                </button>
-            </div>
-            
+    <!-- 7. Interactive Onboarding Tour Overlay & Popover (ทัวร์สอนใช้งานระบบจริงแบบโต้ตอบ) -->
+    <div id="tour-overlay" class="fixed inset-0 z-50 bg-black/70 hidden pointer-events-auto transition-opacity duration-300"></div>
+    
+    <div id="tour-popover-card" class="fixed z-50 bg-white dark:bg-slate-800 border border-orange-500/40 rounded-2xl p-5 shadow-2xl w-80 space-y-3 hidden animate-fade-in text-xs transition-all duration-300">
+        <div class="flex items-center justify-between">
+            <span id="tour-step-badge" class="bg-orange-500/10 text-orange-500 px-2 py-0.5 rounded-full font-bold text-[9px] uppercase border border-orange-500/20">Step 1 of 6</span>
+            <button onclick="closeOnboardingTour()" class="text-slate-400 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white focus:outline-none"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+        </div>
+        <h4 id="tour-step-title" class="font-extrabold text-sm text-slate-900 dark:text-white">Title</h4>
+        <p id="tour-step-desc" class="text-slate-600 dark:text-slate-300 leading-relaxed">Description</p>
+        <div class="flex items-center justify-between pt-2.5 border-t border-slate-200 dark:border-slate-700/40">
+            <button id="tour-prev-btn" onclick="prevTourStep()" class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-700 dark:text-slate-300 font-bold text-[10px] transition-all">ย้อนกลับ</button>
+            <button id="tour-next-btn" onclick="nextTourStep()" class="px-3.5 py-1 rounded-xl bg-orange-500 hover:bg-orange-600 text-black font-extrabold text-[10px] transition-all">ถัดไป</button>
         </div>
     </div>
 
@@ -1543,7 +1405,7 @@
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('saba_theme', isDark ? 'dark' : 'light');
             updateThemeIcon(isDark);
-            showToast(isDark ? "สลับเข้าสู่โหมดมืด (Dark Mode)" : "สลับเข้าสู่โหมดสว่าง (White Crystal)", "info");
+            showToast("สลับธีมสำเร็จคุณน้า", isDark ? "เข้าสู่โหมดมืดสับๆ" : "เข้าสู่โหมดสว่าง White Crystal จึ้งๆ", "info");
         }
 
         function updateThemeIcon(isDark) {
@@ -1841,7 +1703,7 @@
                     if (key === cat) {
                         chip.className = "px-2.5 py-1 rounded-xl bg-orange-500/20 border border-orange-500/60 text-orange-500 font-bold text-[11px] flex items-center gap-1 transition-all shadow-sm";
                     } else {
-                        chip.className = "px-2.5 py-1 rounded-xl bg-slate-200 border border-slate-350 text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 font-bold text-[11px] flex items-center gap-1 transition-all hover:border-orange-500/40";
+                        chip.className = "px-2.5 py-1 rounded-xl bg-slate-200 border border-slate-300 text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 font-bold text-[11px] flex items-center gap-1 transition-all hover:border-orange-500/40";
                     }
                 }
             });
@@ -1861,7 +1723,7 @@
                 list.innerHTML = `
                     <div class="text-[10px] text-slate-500 dark:text-slate-400 italic py-4 text-center space-y-1">
                         <div>ไม่มีประวัติการเจรจา</div>
-                        <div class="text-[9px] text-slate-450 dark:text-slate-500">คลิกปุ่มด้านบนเพื่อสร้างแชทใหม่</div>
+                        <div class="text-[9px] text-slate-400 dark:text-slate-500">คลิกปุ่มด้านบนเพื่อสร้างแชทใหม่</div>
                     </div>
                 `;
                 return;
@@ -1871,7 +1733,7 @@
                 const isActive = sess.id === mockupState.activeSessionId;
                 const strat = strategies[sess.strategy];
                 return `
-                    <div class="rounded-xl border transition-all ${isActive ? 'bg-orange-500/10 border-orange-500/60 text-orange-600 dark:text-white shadow-lg' : 'bg-slate-50 dark:bg-slate-900/60 border-slate-200/40 dark:border-slate-700/40 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-750'}">
+                    <div class="rounded-xl border transition-all ${isActive ? 'bg-orange-500/10 border-orange-500/60 text-orange-600 dark:text-white shadow-lg' : 'bg-slate-50 dark:bg-slate-900/60 border-slate-200/40 dark:border-slate-700/40 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'}">
                         <div onclick="loadEmailSession('${sess.id}')" class="p-2.5 cursor-pointer">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate max-w-[160px]">${escapeHtml(sess.recipient)}</span>
@@ -1879,7 +1741,7 @@
                             </div>
                             <div class="text-[10px] text-slate-500 dark:text-slate-400 truncate mb-1.5">${escapeHtml(sess.subject)}</div>
                             <div class="flex items-center justify-between">
-                                <span class="text-[8px] px-1.5 py-0.2 rounded font-mono bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/50 text-slate-650 dark:text-slate-300">${strat.emoji} ${strat.badge}</span>
+                                <span class="text-[8px] px-1.5 py-0.2 rounded font-mono bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/50 text-slate-600 dark:text-slate-300">${strat.emoji} ${strat.badge}</span>
                                 <div class="flex items-center gap-1">
                                     <button onclick="toggleSessionSubset(event, '${sess.id}')" class="text-slate-500 dark:text-slate-400 hover:text-orange-500 p-0.5 rounded" title="ดู/แก้ไขบริบท">
                                         <i data-lucide="user-cog" class="w-3.5 h-3.5"></i>
@@ -2026,7 +1888,7 @@
                     </div>
                     <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-2xl p-4 rounded-tl-xs shadow-lg text-xs flex items-center gap-3">
                         <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-orange-500"></i>
-                        <span class="text-slate-650 dark:text-slate-300">กำลังสกัดจิตวิทยา และสร้าง Mega-Prompt...</span>
+                        <span class="text-slate-600 dark:text-slate-300">กำลังสกัดจิตวิทยา และสร้าง Mega-Prompt...</span>
                     </div>
                 </div>
             `;
@@ -2056,7 +1918,7 @@
                             <!-- 1. Mega Prompt Box -->
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between">
-                                    <span class="font-bold text-slate-650 dark:text-slate-300 text-[11px]">1. โครงสร้าง Mega-Prompt เชิงจิตวิทยา:</span>
+                                    <span class="font-bold text-slate-600 dark:text-slate-300 text-[11px]">1. โครงสร้าง Mega-Prompt เชิงจิตวิทยา:</span>
                                     <button onclick="copyCompiledPromptText(this)" class="text-[10px] text-orange-500 hover:underline font-bold flex items-center gap-1">
                                         <i data-lucide="copy" class="w-3 h-3"></i>
                                         <span>Copy Prompt</span>
@@ -2067,16 +1929,16 @@
 
                             <!-- 2. Draft Options A/B -->
                             <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-700/40">
-                                <span class="font-bold text-slate-650 dark:text-slate-300 text-[11px]">2. ร่างอีเมลสำเร็จรูปพร้อมส่ง (A/B Comparison):</span>
+                                <span class="font-bold text-slate-600 dark:text-slate-300 text-[11px]">2. ร่างอีเมลสำเร็จรูปพร้อมส่ง (A/B Comparison):</span>
                                 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <!-- Option A -->
-                                    <div class="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-750 p-3 rounded-xl space-y-2 flex flex-col justify-between">
+                                    <div class="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 p-3 rounded-xl space-y-2 flex flex-col justify-between">
                                         <div>
                                             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700/30 pb-1.5 mb-1.5">
                                                 <span class="font-bold text-emerald-600 dark:text-emerald-400 text-[10px]">Option A: Soft & Win-Win</span>
                                                 <div class="flex gap-1.5">
-                                                    <button onclick="copyOptionText(this)" class="p-1 text-slate-450 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white" title="คัดลอก"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
+                                                    <button onclick="copyOptionText(this)" class="p-1 text-slate-400 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white" title="คัดลอก"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
                                                     <button onclick="openMailClient('A')" class="p-1 text-emerald-600 dark:text-emerald-400 hover:text-emerald-500" title="ส่งอีเมล"><i data-lucide="mail" class="w-3.5 h-3.5"></i></button>
                                                 </div>
                                             </div>
@@ -2085,12 +1947,12 @@
                                     </div>
 
                                     <!-- Option B -->
-                                    <div class="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-750 p-3 rounded-xl space-y-2 flex flex-col justify-between">
+                                    <div class="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 p-3 rounded-xl space-y-2 flex flex-col justify-between">
                                         <div>
                                             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700/30 pb-1.5 mb-1.5">
                                                 <span class="font-bold text-indigo-650 dark:text-indigo-400 text-[10px]">Option B: Direct & Assertive</span>
                                                 <div class="flex gap-1.5">
-                                                    <button onclick="copyOptionText(this)" class="p-1 text-slate-450 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white" title="คัดลอก"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
+                                                    <button onclick="copyOptionText(this)" class="p-1 text-slate-400 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white" title="คัดลอก"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
                                                     <button onclick="openMailClient('B')" class="p-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-500" title="ส่งอีเมล"><i data-lucide="mail" class="w-3.5 h-3.5"></i></button>
                                                 </div>
                                             </div>
@@ -2157,7 +2019,7 @@
             const praise = document.getElementById('fb-tag-praise');
             
             [bug, idea, praise].forEach(b => {
-                if (b) b.className = "px-2 py-0.5 rounded-md bg-white dark:bg-slate-750 text-slate-650 dark:text-slate-300 border border-slate-200 dark:border-slate-650 hover:border-indigo-400 transition-colors font-medium";
+                if (b) b.className = "px-2 py-0.5 rounded-md bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 hover:border-indigo-400 transition-colors font-medium";
             });
 
             if (cat.includes('ปัญหา') && bug) {
@@ -2260,6 +2122,187 @@
         function escapeJs(str) {
             return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n');
         }
+
+        // --- NEW INTERACTIVE ONBOARDING TOUR LOGIC ---
+        let currentTourStep = 0;
+        const tourSteps = [
+            {
+                element: '#sidebar-panel',
+                title: '🗂️ คลังแชทประวัติศาสตร์สุดปัง',
+                desc: 'นี่คือคลังเก็บประวัติการเจรจาของคุณน้า สามารถกดปุ่ม "+ สร้างบทสนทนาใหม่" เพื่อเปิดตึกแชทใหม่ฉ่ำๆ หรือเลือกดูแชทเก่าได้ตรงนี้เลย!',
+                pos: 'right'
+            },
+            {
+                element: '#email-history-list',
+                title: '⚙️ ตั้งค่าข้อมูลเจรจา',
+                desc: 'ในแต่ละแชทจะมีปุ่มฟันเฟืองสำหรับตั้งค่าชื่อ "ผู้รับ" และ "ผู้ส่ง" จริง เพื่อป้องกันการเจรจาผิดคู่สายให้แกงกันคุณน้า!',
+                pos: 'right'
+            },
+            {
+                element: '#chip-strat-customer',
+                title: '🎯 เลือกหมวดหมู่การเจรจา',
+                desc: 'เลือก Presets สไตล์การสื่อสารที่ตรงใจคุณน้า ทั้งปิดดีลเจรจาค้าขาย ลาหยุดงานเนียนๆ หรือประสานงานระดับตัวมัม!',
+                pos: 'top'
+            },
+            {
+                element: '#input-assertive',
+                title: '🎛️ จูนน้ำเสียง EQ Sliders',
+                desc: 'ปรับระดับจิตวิทยา Assertiveness (ความเด็ดขาด), Urgency (ความเร่งรีบ), และ Empathy (การถนอมน้ำใจ) ให้จึ้งใจคนรับ!',
+                pos: 'top'
+            },
+            {
+                element: '#chat-drop-zone',
+                title: '✍️ พิมพ์เรื่องราวหรือแนบไฟล์',
+                desc: 'พิมพ์โจทย์งานดิบในช่องนี้ หรือจิ้มปุ่ม `+` เพื่อแนบไฟล์ PDF, Word หรือลากวางรูปภาพแคปหน้าจอหน้าคอมประกอบฉ่ำๆ!',
+                pos: 'top'
+            },
+            {
+                element: '#btn-compile',
+                title: '⚡ เจนพรอพท์สุดฟาด!',
+                desc: 'สุดท้ายกดปุ่มนี้เพื่อให้ AI ประมวลผลออกมาเป็นโครงสร้าง Mega-Prompt และดราฟต์อีเมลทางเลือก A/B สุดโฮ่งพร้อมก๊อปปี้ไปส่งทันที!',
+                pos: 'top'
+            }
+        ];
+
+        window.startOnboardingTour = function() {
+            const sidebar = document.getElementById('sidebar-panel');
+            if (sidebar && sidebar.classList.contains('desktop-collapsed')) {
+                sidebar.classList.remove('desktop-collapsed');
+            }
+            if (sidebar && sidebar.classList.contains('mobile-open') === false && window.innerWidth < 768) {
+                sidebar.classList.add('mobile-open');
+            }
+
+            currentTourStep = 0;
+            showTourStep();
+            
+            if (typeof SabaAnalytics !== 'undefined') {
+                SabaAnalytics.trackEvent("tour_started", {});
+            }
+        };
+
+        window.closeOnboardingTour = function() {
+            endTour();
+        };
+
+        function endTour() {
+            tourSteps.forEach(step => {
+                const el = document.querySelector(step.element);
+                if (el) {
+                    el.classList.remove('ring-4', 'ring-orange-500', 'z-[60]', 'relative', 'bg-white', 'dark:bg-slate-800');
+                }
+            });
+            document.getElementById('tour-overlay').classList.add('hidden');
+            document.getElementById('tour-popover-card').classList.add('hidden');
+            localStorage.setItem('saba_tour_completed', 'true');
+            if (typeof SabaAnalytics !== 'undefined') {
+                SabaAnalytics.trackEvent("tour_closed", { completed: currentTourStep === tourSteps.length - 1 });
+            }
+        }
+
+        function showTourStep() {
+            document.getElementById('tour-overlay').classList.remove('hidden');
+            const popover = document.getElementById('tour-popover-card');
+            popover.classList.remove('hidden');
+
+            tourSteps.forEach((step, idx) => {
+                const el = document.querySelector(step.element);
+                if (el) {
+                    el.classList.remove('ring-4', 'ring-orange-500', 'z-[60]', 'relative', 'bg-white', 'dark:bg-slate-800');
+                }
+            });
+
+            const step = tourSteps[currentTourStep];
+            const el = document.querySelector(step.element);
+
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('ring-4', 'ring-orange-500', 'z-[60]', 'relative', 'bg-white', 'dark:bg-slate-800');
+                
+                document.getElementById('tour-step-badge').innerText = `Step ${currentTourStep + 1} of ${tourSteps.length}`;
+                document.getElementById('tour-step-title').innerText = step.title;
+                document.getElementById('tour-step-desc').innerText = step.desc;
+
+                const prevBtn = document.getElementById('tour-prev-btn');
+                const nextBtn = document.getElementById('tour-next-btn');
+
+                if (currentTourStep === 0) {
+                    prevBtn.classList.add('invisible');
+                } else {
+                    prevBtn.classList.remove('invisible');
+                }
+
+                if (currentTourStep === tourSteps.length - 1) {
+                    nextBtn.innerText = 'เสร็จสิ้น';
+                } else {
+                    nextBtn.innerText = 'ถัดไป';
+                }
+
+                setTimeout(() => {
+                    positionPopover(el, step.pos);
+                }, 150);
+            }
+        }
+
+        function positionPopover(target, pos) {
+            const popover = document.getElementById('tour-popover-card');
+            const rect = target.getBoundingClientRect();
+            
+            let top = 0;
+            let left = 0;
+            const gap = 12;
+
+            if (window.innerWidth < 768) {
+                popover.style.top = 'auto';
+                popover.style.bottom = '20px';
+                popover.style.left = '50%';
+                popover.style.transform = 'translateX(-50%)';
+                popover.style.width = 'calc(100% - 32px)';
+                popover.style.maxWidth = '360px';
+                return;
+            }
+
+            popover.style.bottom = 'auto';
+            popover.style.transform = 'none';
+            popover.style.width = '320px';
+            popover.style.maxWidth = 'none';
+
+            if (pos === 'right') {
+                top = window.scrollY + rect.top + (rect.height / 2) - (popover.offsetHeight / 2);
+                left = window.scrollX + rect.right + gap;
+            } else if (pos === 'top') {
+                top = window.scrollY + rect.top - popover.offsetHeight - gap;
+                left = window.scrollX + rect.left + (rect.width / 2) - (popover.offsetWidth / 2);
+            } else if (pos === 'bottom') {
+                top = window.scrollY + rect.bottom + gap;
+                left = window.scrollX + rect.left + (rect.width / 2) - (popover.offsetWidth / 2);
+            }
+
+            if (left < 10) left = 10;
+            if (left + popover.offsetWidth > window.innerWidth - 10) {
+                left = window.innerWidth - popover.offsetWidth - 10;
+            }
+            if (top < 10) top = 10;
+
+            popover.style.top = `${top}px`;
+            popover.style.left = `${left}px`;
+        }
+
+        window.nextTourStep = function() {
+            if (currentTourStep < tourSteps.length - 1) {
+                currentTourStep++;
+                showTourStep();
+            } else {
+                endTour();
+            }
+        };
+
+        window.prevTourStep = function() {
+            if (currentTourStep > 0) {
+                currentTourStep--;
+                showTourStep();
+            }
+        };
     </script>
 </body>
 </html>
