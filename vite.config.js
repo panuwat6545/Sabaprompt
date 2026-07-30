@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           main: 'index.html',
+          mockup: 'mockup.html',
           privacy: 'privacy.html',
           terms: 'terms.html',
           blog: 'blog/index.html',
