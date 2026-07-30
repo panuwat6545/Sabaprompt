@@ -465,11 +465,16 @@
                         </a>
                         <button onclick="startOnboardingTour()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-orange-500/10 hover:bg-orange-500/20 text-orange-500 border border-orange-500/30 shadow-sm transition-all flex items-center gap-1">
                             <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
-                            <span>ทัวร์ระบบเจ๋งๆ (Quick Tour)</span>
+                            <span>สอนวิธีใช้งาน</span>
                         </button>
                     </nav>
 
                     <div class="h-6 w-[1px] bg-slate-200 dark:bg-slate-700/60 mx-1 hidden lg:block"></div>
+
+                    <!-- Mobile Help Button -->
+                    <button onclick="startOnboardingTour()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center justify-center" title="สอนวิธีใช้งาน">
+                        <i data-lucide="help-circle" class="w-4 h-4 text-orange-500"></i>
+                    </button>
 
                     <!-- Theme Toggle Switcher Button -->
                     <button onclick="toggleTheme()" class="p-1.5 rounded-lg text-slate-400 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center justify-center" title="สลับโหมดสว่าง/มืด (Light/Dark Mode)">
@@ -1647,6 +1652,13 @@
                 } else {
                     document.getElementById('inputWho').value = '';
                     document.getElementById('inputSender').value = '';
+                }
+
+                // Auto trigger onboarding tour for first-time users on page load
+                if (!localStorage.getItem('saba_tour_completed')) {
+                    setTimeout(() => {
+                        startOnboardingTour();
+                    }, 1000);
                 }
 
             }, 500);
