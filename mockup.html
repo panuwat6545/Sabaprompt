@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <title>SABA PROMPT (Mockup Redesign Preview)</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- PDF.js and Mammoth.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+    <!-- Google Drive Picker API Client Libraries -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#0F172A',       // Slate 900
+                            sidebar: '#1E293B',  // Slate 800
+                            card: '#1E293B',
+                            surface: '#334155',  // Slate 700
+                            border: '#334155',
+                            orange: '#F97316',   // Vibrant Amber/Orange
+                            orangeGlow: 'rgba(249, 115, 22, 0.15)',
+                            muted: '#94A3B8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'IBM Plex Sans Thai', 'sans-serif'],
+                        heading: ['Outfit', 'IBM Plex Sans Thai', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Scrollbar for Chat Container */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F97316;
+        }
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* Smooth Sidebar collapse transitions */
+        .sidebar-transition {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+        }
+        
+        /* Desktop Collapsed State */
+        @media (min-width: 768px) {
+            #sidebar-panel.desktop-collapsed {
+                margin-left: -20rem !important;
+                transform: translateX(-100%) !important;
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        /* Mobile Open State */
+        @media (max-width: 767px) {
+            #sidebar-panel.mobile-open {
+                transform: translateX(0) !important;
+            }
+        }
+
+        /* Popover animations */
+        .popover-anim {
+            transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+        }
+
+        /* Placeholder for ContentEditable */
+        [contenteditable=true]:empty:before {
+            content: attr(data-placeholder);
+            color: #64748B; /* Slate 500 */
+            pointer-events: none;
+            display: block;
+        }
+
+        /* Auto-adapt old views to new dark theme */
+        #view-seo, #view-framework, #view-architect {
+            background-color: #0F172A;
+            color: #F1F5F9;
+        }
+        #view-seo h1, #view-framework h2, #view-architect h2 {
+            color: #FFFFFF !important;
+        }
+        #view-seo p, #view-framework p, #view-architect p {
+            color: #94A3B8 !important;
+        }
+        #view-seo .bg-white, #view-framework .bg-white, #view-architect .bg-white {
+            background-color: #1E293B !important;
+            border-color: #334155 !important;
+            color: #F1F5F9 !important;
+        }
+        #view-seo h2, #view-seo h3, #view-framework h3, #view-architect h3 {
+            color: #E2E8F0 !important;
+        }
+        #view-seo .text-slate-600, #view-framework .text-slate-600 {
+            color: #94A3B8 !important;
+        }
+        #view-seo .text-gray-300 {
+            color: #E2E8F0 !important;
+        }
+    </style>
+
+    <!-- Import main.js as ES module -->
+    <script type="module" src="/src/main.js"></script>
+</head>
+<body class="bg-brand-bg text-slate-100 font-sans min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-brand-orange selection:text-black">
+
+    <!-- Notification Toast Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner" class="fixed bottom-5 left-5 right-5 md:left-auto md:max-w-md bg-slate-900 border border-slate-700 p-4 rounded-xl shadow-2xl z-50 hidden space-y-3">
+        <p class="text-xs text-slate-300 leading-relaxed">
+            🍪 SABA PROMPT ใช้คุกกี้ในการเก็บข้อมูลเซสชันจำลอง (Mock Session) และการตั้งค่าบนเครื่องของคุณ เพื่อความเป็นส่วนตัวสูงสุด (Layer 1 Privacy Framework)
+        </p>
+        <div class="flex justify-end gap-2 text-[11px] font-bold">
+            <button onclick="acceptAllCookies()" class="bg-brand-orange hover:bg-orange-600 text-black px-3.5 py-1.5 rounded-lg transition-all">ยอมรับทั้งหมด</button>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- LAYER 1: AUTHENTICATION / หน้าจอเข้าสู่ระบบ -->
+    <!-- ========================================================= -->
+    <div id="auth-screen" class="min-h-screen flex flex-col justify-center items-center p-4 relative z-10">
+        <div class="w-full max-w-md bg-brand-sidebar border border-brand-border rounded-2xl p-8 shadow-2xl relative">
+            
+            <!-- Language Switcher on Auth Screen -->
+            <div class="absolute top-4 right-4 flex items-center bg-brand-bg border border-brand-border rounded-xl p-1 text-[10px] font-extrabold tracking-wider shadow-md">
+                <button onclick="setLanguage('th')" id="auth-lang-btn-th" class="px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-brand-orange bg-brand-orange/15 border border-brand-orange/30 shadow-sm">
+                    <span class="w-1 h-1 rounded-full bg-brand-orange animate-pulse"></span>
+                    <span>TH</span>
+                </button>
+                <button onclick="setLanguage('en')" id="auth-lang-btn-en" class="px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 focus:outline-none text-zinc-400 hover:text-white bg-transparent border border-transparent">
+                    <span>EN</span>
+                </button>
+            </div>
+
+            <!-- ส่วนหัวโลโก้แบรนด์ SABA -->
+            <div class="flex flex-col items-center text-center mb-8">
+                <img src="/logo-web-rev01.png" alt="SABA PROMPT Logo" class="w-16 h-16 object-contain mb-4" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\' viewBox=\'0 0 64 64\'><circle cx=\'32\' cy=\'32\' r=\'32\' fill=\'%23F59E0B\'/><text x=\'50%\' y=\'55%\' font-family=\'sans-serif\' font-size=\'14\' fill=\'black\' font-weight=\'bold\' text-anchor=\'middle\'>SABA</text></svg>';"/>
+                <h1 class="text-3xl font-heading font-extrabold tracking-tight text-white" data-i18n="auth_title">
+                    SABA PROMPT
+                </h1>
+                <p class="text-sm text-brand-muted mt-1" data-i18n="auth_sub">ตัวช่วยเขียนอีเมล สื่อสารระดับยุทธศาสตร์ด้วย AI</p>
+            </div>
+
+            <!-- เมนูล็อกอินแบ่งประเภท -->
+            <div class="space-y-4">
+                <!-- 1. ล็อกอินด้วย Google Account -->
+                <button onclick="handleGoogleSignInClick()" class="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 text-sm font-semibold rounded-xl py-3 px-4 transition-all flex items-center justify-center gap-3 group" aria-label="Connect with Google OAuth Account">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.85c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <span>Sign in with Google</span>
+                </button>
+
+                <!-- คั่นด้วย OR -->
+                <div class="relative my-4 flex items-center justify-center" aria-hidden="true">
+                    <div class="border-t border-brand-border w-full"></div>
+                    <span class="absolute bg-brand-sidebar px-3 text-[10px] text-brand-muted uppercase font-bold tracking-widest" data-i18n="or_text">หรือ</span>
+                </div>
+
+                <!-- 2. เข้าใช้งานทันทีแบบ Guest Mode -->
+                <button onclick="handleGuestLogin()" class="w-full bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-brand-border text-gray-200 text-sm font-semibold rounded-xl py-3 px-4 transition-all flex items-center justify-center gap-2 group" aria-label="Bypass login using Guest Session">
+                    <i data-lucide="user" class="w-4 h-4 text-brand-orange group-hover:scale-110 transition-transform"></i>
+                    <span data-i18n="btn_guest">เข้าใช้งานแบบ Guest Mode</span>
+                </button>
+            </div>
+
+            <p class="text-[11px] text-brand-muted text-center mt-8 leading-relaxed" data-i18n="auth_disclaimer">
+                การเข้าใช้ระบบจะทำการเก็บเซสชันจำลองในอุปกรณ์เพื่อความเป็นส่วนตัวสูงสุด (Layer 1 Privacy Framework)
+            </p>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- INTERFACE หลักของเว็บแอปพลิเคชัน (DASHBOARD) -->
+    <!-- ========================================================= -->
+    <div id="main-workspace" class="hidden h-screen w-screen overflow-hidden relative flex">
+
+        <!-- ========================================================= -->
+        <!-- SIDEBAR PANEL (Collapsible, Sleek & Streamlined) -->
+        <!-- ========================================================= -->
+        <aside id="sidebar-panel" class="w-80 bg-brand-sidebar border-r border-brand-border/60 flex flex-col flex-shrink-0 sidebar-transition z-30 fixed md:relative inset-y-0 left-0 shadow-2xl md:shadow-none -translate-x-full md:translate-x-0">
+            
+            <!-- Sidebar Header / New Session Button -->
+            <div class="p-3.5 border-b border-brand-border/50 flex flex-col gap-3 flex-shrink-0 bg-brand-sidebar/95">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <img src="/logo-web-rev01.png" alt="SABA Logo" class="w-8 h-8 object-contain">
+                        <div>
+                            <h1 class="text-sm font-heading font-extrabold tracking-tight text-white leading-none">SABA PROMPT</h1>
+                            <span class="text-[9px] font-mono text-brand-orange uppercase tracking-widest">Strategic AI Copilot</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Sidebar Collapse Toggle Button -->
+                    <button onclick="toggleSidebarCollapse()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-brand-surface transition-colors" title="พับปิดเมนูซ้าย">
+                        <i data-lucide="panel-left-close" class="w-4 h-4 text-slate-300"></i>
+                    </button>
+                </div>
+
+                <!-- New Email Session Action Button -->
+                <button onclick="createNewEmailSession()" class="w-full bg-brand-orange/15 hover:bg-brand-orange/25 border border-brand-orange/30 text-brand-orange text-xs font-bold py-2.5 px-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm group">
+                    <i data-lucide="plus" class="w-4 h-4 group-hover:rotate-90 transition-transform"></i>
+                    <span>สร้างบทสนทนาอีเมลใหม่</span>
+                </button>
+            </div>
+
+            <!-- Scrollable Sidebar Body: EMAIL CHAT HISTORY & SUBSETS & TRIPBOX & FEEDBACK -->
+            <div class="flex-grow overflow-y-auto p-3.5 space-y-4">
+                
+                <div class="flex items-center justify-between text-xs font-bold text-slate-300 uppercase tracking-wider">
+                    <span class="flex items-center gap-1.5">
+                        <i data-lucide="history" class="w-3.5 h-3.5 text-brand-orange"></i>
+                        <span>ประวัติการคุยอีเมลรายบุคคล</span>
+                    </span>
+                    <span id="history-count" class="text-[10px] bg-brand-surface text-brand-muted px-1.5 py-0.2 rounded-full font-mono">3</span>
+                </div>
+
+                <!-- Search Filter in History -->
+                <div class="relative">
+                    <input type="text" id="history-search" oninput="filterHistoryList()" placeholder="ค้นหาตามบุคคล / เรื่อง..." class="w-full bg-brand-bg/80 border border-brand-border/60 rounded-xl pl-7 pr-2.5 py-1.5 text-[11px] text-slate-200 outline-none focus:border-brand-orange transition-colors">
+                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2"></i>
+                </div>
+
+                <!-- History Item List with Subset Details (Parties & Context) -->
+                <div id="email-history-list" class="space-y-2">
+                    <!-- Populated dynamically by script -->
+                </div>
+
+                <!-- TRIPBOX (With PromptPay QR Code Display) -->
+                <div class="mt-4 p-3 rounded-2xl bg-gradient-to-br from-brand-orange/15 via-brand-sidebar to-brand-bg border border-brand-orange/30 space-y-2.5 relative overflow-hidden group shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-extrabold text-brand-orange uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-brand-orange"></i>
+                            <span>Trip Box & AI Tips</span>
+                        </span>
+                        <span class="text-[9px] bg-brand-orange/20 text-brand-orange px-1.5 py-0.2 rounded font-mono font-bold">PRO TIP</span>
+                    </div>
+
+                    <p class="text-[10px] text-slate-300 leading-relaxed">
+                        💡 <strong>คำแนะนำ:</strong> เปิด <strong>Privacy Shield</strong> ก่อนแปะข้อความจริงเสมอ และปรับ <strong>Assertiveness > 70%</strong> เมื่อต้องการตามงานด่วน
+                    </p>
+
+                    <!-- PromptPay QR Code Display Area -->
+                    <div class="pt-2 border-t border-brand-orange/20 space-y-2">
+                        <button onclick="toggleTripboxQR()" class="w-full bg-brand-bg/80 hover:bg-brand-surface border border-brand-orange/40 text-brand-orange font-bold text-[10px] py-1.5 px-2.5 rounded-xl transition-all flex items-center justify-between group">
+                            <span class="flex items-center gap-1.5">
+                                <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
+                                <span>สแกน PromptPay QR สนับสนุน</span>
+                            </span>
+                            <i data-lucide="chevron-down" id="qr-chevron-icon" class="w-3 h-3 transition-transform"></i>
+                        </button>
+
+                        <!-- Collapsible QR Code Image Card -->
+                        <div id="tripbox-qr-card" class="bg-slate-950/90 border border-brand-orange/30 p-2.5 rounded-xl text-center space-y-1.5 hidden">
+                            <div class="text-[9px] font-mono text-slate-400">PromptPay QR Code (พร้อมตั้งยอด)</div>
+                            <div class="flex justify-center my-1">
+                                <img src="/promptpay-qr.webp" id="promptpay-qr-img-mock" alt="PromptPay QR Code" class="w-28 h-28 border-2 border-brand-orange rounded-lg shadow-md p-1 bg-white">
+                            </div>
+                            <div class="text-[9px] text-brand-orange font-bold">สนับสนุน SABA PROMPT</div>
+                        </div>
+                    </div>
+
+                    <div class="pt-1.5 border-t border-brand-orange/20 flex justify-between items-center text-[9px] text-slate-400">
+                        <span>ยุทธศาสตร์การสื่อสาร</span>
+                        <a href="/blog/index.html" class="text-brand-orange hover:underline font-bold flex items-center gap-0.5 transition-all">
+                            อ่านบทความ SEO <i data-lucide="chevron-right" class="w-2.5 h-2.5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- DISCORD FEEDBACK BOX -->
+                <div class="p-3 rounded-2xl bg-brand-bg/80 border border-brand-border space-y-2.5 relative shadow-md">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-extrabold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="message-square-plus" class="w-3.5 h-3.5 text-indigo-400"></i>
+                            <span>ส่งข้อเสนอแนะ (Discord)</span>
+                        </span>
+                        <span class="text-[8px] bg-indigo-500/20 text-indigo-300 px-1.5 py-0.2 rounded font-mono">LIVE FEEDBACK</span>
+                    </div>
+
+                    <!-- Category Chips for Feedback -->
+                    <div class="flex items-center gap-1 overflow-x-auto text-[9px]">
+                        <button onclick="setFeedbackCategory('🐞 บั๊ก/ปัญหา')" id="fb-tag-bug" class="px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">🐞 ปัญหา</button>
+                        <button onclick="setFeedbackCategory('💡 ไอเดียใหม่')" id="fb-tag-idea" class="px-2 py-0.5 rounded-md bg-brand-surface text-slate-300 border border-brand-border hover:border-indigo-400 transition-colors font-medium">💡 ไอเดีย</button>
+                        <button onclick="setFeedbackCategory('❤️ คำชม')" id="fb-tag-praise" class="px-2 py-0.5 rounded-md bg-brand-surface text-slate-300 border border-brand-border hover:border-indigo-400 transition-colors font-medium">❤️ คำชม</button>
+                    </div>
+
+                    <!-- Feedback Textarea -->
+                    <textarea id="sidebar-feedback-input" rows="2" placeholder="พิมพ์ข้อเสนอแนะ เจอปัญหา หรือข้อเสนอแนะฟีเจอร์..." class="w-full bg-brand-sidebar border border-brand-border/80 focus:border-indigo-400 rounded-xl p-2 text-[11px] text-white placeholder-slate-500 outline-none resize-none leading-relaxed"></textarea>
+
+                    <!-- Send Button -->
+                    <button onclick="sendDiscordFeedback()" id="btn-send-feedback" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-[11px] py-1.5 px-3 rounded-xl transition-all shadow-md shadow-indigo-600/20 flex items-center justify-center gap-1.5 active:scale-95">
+                        <i data-lucide="send" class="w-3 h-3"></i>
+                        <span>ส่งข้อเสนอแนะเข้า Discord</span>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Sidebar Footer User Profile & Settings -->
+            <div class="p-3 border-t border-brand-border/50 bg-brand-bg/60 flex items-center justify-between text-xs flex-shrink-0">
+                <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-mono text-xs font-bold">
+                        G
+                    </div>
+                    <div>
+                        <div class="font-bold text-white text-[11px]">Guest Workspace</div>
+                        <div class="text-[9px] text-emerald-400 font-mono" id="session-user-badge">Guest Mode</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button onclick="openApiSettingsModal()" class="p-1.5 rounded-lg text-slate-400 hover:text-brand-orange hover:bg-brand-surface transition-all" title="ตั้งค่า API Key">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="openPricingModal()" class="p-1.5 rounded-lg text-slate-400 hover:text-brand-orange hover:bg-brand-surface transition-all" title="Upgrade Pro">
+                        <i data-lucide="zap" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- Sidebar Mobile Overlay -->
+        <div id="sidebar-overlay" onclick="toggleSidebarCollapse()" class="fixed inset-0 bg-black/60 z-20 hidden backdrop-blur-sm"></div>
+
+        <!-- ========================================================= -->
+        <!-- MAIN CHAT CONVERSATION CONTAINER -->
+        <!-- ========================================================= -->
+        <main class="flex-grow flex flex-col h-full bg-brand-bg relative overflow-hidden">
+            
+            <!-- Top Navbar -->
+            <header class="h-14 border-b border-brand-border/60 bg-brand-sidebar/80 backdrop-blur-md px-4 flex items-center justify-between z-10 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebarCollapse()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-brand-surface transition-colors" title="สลับแถบเมนูซ้าย">
+                        <i data-lucide="panel-left" class="w-5 h-5 text-slate-300"></i>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span id="active-session-title-header" class="text-xs font-bold text-white">คุณสมศักดิ์ — ติดตามใบเสนอราคา Q3</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <!-- Tab Switcher Navigation -->
+                    <nav class="hidden lg:flex space-x-1" role="tablist">
+                        <button onclick="navigateTab('workspace')" id="nav-workspace" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-orange text-black border border-brand-orange shadow-md transition-all" role="tab" aria-selected="true" data-i18n="nav_workspace">
+                            Workspace
+                        </button>
+                        <button onclick="navigateTab('seo')" id="nav-seo" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-brand-surface/50 transition-all" role="tab" aria-selected="false" data-i18n="nav_seo">
+                            วิธีเขียนอีเมล (SEO Guide)
+                        </button>
+                        <button onclick="navigateTab('framework')" id="nav-framework" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-brand-surface/50 transition-all" role="tab" aria-selected="false" data-i18n="nav_framework">
+                            Our Psychology & Framework
+                        </button>
+                        <button onclick="navigateTab('architect')" id="nav-architect" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-brand-surface/50 transition-all" role="tab" aria-selected="false" data-i18n="nav_architect">
+                            About the Architect
+                        </button>
+                        <a href="/blog/index.html" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-brand-surface/50 transition-all flex items-center gap-1">
+                            บทความแนะนำ
+                        </a>
+                    </nav>
+
+                    <div class="h-6 w-[1px] bg-brand-border/60 mx-1 hidden lg:block"></div>
+
+                    <!-- Pricing Pro Button -->
+                    <button onclick="openPricingModal()" class="text-xs bg-brand-orange/15 hover:bg-brand-orange/25 text-brand-orange font-extrabold px-3 py-1.5 rounded-lg border border-brand-orange/40 transition-all flex items-center gap-1">
+                        <i data-lucide="zap" class="w-3.5 h-3.5 fill-brand-orange"></i>
+                        <span>Upgrade Pro</span>
+                    </button>
+
+                    <!-- Language Switcher -->
+                    <button onclick="toggleLanguage()" id="lang-btn" class="text-xs bg-brand-surface text-brand-orange font-extrabold px-2.5 py-1.5 rounded-lg border border-brand-border">
+                        TH
+                    </button>
+
+                    <!-- Sign Out -->
+                    <button onclick="handleSignOut()" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-brand-surface transition-all" title="Sign Out">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ========================================================= -->
+            <!-- TAB 1: WORKSPACE (Chat-centric Message Stream + Input) -->
+            <!-- ========================================================= -->
+            <div id="view-workspace" class="flex-grow flex flex-col h-full relative overflow-hidden">
+                
+                <!-- Scrollable Messages Stream Area -->
+                <div id="chat-messages-container" class="flex-grow overflow-y-auto p-4 md:p-6 space-y-6">
+                    
+                    <!-- Welcome Banner / Initial Prompt Assistant Message -->
+                    <div class="flex gap-3 max-w-3xl mx-auto">
+                        <div class="w-8 h-8 rounded-xl bg-brand-orange/20 border border-brand-orange/40 flex flex-shrink-0 items-center justify-center text-sm shadow-md shadow-brand-orange/10">
+                            🐈
+                        </div>
+                        <div class="space-y-3 flex-grow">
+                            <div class="bg-brand-sidebar border border-brand-border/60 rounded-2xl p-4 rounded-tl-xs shadow-lg text-xs leading-relaxed space-y-3">
+                                <div class="flex items-center justify-between border-b border-brand-border/40 pb-2">
+                                    <span class="font-bold text-brand-orange flex items-center gap-1.5">
+                                        <i data-lucide="bot" class="w-4 h-4"></i>
+                                        <span>SABA PROMPT Copilot</span>
+                                    </span>
+                                    <span class="text-[10px] text-slate-500 font-mono">Conversational v3.0</span>
+                                </div>
+                                <p class="text-slate-200">
+                                    สวัสดีครับ! ผมคือ <strong>SABA PROMPT AI Copilot</strong> พร้อมช่วยวิเคราะห์และร่างอีเมลเชิงจิตวิทยาสุดคมสำหรับคนออฟฟิศครับ
+                                </p>
+                                <p class="text-slate-300">
+                                    พิมพ์โจทย์งานด้านล่าง, กดปุ่ม <strong>`+`</strong> เพื่อแนบไฟล์ หรือเลือก <strong>ประเภท & ปรับ EQ Sliders</strong> ได้ทันทีที่แผงปุ่มด้านล่างครับ!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Conversation Messages Container -->
+                    <div id="dynamic-chat-stream" class="space-y-6 max-w-3xl mx-auto"></div>
+
+                </div>
+
+                <!-- INTEGRATED INPUT ZONE + PRESETS & EQ BELOW INPUT -->
+                <div class="p-3 md:p-4 bg-brand-sidebar border-t border-brand-border/80 relative z-20 flex-shrink-0">
+                    <div class="max-w-3xl mx-auto space-y-3">
+
+                        <!-- Interactive Drop & Paste Input Container -->
+                        <div id="chat-drop-zone" class="bg-brand-bg border border-brand-border focus-within:border-brand-orange rounded-2xl p-2.5 transition-all relative shadow-2xl">
+                            
+                            <!-- Drag & Drop Overlay Indicator -->
+                            <div id="drag-overlay" class="absolute inset-0 bg-brand-orange/15 border-2 border-dashed border-brand-orange rounded-2xl z-30 flex items-center justify-center gap-2 text-brand-orange font-bold text-xs pointer-events-none hidden backdrop-blur-xs">
+                                <i data-lucide="upload-cloud" class="w-5 h-5 animate-bounce"></i>
+                                <span>วางไฟล์ที่นี่เพื่อแนบเอกสาร (Drop Files Here)</span>
+                            </div>
+
+                            <!-- Attached Files Preview Chips (Gemini/Claude Style) -->
+                            <div id="attached-previews-bar" class="flex flex-wrap gap-2 mb-2 hidden">
+                                <!-- Populated dynamically by JavaScript -->
+                            </div>
+
+                            <!-- File status display for SABA PROMPT modules -->
+                            <div id="file-status-container" class="hidden bg-slate-900 border border-brand-border/60 rounded-xl p-2 mb-2 flex items-center justify-between text-xs">
+                                <div class="flex items-center gap-2">
+                                    <div id="file-icon-wrapper" class="text-brand-orange"><i data-lucide="file-text" class="w-4 h-4"></i></div>
+                                    <div>
+                                        <div id="file-name-display" class="font-bold text-white truncate max-w-[150px]">file.pdf</div>
+                                        <div id="file-size-display" class="text-[10px] text-slate-400">1.2 MB</div>
+                                    </div>
+                                </div>
+                                <button onclick="clearUploadedFile()" class="text-slate-400 hover:text-rose-400 p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
+                            </div>
+
+                            <!-- Main Input Detail (ContentEditable styled as Chat Box) -->
+                            <div id="inputDetail" contenteditable="true" data-placeholder="พิมพ์โจทย์งานดิบ หรือลากวางไฟล์ / แปะ Paste รูปภาพสกรีนช็อตลงในนี้..." class="w-full bg-transparent text-xs text-white outline-none resize-none px-2 py-1 leading-relaxed min-h-[50px] max-h-36 overflow-y-auto"></div>
+                            
+                            <!-- Hidden Input for PC File Upload -->
+                            <input type="file" id="doc-file-input" class="hidden" multiple accept=".pdf,.docx,.xlsx,.csv,.txt,.png,.jpg,.jpeg,.gif,.webp">
+
+                            <!-- Input Action Bar with Consolidated Gemini/Claude Style "+" Button -->
+                            <div class="flex items-center justify-between border-t border-brand-border/40 pt-2 px-1 relative">
+                                
+                                <!-- Unified "+" Attachment Button & Popover Menu -->
+                                <div class="relative">
+                                    <button onclick="toggleAttachmentMenu()" id="btn-plus-attach" class="w-7 h-7 rounded-full bg-brand-surface hover:bg-slate-600 text-slate-300 hover:text-brand-orange flex items-center justify-center transition-all border border-brand-border/80 active:scale-95" title="แนบไฟล์ / เอกสาร (Attachment Options)">
+                                        <i data-lucide="plus" id="plus-icon" class="w-4 h-4 transition-transform"></i>
+                                    </button>
+
+                                    <!-- Popover Menu -->
+                                    <div id="attachment-popover" class="absolute left-0 bottom-9 bg-brand-sidebar border border-brand-border/80 rounded-2xl p-1.5 shadow-2xl space-y-1 w-52 z-40 hidden popover-anim">
+                                        <button onclick="triggerFileInput()" class="w-full text-left p-2 rounded-xl hover:bg-brand-surface text-slate-200 text-xs flex items-center gap-2.5 transition-colors group">
+                                            <div class="w-6 h-6 rounded-lg bg-brand-orange/20 border border-brand-orange/40 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-black transition-colors">
+                                                <i data-lucide="laptop" class="w-3.5 h-3.5"></i>
+                                            </div>
+                                            <div>
+                                                <div class="font-bold text-[11px]">ไฟล์ในคอมพิวเตอร์</div>
+                                                <div class="text-[9px] text-slate-400">PDF, DOCX, Images</div>
+                                            </div>
+                                        </button>
+
+                                        <button onclick="openGoogleDriveModal()" class="w-full text-left p-2 rounded-xl hover:bg-brand-surface text-slate-200 text-xs flex items-center gap-2.5 transition-colors group">
+                                            <div class="w-6 h-6 rounded-lg bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                                <i data-lucide="hard-drive" class="w-3.5 h-3.5"></i>
+                                            </div>
+                                            <div>
+                                                <div class="font-bold text-[11px]">Google Drive</div>
+                                                <div class="text-[9px] text-slate-400">ดึงไฟล์ตรงจากคลาวด์</div>
+                                            </div>
+                                        </button>
+
+                                        <div class="p-1.5 text-[9px] text-slate-500 border-t border-brand-border/40 text-center italic">
+                                            หรือลากวาง/กด Ctrl+V วางรูปได้เลย
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Privacy Shield Toggle & Character Counter -->
+                                <div class="flex items-center gap-4">
+                                    <div class="flex items-center gap-1.5">
+                                        <input type="checkbox" id="privacy-shield-active" checked class="w-3.5 h-3.5 accent-brand-orange cursor-pointer">
+                                        <label for="privacy-shield-active" class="text-[10px] text-slate-400 font-bold select-none cursor-pointer">Privacy Shield</label>
+                                    </div>
+                                    <span id="charCounter" class="text-[10px] text-slate-500 font-mono">0 อักษร</span>
+                                </div>
+
+                                <!-- Generate CTA Button -->
+                                <button onclick="compileMegaPrompt()" id="btn-compile" class="bg-brand-orange hover:bg-orange-600 text-black font-extrabold text-xs px-4 py-2 rounded-xl transition-all shadow-lg shadow-brand-orange/20 flex items-center gap-1.5 active:scale-95">
+                                    <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
+                                    <span>⚡ GENERATE PROMPT</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PRESETS & INTERACTIVE EQ SLIDERS -->
+                        <div class="bg-brand-bg/60 border border-brand-border/50 rounded-2xl p-3 space-y-3">
+                            
+                            <!-- Strategy Presets -->
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                                    <i data-lucide="sparkles" class="w-3 h-3 text-brand-orange"></i>
+                                    <span>1. ประเภทการสื่อสาร (Presets):</span>
+                                </div>
+
+                                <div class="flex items-center gap-1.5 flex-wrap">
+                                    <button onclick="selectStrategy('customer')" id="chip-strat-customer" class="px-2.5 py-1 rounded-xl bg-brand-orange/20 border border-brand-orange/60 text-brand-orange font-bold text-[11px] flex items-center gap-1 transition-all shadow-sm">
+                                        <span>🎯 The Closer</span>
+                                    </button>
+                                    <button onclick="selectStrategy('leave')" id="chip-strat-leave" class="px-2.5 py-1 rounded-xl bg-brand-surface border border-brand-border text-slate-300 font-bold text-[11px] flex items-center gap-1 transition-all hover:border-brand-orange/40">
+                                        <span>🌴 Tactical Vacation</span>
+                                    </button>
+                                    <button onclick="selectStrategy('cowork')" id="chip-strat-cowork" class="px-2.5 py-1 rounded-xl bg-brand-surface border border-brand-border text-slate-300 font-bold text-[11px] flex items-center gap-1 transition-all hover:border-brand-orange/40">
+                                        <span>🤝 The Diplomat</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Tone EQ Sliders -->
+                            <div class="pt-2 border-t border-brand-border/40 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                                        <i data-lucide="sliders" class="w-3 h-3 text-brand-orange"></i>
+                                        <span>2. ระดับอารมณ์จิตวิทยา (EQ Tone Sliders):</span>
+                                    </span>
+                                    <span class="text-[9px] text-brand-orange font-mono" id="eq-summary-badge">Assertive: 50% | Urgency: 30% | Empathy: 80%</span>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                    <!-- Assertiveness Slider -->
+                                    <div class="bg-brand-sidebar/80 p-2 rounded-xl border border-brand-border/40">
+                                        <div class="flex justify-between items-center text-[10px] font-bold mb-0.5">
+                                            <span class="text-slate-300">Assertiveness (ความเด็ดขาด)</span>
+                                            <span id="val-assertive" class="text-brand-orange font-mono">50%</span>
+                                        </div>
+                                        <input type="range" id="input-assertive" min="0" max="100" value="50" oninput="updateSliderVal('assertive', this.value)" class="w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-orange">
+                                        <div class="flex justify-between text-[8px] text-slate-500">
+                                            <span>นอบน้อม</span>
+                                            <span>เด็ดขาด</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Urgency Slider -->
+                                    <div class="bg-brand-sidebar/80 p-2 rounded-xl border border-brand-border/40">
+                                        <div class="flex justify-between items-center text-[10px] font-bold mb-0.5">
+                                            <span class="text-slate-300">Urgency (ความเร่งด่วน)</span>
+                                            <span id="val-urgency" class="text-brand-orange font-mono">30%</span>
+                                        </div>
+                                        <input type="range" id="input-urgency" min="0" max="100" value="30" oninput="updateSliderVal('urgency', this.value)" class="w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-orange">
+                                        <div class="flex justify-between text-[8px] text-slate-500">
+                                            <span>ปกติ</span>
+                                            <span>เร่งด่วน</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Empathy Slider -->
+                                    <div class="bg-brand-sidebar/80 p-2 rounded-xl border border-brand-border/40">
+                                        <div class="flex justify-between items-center text-[10px] font-bold mb-0.5">
+                                            <span class="text-slate-300">Empathy (เห็นอกเห็นใจ)</span>
+                                            <span id="val-empathy" class="text-brand-orange font-mono">80%</span>
+                                        </div>
+                                        <input type="range" id="input-empathy" min="0" max="100" value="80" oninput="updateSliderVal('empathy', this.value)" class="w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-orange">
+                                        <div class="flex justify-between text-[8px] text-slate-500">
+                                            <span>เน้นงาน</span>
+                                            <span>เน้นความสัมพันธ์</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- TAB 2: SEO GUIDE VIEW -->
+            <!-- ========================================================= -->
+            <div id="view-seo" class="hidden flex-grow overflow-y-auto p-4 md:p-8">
+                <!-- Thai Version -->
+                <article id="view-seo-th" class="space-y-10 max-w-4xl mx-auto">
+                    <div class="text-center space-y-4 max-w-3xl mx-auto">
+                        <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3.5 py-1.5 rounded-full border border-brand-orange/20 inline-block">
+                            🔍 สารานุกรมและบทความแนะนำการเจรจาเชิงรุก
+                        </span>
+                        <h1 class="text-3xl md:text-5xl font-heading font-black text-white leading-tight">
+                            วิธีเขียนอีเมล (Email) และวิธีเขียนเมลล์อย่างมืออาชีพด้วยตัวช่วยเขียนเมล AI
+                        </h1>
+                        <p class="text-sm md:text-base text-slate-400">
+                            รวมทุกวิธีเขียนเมลลาหยุด คุยงานลูกค้า ติดตามปิดการขาย และสลายกำแพงความอึดอัดในที่ทำงานโดยใช้หลักจิตวิทยาประสานงานยุคใหม่
+                        </p>
+                    </div>
+                    <div class="border-t border-brand-border/60 my-6" aria-hidden="true"></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        <div class="lg:col-span-8 space-y-8 text-gray-300 text-sm leading-relaxed">
+                            <section class="space-y-3 bg-brand-sidebar p-6 rounded-2xl border border-brand-border">
+                                <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                    <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
+                                    1. ทำไม “วิธีเขียนอีเมล” ถึงยังคงกำหนดอนาคตการทำงานของคุณ?
+                                </h2>
+                                <p>
+                                    แม้ในยุคที่มีแอปพลิเคชันแชทเกิดขึ้นมากมาย แต่การติดต่อสื่อสารหลักในบริษัท (Enterprise Communication) ก็ยังคงดำเนินผ่าน <strong>Email (อีเมล)</strong> เป็นแกนหลัก การศึกษาวิธีเขียนเมล และวิธีเขียนเมลล์อย่างมีระบบจะทำให้คุณได้รับการยอมรับจากเพื่อนร่วมงานและผู้บริหารสูงสุด
+                                </p>
+                                <p>
+                                    สำหรับพนักงานออฟฟิศหลายท่าน มักประสบปัญหาเรื่องความกดดันและประหม่าเวลาต้องการ <strong>เขียนเมลลาหยุด</strong> หรือ <strong>ส่งดราฟต์เมลติดตามงานลูกค้า</strong> SABA PROMPT จึงพัฒนาแพลตฟอร์มนี้มาเพื่อสวมรอยเป็น <em>ตัวช่วยเขียนอีเมล</em> (Email Writer AI Assistant) ที่มีความนุ่มนวล เข้าใจธรรมชาติอารมณ์และพฤติกรรมมนุษย์ลึกซึ้ง
+                                </p>
+                            </section>
+                            <section class="space-y-3 bg-brand-sidebar p-6 rounded-2xl border border-brand-border">
+                                <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                    <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
+                                    2. ตัวช่วยเขียนเมล AI กับหลักการแก้ไขสากล (sabapromt Framework)
+                                </h2>
+                                <p>
+                                    เครื่องมือพ่นคำสั่งทั่วไป (หรือที่คุณอาจเคยเสิร์ชว่า <strong>sabapromt</strong>, sabaprompt) มักออกแบบคำตอบออกมาแห้งแล้งและเป็นทางการจนแข็งกระด้าง SABA PROMPT นำยุทธศาสตร์ 3 แกนหลักมาประยุกต์ใช้เพื่อความสมบูรณ์แบบ:
+                                </p>
+                                <ul class="list-disc pl-5 space-y-2 text-slate-400">
+                                    <li><strong class="text-white">Radical Empathy:</strong> สัมผัสความต้องการลึกๆ ของฝ่ายผู้รับสาร (เช่น หัวหน้ากลัวไม่มีคนรันโปรเจค, ลูกค้ากลัวโดนทิ้งงาน)</li>
+                                    <li><strong class="text-white">Risk-Mitigation Ready:</strong> ใส่แผนป้องกันภัยและความเสี่ยงให้ผู้รับตัดสินใจอนุมัติอย่างสบายใจที่สุด</li>
+                                    <li><strong class="text-white">Polite Persuasion:</strong> วางประโยคต้อนมุมแบบสุภาพ ให้เกียรติ แต่มีความเฉียบขาดเชิงรุก</li>
+                                </ul>
+                            </section>
+                        </div>
+                        <aside class="lg:col-span-4 space-y-6">
+                            <div class="bg-brand-sidebar p-5 rounded-2xl border border-brand-border space-y-4">
+                                <h3 class="text-xs font-bold uppercase tracking-widest text-brand-orange">SABA SEO FAQ Index</h3>
+                                <div class="space-y-3">
+                                    <div class="border-b border-brand-border/60 pb-2">
+                                        <h4 class="text-xs font-bold text-white mb-1">Q: เขียนเมล กับ เขียนเมลล์ เขียนแบบไหนถูก?</h4>
+                                        <p class="text-[11px] text-brand-muted">A: อ้างอิงตามพจนานุกรมคำศัพท์ 'เขียนเมล' (ล.ลิง) ถูกต้องที่สุด</p>
+                                    </div>
+                                    <div class="border-b border-brand-border/60 pb-2">
+                                        <h4 class="text-xs font-bold text-white mb-1">Q: sabapromt ทำงานอย่างไร?</h4>
+                                        <p class="text-[11px] text-brand-muted">A: เราคือระบบช่วยจัดทำ Dynamic Meta-Prompt อัจฉริยะก่อนส่งต่อให้ AI</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </article>
+
+                <!-- English Version -->
+                <article id="view-seo-en" class="space-y-10 max-w-4xl mx-auto hidden">
+                    <div class="text-center space-y-4 max-w-3xl mx-auto">
+                        <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3.5 py-1.5 rounded-full border border-brand-orange/20 inline-block">
+                            🔍 Encyclopedia & Professional Communication Guide
+                        </span>
+                        <h1 class="text-3xl md:text-5xl font-heading font-black text-white leading-tight">
+                            How to Write Emails Professionally using AI Writing Assistant Tools
+                        </h1>
+                        <p class="text-sm md:text-base text-brand-muted">
+                            Mastering client negotiations, leave requests, and resolving workplace communication conflicts with empathy frameworks.
+                        </p>
+                    </div>
+                    <div class="border-t border-brand-border/60 my-6" aria-hidden="true"></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        <div class="lg:col-span-8 space-y-8 text-gray-300 text-sm leading-relaxed">
+                            <section class="space-y-3 bg-brand-sidebar p-6 rounded-2xl border border-brand-border">
+                                <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                    <span class="w-1.5 h-6 bg-brand-orange rounded-full inline-block" aria-hidden="true"></span>
+                                    1. Why Email Communication Still Shapes Your Career Future
+                                </h2>
+                                <p>
+                                    Despite instant messaging, **Email** remains the gold standard in enterprise communication. SABA PROMPT was developed to act as an empathetic *AI Email Assistant* to reduce stress when requesting leaves or following up with sponsorships.
+                                </p>
+                            </section>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- TAB 3: OUR PSYCHOLOGY & FRAMEWORK VIEW -->
+            <!-- ========================================================= -->
+            <div id="view-framework" class="hidden flex-grow overflow-y-auto p-4 md:p-8">
+                <!-- Thai Version -->
+                <div id="view-framework-th" class="space-y-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Mindset Framework</span>
+                        <h2 class="text-3xl font-heading font-black text-white mt-4">ทฤษฎีการสื่อสารแบบ SABA Empathy Model</h2>
+                        <p class="text-sm text-brand-muted mt-2">ถอดสูตรคิดวิเคราะห์ด้วยยุทธศาสตร์ความร่วมมือระดับมืออาชีพ</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        <div class="bg-brand-sidebar border border-brand-border rounded-2xl p-6">
+                            <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                                <i data-lucide="heart" class="w-4 h-4" aria-hidden="true"></i>
+                                <span>1. Radical Empathy</span>
+                            </h3>
+                            <p class="text-xs text-brand-muted leading-relaxed">
+                                การสื่อสารที่ดีเป็นการสัมผัสถึงความกลัว ความกดดัน และความต้องการจริงของผู้มีส่วนได้ส่วนเสียในที่ทำงาน (เช่น เจ้านายกลัวงานหลุดต่อผู้บริหาร, ลูกค้ากลัวงานไม่ตรงเวลา)
+                            </p>
+                        </div>
+                        <div class="bg-brand-sidebar border border-brand-border rounded-2xl p-6">
+                            <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                                <i data-lucide="shield" class="w-4 h-4" aria-hidden="true"></i>
+                                <span>2. Risk-Mitigation Ready</span>
+                            </h3>
+                            <p class="text-xs text-brand-muted leading-relaxed">
+                                ผู้เจรจาเชิงรุกจะนำเสนอวิธีการลดปัญหาความเสี่ยงควบคู่ไปกับคำร้องขอเสมอ (Proactive Risk Solutions) เพื่อให้อีกฝ่ายตัดสินใจอนุมัติง่ายที่สุด
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- English Version -->
+                <div id="view-framework-en" class="space-y-8 max-w-4xl mx-auto hidden">
+                    <div class="text-center">
+                        <span class="text-xs font-bold text-brand-orange uppercase tracking-widest bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Mindset Framework</span>
+                        <h2 class="text-3xl font-heading font-black text-white mt-4">SABA Empathy Model Theory</h2>
+                        <p class="text-sm text-brand-muted mt-2">Deconstruct relationship strategy in professional workflows</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        <div class="bg-brand-sidebar border border-brand-border rounded-2xl p-6">
+                            <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                                <i data-lucide="heart" class="w-4 h-4" aria-hidden="true"></i>
+                                <span>1. Radical Empathy</span>
+                            </h3>
+                            <p class="text-xs text-brand-muted leading-relaxed">
+                                Acknowledge the core fears, pressures, and goals of colleagues and managers (e.g. managers fearing blame, clients fearing delay).
+                            </p>
+                        </div>
+                        <div class="bg-brand-sidebar border border-brand-border rounded-2xl p-6">
+                            <h3 class="text-base font-bold text-brand-orange mb-3 flex items-center gap-2">
+                                <i data-lucide="shield" class="w-4 h-4" aria-hidden="true"></i>
+                                <span>2. Risk-Mitigation Ready</span>
+                            </h3>
+                            <p class="text-xs text-brand-muted leading-relaxed">
+                                Always pair requests with risk-mitigating solutions, making it effortless for the other party to approve immediately.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-sidebar border border-brand-border rounded-2xl p-8 text-center space-y-4 mt-8 max-w-4xl mx-auto">
+                    <h3 class="text-lg font-bold text-white">"จงเป็นนักประสานผลประโยชน์ที่เข้าใจหัวอกผู้อื่นอย่างแท้จริง"</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed max-w-lg mx-auto">
+                        สถาปัตยกรรมคำสั่งที่เราบรรจุลง SABA Prompt จะช่วยล้อมกรอบตัวแปรแบบอเนกประสงค์เพื่อให้ AI ประมวลและให้ผลลัพธ์การร่างบทสนทนาที่มีมิติอย่างแท้จริง
+                    </p>
+                    <button onclick="navigateTab('workspace')" class="bg-brand-orange hover:bg-orange-600 text-black font-bold text-xs py-2.5 px-6 rounded-xl transition-all">
+                        กลับสู่หน้าทดลองใช้พรอพท์
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- TAB 4: ABOUT THE ARCHITECT VIEW -->
+            <!-- ========================================================= -->
+            <div id="view-architect" class="hidden flex-grow overflow-y-auto p-4 md:p-8">
+                <!-- Thai Version -->
+                <div id="view-architect-th" class="bg-brand-sidebar border border-brand-border rounded-3xl p-8 relative overflow-hidden shadow-2xl max-w-3xl mx-auto">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" aria-hidden="true"></div>
+                    <div class="flex flex-col items-center text-center space-y-6">
+                        <div class="w-24 h-24 rounded-full bg-brand-orange/10 border-2 border-brand-orange/30 flex items-center justify-center text-brand-orange overflow-hidden">
+                            <i data-lucide="shield" class="w-12 h-12" aria-hidden="true"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Visionary Engineer</span>
+                            <h2 class="text-2xl font-heading font-black text-white">สถาปนิกและผู้สร้างสรรค์ระบบ</h2>
+                            <p class="text-xs text-brand-muted">ขับเคลื่อนนวัตกรรมการทำงานผ่านมุมมองมนุษยวิทยาและวิศวกรรมจิตวิทยา</p>
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed max-w-md">
+                            แอปพลิเคชันและฐานระบบคำสั่ง "The Strategist: Story-to-Prompt" ได้รับการสร้างสรรค์ขึ้นโดยมีพื้นฐานจิตวิทยาแบบ INFJ-A ที่ผสานวิศวกรรมทางตรรกะ เพื่อส่งต่อเครื่องมือที่จะช่วยเหลือพนักงานออฟฟิศทุกคนให้ก้าวข้ามขีดจำกัดการสื่อสารอย่างสง่างาม
+                        </p>
+                    </div>
+                </div>
+
+                <!-- English Version -->
+                <div id="view-architect-en" class="bg-brand-sidebar border border-brand-border rounded-3xl p-8 relative overflow-hidden shadow-2xl max-w-3xl mx-auto hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full blur-2xl" aria-hidden="true"></div>
+                    <div class="flex flex-col items-center text-center space-y-6">
+                        <div class="w-24 h-24 rounded-full bg-brand-orange/10 border-2 border-brand-orange/30 flex items-center justify-center text-brand-orange overflow-hidden">
+                            <i data-lucide="shield" class="w-12 h-12" aria-hidden="true"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">The Visionary Engineer</span>
+                            <h2 class="text-2xl font-heading font-black text-white">The System Architect</h2>
+                            <p class="text-xs text-brand-muted">Empowering workers through anthropological insights and design engineering</p>
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed max-w-md">
+                            "The Strategist: Story-to-Prompt" platform was constructed with an INFJ-A mindset, blending rigorous logic with deep human empathy. It provides structural tools for workers to traverse tough office communications.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MODALS SECTION -->
+    <!-- ========================================================= -->
+
+    <!-- 1. Google Drive Modal -->
+    <div id="gdrive-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md bg-brand-sidebar border border-brand-border rounded-2xl p-6 shadow-2xl relative">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="hard-drive" class="w-5 h-5 text-blue-400"></i>
+                    <h3 class="text-sm font-bold text-white">Google Drive — เลือกไฟล์อ้างอิง</h3>
+                </div>
+                <button onclick="closeGoogleDriveModal()" class="text-slate-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                <button onclick="selectGoogleDriveFile('Q3_Performance_Review.pdf', 'application/pdf')" class="w-full flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-surface border border-brand-border rounded-xl text-left transition-colors group">
+                    <span class="flex items-center gap-2.5 text-xs text-slate-200 group-hover:text-brand-orange">
+                        <i data-lucide="file-text" class="w-4 h-4 text-rose-500"></i>
+                        <span>Q3_Performance_Review.pdf</span>
+                    </span>
+                    <span class="text-[10px] text-slate-400 font-mono">2.4 MB</span>
+                </button>
+                <button onclick="selectGoogleDriveFile('Client_Contract_Draft.docx', 'application/docx')" class="w-full flex items-center justify-between p-3 bg-brand-bg hover:bg-brand-surface border border-brand-border rounded-xl text-left transition-colors group">
+                    <span class="flex items-center gap-2.5 text-xs text-slate-200 group-hover:text-brand-orange">
+                        <i data-lucide="file-text" class="w-4 h-4 text-blue-400"></i>
+                        <span>Client_Contract_Draft.docx</span>
+                    </span>
+                    <span class="text-[10px] text-slate-400 font-mono">1.1 MB</span>
+                </button>
+            </div>
+            <div class="mt-4 pt-3 border-t border-brand-border flex justify-end">
+                <button onclick="closeGoogleDriveModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white rounded-xl">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. API Settings Modal -->
+    <div id="api-settings-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md bg-brand-sidebar border border-brand-border rounded-2xl p-6 shadow-2xl relative">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="settings" class="w-5 h-5 text-brand-orange"></i>
+                    <h3 class="text-sm font-bold text-white">API Keys Configuration</h3>
+                </div>
+                <button onclick="closeApiSettingsModal()" class="text-slate-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">API Provider</label>
+                    <select id="api-provider" class="w-full bg-brand-bg border border-brand-border rounded-xl p-2.5 text-white outline-none">
+                        <option value="gemini">Google Gemini API (แนะนำ - ฟรีโควตา)</option>
+                        <option value="openai">OpenAI API</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Model Select</label>
+                    <select id="api-model" class="w-full bg-brand-bg border border-brand-border rounded-xl p-2.5 text-white outline-none">
+                        <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+                        <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+                        <option value="gpt-4o">gpt-4o</option>
+                        <option value="gpt-4o-mini">gpt-4o-mini</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1">Gemini / OpenAI API Key</label>
+                    <div class="relative">
+                        <input id="api-key" type="password" placeholder="AIzaSy..." class="w-full bg-brand-bg border border-brand-border rounded-xl p-2.5 pr-10 text-white font-mono outline-none focus:border-brand-orange">
+                        <button onclick="toggleApiKeyVisibility()" class="absolute right-3 top-3 text-slate-400 hover:text-white">
+                            <i data-lucide="eye" id="api-key-eye" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-3 rounded-xl bg-brand-orange/10 border border-brand-orange/20 text-[11px] text-brand-orange leading-relaxed">
+                    🔒 API Key ของคุณจะถูกเก็บบันทึกอย่างปลอดภัยใน LocalStorage ของเบราว์เซอร์เครื่องคุณเท่านั้น
+                </div>
+            </div>
+            <div class="mt-6 pt-3 border-t border-brand-border flex justify-end gap-2 text-xs font-bold">
+                <button onclick="closeApiSettingsModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl">ยกเลิก</button>
+                <button onclick="saveApiSettings()" class="px-4 py-2 bg-brand-orange hover:bg-orange-600 text-black rounded-xl">บันทึกการตั้งค่า</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Pricing Pro Modal -->
+    <div id="pricing-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-xl bg-brand-sidebar border border-brand-border rounded-2xl p-6 shadow-2xl relative">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="zap" class="w-5 h-5 text-brand-orange fill-brand-orange"></i>
+                    <h3 class="text-sm font-bold text-white">Upgrade to SABA PROMPT Premium</h3>
+                </div>
+                <button onclick="closePricingModal()" class="text-slate-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div class="bg-brand-bg border border-brand-border p-4 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <div class="font-bold text-white text-sm">Free Tier</div>
+                        <div class="text-[11px] text-slate-400 mt-0.5">ใช้งานสร้างพรอพท์พื้นฐาน</div>
+                        <div class="text-xl font-black text-white mt-3 font-mono">0 THB <span class="text-xs font-normal text-slate-400">/เดือน</span></div>
+                    </div>
+                    <button onclick="selectPlan('free')" class="w-full mt-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl">แผนปัจจุบัน</button>
+                </div>
+                <div class="bg-brand-bg border-2 border-brand-orange p-4 rounded-xl flex flex-col justify-between relative shadow-lg shadow-brand-orange/10">
+                    <span class="absolute -top-2.5 left-4 bg-brand-orange text-black font-extrabold text-[9px] px-2 py-0.5 rounded-full">RECOMMENDED</span>
+                    <div>
+                        <div class="font-bold text-white text-sm">Pro Architect</div>
+                        <div class="text-[11px] text-brand-orange mt-0.5">ปลดล็อก AI ร่างอีเมลสดแบบไม่จำกัด</div>
+                        <div class="text-xl font-black text-white mt-3 font-mono">199 THB <span class="text-xs font-normal text-slate-400">/เดือน</span></div>
+                    </div>
+                    <button onclick="selectPlan('pro')" class="w-full mt-4 py-2 bg-brand-orange hover:bg-orange-600 text-black font-extrabold rounded-xl shadow-md shadow-brand-orange/20">Upgrade Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Support Payment Modal -->
+    <div id="payment-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md bg-brand-sidebar border border-brand-border rounded-2xl p-6 shadow-2xl relative space-y-4">
+            <div class="flex items-center justify-between border-b border-brand-border pb-3">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="qr-code" class="w-5 h-5 text-brand-orange"></i>
+                    <h3 class="text-sm font-bold text-white">เลี้ยงเปียกซาบะ 🐈 (สนับสนุนทีมพัฒนา)</h3>
+                </div>
+                <button onclick="closePaymentModal()" class="text-slate-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4 text-center">
+                <div class="flex justify-center">
+                    <img id="promptpay-qr-img" src="/promptpay-qr.webp" alt="PromptPay QR Code" class="w-44 h-44 border-2 border-brand-orange rounded-xl p-2 bg-white">
+                </div>
+                <div id="promptpay-amount-display" class="text-xs font-mono font-bold text-brand-orange bg-orange-950/40 border border-brand-orange/30 px-3 py-1.5 rounded-lg inline-block">
+                    ยอดสแกน: 29.00 บาท
+                </div>
+
+                <div class="space-y-2 text-left text-xs text-slate-300">
+                    <label class="block font-bold text-slate-400">ระบุยอดที่ต้องการสนับสนุน (บาท)</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="promptpay-custom-amount" value="29.00" step="1" oninput="updatePromptPayQR()" class="w-full bg-brand-bg border border-brand-border rounded-xl p-2 text-white outline-none focus:border-brand-orange font-mono">
+                        <button onclick="simulatePaymentSuccess()" class="bg-brand-orange hover:bg-orange-600 text-black font-extrabold px-4 rounded-xl active:scale-95 transition-all">ยืนยันรับโอน</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden elements to support SABA PROMPT's main.js dependencies -->
+    <div class="hidden" aria-hidden="true">
+        <!-- Text fields -->
+        <input type="text" id="inputWho" value="คุณสมศักดิ์">
+        <input type="text" id="inputSender" value="ก้องเกียรติ">
+        <div id="compiled-prompt-output"></div>
+        <div id="simulated-draft-output-a"></div>
+        <div id="simulated-draft-output-b"></div>
+        <div id="simulated-draft-output"></div>
+
+        <!-- Dummy Category Cards to prevent styling errors in main.js -->
+        <div id="card-customer"></div>
+        <div id="card-leave"></div>
+        <div id="card-cowork"></div>
+
+        <!-- Dummy Login Views to prevent authentication state failures -->
+        <div id="login-otp-panel"></div>
+        <div id="login-federated-panel"></div>
+        <div id="tab-otp"></div>
+        <div id="tab-fed"></div>
+        <input type="text" id="login-phone" value="">
+        <input type="text" id="login-otp-code" value="">
+        <div id="btn-otp-action"></div>
+        <div id="otp-confirm-container"></div>
+        
+        <!-- Dev Config / Webhooks -->
+        <input type="text" id="discord-webhook-url" value="">
+        <input type="text" id="google-client-id" value="">
+        <input type="text" id="promptpay-id-input" value="0812345678">
+    </div>
+
+    <!-- Mockup Script Interceptor & UI Handlers -->
+    <script>
+        // Custom Mockup State
+        let emailHistorySessions = [
+            {
+                id: 'sess-001',
+                recipient: 'คุณสมศักดิ์ (หัวหน้าฝ่ายผลิต)',
+                sender: 'ก้องเกียรติ (ฝ่ายขาย)',
+                subject: 'ติดตามใบเสนอราคา Q3 ด่วน',
+                strategy: 'customer',
+                timestamp: '10 นาทีที่แล้ว',
+                messages: [
+                    { sender: 'user', text: 'อยากตามเงินงวดสุดท้ายจากลูกค้าที่เลื่อนชำระมา 2 สัปดาห์' },
+                    { sender: 'ai', text: 'สร้างพรอพท์และดราฟต์อีเมลปิดการขายเรียบร้อยครับ' }
+                ]
+            },
+            {
+                id: 'sess-002',
+                recipient: 'หัวหน้าประวิทย์ (VP)',
+                sender: 'ก้องเกียรติ (ฝ่ายขาย)',
+                subject: 'ขอลากิจช่วงเทศกาลสงกรานต์ 2 วัน',
+                strategy: 'leave',
+                timestamp: 'เมื่อวานนี้',
+                messages: [
+                    { sender: 'user', text: 'ขอลากิจไปทำธุระครอบครัว 2 วัน เตรียมแผนรองรับงานแล้ว' },
+                    { sender: 'ai', text: 'ดราฟต์อีเมลขอลากับหัวหน้าอนุมัติทันทีสร้างสำเร็จครับ' }
+                ]
+            },
+            {
+                id: 'sess-003',
+                recipient: 'ทีม IT & DevOps',
+                sender: 'ก้องเกียรติ (ฝ่ายขาย)',
+                subject: 'ขออนุมัติเปิดสิทธิ์ใช้งานระบบบริหารงบใหม่',
+                strategy: 'cowork',
+                timestamp: '3 วันที่แล้ว',
+                messages: [
+                    { sender: 'user', text: 'ตามข้อมูลจากฝ่าย IT เพื่อเปิดสิทธิ์ใช้งานระบบ' },
+                    { sender: 'ai', text: 'ดราฟต์อีเมลประสานงานข้ามแผนกสร้างสำเร็จครับ' }
+                ]
+            }
+        ];
+
+        let mockupState = {
+            activeSessionId: 'sess-001',
+            feedbackCategory: '🐞 บั๊ก/ปัญหา'
+        };
+
+        const strategies = {
+            customer: { badge: 'The Closer', emoji: '🎯' },
+            leave: { badge: 'Tactical Vacation', emoji: '🌴' },
+            cowork: { badge: 'The Diplomat', emoji: '🤝' }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Wait for main.js modules to execute and bind functions
+            setTimeout(() => {
+                // Save original bindings
+                window.originalSelectCategory = window.selectCategory;
+                window.originalNavigateTab = window.navigateTab;
+                window.originalCompileMegaPrompt = window.compileMegaPrompt;
+                
+                // Override selectCategory to keep chips in-sync
+                window.selectCategory = function(cat) {
+                    if (typeof window.originalSelectCategory === 'function') {
+                        window.originalSelectCategory(cat);
+                    }
+                    updateStrategyChips(cat);
+                };
+
+                // Override navigateTab to keep premium dark theme tabs styled correctly
+                window.navigateTab = function(tabName) {
+                    if (typeof window.originalNavigateTab === 'function') {
+                        window.originalNavigateTab(tabName);
+                    }
+                    
+                    const tabs = ['workspace', 'seo', 'framework', 'architect'];
+                    tabs.forEach(t => {
+                        const btn = document.getElementById(`nav-${t}`);
+                        if (btn) {
+                            if (t === tabName) {
+                                btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-orange text-black border border-brand-orange shadow-md transition-all";
+                            } else {
+                                btn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-brand-surface/50 transition-all";
+                            }
+                        }
+                    });
+                };
+
+                // Override compileMegaPrompt to feed outputs straight into the Chat Stream
+                window.compileMegaPrompt = function() {
+                    const recipient = document.getElementById('inputWho').value.trim();
+                    const detailEl = document.getElementById('inputDetail');
+                    const detail = detailEl ? detailEl.innerText.trim() : '';
+                    const hasImages = detailEl ? detailEl.querySelectorAll('img').length > 0 : false;
+                    
+                    if (!recipient || (!detail && !hasImages)) {
+                        // Trigger main.js native warning/toast validation
+                        if (typeof window.originalCompileMegaPrompt === 'function') {
+                            window.originalCompileMegaPrompt();
+                        }
+                        return;
+                    }
+
+                    // Append user prompt message to chat
+                    appendUserMessage(detail, hasImages);
+                    detailEl.innerText = ''; // Clear chat area
+                    document.getElementById('charCounter').innerText = '0 อักษร';
+
+                    // Append AI loader card
+                    const loaderId = appendAiLoader();
+                    
+                    // Trigger actual compiler compilation
+                    if (typeof window.originalCompileMegaPrompt === 'function') {
+                        window.originalCompileMegaPrompt();
+                    }
+
+                    // Simulate compiler timeout (original compiler timeouts in 800ms)
+                    setTimeout(() => {
+                        // Check if loader is still active (API query might have replaced it or failed)
+                        const loaderEl = document.getElementById(loaderId);
+                        if (loaderEl) {
+                            loaderEl.remove();
+                            
+                            // Capture values parsed/generated by main.js offline mode
+                            const compiledPrompt = document.getElementById('compiled-prompt-output').innerText;
+                            const draftA = document.getElementById('simulated-draft-output-a').innerText;
+                            const draftB = document.getElementById('simulated-draft-output-b').innerText;
+                            
+                            appendAiMessage(compiledPrompt, draftA, draftB, "Offline Mode (Mock)");
+                        }
+                    }, 1000);
+                };
+
+                // Override queryRealAI to intercept real API responses
+                window.queryRealAI = async function(apiKey, who, detail, sender) {
+                    const provider = localStorage.getItem('saba_api_provider') || 'gemini';
+                    const model = localStorage.getItem('saba_api_model') || 'gemini-1.5-flash';
+                    
+                    // Find active loader and update status
+                    const loaderEl = document.querySelector('.active-ai-loader-card');
+                    if (loaderEl) {
+                        loaderEl.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="loader" class="w-4 h-4 animate-spin text-brand-orange"></i>
+                                <span class="text-slate-300">กำลังวิเคราะห์จิตวิทยาและประมวลผลผ่านโมเดล ${model}...</span>
+                            </div>
+                        `;
+                        if (window.lucide) lucide.createIcons();
+                    }
+
+                    const images = [];
+                    const imgElements = document.querySelectorAll('#inputDetail img');
+                    imgElements.forEach(img => {
+                        const src = img.src;
+                        if (src.startsWith('data:image/')) {
+                            const parts = src.split(',');
+                            const mime = parts[0].match(/:(.*?);/)[1];
+                            const data = parts[1];
+                            images.push({ mimeType: mime, data: data });
+                        }
+                    });
+
+                    try {
+                        let prompt = document.getElementById('compiled-prompt-output').innerText;
+                        prompt = prompt.replace(/<span class="var-highlight">/g, "").replace(/<\/span>/g, "");
+                        
+                        const response = await fetch('/api/generate', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'x-client-api-key': apiKey || ''
+                            },
+                            body: JSON.stringify({
+                                provider,
+                                model,
+                                prompt,
+                                images
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        if (!response.ok) {
+                            throw new Error(data.error || 'Gateway returned an error response.');
+                        }
+                        
+                        loaderEl?.remove();
+                        
+                        let draftA = '';
+                        let draftB = '';
+                        const text = data.text;
+                        
+                        if (text.includes('Option A') || text.includes('ทางเลือก A') || text.includes('แบบ A')) {
+                            const parts = text.split(/Option B|ทางเลือก B|แบบ B/i);
+                            draftA = parts[0].replace(/Option A|ทางเลือก A|แบบ A/i, '').trim();
+                            draftB = parts[1] ? parts[1].trim() : '';
+                        } else {
+                            draftA = text;
+                            draftB = text;
+                        }
+
+                        const compiledPrompt = document.getElementById('compiled-prompt-output').innerText;
+                        appendAiMessage(compiledPrompt, draftA, draftB, model);
+
+                        const sentCount = parseInt(localStorage.getItem('saba_daily_emails_sent') || '0');
+                        localStorage.setItem('saba_daily_emails_sent', (sentCount + 1).toString());
+                        if (typeof updateQuotaIndicator === 'function') updateQuotaIndicator();
+
+                    } catch (err) {
+                        loaderEl?.remove();
+                        showToast("การเชื่อมต่อเกตเวย์ล้มเหลว", err.message, "error");
+                        
+                        // Fallback to offline drafts
+                        const compiledPrompt = document.getElementById('compiled-prompt-output').innerText;
+                        const draftA = document.getElementById('simulated-draft-output-a').innerText;
+                        const draftB = document.getElementById('simulated-draft-output-b').innerText;
+                        appendAiMessage(compiledPrompt, draftA, draftB, "Offline Mode (Mock)");
+                    }
+                };
+
+                // Sync main.js details text-change character counter to contenteditable `#inputDetail`
+                const detailEl = document.getElementById('inputDetail');
+                detailEl.addEventListener('input', (e) => {
+                    const textLength = e.target.innerText ? e.target.innerText.replace(/\n/g, '').length : 0;
+                    document.getElementById('charCounter').innerText = `${textLength} อักษร`;
+                });
+
+                // Init views
+                renderEmailHistoryList();
+                updateActiveHeaderTitle();
+                setupClickOutsidePopover();
+                setupDragAndDrop();
+
+            }, 500);
+        });
+
+        // Toggle Sidebar panel
+        function toggleSidebarCollapse() {
+            const sidebar = document.getElementById('sidebar-panel');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (window.innerWidth < 768) {
+                sidebar.classList.toggle('mobile-open');
+                overlay.classList.toggle('hidden');
+            } else {
+                sidebar.classList.toggle('desktop-collapsed');
+            }
+        }
+
+        // Attachment popover controls
+        function toggleAttachmentMenu() {
+            const popover = document.getElementById('attachment-popover');
+            const icon = document.getElementById('plus-icon');
+            popover.classList.toggle('hidden');
+            icon.classList.toggle('rotate-45');
+        }
+
+        function setupClickOutsidePopover() {
+            document.addEventListener('click', (e) => {
+                const btn = document.getElementById('btn-plus-attach');
+                const popover = document.getElementById('attachment-popover');
+                if (btn && popover && !btn.contains(e.target) && !popover.contains(e.target)) {
+                    popover.classList.add('hidden');
+                    document.getElementById('plus-icon')?.classList.remove('rotate-45');
+                }
+            });
+        }
+
+        function triggerFileInput() {
+            document.getElementById('doc-file-input').click();
+            document.getElementById('attachment-popover').classList.add('hidden');
+            document.getElementById('plus-icon')?.classList.remove('rotate-45');
+        }
+
+        // Presets Category Selection Sync
+        function selectStrategy(stratKey) {
+            if (typeof window.selectCategory === 'function') {
+                window.selectCategory(stratKey);
+            }
+        }
+
+        function updateStrategyChips(cat) {
+            ['customer', 'leave', 'cowork'].forEach(key => {
+                const chip = document.getElementById(`chip-strat-${key}`);
+                if (chip) {
+                    if (key === cat) {
+                        chip.className = "px-2.5 py-1 rounded-xl bg-brand-orange/20 border border-brand-orange/60 text-brand-orange font-bold text-[11px] flex items-center gap-1 transition-all shadow-sm";
+                    } else {
+                        chip.className = "px-2.5 py-1 rounded-xl bg-brand-surface border border-brand-border text-slate-300 font-bold text-[11px] flex items-center gap-1 transition-all hover:border-brand-orange/40";
+                    }
+                }
+            });
+        }
+
+        // Email Sessions History
+        function renderEmailHistoryList(filterQuery = '') {
+            const list = document.getElementById('email-history-list');
+            document.getElementById('history-count').innerText = emailHistorySessions.length;
+
+            const filtered = emailHistorySessions.filter(s => 
+                s.recipient.toLowerCase().includes(filterQuery.toLowerCase()) || 
+                s.subject.toLowerCase().includes(filterQuery.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<div class="text-[10px] text-slate-500 italic py-3 text-center">ไม่พบประวัติการคุยอีเมล</div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map(sess => {
+                const isActive = sess.id === mockupState.activeSessionId;
+                const strat = strategies[sess.strategy];
+                return `
+                    <div class="rounded-xl border transition-all ${isActive ? 'bg-brand-orange/10 border-brand-orange/60 text-white shadow-lg' : 'bg-brand-bg/60 border-brand-border/40 text-slate-300 hover:bg-brand-surface'}">
+                        <div onclick="loadEmailSession('${sess.id}')" class="p-2.5 cursor-pointer">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] font-bold text-slate-200 truncate max-w-[160px]">${escapeHtml(sess.recipient)}</span>
+                                <span class="text-[8px] font-mono text-slate-500">${sess.timestamp}</span>
+                            </div>
+                            <div class="text-[10px] text-slate-400 truncate mb-1.5">${escapeHtml(sess.subject)}</div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[8px] px-1.5 py-0.2 rounded font-mono bg-brand-bg border border-brand-border/50 text-slate-300">${strat.emoji} ${strat.badge}</span>
+                                <div class="flex items-center gap-1">
+                                    <button onclick="toggleSessionSubset(event, '${sess.id}')" class="text-slate-400 hover:text-brand-orange p-0.5 rounded" title="ดู/แก้ไขบริบท">
+                                        <i data-lucide="user-cog" class="w-3 h-3"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subset context details -->
+                        <div id="subset-panel-${sess.id}" class="px-2.5 pb-2.5 pt-1 border-t border-brand-border/40 space-y-1.5 hidden bg-brand-sidebar/60 rounded-b-xl text-[10px]">
+                            <div class="text-[9px] font-bold text-brand-orange uppercase tracking-wider flex items-center justify-between">
+                                <span>บริบทบุคคล (Parties Sub-set)</span>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-400 block mb-0.5">ผู้ส่ง (ตัวคุณ):</label>
+                                <input type="text" value="${escapeHtml(sess.sender)}" onchange="updateSessionParty('${sess.id}', 'sender', this.value)" class="w-full bg-brand-bg border border-brand-border/80 rounded px-2 py-1 text-slate-200 outline-none focus:border-brand-orange">
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-400 block mb-0.5">ผู้รับ / ตำแหน่ง:</label>
+                                <input type="text" value="${escapeHtml(sess.recipient)}" onchange="updateSessionParty('${sess.id}', 'recipient', this.value)" class="w-full bg-brand-bg border border-brand-border/80 rounded px-2 py-1 text-slate-200 outline-none focus:border-brand-orange">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function toggleSessionSubset(e, id) {
+            e.stopPropagation();
+            const panel = document.getElementById(`subset-panel-${id}`);
+            panel?.classList.toggle('hidden');
+        }
+
+        function updateSessionParty(id, field, value) {
+            const sess = emailHistorySessions.find(s => s.id === id);
+            if (sess) {
+                sess[field] = value;
+                if (field === 'sender') document.getElementById('inputSender').value = value;
+                if (field === 'recipient') document.getElementById('inputWho').value = value;
+                if (id === mockupState.activeSessionId) {
+                    updateActiveHeaderTitle();
+                }
+                showToast(`อัปเดตข้อมูล ${field === 'sender' ? 'ผู้ส่ง' : 'ผู้รับ'} สำเร็จ`, 'success');
+            }
+        }
+
+        function filterHistoryList() {
+            const q = document.getElementById('history-search').value;
+            renderEmailHistoryList(q);
+        }
+
+        function createNewEmailSession() {
+            const newId = `sess-${Date.now()}`;
+            const newSession = {
+                id: newId,
+                recipient: 'ผู้รับสารคนใหม่',
+                sender: 'ก้องเกียรติ',
+                subject: 'บทสนทนาอีเมลใหม่',
+                strategy: 'customer',
+                timestamp: 'เพิ่งสร้าง',
+                messages: []
+            };
+
+            emailHistorySessions.unshift(newSession);
+            mockupState.activeSessionId = newId;
+            document.getElementById('inputWho').value = 'ผู้รับสารคนใหม่';
+            document.getElementById('inputSender').value = 'ก้องเกียรติ';
+            renderEmailHistoryList();
+            updateActiveHeaderTitle();
+            
+            document.getElementById('dynamic-chat-stream').innerHTML = '';
+            showToast('สร้างบทสนทนาอีเมลใหม่แล้ว', 'success');
+        }
+
+        function loadEmailSession(id) {
+            mockupState.activeSessionId = id;
+            const sess = emailHistorySessions.find(s => s.id === id);
+            if (!sess) return;
+
+            document.getElementById('inputWho').value = sess.recipient;
+            document.getElementById('inputSender').value = sess.sender;
+            selectStrategy(sess.strategy);
+            updateActiveHeaderTitle();
+            renderEmailHistoryList();
+            
+            const stream = document.getElementById('dynamic-chat-stream');
+            stream.innerHTML = '';
+            sess.messages.forEach(m => {
+                if (m.sender === 'user') {
+                    appendUserMessage(m.text, false);
+                } else {
+                    // m.text is HTML generated
+                    const wrapper = document.createElement('div');
+                    wrapper.innerHTML = m.text;
+                    stream.appendChild(wrapper.firstElementChild);
+                }
+            });
+            scrollToBottom();
+            showToast(`โหลดแชท: ${sess.recipient}`, 'info');
+        }
+
+        // Dynamic Chat Streams Messaging UI
+        function appendUserMessage(text, hasImages = false) {
+            const stream = document.getElementById('dynamic-chat-stream');
+            let imgBadges = '';
+            if (hasImages) {
+                imgBadges = `<span class="bg-black/20 text-black px-1.5 py-0.5 rounded font-mono text-[9px] block mb-1">📷 [มีไฟล์ภาพแนบมาด้วย]</span>`;
+            }
+
+            const msgHtml = `
+                <div class="flex gap-3 max-w-2xl ml-auto justify-end">
+                    <div class="bg-brand-orange text-black font-semibold rounded-2xl rounded-tr-xs p-3.5 text-xs shadow-lg">
+                        ${imgBadges}
+                        <div>${escapeHtml(text)}</div>
+                    </div>
+                    <div class="w-8 h-8 rounded-xl bg-brand-orange flex flex-shrink-0 items-center justify-center font-bold text-black text-xs shadow-md">
+                        YOU
+                    </div>
+                </div>
+            `;
+            stream.insertAdjacentHTML('beforeend', msgHtml);
+            scrollToBottom();
+
+            const sess = emailHistorySessions.find(s => s.id === mockupState.activeSessionId);
+            if (sess) {
+                sess.messages.push({ sender: 'user', text: text });
+                sess.subject = text.slice(0, 20) + '...';
+                renderEmailHistoryList();
+                updateActiveHeaderTitle();
+            }
+        }
+
+        function appendAiLoader() {
+            const stream = document.getElementById('dynamic-chat-stream');
+            const loaderId = `loader-${Date.now()}`;
+            const loaderHtml = `
+                <div id="${loaderId}" class="flex gap-3 max-w-2xl mr-auto active-ai-loader-card">
+                    <div class="w-8 h-8 rounded-xl bg-brand-orange/20 border border-brand-orange/40 flex flex-shrink-0 items-center justify-center text-sm shadow-md">
+                        🐈
+                    </div>
+                    <div class="bg-brand-sidebar border border-brand-border/60 rounded-2xl p-4 rounded-tl-xs shadow-lg text-xs flex items-center gap-3">
+                        <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-brand-orange"></i>
+                        <span class="text-slate-300">กำลังสกัดจิตวิทยา และสร้าง Mega-Prompt...</span>
+                    </div>
+                </div>
+            `;
+            stream.insertAdjacentHTML('beforeend', loaderHtml);
+            lucide.createIcons();
+            scrollToBottom();
+            return loaderId;
+        }
+
+        function appendAiMessage(compiledPrompt, draftA, draftB, modelInfo = "Offline Mode (Mock)") {
+            const stream = document.getElementById('dynamic-chat-stream');
+            const responseHtml = `
+                <div class="flex gap-3 max-w-3xl mr-auto">
+                    <div class="w-8 h-8 rounded-xl bg-brand-orange/20 border border-brand-orange/40 flex flex-shrink-0 items-center justify-center text-sm shadow-md">
+                        🐈
+                    </div>
+                    <div class="bg-brand-sidebar border border-brand-border/60 rounded-2xl p-4 rounded-tl-xs shadow-lg text-xs leading-relaxed space-y-3 flex-grow max-w-2xl">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between border-b border-brand-border/40 pb-2">
+                                <span class="font-bold text-brand-orange flex items-center gap-1.5">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                                    <span>สร้างผลลัพธ์ยุทธศาสตร์และดราฟต์อีเมลสำเร็จ!</span>
+                                </span>
+                                <span class="text-[10px] bg-brand-orange/10 text-brand-orange px-2 py-0.5 rounded font-mono">${modelInfo}</span>
+                            </div>
+
+                            <!-- 1. Mega Prompt Box -->
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-slate-300 text-[11px]">1. โครงสร้าง Mega-Prompt เชิงจิตวิทยา:</span>
+                                    <button onclick="copyCompiledPromptText(this)" class="text-[10px] text-brand-orange hover:underline font-bold flex items-center gap-1">
+                                        <i data-lucide="copy" class="w-3 h-3"></i>
+                                        <span>Copy Prompt</span>
+                                    </button>
+                                </div>
+                                <pre class="bg-brand-bg/80 border border-brand-border p-3 rounded-xl font-mono text-[11px] text-slate-300 whitespace-pre-wrap select-text max-h-40 overflow-y-auto">${escapeHtml(compiledPrompt)}</pre>
+                            </div>
+
+                            <!-- 2. Draft Options A/B -->
+                            <div class="space-y-2 pt-2 border-t border-brand-border/40">
+                                <span class="font-bold text-slate-300 text-[11px]">2. ร่างอีเมลสำเร็จรูปพร้อมส่ง (A/B Comparison):</span>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <!-- Option A -->
+                                    <div class="bg-brand-bg/60 border border-brand-border/80 p-3 rounded-xl space-y-2 flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-center justify-between border-b border-brand-border/30 pb-1.5 mb-1.5">
+                                                <span class="font-bold text-emerald-400 text-[10px]">Option A: Soft & Win-Win</span>
+                                                <div class="flex gap-1.5">
+                                                    <button onclick="copyOptionText(this)" class="p-1 text-slate-400 hover:text-white" title="คัดลอก"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
+                                                    <button onclick="openMailClient('A')" class="p-1 text-emerald-400 hover:text-emerald-300" title="ส่งอีเมล"><i data-lucide="mail" class="w-3.5 h-3.5"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="text-[11px] text-slate-200 whitespace-pre-wrap leading-relaxed select-text bg-brand-sidebar p-2.5 rounded-lg border border-brand-border/40">${escapeHtml(draftA)}</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Option B -->
+                                    <div class="bg-brand-bg/60 border border-brand-border/80 p-3 rounded-xl space-y-2 flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-center justify-between border-b border-brand-border/30 pb-1.5 mb-1.5">
+                                                <span class="font-bold text-indigo-400 text-[10px]">Option B: Direct & Assertive</span>
+                                                <div class="flex gap-1.5">
+                                                    <button onclick="copyOptionText(this)" class="p-1 text-slate-400 hover:text-white" title="คัดลอก"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
+                                                    <button onclick="openMailClient('B')" class="p-1 text-indigo-400 hover:text-indigo-300" title="ส่งอีเมล"><i data-lucide="mail" class="w-3.5 h-3.5"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="text-[11px] text-slate-200 whitespace-pre-wrap leading-relaxed select-text bg-brand-sidebar p-2.5 rounded-lg border border-brand-border/40">${escapeHtml(draftB)}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            stream.insertAdjacentHTML('beforeend', responseHtml);
+            lucide.createIcons();
+            scrollToBottom();
+
+            const sess = emailHistorySessions.find(s => s.id === mockupState.activeSessionId);
+            if (sess) {
+                sess.messages.push({ sender: 'ai', text: responseHtml });
+            }
+        }
+
+        function scrollToBottom() {
+            const container = document.getElementById('chat-messages-container');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Copy actions helper
+        function copyCompiledPromptText(btn) {
+            const pre = btn.closest('.space-y-2').querySelector('pre');
+            if (pre) {
+                copyTextToClipboard(pre.innerText);
+            }
+        }
+
+        function copyOptionText(btn) {
+            const textDiv = btn.closest('.bg-brand-bg\\/60').querySelector('.whitespace-pre-wrap');
+            if (textDiv) {
+                copyTextToClipboard(textDiv.innerText);
+            }
+        }
+
+        function copyTextToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('คัดลอกลงคลิปบอร์ดสำเร็จแล้ว!', 'success');
+            }).catch(() => {
+                showToast('คัดลอกข้อความสำเร็จ', 'success');
+            });
+        }
+
+        function toggleTripboxQR() {
+            const card = document.getElementById('tripbox-qr-card');
+            const icon = document.getElementById('qr-chevron-icon');
+            card?.classList.toggle('hidden');
+            icon?.classList.toggle('rotate-180');
+        }
+
+        // Set Feedback Category
+        function setFeedbackCategory(cat) {
+            mockupState.feedbackCategory = cat;
+            const bug = document.getElementById('fb-tag-bug');
+            const idea = document.getElementById('fb-tag-idea');
+            const praise = document.getElementById('fb-tag-praise');
+            
+            [bug, idea, praise].forEach(b => {
+                if (b) b.className = "px-2 py-0.5 rounded-md bg-brand-surface text-slate-300 border border-brand-border hover:border-indigo-400 transition-colors font-medium";
+            });
+
+            if (cat.includes('ปัญหา') && bug) {
+                bug.className = "px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold";
+            } else if (cat.includes('ไอเดีย') && idea) {
+                idea.className = "px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 font-bold";
+            } else if (cat.includes('คำชม') && praise) {
+                praise.className = "px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold";
+            }
+        }
+
+        // Send Feedback to Discord webhook
+        async function sendDiscordFeedback() {
+            const area = document.getElementById('sidebar-feedback-input');
+            const text = area.value.trim();
+            if (!text) {
+                showToast('กรุณากรอกข้อความก่อนกดส่งครับ', 'warning');
+                return;
+            }
+
+            const currentSess = emailHistorySessions.find(s => s.id === mockupState.activeSessionId);
+            const webhookUrl = "https://discord.com/api/webhooks/your-mock-webhook";
+
+            const payload = {
+                embeds: [{
+                    title: `📬 Feedback (Mockup Mode) — ${mockupState.feedbackCategory}`,
+                    description: text,
+                    color: 6375655,
+                    fields: [
+                        { name: "ผู้ส่ง/ผู้รับ", value: currentSess ? `${currentSess.sender} ➡️ ${currentSess.recipient}` : "Guest", inline: true }
+                    ]
+                }]
+            };
+
+            showToast("ส่งคำขอเสนอแนะสำเร็จ (จำลอง Webhook)", "success");
+            area.value = '';
+        }
+
+        // Drag and drop paste image setup
+        function setupDragAndDrop() {
+            const drop = document.getElementById('chat-drop-zone');
+            const dragOverlay = document.getElementById('drag-overlay');
+            const inputDetail = document.getElementById('inputDetail');
+
+            drop.addEventListener('dragenter', (e) => { e.preventDefault(); dragOverlay.classList.remove('hidden'); });
+            drop.addEventListener('dragover', (e) => { e.preventDefault(); dragOverlay.classList.remove('hidden'); });
+            drop.addEventListener('dragleave', (e) => { e.preventDefault(); dragOverlay.classList.add('hidden'); });
+            drop.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dragOverlay.classList.add('hidden');
+                const files = e.dataTransfer.files;
+                if (files && files.length > 0) {
+                    document.getElementById('doc-file-input').files = files;
+                    // Trigger input file change logic in main.js
+                    const evt = new Event('change', { bubbles: true });
+                    document.getElementById('doc-file-input').dispatchEvent(evt);
+                }
+            });
+
+            // Paste Event (Screenshot capture)
+            inputDetail.addEventListener('paste', (e) => {
+                const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                const fileList = [];
+                for (let index in items) {
+                    const item = items[index];
+                    if (item.kind === 'file') {
+                        const blob = item.getAsFile();
+                        if (blob) {
+                            const fileName = `Screenshot_${Date.now()}.png`;
+                            const fileObj = new File([blob], fileName, { type: blob.type });
+                            fileList.push(fileObj);
+                        }
+                    }
+                }
+                if (fileList.length > 0) {
+                    // Trigger attachment in main.js
+                    const dataTransfer = new DataTransfer();
+                    fileList.forEach(f => dataTransfer.items.add(f));
+                    document.getElementById('doc-file-input').files = dataTransfer.files;
+                    const evt = new Event('change', { bubbles: true });
+                    document.getElementById('doc-file-input').dispatchEvent(evt);
+                }
+            });
+        }
+
+        function updateActiveHeaderTitle() {
+            const sess = emailHistorySessions.find(s => s.id === mockupState.activeSessionId);
+            if (sess) {
+                document.getElementById('active-session-title-header').innerText = `${sess.recipient} — ${sess.subject}`;
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+
+        function escapeJs(str) {
+            return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n');
+        }
+    </script>
+</body>
+</html>
