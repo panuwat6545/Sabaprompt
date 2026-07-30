@@ -2075,18 +2075,37 @@
             const drop = document.getElementById('chat-drop-zone');
             const dragOverlay = document.getElementById('drag-overlay');
             const inputDetail = document.getElementById('inputDetail');
+            const fileInput = document.getElementById('doc-file-input');
 
             drop.addEventListener('dragenter', (e) => { e.preventDefault(); dragOverlay.classList.remove('hidden'); });
             drop.addEventListener('dragover', (e) => { e.preventDefault(); dragOverlay.classList.remove('hidden'); });
             drop.addEventListener('dragleave', (e) => { e.preventDefault(); dragOverlay.classList.add('hidden'); });
+            
+            // Listen to file selection from the PC upload dialog
+            if (fileInput) {
+                fileInput.addEventListener('change', (e) => {
+                    const files = e.target.files;
+                    if (files && files.length > 0) {
+                        for (let i = 0; i < files.length; i++) {
+                            if (typeof window.processLocalFile === 'function') {
+                                window.processLocalFile(files[i]);
+                            }
+                        }
+                    }
+                });
+            }
+
             drop.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dragOverlay.classList.add('hidden');
                 const files = e.dataTransfer.files;
                 if (files && files.length > 0) {
-                    document.getElementById('doc-file-input').files = files;
-                    const evt = new Event('change', { bubbles: true });
-                    document.getElementById('doc-file-input').dispatchEvent(evt);
+                    // Sync files to fileInput element and trigger change
+                    if (fileInput) {
+                        fileInput.files = files;
+                        const evt = new Event('change', { bubbles: true });
+                        fileInput.dispatchEvent(evt);
+                    }
                 }
             });
 

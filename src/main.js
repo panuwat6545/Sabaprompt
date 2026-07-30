@@ -2386,3 +2386,4 @@ function processRealPaymentConfirmation() {
     SabaAnalytics.trackEvent("subscription_upgraded", { tier: "pro" });
 }
 window.processRealPaymentConfirmation = processRealPaymentConfirmation;
+window.processLocalFile = processLocalFile;
