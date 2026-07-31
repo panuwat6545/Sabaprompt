@@ -1443,7 +1443,11 @@ function generateTargetPrompt(who, detail, sender, hasImages = false) {
         emotionalGuidelinesEn += "\n• [Empathy Level: Task-focused (" + empathy + "%)]: Focus strictly on execution parameters, objective clarity, and process compliance.";
     }
 
-    if (currentLang === 'th') {
+    // Detect email language based on input (if it contains Thai characters, use Thai, otherwise English)
+    const hasThai = /[\u0e00-\u0e7f]/.test(detail || "");
+    const emailLang = hasThai ? 'th' : 'en';
+
+    if (emailLang === 'th') {
         if (uploadedFiles.length > 0) {
             const fileNames = uploadedFiles.map(f => f.name).join(', ');
             const fileContents = uploadedFiles.map(f => `• ${f.name}: ${f.mockContent}`).join('\n');
@@ -1516,8 +1520,8 @@ function generateTargetPrompt(who, detail, sender, hasImages = false) {
  "3. ห้ามใช้คำพูดสร้างความตื่นตระหนกหรือการพูดเชิงรุกรานเด็ดขาด";
 
         document.getElementById('compiled-prompt-output').innerHTML = terminalFormattedText;
-        document.getElementById('simulated-draft-output-a').innerText = generatedEmailMockA;
-        document.getElementById('simulated-draft-output-b').innerText = generatedEmailMockB;
+        document.getElementById('simulated-draft-output-a').textContent = generatedEmailMockA;
+        document.getElementById('simulated-draft-output-b').textContent = generatedEmailMockB;
     } else {
         // English Mode Mega Prompt Compiling
         if (uploadedFiles.length > 0) {
@@ -1592,8 +1596,8 @@ function generateTargetPrompt(who, detail, sender, hasImages = false) {
  "3. Ensure both options are concise and easy to read.";
 
         document.getElementById('compiled-prompt-output').innerHTML = terminalFormattedText;
-        document.getElementById('simulated-draft-output-a').innerText = generatedEmailMockA;
-        document.getElementById('simulated-draft-output-b').innerText = generatedEmailMockB;
+        document.getElementById('simulated-draft-output-a').textContent = generatedEmailMockA;
+        document.getElementById('simulated-draft-output-b').textContent = generatedEmailMockB;
     }
 }
 
