@@ -1389,6 +1389,20 @@
             const savedRaw = localStorage.getItem('saba_chat_sessions');
             if (savedRaw) {
                 emailHistorySessions = JSON.parse(savedRaw);
+                // Deduplicate any duplicate consecutive messages from previous load session bugs
+                emailHistorySessions.forEach(sess => {
+                    if (sess.messages && sess.messages.length > 0) {
+                        const unique = [];
+                        sess.messages.forEach(m => {
+                            const last = unique[unique.length - 1];
+                            if (!last || last.sender !== m.sender || last.text !== m.text) {
+                                unique.push(m);
+                            }
+                        });
+                        sess.messages = unique;
+                    }
+                });
+                localStorage.setItem('saba_chat_sessions', JSON.stringify(emailHistorySessions));
             }
         } catch (e) {
             console.error("Failed to parse saba_chat_sessions", e);
@@ -1851,7 +1865,7 @@
             stream.innerHTML = '';
             sess.messages.forEach(m => {
                 if (m.sender === 'user') {
-                    appendUserMessage(m.text, false);
+                    appendUserMessage(m.text, false, false);
                 } else {
                     const wrapper = document.createElement('div');
                     wrapper.innerHTML = m.text;
@@ -1863,7 +1877,7 @@
         }
 
         // Dynamic Chat Streams Messaging UI
-        function appendUserMessage(text, hasImages = false) {
+        function appendUserMessage(text, hasImages = false, saveToSession = true) {
             const stream = document.getElementById('dynamic-chat-stream');
             let imgBadges = '';
             if (hasImages) {
@@ -1884,13 +1898,15 @@
             stream.insertAdjacentHTML('beforeend', msgHtml);
             scrollToBottom();
 
-            const sess = emailHistorySessions.find(s => s.id === mockupState.activeSessionId);
-            if (sess) {
-                sess.messages.push({ sender: 'user', text: text });
-                sess.subject = text.slice(0, 20) + '...';
-                renderEmailHistoryList();
-                updateActiveHeaderTitle();
-                saveSessionsToLocalStorage();
+            if (saveToSession) {
+                const sess = emailHistorySessions.find(s => s.id === mockupState.activeSessionId);
+                if (sess) {
+                    sess.messages.push({ sender: 'user', text: text });
+                    sess.subject = text.slice(0, 20) + '...';
+                    renderEmailHistoryList();
+                    updateActiveHeaderTitle();
+                    saveSessionsToLocalStorage();
+                }
             }
         }
 
