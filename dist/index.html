@@ -618,7 +618,7 @@
                                         <input type="checkbox" id="privacy-shield-active" checked class="w-3.5 h-3.5 accent-orange-500 cursor-pointer">
                                         <label for="privacy-shield-active" class="text-[10px] text-slate-500 dark:text-slate-400 font-bold select-none cursor-pointer">Privacy Shield</label>
                                     </div>
-                                    <button type="button" onclick="toggleToneEQ()" class="text-[10px] text-orange-500 hover:text-orange-600 font-extrabold flex items-center gap-1 transition-all select-none focus:outline-none" title="พับ/คลี่แผงปรับระดับน้ำเสียงและตัวเลือก Preset">
+                                    <button type="button" id="btn-toggle-tone" onclick="toggleToneEQ()" class="text-[10px] text-orange-500 hover:text-orange-600 font-extrabold flex items-center gap-1 transition-all select-none focus:outline-none" title="พับ/คลี่แผงปรับระดับน้ำเสียงและตัวเลือก Preset">
                                         <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
                                         <span>ปรับแต่งน้ำเสียง (Tone EQ)</span>
                                     </button>
@@ -2164,37 +2164,37 @@
             {
                 element: '#sidebar-panel',
                 title: '🗂️ คลังแชทประวัติศาสตร์สุดปัง',
-                desc: 'นี่คือคลังเก็บประวัติการเจรจาของคุณน้า สามารถกดปุ่ม "+ สร้างบทสนทนาใหม่" เพื่อเปิดตึกแชทใหม่ฉ่ำๆ หรือเลือกดูแชทเก่าได้ตรงนี้เลย!',
+                desc: 'นี่คือคลังเก็บประวัติการเจรจาทั้งหมดของคุณน้า สามารถกดปุ่ม "+ สร้างบทสนทนาใหม่" เพื่อเปิดห้องแชทใหม่ฉ่ำๆ หรือเลือกดูแชทเก่าได้ตรงนี้เลย!',
                 pos: 'right'
             },
             {
                 element: '#email-history-list',
-                title: '⚙️ ตั้งค่าข้อมูลเจรจา',
-                desc: 'ในแต่ละแชทจะมีปุ่มฟันเฟืองสำหรับตั้งค่าชื่อ "ผู้รับ" และ "ผู้ส่ง" จริง เพื่อป้องกันการเจรจาผิดคู่สายให้แกงกันคุณน้า!',
+                title: '⚙️ ตั้งค่าข้อมูลเจรจาตรงเป้า',
+                desc: 'ในแต่ละแชทจะมีปุ่มฟันเฟืองสำหรับตั้งค่าชื่อ "ผู้รับ" และ "ผู้ส่ง" จริง เพื่อส่งต่อเป็น Context ให้ AI ร่างข้อความวิเคราะห์จิตวิทยาได้แม่นยำ ไม่สลับคนให้หน้าแตก!',
                 pos: 'right'
             },
             {
-                element: '#chip-strat-customer',
-                title: '🎯 เลือกหมวดหมู่การเจรจา',
-                desc: 'เลือก Presets สไตล์การสื่อสารที่ตรงใจคุณน้า ทั้งปิดดีลเจรจาค้าขาย ลาหยุดงานเนียนๆ หรือประสานงานระดับตัวมัม!',
-                pos: 'top'
-            },
-            {
-                element: '#input-assertive',
-                title: '🎛️ จูนน้ำเสียง EQ Sliders',
-                desc: 'ปรับระดับจิตวิทยา Assertiveness (ความเด็ดขาด), Urgency (ความเร่งรีบ), และ Empathy (การถนอมน้ำใจ) ให้จึ้งใจคนรับ!',
-                pos: 'top'
+                element: '#tripbox-donation',
+                title: '☕ ซื้อโอเลี้ยงให้ทีมผู้พัฒนา',
+                desc: 'หากใช้งานแล้วปิดดีลปังๆ สมัคร Pro แล้วยังอยากซัพพอร์ต คุณน้าสามารถกดเปิดสแกน QR PromptPay เลี้ยงโอเลี้ยง/กาแฟเพิ่มพลังไฟให้ทีมพัฒนาได้จากกล่องนี้โดยตรงเลยครับ!',
+                pos: 'right'
             },
             {
                 element: '#chat-drop-zone',
-                title: '✍️ พิมพ์เรื่องราวหรือแนบไฟล์',
-                desc: 'พิมพ์โจทย์งานดิบในช่องนี้ หรือจิ้มปุ่ม `+` เพื่อแนบไฟล์ PDF, Word หรือลากวางรูปภาพแคปหน้าจอหน้าคอมประกอบฉ่ำๆ!',
+                title: '✍️ พิมพ์โจทย์ดิบ & แนบรูปแนบไฟล์',
+                desc: 'ป้อนความต้องการของคุณน้าในกล่องนี้ สามารถแนบไฟล์เอกสารผ่านปุ่ม `+` หรือลากรูปภาพมาวาง (Multi-Upload) พร้อมแคปซูลแสดงสถานะและปุ่ม `x` เพื่อเลือกลบรายไฟล์ได้อย่างอิสระ!',
+                pos: 'top'
+            },
+            {
+                element: '#btn-toggle-tone',
+                title: '🎛️ ปรับแต่งน้ำเสียง (Tone EQ)',
+                desc: 'กดจิ้มปุ่มนี้เพื่อคลี่แผงควบคุมจิตวิทยา! เลือก Preset สไตล์วัยรุ่น/ตัวมัม หรือสไลด์จูนความเด็ดขาด (Assertive), ความเร่งรีบ (Urgency), และการถนอมน้ำใจ (Empathy) ได้ตามฟีลเลย!',
                 pos: 'top'
             },
             {
                 element: '#btn-compile',
                 title: '⚡ เจนพรอพท์สุดฟาด!',
-                desc: 'สุดท้ายกดปุ่มนี้เพื่อให้ AI ประมวลผลออกมาเป็นโครงสร้าง Mega-Prompt และดราฟต์อีเมลทางเลือก A/B สุดโฮ่งพร้อมก๊อปปี้ไปส่งทันที!',
+                desc: 'สุดท้ายกดปุ่มนี้เพื่อให้ AI ประมวลผลออกมาเป็นโครงสร้าง Mega-Prompt และดราฟต์อีเมลทางเลือก A/B (แบบ Soft ประนีประนอม และแบบ Direct รักษาสิทธิ์) นำไปใช้ต่อได้ทันที!',
                 pos: 'top'
             }
         ];
