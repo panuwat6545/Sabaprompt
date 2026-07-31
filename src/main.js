@@ -1965,70 +1965,7 @@ function buyNotionVault() {
     }, 1500);
 }
 
-// --- 14. ONBOARDING TOUR SYSTEM ---
-function startOnboardingTour() {
-    currentTourStep = 1;
-    updateTourSlide();
-    document.getElementById('onboarding-tour-modal').classList.remove('hidden');
-    SabaAnalytics.trackEvent("tour_started", {});
-}
 
-function closeOnboardingTour() {
-    document.getElementById('onboarding-tour-modal').classList.add('hidden');
-    localStorage.setItem('saba_tour_completed', 'true');
-    SabaAnalytics.trackEvent("tour_closed", { completed: currentTourStep === totalTourSteps });
-}
-
-function nextTourSlide() {
-    if (currentTourStep < totalTourSteps) {
-        currentTourStep++;
-        updateTourSlide();
-    } else {
-        closeOnboardingTour();
-    }
-}
-
-function prevTourSlide() {
-    if (currentTourStep > 1) {
-        currentTourStep--;
-        updateTourSlide();
-    }
-}
-
-function updateTourSlide() {
-    const slides = document.querySelectorAll('.tour-slide');
-    slides.forEach(slide => slide.classList.add('hidden'));
-
-    document.getElementById(`tour-slide-${currentTourStep}`).classList.remove('hidden');
-
-    const indicators = document.getElementById('tour-indicators').children;
-    for (let i = 0; i < indicators.length; i++) {
-        if (i === currentTourStep - 1) {
-            indicators[i].className = "w-1.5 h-1.5 rounded-full bg-brand-orange transition-all scale-125";
-        } else {
-            indicators[i].className = "w-1.5 h-1.5 rounded-full bg-zinc-700 transition-all";
-        }
-    }
-
-    const prevBtn = document.getElementById('tour-prev-btn');
-    const nextBtn = document.getElementById('tour-next-btn');
-
-    if (currentTourStep === 1) {
-        prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        prevBtn.disabled = true;
-    } else {
-        prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        prevBtn.disabled = false;
-    }
-
-    if (currentTourStep === totalTourSteps) {
-        nextBtn.innerText = currentLang === 'en' ? "Finish" : "เริ่มต้นใช้งานเลย";
-        nextBtn.className = "px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-[11px] font-extrabold text-black rounded-xl transition-all shadow-md shadow-emerald-500/15";
-    } else {
-        nextBtn.innerText = currentLang === 'en' ? "Next" : "ถัดไป";
-        nextBtn.className = "px-4 py-2 bg-brand-orange hover:bg-orange-600 text-[11px] font-extrabold text-black rounded-xl transition-all shadow-md shadow-brand-orange/15";
-    }
-}
 
 // --- 15. BIND GLOBALS FOR INLINE HTML EVENT HANDLERS ---
 window.toggleLanguage = toggleLanguage;
@@ -2057,10 +1994,7 @@ window.openPricingModal = openPricingModal;
 window.closePricingModal = closePricingModal;
 window.selectPlan = selectPlan;
 window.buyNotionVault = buyNotionVault;
-window.startOnboardingTour = startOnboardingTour;
-window.closeOnboardingTour = closeOnboardingTour;
-window.nextTourSlide = nextTourSlide;
-window.prevTourSlide = prevTourSlide;
+
 window.clearUploadedFile = clearUploadedFile;
 window.openGoogleDriveModal = openGoogleDriveModal;
 window.closeGoogleDriveModal = closeGoogleDriveModal;

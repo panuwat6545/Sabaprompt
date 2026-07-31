@@ -570,7 +570,7 @@
                             </div>
 
                             <!-- Main Input Detail (ContentEditable styled as Chat Box) -->
-                            <div id="inputDetail" contenteditable="true" data-placeholder="พิมพ์โจทย์งานดิบ หรือลากวางไฟล์ / แปะ Paste รูปภาพสกรีนช็อตลงในนี้..." class="w-full bg-transparent text-xs text-slate-800 dark:text-white outline-none resize-none px-2 py-1 leading-relaxed min-h-[50px] max-h-36 overflow-y-auto"></div>
+                            <div id="inputDetail" contenteditable="true" data-placeholder="พิมพ์โจทย์งานดิบ หรือลากวางไฟล์ / แปะ Paste รูปภาพสกรีนช็อตลงในนี้..." class="w-full bg-transparent text-xs text-slate-800 dark:text-white outline-none resize-y px-2 py-1 leading-relaxed min-h-[50px] max-h-[300px] overflow-y-auto" style="resize: vertical;"></div>
                             
                             <!-- Hidden Input for PC File Upload -->
                             <input type="file" id="doc-file-input" class="hidden" multiple accept=".pdf,.docx,.xlsx,.csv,.txt,.png,.jpg,.jpeg,.gif,.webp">
@@ -613,11 +613,15 @@
                                 </div>
 
                                 <!-- Privacy Shield Toggle & Character Counter -->
-                                <div class="flex items-center gap-4">
+                                <div class="flex items-center gap-4 flex-wrap">
                                     <div class="flex items-center gap-1.5">
                                         <input type="checkbox" id="privacy-shield-active" checked class="w-3.5 h-3.5 accent-orange-500 cursor-pointer">
                                         <label for="privacy-shield-active" class="text-[10px] text-slate-500 dark:text-slate-400 font-bold select-none cursor-pointer">Privacy Shield</label>
                                     </div>
+                                    <button type="button" onclick="toggleToneEQ()" class="text-[10px] text-orange-500 hover:text-orange-600 font-extrabold flex items-center gap-1 transition-all select-none focus:outline-none" title="พับ/คลี่แผงปรับระดับน้ำเสียงและตัวเลือก Preset">
+                                        <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+                                        <span>ปรับแต่งน้ำเสียง (Tone EQ)</span>
+                                    </button>
                                     <span id="charCounter" class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">0 อักษร</span>
                                 </div>
 
@@ -630,7 +634,7 @@
                         </div>
 
                         <!-- PRESETS & INTERACTIVE EQ SLIDERS -->
-                        <div class="bg-slate-100/60 dark:bg-slate-900/60 border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-3 space-y-3">
+                        <div id="tone-eq-panel" class="hidden bg-slate-100/60 dark:bg-slate-900/60 border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-3 space-y-3">
                             
                             <!-- Strategy Presets -->
                             <div class="flex items-center justify-between flex-wrap gap-2">
@@ -2332,6 +2336,13 @@
             if (currentTourStep > 0) {
                 currentTourStep--;
                 showTourStep();
+            }
+        };
+
+        window.toggleToneEQ = function() {
+            const panel = document.getElementById('tone-eq-panel');
+            if (panel) {
+                panel.classList.toggle('hidden');
             }
         };
     </script>
