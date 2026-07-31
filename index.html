@@ -1545,8 +1545,6 @@
 
                     // Append user prompt message to chat
                     appendUserMessage(detail, hasImages);
-                    detailEl.innerText = ''; // Clear chat area
-                    document.getElementById('charCounter').innerText = '0 อักษร';
 
                     // Append AI loader card
                     const loaderId = appendAiLoader();
@@ -1555,6 +1553,10 @@
                     if (typeof window.originalCompileMegaPrompt === 'function') {
                         window.originalCompileMegaPrompt();
                     }
+
+                    // Clear chat area after originalCompileMegaPrompt reads the DOM synchronously
+                    detailEl.innerText = '';
+                    document.getElementById('charCounter').innerText = '0 อักษร';
 
                     // Simulate compiler timeout (original compiler timeouts in 800ms)
                     setTimeout(() => {
