@@ -1389,14 +1389,23 @@
             const savedRaw = localStorage.getItem('saba_chat_sessions');
             if (savedRaw) {
                 emailHistorySessions = JSON.parse(savedRaw);
-                // Deduplicate any duplicate consecutive messages from previous load session bugs
+                // Deduplicate duplicate messages (both consecutive user messages and duplicate user messages across the session)
                 emailHistorySessions.forEach(sess => {
                     if (sess.messages && sess.messages.length > 0) {
                         const unique = [];
                         sess.messages.forEach(m => {
-                            const last = unique[unique.length - 1];
-                            if (!last || last.sender !== m.sender || last.text !== m.text) {
-                                unique.push(m);
+                            if (m.sender === 'user') {
+                                // Check if we already have a user message with the same trimmed text
+                                const exists = unique.some(u => u.sender === 'user' && u.text.trim() === m.text.trim());
+                                if (!exists) {
+                                    unique.push(m);
+                                }
+                            } else {
+                                // For AI/other messages, keep them if they are not consecutive identical HTML blocks
+                                const last = unique[unique.length - 1];
+                                if (!last || last.sender !== m.sender || last.text !== m.text) {
+                                    unique.push(m);
+                                }
                             }
                         });
                         sess.messages = unique;
@@ -1855,6 +1864,26 @@
             const sess = emailHistorySessions.find(s => s.id === id);
             if (!sess) return;
 
+            // Runtime Deduplication Shield (Deduplicates both consecutive and non-consecutive duplicate messages)
+            if (sess.messages && sess.messages.length > 0) {
+                const unique = [];
+                sess.messages.forEach(m => {
+                    if (m.sender === 'user') {
+                        const exists = unique.some(u => u.sender === 'user' && u.text.trim() === m.text.trim());
+                        if (!exists) {
+                            unique.push(m);
+                        }
+                    } else {
+                        const last = unique[unique.length - 1];
+                        if (!last || last.sender !== m.sender || last.text !== m.text) {
+                            unique.push(m);
+                        }
+                    }
+                });
+                sess.messages = unique;
+                saveSessionsToLocalStorage();
+            }
+
             document.getElementById('inputWho').value = sess.recipient;
             document.getElementById('inputSender').value = sess.sender;
             selectStrategy(sess.strategy);
@@ -1869,7 +1898,9 @@
                 } else {
                     const wrapper = document.createElement('div');
                     wrapper.innerHTML = m.text;
-                    stream.appendChild(wrapper.firstElementChild);
+                    if (wrapper.firstElementChild) {
+                        stream.appendChild(wrapper.firstElementChild);
+                    }
                 }
             });
             scrollToBottom();
