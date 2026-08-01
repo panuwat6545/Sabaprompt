@@ -1828,7 +1828,7 @@
                     updateActiveHeaderTitle();
                 }
                 saveSessionsToLocalStorage();
-                showToast(`อัปเดตข้อมูล ${field === 'sender' ? 'ผู้ส่ง' : 'ผู้รับ'} สำเร็จ`, 'success');
+                showToast(`อัปเดตข้อมูล ${field === 'sender' ? 'ผู้ส่ง' : 'ผู้รับ'} สำเร็จ`, '', 'success');
             }
         }
 
@@ -1858,7 +1858,7 @@
             saveSessionsToLocalStorage();
             
             document.getElementById('dynamic-chat-stream').innerHTML = '';
-            showToast('สร้างบทสนทนาอีเมลใหม่แล้ว', 'success');
+            showToast('สร้างบทสนทนาอีเมลใหม่แล้ว', '', 'success');
         }
 
         function loadEmailSession(id) {
@@ -1906,7 +1906,7 @@
                 }
             });
             scrollToBottom();
-            showToast(`โหลดแชท: ${sess.recipient}`, 'info');
+            showToast(`โหลดแชท: ${sess.recipient}`, '', 'info');
         }
 
         // Dynamic Chat Streams Messaging UI
@@ -2063,9 +2063,9 @@
 
         function copyTextToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                showToast('คัดลอกลงคลิปบอร์ดสำเร็จแล้ว!', 'success');
+                showToast('คัดลอกลงคลิปบอร์ดสำเร็จแล้ว!', '', 'success');
             }).catch(() => {
-                showToast('คัดลอกข้อความสำเร็จ', 'success');
+                showToast('คัดลอกข้อความสำเร็จ', '', 'success');
             });
         }
 
@@ -2101,26 +2101,32 @@
             const area = document.getElementById('sidebar-feedback-input');
             const text = area.value.trim();
             if (!text) {
-                showToast('กรุณากรอกข้อความก่อนกดส่งครับ', 'warning');
+                showToast('กรุณากรอกข้อความก่อนกดส่งครับ', '', 'warning');
                 return;
             }
 
             const currentSess = emailHistorySessions.find(s => s.id === mockupState.activeSessionId);
-            const webhookUrl = "https://discord.com/api/webhooks/your-mock-webhook";
+            
+            try {
+                const response = await fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: `[${mockupState.feedbackCategory || 'ทั่วไป'}] ${text}`,
+                        user: currentSess ? `${currentSess.sender} (คุยกับ ${currentSess.recipient})` : 'Guest Mode'
+                    })
+                });
 
-            const payload = {
-                embeds: [{
-                    title: `📬 Feedback (Production Mode) — ${mockupState.feedbackCategory}`,
-                    description: text,
-                    color: 6375655,
-                    fields: [
-                        { name: "ผู้ส่ง/ผู้รับ", value: currentSess ? `${currentSess.sender} ➡️ ${currentSess.recipient}` : "Guest", inline: true }
-                    ]
-                }]
-            };
+                if (!response.ok) {
+                    throw new Error(`Server returned status ${response.status}`);
+                }
 
-            showToast("ส่งคำขอเสนอแนะสำเร็จ (จำลอง Webhook)", "success");
-            area.value = '';
+                showToast("ส่งข้อเสนอแนะสำเร็จ", "ส่งข้อความของคุณเข้า Discord เรียบร้อยแล้วครับ ขอบพระคุณครับ!", "success");
+                area.value = '';
+            } catch (err) {
+                console.error("Failed to send feedback:", err);
+                showToast("ส่งความคิดเห็นล้มเหลว", err.message, "error");
+            }
         }
 
         // Drag and drop paste image setup

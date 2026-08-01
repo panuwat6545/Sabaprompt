@@ -19,12 +19,12 @@ export default async function handler(req, res) {
 
   try {
     const { prompt, images, model } = req.body || {};
-    // Read secret API Key from Vercel Serverless Environment Variables
-    const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+    // Read secret API Key from Vercel Serverless Environment Variables or client header
+    const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || req.headers['x-client-api-key'];
 
     if (!apiKey) {
       return res.status(500).json({
-        error: 'Missing GEMINI_API_KEY environment variable in Vercel Serverless settings.'
+        error: 'Missing GEMINI_API_KEY environment variable in Vercel Serverless settings, and no x-client-api-key header was provided.'
       });
     }
 

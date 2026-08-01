@@ -895,7 +895,7 @@ async function handleOTPRequest() {
                 actionBtn.disabled = false;
                 actionBtn.innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i><span data-i18n="btn_otp_verify">ยืนยันเข้าสู่ระบบ</span>`;
                 confirmContainer.classList.remove('hidden');
-                showToast("OTP ส่งสำเร็จ", isEmail ? `รหัสยืนยัน OTP ถูกส่งไปยังอีเมล ${inputVal} เรียบร้อยแล้ว` : `รหัสยืนยัน OTP ถูกส่งไปยังเบอร์ ${inputVal} เรียบร้อยแล้ว`, "success");
+                showToast("OTP ส่งสำเร็จ", isEmail ? `รหัสยืนยัน OTP ถูกส่งไปยังอีเมล ${inputVal} เรียบร้อยแล้ว` : `รหัสยืนยัน OTP ถูกส่งไปยังเบอร์ ${inputVal} เรียบร้อยแล้ว`, "success", true);
             } catch (err) {
                 console.error("Supabase OTP error:", err);
                 actionBtn.disabled = false;
@@ -908,7 +908,7 @@ async function handleOTPRequest() {
                 actionBtn.disabled = false;
                 actionBtn.innerHTML = `<i data-lucide="log-in" class="w-4 h-4"></i><span data-i18n="btn_otp_verify">ยืนยันเข้าสู่ระบบ</span>`;
                 confirmContainer.classList.remove('hidden');
-                showToast("OTP ส่งสำเร็จ (Mock Mode)", "รหัสผ่านจำลองส่งแล้ว (รหัสทดสอบคือ: 1234)", "success");
+                showToast("OTP ส่งสำเร็จ (Mock Mode)", "รหัสผ่านจำลองส่งแล้ว (รหัสทดสอบคือ: 1234)", "success", true);
                 if (typeof lucide !== 'undefined') { lucide.createIcons(); }
             }, 400);
         }
@@ -930,7 +930,7 @@ async function handleOTPRequest() {
                 currentUser = res.data.user?.email || res.data.user?.phone || inputVal;
                 localStorage.setItem('saba_session_user', currentUser);
                 showDashboard();
-                showToast("ล็อกอินสำเร็จ", `ยินดีต้อนรับเข้าสู่ระบบ ${currentUser}`, "success");
+                showToast("ล็อกอินสำเร็จ", `ยินดีต้อนรับเข้าสู่ระบบ ${currentUser}`, "success", true);
             } catch (err) {
                 console.error("OTP verification error:", err);
                 actionBtn.disabled = false;
@@ -970,7 +970,7 @@ function handleGoogleJWTResponse(response) {
             badge.innerHTML = `<img src="${userPicture}" class="w-4 h-4 rounded-full inline mr-1 object-cover"/> ${userName}`;
         }
 
-        showToast("เข้าสู่ระบบด้วย Google สำเร็จ", `ยินดีต้อนรับคุณ ${userName} เข้าสู่ SABA PROMPT`, "success");
+        showToast("เข้าสู่ระบบด้วย Google สำเร็จ", `ยินดีต้อนรับคุณ ${userName} เข้าสู่ SABA PROMPT`, "success", true);
         SabaAnalytics.trackEvent("google_login_success", { name: userName });
     } catch (err) {
         console.error("Failed to parse Google JWT credential:", err);
@@ -1031,7 +1031,8 @@ function showDashboard() {
     showToast(
         localStorage.getItem('saba_lang') === 'en' ? "Welcome Back" : "ต้อนรับกลับเข้าสู่ระบบ",
         localStorage.getItem('saba_lang') === 'en' ? `Hello ${currentUser}! Saba Workspace is ready.` : `สวัสดีผู้ใช้ ${currentUser}! ระบบพร้อมรังสรรค์คำสั่งแล้วครับ`,
-        "success"
+        "success",
+        true
     );
 
     const tourCompleted = localStorage.getItem('saba_tour_completed');
@@ -1734,9 +1735,8 @@ async function submitFeedback() {
 }
 
 // --- 10. TOAST NOTIFICATION UTILITY ---
-function showToast(title, message, type = "info") {
-    // Only show errors and warnings, silence info and success to prevent cluttering the view
-    if (type !== "error" && type !== "warning") {
+function showToast(title, message, type = "info", isLogin = false) {
+    if (!isLogin) {
         return;
     }
     const container = document.getElementById('toast-container');
@@ -2016,13 +2016,13 @@ function sanitizePII(text, sender, recipient) {
     let cleanText = text;
     
     // Mask specific sender and recipient names if they appear in text (case-insensitive)
-    if (sender && sender !== "[ชื่อของคุณ]") {
-        const escapedSender = sender.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    if (sender && sender.trim() !== "" && sender !== "[ชื่อของคุณ]") {
+        const escapedSender = sender.trim().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
         const reSender = new RegExp(escapedSender, 'gi');
         cleanText = cleanText.replace(reSender, '[SENDER_NAME]');
     }
-    if (recipient) {
-        const escapedRecipient = recipient.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    if (recipient && recipient.trim() !== "") {
+        const escapedRecipient = recipient.trim().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
         const reRecipient = new RegExp(escapedRecipient, 'gi');
         cleanText = cleanText.replace(reRecipient, '[RECIPIENT_NAME]');
     }
@@ -2036,7 +2036,7 @@ function sanitizePII(text, sender, recipient) {
     cleanText = cleanText.replace(emailRegex, '[EMAIL_REDACTED]');
 
     // Mask currency/amounts (e.g. 50,000 บาท, $10,000, 3,000 THB)
-    const currencyRegex = /\d{1,3}(,\d{3})*(\.\d{2})?\s*(บาท|THB|USD|\$|dollars?)/gi;
+    const currencyRegex = /(?:บาท|THB|USD|\$|dollars?)\s*\d{1,3}(?:,\d{3})*(?:\.\d{2})?|\d{1,3}(?:,\d{3})*(?:\.\d{2})?\s*(?:บาท|THB|USD|\$|dollars?)/gi;
     cleanText = cleanText.replace(currencyRegex, '[BUDGET_REDACTED]');
     
     return cleanText;
@@ -2268,7 +2268,7 @@ function handleGoogleUserInfoResponse(userInfo) {
         badge.innerHTML = `<img src="${userPicture}" class="w-4 h-4 rounded-full inline mr-1 object-cover"/> ${userName}`;
     }
 
-    showToast("เข้าสู่ระบบด้วย Google สำเร็จ", `ยินดีต้อนรับคุณ ${userName} เข้าสู่ SABA PROMPT`, "success");
+    showToast("เข้าสู่ระบบด้วย Google สำเร็จ", `ยินดีต้อนรับคุณ ${userName} เข้าสู่ SABA PROMPT`, "success", true);
     SabaAnalytics.trackEvent("google_login_success", { name: userName });
 }
 
