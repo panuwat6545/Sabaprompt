@@ -24,7 +24,11 @@ export default defineConfig(({ mode }) => {
           blog: 'blog/index.html',
           'blog-template-leave': 'blog/template-sick-leave.html',
           'blog-postpone-job': 'blog/postpone-job.html',
-          'blog-follow-up-docs': 'blog/follow-up-docs.html'
+          'blog-follow-up-docs': 'blog/follow-up-docs.html',
+          'blog-thai-email-pronouns': 'blog/thai-email-pronouns.html',
+          'blog-thai-email-greetings': 'blog/thai-email-greetings.html',
+          'blog-email-formatting-etiquette': 'blog/email-formatting-etiquette.html',
+          'blog-email-reply-all-cc': 'blog/email-reply-all-cc.html'
         }
       }
     }
