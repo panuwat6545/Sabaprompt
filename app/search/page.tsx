@@ -109,7 +109,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       {/* Search Header */}
       <header className="sticky top-0 z-30 bg-white border-b border-saba-line flex items-center gap-2.5 px-3 h-14 shadow-sm shrink-0">
         <BackButton />
-        <SearchBar initialQuery={queryStr} />
+        <SearchBar initialQuery={queryStr} alwaysVisible={true} />
       </header>
 
       {/* Main Container */}

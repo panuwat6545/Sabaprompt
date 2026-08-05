@@ -193,7 +193,9 @@ export default function SearchBar({ initialQuery = "", alwaysVisible = false }: 
 
       {/* Autocomplete Dropdown list */}
       {showSuggestions && (value.trim().length > 0) && (
-        <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-saba-line rounded-2xl shadow-xl z-50 overflow-hidden py-1 max-h-80 overflow-y-auto animate-fade-in mx-4 md:mx-0">
+        <div className={`absolute left-0 right-0 top-full mt-2 bg-white border border-saba-line rounded-2xl shadow-xl z-50 overflow-hidden py-1 max-h-80 overflow-y-auto animate-fade-in ${
+          alwaysVisible ? "" : "mx-4 md:mx-0"
+        }`}>
           {suggestions.length > 0 ? (
             <div className="divide-y divide-saba-line/40">
               {suggestions.map((sug) => (
