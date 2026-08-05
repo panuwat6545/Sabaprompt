@@ -3,6 +3,17 @@ import { createClient } from "../../../../lib/supabase";
 
 export const revalidate = 0; // Dynamic route handler
 
+interface SuggestPost {
+  id: string;
+  title: string;
+  image_url: string;
+  category_id: number;
+  categories: {
+    name: string;
+    emoji: string;
+  } | null;
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -35,7 +46,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ suggestions: [] });
     }
 
-    const suggestions = (posts || []).map((post: any) => ({
+    const suggestions = (posts as unknown as SuggestPost[] || []).map((post) => ({
       id: post.id,
       title: post.title,
       image_url: post.image_url,

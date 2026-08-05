@@ -1,6 +1,6 @@
 import React from "react";
 import { createClient } from "../lib/supabase";
-import HomeFeedClient from "../components/HomeFeedClient";
+import HomeFeedClient, { Post, Category } from "../components/HomeFeedClient";
 
 export const revalidate = 0; // Fetch fresh data on every request
 
@@ -42,6 +42,6 @@ export default async function Home() {
   const categories = categoriesRes.data || [];
 
   return (
-    <HomeFeedClient initialPosts={posts as any} categories={categories as any} />
+    <HomeFeedClient initialPosts={posts as unknown as Post[]} categories={categories as unknown as Category[]} />
   );
 }

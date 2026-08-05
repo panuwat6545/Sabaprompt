@@ -70,9 +70,10 @@ export async function createPost(formData: FormData) {
           .getPublicUrl(uniqueFileName);
 
         finalImageUrl = data.publicUrl;
-      } catch (uploadErr: any) {
+      } catch (uploadErr) {
         console.error("Storage upload error:", uploadErr);
-        return { success: false, error: `ไม่สามารถอัปโหลดรูปภาพได้: ${uploadErr.message}` };
+        const errMsg = uploadErr instanceof Error ? uploadErr.message : String(uploadErr);
+        return { success: false, error: `ไม่สามารถอัปโหลดรูปภาพได้: ${errMsg}` };
       }
     }
 
@@ -97,9 +98,10 @@ export async function createPost(formData: FormData) {
 
     revalidatePath("/");
     return { success: true, postId: newPost.id };
-  } catch (err: any) {
+  } catch (err) {
     console.error("createPost error:", err);
-    return { success: false, error: err.message || "เกิดข้อผิดพลาดในการเชื่อมต่อระบบ" };
+    const errMsg = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการเชื่อมต่อระบบ";
+    return { success: false, error: errMsg };
   }
 }
 
@@ -184,9 +186,10 @@ export async function createComment(postId: string, content: string, parentId: s
 
     revalidatePath(`/thread/${postId}`);
     return { success: true, comment: data };
-  } catch (err: any) {
+  } catch (err) {
     console.error("createComment error:", err);
-    return { success: false, error: err.message || "เกิดข้อผิดพลาดในการแสดงความคิดเห็น" };
+    const errMsg = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการแสดงความคิดเห็น";
+    return { success: false, error: errMsg };
   }
 }
 
@@ -307,9 +310,10 @@ export async function toggleLike(postId: string) {
     revalidatePath(`/thread/${postId}`);
 
     return { success: true, liked: newLikedState };
-  } catch (err: any) {
+  } catch (err) {
     console.error("toggleLike error:", err);
-    return { success: false, error: err.message || "เกิดข้อผิดพลาดในการปรับเปลี่ยนสถานะถูกใจ" };
+    const errMsg = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการปรับเปลี่ยนสถานะถูกใจ";
+    return { success: false, error: errMsg };
   }
 }
 
@@ -423,9 +427,10 @@ export async function toggleCommentLike(commentId: string) {
     revalidatePath(`/thread/${comment.post_id}`);
 
     return { success: true, liked: newLikedState };
-  } catch (err: any) {
+  } catch (err) {
     console.error("toggleCommentLike error:", err);
-    return { success: false, error: err.message || "เกิดข้อผิดพลาดในการปรับเปลี่ยนสถานะถูกใจคอมเมนต์" };
+    const errMsg = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการปรับเปลี่ยนสถานะถูกใจคอมเมนต์";
+    return { success: false, error: errMsg };
   }
 }
 
@@ -452,9 +457,10 @@ export async function markNotificationRead(id: string) {
 
     revalidatePath("/notifications");
     return { success: true };
-  } catch (err: any) {
+  } catch (err) {
     console.error("markNotificationRead error:", err);
-    return { success: false, error: err.message || "Failed to mark notification as read." };
+    const errMsg = err instanceof Error ? err.message : "Failed to mark notification as read.";
+    return { success: false, error: errMsg };
   }
 }
 
@@ -481,9 +487,10 @@ export async function markAllNotificationsRead() {
 
     revalidatePath("/notifications");
     return { success: true };
-  } catch (err: any) {
+  } catch (err) {
     console.error("markAllNotificationsRead error:", err);
-    return { success: false, error: err.message || "Failed to mark all notifications as read." };
+    const errMsg = err instanceof Error ? err.message : "Failed to mark all notifications as read.";
+    return { success: false, error: errMsg };
   }
 }
 
@@ -510,8 +517,12 @@ export async function getUnreadNotificationCount() {
     }
 
     return count || 0;
-  } catch (err: any) {
-    if (err.digest === 'DYNAMIC_SERVER_USAGE' || (err.message && err.message.includes('Dynamic server usage'))) {
+  } catch (err) {
+    if (err && typeof err === "object" && "digest" in err && err.digest === 'DYNAMIC_SERVER_USAGE') {
+      throw err;
+    }
+    const errMsg = err instanceof Error ? err.message : "";
+    if (errMsg.includes('Dynamic server usage')) {
       throw err;
     }
     console.error("getUnreadNotificationCount error:", err);

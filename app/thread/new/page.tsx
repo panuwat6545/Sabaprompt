@@ -25,7 +25,8 @@ function NewThreadContent() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [detectedTags, setDetectedTags] = useState<string[]>([]);
+  const hashtags = content.match(/#[\wก-๙]+/g) || [];
+  const detectedTags = Array.from(new Set(hashtags));
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -57,13 +58,6 @@ function NewThreadContent() {
     getCategories();
   }, []);
 
-  // Hashtag extraction (runs when content changes)
-  useEffect(() => {
-    const hashtags = content.match(/#[\wก-๙]+/g) || [];
-    // remove duplicates
-    const uniqueTags = Array.from(new Set(hashtags));
-    setDetectedTags(uniqueTags);
-  }, [content]);
 
   // Canvas image compression (resizes to max-width 800px, JPEG quality 0.8)
   const compressImage = (file: File): Promise<Blob> => {
@@ -192,9 +186,9 @@ function NewThreadContent() {
       // 3. Success -> redirect to Home
       router.push("/");
       router.refresh();
-    } catch (err: any) {
+    } catch (err) {
       console.error("Post creation failed:", err);
-      let userFriendlyMsg = err.message || "เกิดข้อผิดพลาดในการเชื่อมต่อระบบ";
+      let userFriendlyMsg = err instanceof Error ? err.message : "เกิดข้อผิดพลาดในการเชื่อมต่อระบบ";
 
       // Precise diagnostic mapping for storage/upload errors
       if (userFriendlyMsg.includes("Bucket not found") || userFriendlyMsg.includes("bucket")) {

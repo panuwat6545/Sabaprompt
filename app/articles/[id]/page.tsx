@@ -142,7 +142,7 @@ function getArticleBody(title: string, excerpt: string) {
     <div className="space-y-4 text-xs text-saba-ink leading-relaxed font-cute">
       <p className="font-bold text-saba-black text-sm">📖 รายละเอียดสาระน่ารู้เพิ่มเติม:</p>
       <p className="bg-white border border-saba-line rounded-xl p-3 italic">
-        "{excerpt}"
+        &quot;{excerpt}&quot;
       </p>
       <p>
         การดูแลแมวแสนรักต้องการความเอาใจใส่ในทุกๆ ด้าน ทั้งด้านโภชนาการ น้ำดื่ม สิ่งแวดล้อม และพฤติกรรม
@@ -233,7 +233,7 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
 
           {/* Excerpt Intro */}
           <p className="text-xs text-saba-muted font-cute italic leading-relaxed border-l-2 border-saba-orange pl-3 py-0.5">
-            "{article.excerpt}"
+            &quot;{article.excerpt}&quot;
           </p>
 
           {/* Detailed Educational Veterinary Content */}

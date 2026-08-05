@@ -1,7 +1,7 @@
 import React from "react";
 import { getSession } from "../../lib/session";
 import { createAdminClient } from "../../lib/supabase-admin";
-import NotificationsClient from "../../components/NotificationsClient";
+import NotificationsClient, { NotificationItem } from "../../components/NotificationsClient";
 import NotificationsLoggedOut from "../../components/NotificationsLoggedOut";
 
 export const revalidate = 0; // Fetch fresh notifications on every request
@@ -30,6 +30,6 @@ export default async function NotificationsPage() {
   const notifications = notificationsData || [];
 
   return (
-    <NotificationsClient notifications={notifications as any} />
+    <NotificationsClient notifications={notifications as unknown as NotificationItem[]} />
   );
 }

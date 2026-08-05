@@ -5,13 +5,13 @@ import Link from "next/link";
 import { Search, Bell, Heart } from "lucide-react";
 import BottomNav from "./BottomNav";
 
-interface Category {
+export interface Category {
   id: number;
   name: string;
   emoji: string;
 }
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   image_url: string;

@@ -73,7 +73,7 @@ function WelcomeContent() {
             <div className="min-w-0 flex-1">
               <p className="text-xs text-saba-muted font-cute">โปรไฟล์ที่ผูกบัญชี:</p>
               <h3 className="text-sm font-bold text-saba-black truncate">{user.name}</h3>
-              {user.status && <p className="text-[10px] text-saba-muted truncate mt-0.5">"{user.status}"</p>}
+              {user.status && <p className="text-[10px] text-saba-muted truncate mt-0.5">&quot;{user.status}&quot;</p>}
             </div>
           </div>
         )}

@@ -73,9 +73,10 @@ export async function GET(request: NextRequest) {
     // 4. Redirect to home page with NO query parameters carrying user identity
     const homepageUrl = `${protocol}://${host}/`;
     return NextResponse.redirect(homepageUrl);
-  } catch (error: any) {
+  } catch (error) {
     console.error("LINE callback secure error:", error);
-    return new NextResponse(`Internal Server Error: ${error.message}`, {
+    const errMsg = error instanceof Error ? error.message : String(error);
+    return new NextResponse(`Internal Server Error: ${errMsg}`, {
       status: 500,
     });
   }

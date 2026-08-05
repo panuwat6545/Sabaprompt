@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Search, X, ArrowLeft } from "lucide-react";
 
 interface Suggestion {
@@ -19,6 +19,7 @@ interface SearchBarProps {
 
 export default function SearchBar({ initialQuery = "", alwaysVisible = false }: SearchBarProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const [value, setValue] = useState(initialQuery);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -26,10 +27,12 @@ export default function SearchBar({ initialQuery = "", alwaysVisible = false }: 
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Sync state with prop if query string updates (e.g. initial load or hashtag clicks)
-  useEffect(() => {
+  const [prevInitialQuery, setPrevInitialQuery] = useState(initialQuery);
+  if (initialQuery !== prevInitialQuery) {
+    setPrevInitialQuery(initialQuery);
     setValue(initialQuery);
     setShowSuggestions(false);
-  }, [initialQuery]);
+  }
 
   // Collapsed search bar focus trigger
   useEffect(() => {
@@ -44,7 +47,6 @@ export default function SearchBar({ initialQuery = "", alwaysVisible = false }: 
   useEffect(() => {
     const trimmed = value.trim();
     if (!trimmed) {
-      setSuggestions([]);
       return;
     }
 
@@ -100,10 +102,12 @@ export default function SearchBar({ initialQuery = "", alwaysVisible = false }: 
       setIsExpanded(false);
     }
     const cleanVal = searchVal.trim();
-    if (cleanVal) {
-      router.push(`/search?q=${encodeURIComponent(cleanVal)}`);
+    const targetUrl = cleanVal ? `/search?q=${encodeURIComponent(cleanVal)}` : "/search";
+    
+    if (pathname === "/search") {
+      router.replace(targetUrl);
     } else {
-      router.push("/search");
+      router.push(targetUrl);
     }
   };
 
@@ -151,7 +155,11 @@ export default function SearchBar({ initialQuery = "", alwaysVisible = false }: 
         type="text"
         value={value}
         onChange={(e) => {
-          setValue(e.target.value);
+          const newVal = e.target.value;
+          setValue(newVal);
+          if (!newVal.trim()) {
+            setSuggestions([]);
+          }
           setShowSuggestions(true);
         }}
         onFocus={() => setShowSuggestions(true)}
@@ -241,7 +249,7 @@ export default function SearchBar({ initialQuery = "", alwaysVisible = false }: 
             onClick={() => triggerFullSearch(value)}
             className="w-full text-center py-3 bg-[#F7F5F1]/80 hover:bg-saba-bg2 border-t border-saba-line text-[10px] font-bold text-saba-orange font-cute transition"
           >
-            ดูผลลัพธ์ทั้งหมดสำหรับ "{value}" →
+            ดูผลลัพธ์ทั้งหมดสำหรับ &quot;{value}&quot; →
           </button>
         </div>
       )}

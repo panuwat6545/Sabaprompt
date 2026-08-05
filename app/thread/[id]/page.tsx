@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "../../../lib/supabase";
-import ThreadInteractive from "../../../components/ThreadInteractive";
+import ThreadInteractive, { Comment, Post, AffiliateProduct } from "../../../components/ThreadInteractive";
 import { getSession } from "../../../lib/session";
 import { createAdminClient } from "../../../lib/supabase-admin";
 
@@ -110,9 +110,9 @@ export default async function ThreadPage({ params }: ThreadPageProps) {
 
   return (
     <ThreadInteractive
-      post={post as any}
-      initialComments={allComments as any}
-      affiliateProduct={affiliateProduct as any}
+      post={post as unknown as Post}
+      initialComments={allComments as unknown as Comment[]}
+      affiliateProduct={affiliateProduct as unknown as AffiliateProduct | null}
       initialHasLiked={initialHasLiked}
       initialLikedCommentIds={initialLikedCommentIds}
     />

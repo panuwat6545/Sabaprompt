@@ -6,7 +6,7 @@ import { Bell, Heart, MessageSquare, Reply, CheckCheck, ChevronRight } from "luc
 import BottomNav from "./BottomNav";
 import { markNotificationRead, markAllNotificationsRead } from "../app/actions";
 
-interface NotificationItem {
+export interface NotificationItem {
   id: string;
   recipient_line_user_id: string;
   type: 'comment' | 'reply' | 'post_like' | 'comment_like';

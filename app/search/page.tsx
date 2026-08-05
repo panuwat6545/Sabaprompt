@@ -14,12 +14,34 @@ interface SearchPageProps {
 
 export const revalidate = 0; // Fetch fresh search results on demand
 
+interface SearchPost {
+  id: string;
+  title: string;
+  content: string;
+  image_url: string | null;
+  likes_count: number;
+  author_name: string;
+  author_avatar: string;
+  created_at: string;
+  categories: {
+    name: string;
+    emoji: string;
+  } | null;
+  comments?: { count: number }[];
+}
+
+interface AffiliateProduct {
+  id: string;
+  name: string;
+  affiliate_url: string;
+}
+
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { q } = await searchParams;
   const queryStr = q?.trim() || "";
 
-  let posts: any[] = [];
-  let affiliateProduct: any = null;
+  let posts: SearchPost[] = [];
+  let affiliateProduct: AffiliateProduct | null = null;
 
   if (queryStr) {
     const supabase = createClient();
@@ -78,10 +100,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     if (postsRes.error) {
       console.error("Error searching posts:", postsRes.error);
     } else {
-      posts = postsRes.data || [];
+      posts = (postsRes.data as unknown as SearchPost[]) || [];
     }
 
-    affiliateProduct = affRes;
+    affiliateProduct = affRes as unknown as AffiliateProduct | null;
   }
 
   // Extract unique hashtags using regex: /#[\u0E00-\u0E7Fa-zA-Z0-9_]+/g
@@ -224,7 +246,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                     😿
                   </div>
                   <div className="space-y-1">
-                    <h3 className="text-sm font-bold text-saba-black font-heading">ยังไม่มีกระทู้ที่ตรงกับคำค้นหา '{queryStr}'</h3>
+                    <h3 className="text-sm font-bold text-saba-black font-heading">ยังไม่มีกระทู้ที่ตรงกับคำค้นหา &apos;{queryStr}&apos;</h3>
                     <p className="text-xs text-saba-muted font-cute">ลองเปลี่ยนคำค้นหาอื่นดูครับ 🐾</p>
                   </div>
                 </div>

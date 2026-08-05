@@ -38,7 +38,40 @@ export function useLineLogin() {
   };
 
   useEffect(() => {
-    checkSession();
+    let cancelled = false;
+
+    const fetchSession = async () => {
+      try {
+        const res = await fetch("/api/auth/session");
+        if (res.ok && !cancelled) {
+          const data = await res.json();
+          if (data.loggedIn) {
+            setUser({
+              name: data.name,
+              picture: data.avatar_url,
+              status: data.status,
+            });
+          } else {
+            setUser(null);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to fetch session:", e);
+        if (!cancelled) {
+          setUser(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchSession();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const login = () => {

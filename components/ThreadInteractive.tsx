@@ -9,7 +9,7 @@ import BackButton from "./BackButton";
 import { Share2, MoreHorizontal, Heart, MessageCircle, Send, ShoppingBag, ExternalLink, X } from "lucide-react";
 import { toggleLike, createComment, toggleCommentLike } from "../app/actions";
 
-interface Comment {
+export interface Comment {
   id: string;
   post_id: string;
   parent_id: string | null;
@@ -20,7 +20,7 @@ interface Comment {
   created_at: string;
 }
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   content: string;
@@ -36,7 +36,7 @@ interface Post {
   } | null;
 }
 
-interface AffiliateProduct {
+export interface AffiliateProduct {
   id: string;
   name: string;
   image_url: string;
@@ -229,9 +229,10 @@ export default function ThreadInteractive({ post, initialComments, affiliateProd
         setCommentText("");
         setReplyTo(null);
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Failed to submit comment:", err);
-      alert(err.message || "ไม่สามารถแสดงความคิดเห็นได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง");
+      const errMsg = err instanceof Error ? err.message : "ไม่สามารถแสดงความคิดเห็นได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง";
+      alert(errMsg);
     } finally {
       setIsSubmitting(false);
     }
@@ -493,7 +494,7 @@ export default function ThreadInteractive({ post, initialComments, affiliateProd
         {/* Reply Indicator if active */}
         {replyTo && (
           <div className="px-4 py-1.5 bg-saba-bg2 border-b border-saba-line flex items-center justify-between text-[10px] font-bold font-cute text-saba-orange animate-fade-in">
-            <span>กำลังตอบกลับคุณ "{replyTo.author_name}" ...</span>
+            <span>กำลังตอบกลับคุณ &quot;{replyTo.author_name}&quot; ...</span>
             <button onClick={handleCancelReply} className="text-saba-muted hover:text-saba-black">
               <X className="w-3.5 h-3.5" />
             </button>
