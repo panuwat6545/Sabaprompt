@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #171412; /* saba-black */
+}
+
+@theme {
+  --color-saba-orange: #F97316;
+  --color-saba-black: #171412;
+  --color-saba-ink: #3A342E;
+  --color-saba-muted: #8C8479;
+  --color-saba-line: #EDE8E0;
+  --color-saba-bg2: #F7F5F1;
+
+  --font-heading: var(--font-prompt), sans-serif;
+  --font-cute: var(--font-mali), cursive;
+  --font-body: var(--font-prompt), sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
